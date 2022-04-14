@@ -106,17 +106,17 @@ const Router: FunctionComponent = () => {
 												<BootstrapPage />
 											</RouteWrapper>
 										</Route>
-										<Route exact path={'/insync'}>
+										<Route exact path={'/dashboard'}>
 											<InsyncWrapper>
 												<Home />
 											</InsyncWrapper>
 										</Route>
-										<Route exact path={'/insync/stake'}>
+										<Route exact path={'/staking'}>
 											<InsyncWrapper>
 												<Stake />
 											</InsyncWrapper>
 										</Route>
-										<Route exact path={'/insync/proposals'}>
+										<Route exact path={'/proposals'}>
 											<InsyncWrapper>
 												<Proposals />
 											</InsyncWrapper>

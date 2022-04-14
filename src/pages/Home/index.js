@@ -91,7 +91,7 @@ class Home extends Component {
 									{variables[this.props.lang]['all_validators']}
 								</p>
 							</div>
-							<Button className="view_all" onClick={() => this.handleRedirect('/insync/stake')}>
+							<Button className="view_all" onClick={() => this.handleRedirect('/staking')}>
 								{variables[this.props.lang]['view_all']}
 							</Button>
 						</div>
@@ -105,7 +105,7 @@ class Home extends Component {
 								<div className="tabs">
 									<p className="active">{variables[this.props.lang]['top_active_proposals']}</p>
 								</div>
-								<Button className="view_all" onClick={() => this.handleRedirect('/insync/proposals')}>
+								<Button className="view_all" onClick={() => this.handleRedirect('/proposals')}>
 									{variables[this.props.lang]['view_all']}
 								</Button>
 							</div>

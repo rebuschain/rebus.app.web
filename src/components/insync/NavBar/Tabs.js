@@ -17,15 +17,9 @@ class Tabs extends Component {
 	}
 
 	componentDidMount() {
-		const route = this.props.location.pathname
-			?.split('/')
-			?.slice(1, 3)
-			?.join('/');
+		const route = this.props.location.pathname?.split('/')?.[1];
 
-		if (
-			this.state.value !== route &&
-			(route === 'insync' || route === 'insync/stake' || route === 'insync/proposals')
-		) {
+		if (this.state.value !== route && (route === 'dashboard' || route === 'staking' || route === 'proposals')) {
 			this.setState({
 				value: route,
 			});
@@ -34,15 +28,9 @@ class Tabs extends Component {
 
 	componentDidUpdate(pp, ps, ss) {
 		if (pp.location.pathname !== this.props.location.pathname) {
-			const value = this.props.location.pathname
-				?.split('/')
-				?.slice(1, 3)
-				?.join('/');
+			const value = this.props.location.pathname?.split('/')?.[1];
 
-			if (
-				value !== this.state.value &&
-				(value === 'insync' || value === 'insync/stake' || value === 'insync/proposals')
-			) {
+			if (value !== this.state.value && (value === 'dashboard' || value === 'staking' || value === 'proposals')) {
 				this.setState({
 					value: value,
 				});
@@ -77,24 +65,24 @@ class Tabs extends Component {
 			<AppBar className="horizontal_tabs" position="static">
 				<div className="tabs_content">
 					<Tab
-						className={'tab ' + (this.state.value === 'insync' ? 'active_tab' : '')}
+						className={'tab ' + (this.state.value === 'dashboard' ? 'active_tab' : '')}
 						label={variables[this.props.lang].dashboard}
 						value=""
-						onClick={() => this.handleChange('insync')}
+						onClick={() => this.handleChange('dashboard')}
 						{...a11yProps(0)}
 					/>
 					<Tab
-						className={'tab ' + (this.state.value === 'insync/stake' ? 'active_tab' : '')}
+						className={'tab ' + (this.state.value === 'staking' ? 'active_tab' : '')}
 						label={variables[this.props.lang].stake}
 						value="stake"
-						onClick={() => this.handleChange('insync/stake')}
+						onClick={() => this.handleChange('staking')}
 						{...a11yProps(1)}
 					/>
 					<Tab
-						className={'tab ' + (this.state.value === 'insync/proposals' ? 'active_tab' : '')}
+						className={'tab ' + (this.state.value === 'proposals' ? 'active_tab' : '')}
 						label={variables[this.props.lang].proposals}
 						value="proposals"
-						onClick={() => this.handleChange('insync/proposals')}
+						onClick={() => this.handleChange('proposals')}
 						{...a11yProps(1)}
 					/>
 				</div>
