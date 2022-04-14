@@ -105,7 +105,7 @@ const fileRule = {
 			loader: 'file-loader',
 			options: {
 				name: '[name].[ext]',
-				publicPath: 'assets',
+				publicPath: '/assets',
 				outputPath: 'assets',
 			},
 		},
@@ -148,7 +148,11 @@ const webConfig = () => {
 			new CopyWebpackPlugin({
 				patterns: [{ from: 'public', to: 'public' }],
 			}),
-			new ForkTsCheckerWebpackPlugin(),
+			new ForkTsCheckerWebpackPlugin({
+				typescript: {
+					memoryLimit: 4096,
+				},
+			}),
 			new MiniCssExtractPlugin({
 				filename: 'styles.css',
 				chunkFilename: '[name].css',
@@ -169,6 +173,22 @@ const webConfig = () => {
 				'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH),
 			}),
 		].filter(Boolean),
+		stats: {
+			colors: true,
+			hash: false,
+			version: false,
+			timings: false,
+			assets: false,
+			chunks: false,
+			modules: false,
+			reasons: false,
+			children: false,
+			source: false,
+			errors: true,
+			errorDetails: true,
+			warnings: false,
+			publicPath: false,
+		},
 	};
 };
 

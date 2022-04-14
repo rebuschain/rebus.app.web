@@ -21,6 +21,7 @@ module.exports = {
 		'prettier/prettier': ['error', {}, { usePrettierrc: true }],
 		'react/prop-types': 'off',
 		'react/self-closing-comp': 'error',
+		'@typescript-eslint/no-non-null-assertion': 'off',
 		'@typescript-eslint/explicit-function-return-type': 'off',
 		'@typescript-eslint/no-explicit-any': 'off',
 		'@typescript-eslint/no-inferrable-types': 'off',

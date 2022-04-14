@@ -58,7 +58,7 @@ export const SwapButton = observer(function SwapButton({ config }: Props) {
 				pool.fetch();
 			}
 		});
-	}, []);
+	}, [currentSwapPools, queries.osmosis.queryGammPools]);
 
 	useVisibilitychangeVisible(() => {
 		currentSwapPools.forEach(poolId => {

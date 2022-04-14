@@ -292,7 +292,7 @@ export const ConnectWalletDialog = wrapBaseDialog(
 				accountStore.getAccount(chainStore.current.chainId).init();
 				close();
 			}
-		}, [isMobile]);
+		}, [accountStore, chainStore, close, isMobile]);
 
 		return (
 			<div ref={initialFocus}>

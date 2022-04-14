@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import React, { HTMLAttributes, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Img } from 'src/components/common/Img';
 import { CenterV } from 'src/components/layouts/Containers';
-import { SubTitleText, Text } from 'src/components/Texts';
+import { Text } from 'src/components/Texts';
 import { colorPrimary, colorPrimaryDark, colorPrimaryLight, colorWhiteHigh } from 'src/emotionStyles/colors';
 import { useStore } from 'src/stores';
 import useWindowSize from 'src/hooks/useWindowSize';

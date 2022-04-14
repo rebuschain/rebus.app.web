@@ -1,0 +1,227 @@
+.stake .heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 30px;
+}
+
+.stake .heading .tabs {
+	display: flex;
+	align-items: center;
+}
+
+.stake .tabs > p {
+	cursor: pointer;
+	font-family: 'Blinker', sans-serif;
+	font-weight: 600;
+	font-size: 36px;
+	line-height: 130%;
+	color: #ffffff80;
+}
+
+.stake .tabs > p.active {
+	color: #ffffff;
+}
+
+.stake .tabs > span {
+	border: 1px solid #ffffff;
+	height: 30px;
+	margin: 0 20px;
+}
+
+.stake .heading .text_field {
+	margin: unset;
+	width: 400px;
+}
+
+.stake .table {
+	background: rgba(255, 255, 255, 0.14);
+	backdrop-filter: blur(100px);
+	border-radius: 10px;
+	margin-top: 16px;
+	padding: 40px 58px;
+}
+
+.stake .table .validator {
+	display: flex;
+	align-items: center;
+	width: 200px;
+}
+
+.table .validator .image {
+	background: #ededed;
+	color: #ffffff;
+	width: 40px;
+	height: 40px;
+	border-radius: 50px;
+	margin-right: 20px;
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/*.stake .table tbody tr td {*/
+/*    cursor: pointer;*/
+/*}*/
+
+.stake .table .voting_power {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.table .voting_power > span {
+	border: 1px solid #dcdcdc;
+	height: 20px;
+	margin: 0 10px;
+}
+
+.stake .table .actions {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.table .actions > button {
+	border: 1px solid #c4c4c4;
+	box-sizing: border-box;
+	border-radius: 50px;
+	font-family: 'Blinker', sans-serif;
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 130%;
+	color: #000000;
+}
+
+.table .actions > button.delegate_button {
+	border-color: #00ff0a;
+}
+
+.table .actions > button.un_delegate {
+	border-color: #ff0000;
+}
+
+.table .actions > span {
+	border: 1px solid #d2d2d2;
+	margin: 0 10px;
+	height: 20px;
+}
+
+.table .no_tokens {
+	font-family: 'Blinker', sans-serif;
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 130%;
+	color: #bdbdbd;
+}
+
+.table td .tokens {
+	font-family: 'Blinker', sans-serif;
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 130%;
+	text-align: center;
+	color: #0085ff;
+}
+
+.table td .status {
+	border: 1px solid #02d70a;
+	box-sizing: border-box;
+	border-radius: 50px;
+	font-family: 'Blinker', sans-serif;
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 130%;
+	color: #02d70a;
+	padding: 6px 12px;
+}
+
+.table td .status.red_status {
+	border: 1px solid #ff0000;
+	color: #ff0000;
+}
+
+.table tfoot td {
+	border-bottom: unset;
+}
+
+@media (max-width: 1025px) {
+	.stake .table {
+		padding: 20px 30px;
+	}
+
+	.table td .status {
+		width: max-content;
+		margin: auto;
+	}
+}
+
+@media (max-width: 958px) {
+	.stake .heading {
+		margin-top: unset;
+	}
+
+	.stake .table .validator {
+		width: 100%;
+	}
+
+	.table td .status {
+		margin-right: unset;
+	}
+
+	.stake .table .voting_power {
+		justify-content: flex-end;
+	}
+
+	.table td .tokens {
+		text-align: right;
+	}
+}
+
+@media (max-width: 769px) {
+	.stake .table {
+		background: unset;
+		padding: 0;
+		backdrop-filter: unset;
+		border-radius: unset;
+	}
+
+	.stake .tabs > p {
+		font-size: 30px;
+	}
+}
+
+@media (max-width: 426px) {
+	.stake .heading {
+		overflow: auto;
+	}
+
+	.stake .tabs > p {
+		width: max-content;
+	}
+
+	.table .actions > span {
+		display: none;
+	}
+
+	.stake .table .actions {
+		justify-content: space-around;
+		flex-wrap: wrap;
+	}
+
+	.table .actions > button {
+		padding: 5px 10px;
+	}
+}
+
+@media (max-width: 375px) {
+	.stake .table .actions {
+		flex-direction: column;
+	}
+
+	.table .actions > button {
+		width: 100%;
+		margin: 4px 0;
+	}
+}
