@@ -39,7 +39,7 @@ export const AccountConnectionProvider: FunctionComponent = observer(({ children
 	const disconnectAccount = useCallback(async () => {
 		connectWalletManager.disableAutoConnect();
 		connectWalletManager.disconnect();
-	}, [account, connectWalletManager]);
+	}, [connectWalletManager]);
 
 	const openDialog = useCallback(() => setIsOpenDialog(true), []);
 	const closeDialog = useCallback(() => setIsOpenDialog(false), []);
@@ -52,7 +52,7 @@ export const AccountConnectionProvider: FunctionComponent = observer(({ children
 		if (isMobileWeb) {
 			account.init();
 		}
-	}, [isMobileWeb]);
+	}, [account, isMobileWeb]);
 
 	useEffect(() => {
 		// 이전에 로그인한 후에 sign out을 명시적으로 하지 않았으면 자동으로 로그인한다.
@@ -93,7 +93,7 @@ export const AccountConnectionProvider: FunctionComponent = observer(({ children
 					connectAccount,
 					isMobileWeb,
 				};
-			}, [connectAccount, disconnectAccount, isAccountConnected])}>
+			}, [connectAccount, disconnectAccount, isAccountConnected, isMobileWeb])}>
 			{children}
 			<ConnectWalletDialog initialFocus={ref} isOpen={isOpenDialog} close={closeDialog} />
 		</AccountConnectionContext.Provider>

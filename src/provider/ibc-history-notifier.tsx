@@ -144,7 +144,7 @@ export const IBCHistoryNotifier: FunctionComponent = observer(() => {
 				}
 			}
 		});
-	}, [ibcTransferHistoryStore]);
+	}, [accountStore, chainStore, ibcTransferHistoryStore, queriesStore]);
 
 	return null;
 });

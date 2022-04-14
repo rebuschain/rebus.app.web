@@ -43,7 +43,7 @@ const DisplayCliff: FunctionComponent<{ cliff: number }> = ({ cliff }) => {
 
 	const payoutTime = React.useMemo(() => {
 		return getDuration(Number(minus(cliff, moment().valueOf()))).format('DD-HH-mm');
-	}, [dummy]);
+	}, [cliff]);
 	const [day, hour, minute] = payoutTime.split('-');
 	return (
 		<OverviewLabelValue label="Cliff">

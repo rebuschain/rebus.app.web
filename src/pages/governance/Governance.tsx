@@ -89,6 +89,7 @@ const GovernanceRow: FunctionComponent<{ data: IProposalState; height: number; o
 
 	React.useEffect(() => {
 		setSeries(generateSeries(data));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const mostVotedOn = React.useMemo(() => {

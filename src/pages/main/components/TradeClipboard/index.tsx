@@ -45,26 +45,24 @@ export const TradeClipboard: FunctionComponent = observer(() => {
 	);
 	config.setFeeConfig(feeConfig);
 
-	let query = queryString.parse(search) as {
-		from?: string;
-		to?: string;
-	};
-	const firstEffectOccured = useRef(false);
+	const query = useRef(
+		queryString.parse(search) as {
+			from?: string;
+			to?: string;
+		}
+	);
+	const firstEffectOccured = useRef(!search);
 
 	useEffect(() => {
 		// Update current in and out currency to query string.
 		// The first effect should be ignored because the query string set when visiting the web page for the first time must be processed.
 		if (firstEffectOccured.current) {
-			// Mobx is mutable, but react's state is immutable.
-			// This causes an infinite loop with other effects that use the same state
-			// because the state of mobx is updated but the state of react will be updated in the next render.
-			// To solve this problem, we ignore the state processing of react and change the variable itself.
-			query = {
+			query.current = {
 				from: config.sendCurrency.coinDenom,
 				to: config.outCurrency.coinDenom,
 			};
 
-			const search = queryString.stringify(query);
+			const search = queryString.stringify(query.current);
 
 			history.replace({
 				search,
@@ -72,29 +70,29 @@ export const TradeClipboard: FunctionComponent = observer(() => {
 		} else {
 			firstEffectOccured.current = true;
 		}
-	}, [config.sendCurrency, config.outCurrency]);
+	}, [config.sendCurrency, config.outCurrency, history]);
 
 	useEffect(() => {
-		if (query.from) {
+		if (query.current.from) {
 			const currency =
-				config.sendableCurrencies.find(cur => cur.coinDenom === query.from) ||
-				swapManager.swappableCurrencies.find(currency => currency.coinMinimalDenom === query.from); // ibc hash
+				config.sendableCurrencies.find(cur => cur.coinDenom === query.current.from) ||
+				swapManager.swappableCurrencies.find(currency => currency.coinMinimalDenom === query.current.from); // ibc hash
 
 			if (currency) {
 				config.setInCurrency(currency.coinMinimalDenom);
 			}
 		}
 
-		if (query.to) {
+		if (query.current.to) {
 			const currency =
-				config.sendableCurrencies.find(cur => cur.coinDenom === query.to) ||
-				swapManager.swappableCurrencies.find(currency => currency.coinMinimalDenom === query.to); // ibc hash
+				config.sendableCurrencies.find(cur => cur.coinDenom === query.current.to) ||
+				swapManager.swappableCurrencies.find(currency => currency.coinMinimalDenom === query.current.to); // ibc hash
 
 			if (currency) {
 				config.setOutCurrency(currency.coinMinimalDenom);
 			}
 		}
-	}, [query.from, query.to, config.sendableCurrencies]);
+	}, [config.sendableCurrencies, config, swapManager.swappableCurrencies]);
 
 	const { isMobileView } = useWindowSize();
 
@@ -106,7 +104,7 @@ export const TradeClipboard: FunctionComponent = observer(() => {
 			// Next line ensures that the all sendable currency would be registered to the chain store if the currnecy is unknown.
 			chainStore.getChain(chainStore.current.chainId).findCurrency(currency.coinMinimalDenom);
 		}
-	}, [chainStore.current, config.sendableCurrencies]);
+	}, [chainStore, config.sendableCurrencies]);
 
 	return (
 		<React.Fragment>

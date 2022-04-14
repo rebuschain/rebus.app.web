@@ -146,7 +146,7 @@
 	@mixin generate-rotation($n, $i: 1) {
 		@while $i <= $n {
 			&.p#{$i} .bar {
-				$degs: (360/100 * $i);
+				$degs: calc(360 / 100 * $i);
 				@include rotate(#{$degs}deg);
 			}
 			$i: $i + 1;

@@ -38,7 +38,7 @@ export const ExtraGauge = observer(function ExtraGauge({ gaugeIds, currency, ext
 		}
 
 		return gauges;
-	}, [gaugeIds]);
+	}, [gaugeIds, queries.osmosis.queryGauge]);
 
 	const reward = gauges.reduce<CoinPretty>((prev, gauge) => {
 		return prev.add(gauge.getCoin(currency));

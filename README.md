@@ -1,5 +1,7 @@
 # Osmosis Web Interface
-Frontend React app for Osmosis AMM.
+Frontend React app for Rebus.
+
+This project was started from [osmosis](https://github.com/osmosis-labs/osmosis-frontend) and [insync](https://github.com/OmniFlix/insync-juno).
 
 ## Install global dependencies
 To run or build the app, first, need to install `Node.js` and `Yarn` globally;
