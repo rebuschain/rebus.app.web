@@ -1,0 +1,28 @@
+{
+  "family": "${PROJECT}",
+  "taskRoleArn": "${TASK_ROLE_ARN}",
+  "executionRoleArn": "${TASK_EXECUTION_ROLE_ARN}",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "cpu": "256",
+  "memory": "512",
+  "containerDefinitions": [{
+    "name": "nginx",
+    "image": "${IMAGE_NAME}",
+    "memory": 512,
+    "portMappings": [{
+      "containerPort": 80
+    }],
+    "essential": true,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${AWS_LOG_GROUP}",
+        "awslogs-region": "${AWS_REGION}",
+        "awslogs-stream-prefix": "${ENV}"
+      }
+    }
+  }]
+}

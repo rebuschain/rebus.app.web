@@ -1,0 +1,34 @@
+name: Deploys Nginx to Testnet
+on:
+  workflow_dispatch:
+concurrency: testnet_environment
+jobs:
+  publish-testnet:
+    uses: rebuschain/rebus.app/.github/workflows/action-publish-nginx.yml@master
+    with:
+      env: testnet
+    secrets:
+      aws_region: ${{ secrets.AWS_REGION }}
+      aws_access_key_id: ${{ secrets.TESTNET_AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key: ${{ secrets.TESTNET_AWS_SECRET_ACCESS_KEY }}
+      docker_registry: ${{ secrets.TESTNET_DOCKER_REGISTRY }}
+      project: ${{ secrets.TESTNET_NGINX_PROJECT }}
+      domain: ${{ secrets.TESTNET_DOMAIN }}
+
+  deploy-testnet:
+    uses: rebuschain/rebus.app/.github/workflows/action-deploy-ecs.yml@master
+    needs: [publish-testnet]
+    with:
+      env: testnet
+      task_definition: nginx/taskdefinition.template.json
+    secrets:
+      aws_region: ${{ secrets.AWS_REGION }}
+      aws_access_key_id: ${{ secrets.TESTNET_AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key: ${{ secrets.TESTNET_AWS_SECRET_ACCESS_KEY }}
+      docker_registry: ${{ secrets.TESTNET_DOCKER_REGISTRY }}
+      project: ${{ secrets.TESTNET_NGINX_PROJECT }}
+      service: ${{ secrets.TESTNET_NGINX_SERVICE }}
+      cluster: ${{ secrets.TESTNET_NGINX_CLUSTER }}
+      aws_log_group: ${{ secrets.TESTNET_NGINX_AWS_LOG_GROUP }}
+      task_role_arn: ${{ secrets.TESTNET_NGINX_TASK_ROLE_ARN }}
+      task_execution_role_arn: ${{ secrets.TESTNET_NGINX_TASK_EXECUTION_ROLE_ARN }}

@@ -1,0 +1,66 @@
+name: Deploys an ECS Docker Image
+on:
+  workflow_call:
+    inputs:
+      env:
+        required: false
+        default: dev
+        type: string
+      task_definition:
+        required: true
+        type: string
+    secrets:
+      service:
+        required: true
+      cluster:
+        required: true
+      project:
+        required: true
+      aws_log_group:
+        required: true
+      task_role_arn:
+        required: true
+      task_execution_role_arn:
+        required: true
+      aws_region:
+        required: true
+      aws_access_key_id:
+        required: true
+      aws_secret_access_key:
+        required: true
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.aws_access_key_id }}
+          aws-secret-access-key: ${{ secrets.aws_secret_access_key }}
+          aws-region: ${{ secrets.aws_region }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Replace task definition values
+        shell: bash
+        run: |
+          export IMAGE_NAME="${{ steps.login-ecr.outputs.registry }}/${{ secrets.project }}:${GITHUB_RUN_ID}"
+          export ENV="${{ inputs.env }}"
+          export AWS_REGION="${{ secrets.aws_region }}"
+          export AWS_LOG_GROUP="${{ secrets.aws_log_group }}"
+          export PROJECT="${{ secrets.project }}"
+          export TASK_ROLE_ARN="${{ secrets.task_role_arn }}"
+          export TASK_EXECUTION_ROLE_ARN="${{ secrets.task_execution_role_arn }}"
+
+          envsubst < ${{ inputs.task_definition }} > taskdefinition.json
+          cat taskdefinition.json
+
+      - name: Deploy to Amazon ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: taskdefinition.json
+          service: ${{ secrets.service }}
+          cluster: ${{ secrets.cluster }}
+          wait-for-service-stability: true

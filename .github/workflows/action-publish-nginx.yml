@@ -1,0 +1,55 @@
+name: Publish Nginx
+on:
+  workflow_call:
+    inputs:
+      env:
+        required: false
+        default: dev
+        type: string
+    secrets:
+      project:
+        required: true
+      domain:
+        required: true
+      aws_region:
+        required: true
+      aws_access_key_id:
+        required: true
+      aws_secret_access_key:
+        required: true
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2.4.0
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.aws_access_key_id }}
+          aws-secret-access-key: ${{ secrets.aws_secret_access_key }}
+          aws-region: ${{ secrets.aws_region }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build and Push
+        env:
+          ENV: ${{ inputs.env }}
+          PROJECT: ${{ secrets.project }}
+          DOMAIN: ${{ secrets.domain }}
+        run: |
+          export IMAGE_NAME="${{ steps.login-ecr.outputs.registry }}/${PROJECT}:${GITHUB_RUN_ID}"
+          export ESC_DOMAIN=${DOMAIN//\./\\\.}
+          export ESC_ASSET_DOMAIN=${ASSET_DOMAIN//\./\\\.}
+          export S3_BUCKET="rebus-${ENV}-assets"
+
+          envsubst '\$DOMAIN \$ASSET_DOMAIN \$ESC_DOMAIN \$ESC_ASSET_DOMAIN \$S3_BUCKET' < nginx/nginx.template.conf > nginx.conf
+          cat nginx.conf
+
+          docker container create --name nginx nginx:stable-alpine
+          docker container cp nginx.conf nginx:/etc/nginx/conf.d/default.conf
+          docker container commit nginx ${IMAGE_NAME}
+          docker push ${IMAGE_NAME}

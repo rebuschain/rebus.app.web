@@ -1,0 +1,34 @@
+name: Deploys Nginx to Mainnet
+on:
+  workflow_dispatch:
+concurrency: mainnet_environment
+jobs:
+  publish-mainnet:
+    uses: rebuschain/rebus.app/.github/workflows/action-publish-nginx.yml@master
+    with:
+      env: mainnet
+    secrets:
+      aws_region: ${{ secrets.AWS_REGION }}
+      aws_access_key_id: ${{ secrets.MAINNET_AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key: ${{ secrets.MAINNET_AWS_SECRET_ACCESS_KEY }}
+      docker_registry: ${{ secrets.MAINNET_DOCKER_REGISTRY }}
+      project: ${{ secrets.MAINNET_NGINX_PROJECT }}
+      domain: ${{ secrets.MAINNET_DOMAIN }}
+
+  deploy-mainnet:
+    uses: rebuschain/rebus.app/.github/workflows/action-deploy-ecs.yml@master
+    needs: [publish-mainnet]
+    with:
+      env: mainnet
+      task_definition: nginx/taskdefinition.template.json
+    secrets:
+      aws_region: ${{ secrets.AWS_REGION }}
+      aws_access_key_id: ${{ secrets.MAINNET_AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key: ${{ secrets.MAINNET_AWS_SECRET_ACCESS_KEY }}
+      docker_registry: ${{ secrets.MAINNET_DOCKER_REGISTRY }}
+      project: ${{ secrets.MAINNET_NGINX_PROJECT }}
+      service: ${{ secrets.MAINNET_NGINX_SERVICE }}
+      cluster: ${{ secrets.MAINNET_NGINX_CLUSTER }}
+      aws_log_group: ${{ secrets.MAINNET_NGINX_AWS_LOG_GROUP }}
+      task_role_arn: ${{ secrets.MAINNET_NGINX_TASK_ROLE_ARN }}
+      task_execution_role_arn: ${{ secrets.MAINNET_NGINX_TASK_EXECUTION_ROLE_ARN }}
