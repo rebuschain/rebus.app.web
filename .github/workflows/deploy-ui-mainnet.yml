@@ -1,0 +1,22 @@
+name: Deploys UI to Mainnet
+on:
+  workflow_dispatch:
+    inputs:
+      build_number:
+        required: true
+        description: Github build number that you want to deploy
+        type: string
+concurrency:
+  group: mainnet_environment
+  cancel-in-progress: true
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.DEPLOY_PAT }}
+          repository: rebuschain/rebus.app.deploy
+          event-type: mainnet-ui
+          client-payload: '{"ref": "${{ github.ref }}", "build_number": "${{ github.event.inputs.build_number }}"}'

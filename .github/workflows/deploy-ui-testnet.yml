@@ -1,0 +1,22 @@
+name: Deploys UI to Testnet
+on:
+  workflow_dispatch:
+    inputs:
+      build_number:
+        required: true
+        description: Github build number that you want to deploy
+        type: string
+concurrency:
+  group: testnet_environment
+  cancel-in-progress: true
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.DEPLOY_PAT }}
+          repository: rebuschain/rebus.app.deploy
+          event-type: testnet-ui
+          client-payload: '{"ref": "${{ github.ref }}", "build_number": "${{ github.event.inputs.build_number }}"}'
