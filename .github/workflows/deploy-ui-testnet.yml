@@ -19,4 +19,4 @@ jobs:
           token: ${{ secrets.DEPLOY_PAT }}
           repository: rebuschain/rebus.app.deploy
           event-type: testnet-ui
-          client-payload: '{"ref": "${{ github.ref }}", "build_number": "${{ github.event.inputs.build_number }}"}'
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "build_number": "${{ github.event.inputs.build_number }}"}'

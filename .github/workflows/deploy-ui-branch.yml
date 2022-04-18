@@ -22,4 +22,4 @@ jobs:
           token: ${{ secrets.DEPLOY_PAT }}
           repository: rebuschain/rebus.app.deploy
           event-type: branch-ui
-          client-payload: '{"ref": "${{ github.ref }}"}'
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
