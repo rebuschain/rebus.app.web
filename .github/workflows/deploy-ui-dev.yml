@@ -1,0 +1,24 @@
+name: Tests, Build, and Deploys UI to Dev
+on:
+  push:
+    branches:
+      - 'master'
+  workflow_dispatch:
+concurrency:
+  group: dev_environment
+  cancel-in-progress: true
+jobs:
+  build-lint:
+    uses: rebuschain/rebus.app/.github/workflows/action-build-lint.yml@master
+
+  dispatch:
+    runs-on: ubuntu-latest
+    needs: [build-lint]
+    steps:
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.DEPLOY_PAT }}
+          repository: rebuschain/rebus.app.deploy
+          event-type: dev-ui
+          client-payload: '{"ref": "${{ github.ref }}"}'
