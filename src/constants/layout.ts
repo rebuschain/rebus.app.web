@@ -39,40 +39,20 @@ export const LAYOUT = {
 			ROUTE: '/assets',
 			SELECTED_CHECK: '/assets',
 		},
-		...(process.env.NODE_ENV === 'production'
-			? {
-					// Currently, the stake/governace page is not fully implemented yet.
-					// So, for now, fallback the stake/governance page to the wallet.keplr.app
-					STAKE: {
-						ICON: '/public/assets/Icons/Ticket.svg',
-						TEXT: 'Stake',
-						LINK: 'https://wallet.keplr.app/#/osmosis/stake',
-					},
-					GOVERNANCE: {
-						ICON: '/public/assets/Icons/Vote.svg',
-						TEXT: 'Vote',
-						LINK: 'https://wallet.keplr.app/#/osmosis/governance',
-					},
-					STATS: {
-						ICON: '/public/assets/Icons/Chart.svg',
-						TEXT: 'Stats',
-						LINK: 'https://info.osmosis.zone',
-					},
-			  }
-			: {
-					GOVERNANCE: {
-						ICON: '/public/assets/Icons/Ticket.svg',
-						ICON_SELECTED: '/public/assets/Icons/Ticket_selected.svg',
-						TEXT: 'Vote',
-						ROUTE: '/governance',
-						SELECTED_CHECK: [/\/governance[.]?/],
-					},
-					STATS: {
-						ICON: '/public/assets/Icons/Chart.svg',
-						TEXT: 'Stats',
-						LINK: 'https://info.osmosis.zone',
-					},
-			  }),
+		PROPOSALS: {
+			ICON: '/public/assets/Icons/Ticket.svg',
+			ICON_SELECTED: '/public/assets/Icons/Ticket_selected.svg',
+			TEXT: 'Vote',
+			ROUTE: '/proposals',
+			SELECTED_CHECK: '/proposals',
+		},
+		STAKE: {
+			ICON: '/public/assets/Icons/Ticket.svg',
+			ICON_SELECTED: '/public/assets/Icons/Ticket_selected.svg',
+			TEXT: 'Stake',
+			ROUTE: '/staking',
+			SELECTED_CHECK: '/staking',
+		},
 	},
 };
 export type TSIDEBAR_ITEM = {

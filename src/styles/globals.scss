@@ -13,6 +13,14 @@
 }
 
 #app {
+	background-color: #141518;
+	background-image: url('/public/assets/backgrounds/background-1.svg'),
+		url('/public/assets/backgrounds/background-2.svg'), url('/public/assets/backgrounds/background-3.svg'),
+		url('/public/assets/backgrounds/background-4.svg'), url('/public/assets/backgrounds/background-5.svg'),
+		url('/public/assets/backgrounds/background-6.svg'), url('/public/assets/backgrounds/background-7.svg');
+	background-position: 50% -700%, 100% 290%, 0 -320%, 50% 0, 0 170%, 100% 0, 0 50%;
+	background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+	background-size: cover, auto, cover, cover, auto, auto, auto;
 	overflow: auto;
 }
 
@@ -48,4 +56,12 @@ input {
 .Toastify {
 	position: fixed;
 	z-index: 10000000;
+}
+
+.bg-transparent {
+	background: linear-gradient(155.02deg, rgba(162, 138, 255, 0.17) 11.15%, rgba(20, 21, 24, 0) 311.99%);
+}
+
+.blur {
+	backdrop-filter: blur(14px);
 }

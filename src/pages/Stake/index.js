@@ -23,7 +23,6 @@ const Stake = props => {
 
 	return (
 		<div className="stake">
-			<NavBar stake={true} />
 			<div className="stake_content padding">
 				<div className="heading">
 					<div className="tabs">

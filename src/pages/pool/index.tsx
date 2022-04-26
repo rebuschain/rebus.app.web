@@ -58,10 +58,6 @@ export const PoolPage: FunctionComponent = observer(() => {
 						<PoolInfoHeader poolId={pool.id} isLBP={isLbp(pool.smoothWeightChangeParams)} />
 					</CenterSelf>
 				</PoolInfoHeaderWrapper>
-
-				<PoolInfoHeaderBgWrapper>
-					<PoolInfoHeaderBg />
-				</PoolInfoHeaderBgWrapper>
 			</PoolInfoHeaderSection>
 
 			{isLbp(pool.smoothWeightChangeParams) ? (
@@ -144,34 +140,6 @@ const PoolInfoHeaderWrapper = styled.div`
 	z-index: 10;
 	@media (min-width: 768px) {
 		padding: 40px;
-	}
-`;
-
-const PoolInfoHeaderBgWrapper = styled.div`
-	position: absolute;
-	right: 0;
-	top: 0;
-	overflow: hidden;
-	width: 100%;
-	height: 100%;
-	z-index: 0;
-`;
-
-const PoolInfoHeaderBg = styled.div`
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
-		url('/public/assets/backgrounds/osmosis-guy-in-lab.png');
-	background-position-x: right;
-	background-position-y: bottom;
-	background-repeat: no-repeat;
-	background-size: contain;
-	@media (min-width: 768px) {
-		background: url('/public/assets/backgrounds/osmosis-guy-in-lab.png');
-		background-position-x: right;
-		background-size: contain;
-		background-repeat: no-repeat;
 	}
 `;
 

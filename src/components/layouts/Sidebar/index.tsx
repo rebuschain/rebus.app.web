@@ -46,17 +46,17 @@ const SideBar: FunctionComponent = () => {
 				<div className="fixed h-full">
 					<Container
 						className={cn(
-							'h-full transition-all pointer-events-auto fixed overflow-x-hidden min-w-sidebar-open max-w-sidebar-open'
+							'blur h-full transition-all pointer-events-auto fixed overflow-x-hidden min-w-sidebar-open max-w-sidebar-open'
 						)}
-						type={TCardTypes.CARD}>
+						type={TCardTypes.TRANSPARENT}>
 						<div className="w-full h-full p-5 md:py-6 flex flex-col justify-between">
 							<div>
 								<section className="mb-15 flex flex-row items-center">
-									<div className="flex items-center">
+									<div className="flex justify-center container">
 										<img
-											className="cursor-pointer h-10 md:h-12 mr-4"
-											src="/public/assets/main/osmosis-logo-main.svg"
-											alt="osmosis logo"
+											className="cursor-pointer h-10"
+											src="/public/assets/main/rebus-logo.svg"
+											alt="rebus logo"
 											onClick={() => history.push('/')}
 										/>
 									</div>
@@ -91,9 +91,9 @@ const SideBar: FunctionComponent = () => {
 					isOnTop || isOpenSidebar ? 'bg-opacity-0' : 'bg-opacity-75'
 				} ${!isOpenSidebar ? 'transition-colors duration-300' : ''}`}>
 				<img
-					className="h-10 md:h-12"
-					src="/public/assets/main/osmosis-logo-main.svg"
-					alt="osmosis-logo"
+					className="h-10 ml-3"
+					src="/public/assets/main/rebus-logo.svg"
+					alt="rebus-logo"
 					onClick={() => history.push('/')}
 				/>
 				<img

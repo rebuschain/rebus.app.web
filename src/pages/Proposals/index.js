@@ -28,7 +28,6 @@ const Proposals = props => {
 
 	return (
 		<div className="proposals">
-			<NavBar proposalTab={true} />
 			{!props.open ? (
 				<div className="proposals_content padding">
 					<div className="heading">
