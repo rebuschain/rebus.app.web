@@ -1,0 +1,70 @@
+<script>
+async function addRebus() {
+	const chainId = 'reb_9999-1';
+	const url = 'http://127.0.0.1';
+	console.log('test dev Rebus wallet integration with keplr');
+
+	try {
+		await window.keplr.experimentalSuggestChain({
+			chainId: chainId,
+			chainName: 'Rebus chain',
+			rpc: url + ':26657',
+			rest: url + ':1317',
+			bip44: {
+				coinType: 118,
+			},
+			bech32Config: {
+				bech32PrefixAccAddr: 'rebus',
+				bech32PrefixAccPub: 'rebus' + 'pub',
+				bech32PrefixValAddr: 'rebus' + 'valoper',
+				bech32PrefixValPub: 'rebus' + 'valoperpub',
+				bech32PrefixConsAddr: 'rebus' + 'valcons',
+				bech32PrefixConsPub: 'rebus' + 'valconspub',
+			},
+			currencies: [
+				{
+					coinDenom: 'REBUS',
+					coinMinimalDenom: 'arebus',
+					coinDecimals: 18,
+					coinGeckoId: 'rebus',
+				},
+			],
+			feeCurrencies: [
+				{
+					coinDenom: 'REBUS',
+					coinMinimalDenom: 'arebus',
+					coinDecimals: 18,
+					coinGeckoId: 'rebus',
+				},
+			],
+			stakeCurrency: {
+				coinDenom: 'REBUS',
+				coinMinimalDenom: 'arebus',
+				coinDecimals: 18,
+				coinGeckoId: 'rebus',
+			},
+			coinType: 118,
+			gasPriceStep: {
+				low: 0.01,
+				average: 0.025,
+				high: 0.03,
+			},
+		});
+	} catch (error) {
+		console.log(error);
+	}
+
+	if (window.keplr) {
+		await window.keplr.enable(chainId);
+
+		const offlineSigner = window.getOfflineSignerOnlyAmino(chainId);
+		const accounts = await offlineSigner.getAccounts();
+		console.log(accounts);
+	} else {
+		return null;
+	}
+};
+</script>
+<div>
+  <button onclick="addRebus()">add Rebus dev</button>
+</div>

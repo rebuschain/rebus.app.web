@@ -6,8 +6,10 @@
 		"build": "yarn build:css && cross-env NODE_ENV=production webpack",
 		"build:docker": "rm -rf ./prod && yarn build && sh ./scripts/build-docker.sh",
 		"serve": "http-server --address 0.0.0.0 --port 8080 --proxy http://localhost:8080? ./prod",
-		"dev": "cross-env NODE_ENV=development webpack-dev-server",
-		"dev:localnet": "cross-env NODE_ENV=development LOCALNET=true webpack-dev-server",
+		"dev": "cross-env NODE_ENV=development react-env && webpack-dev-server",
+		"dev:alphanet": "yarn react-env:alphanet && cross-env NODE_ENV=development webpack-dev-server",
+		"dev:testnet": "yarn react-env:testnet && cross-env NODE_ENV=development webpack-dev-server",
+		"dev:mainnet": "yarn react-env:mainnet && cross-env NODE_ENV=development webpack-dev-server",
 		"dev:analyzer": "cross-env NODE_ENV=development ANALYZER=true webpack",
 		"test": "jest --passWithNoTests --runInBand",
 		"test:rand-pools": "cross-env TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node ./src/stores/rand-pools.ts",
@@ -16,7 +18,11 @@
 		"localnet": "sh ./scripts/run-localnet.sh",
 		"localnet:stop": "docker rm --force rebus_localnet",
 		"build:css": "tailwindcss build src/styles/tailwind.scss -o src/styles/index.scss",
-		"prettify": "prettier --write './**/*.{js,jsx,ts,tsx,scss,md,json,html}' --config ./.prettierrc"
+		"prettify": "prettier --write './**/*.{js,jsx,ts,tsx,scss,md,json,html}' --config ./.prettierrc",
+		"react-env": "react-env --env APP_ENV",
+		"react-env:alphanet": "cross-env APP_ENV=alphanet react-env --env APP_ENV",
+		"react-env:testnet": "cross-env APP_ENV=testnet react-env --env APP_ENV",
+		"react-env:mainnet": "cross-env APP_ENV=mainnet react-env --env APP_ENV"
 	},
 	"pre-commit": [
 		"lint-test"
@@ -34,6 +40,7 @@
 		"node": "^14.16.0"
 	},
 	"dependencies": {
+		"@beam-australia/react-env": "^3.1.1",
 		"@cosmjs/amino": "^0.27.1",
 		"@cosmjs/launchpad": "^0.27.1",
 		"@cosmjs/math": "^0.27.1",
