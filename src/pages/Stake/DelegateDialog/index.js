@@ -14,7 +14,7 @@ import {
 import ValidatorSelectField from './ValidatorSelectField';
 import TokensTextField from './TokensTextField';
 import ToValidatorSelectField from './ToValidatorSelectField';
-import { signTxAndBroadcast } from 'src/utils/helper';
+import { aminoSignTx } from 'src/utils/helper';
 import {
 	fetchRewards,
 	fetchVestingBalance,
@@ -27,7 +27,7 @@ import { config } from 'src/config-insync';
 import { gas } from 'src/constants/defaultGasValues';
 import CircularProgress from 'src/components/insync/CircularProgress';
 
-const COIN_DECI_VALUE = 1000000;
+const COIN_DECI_VALUE = 1000000000000000000;
 const DelegateDialog = props => {
 	const [inProgress, setInProgress] = useState(false);
 	const handleDelegateType = () => {
@@ -61,7 +61,7 @@ const DelegateDialog = props => {
 			},
 			memo: '',
 		};
-		signTxAndBroadcast(updatedTx, props.address, (error, result) => {
+		aminoSignTx(updatedTx, props.address, (error, result) => {
 			setInProgress(false);
 			if (error) {
 				if (error.indexOf('not yet found on the chain') > -1) {

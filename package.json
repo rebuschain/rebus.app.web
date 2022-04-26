@@ -34,10 +34,11 @@
 		"node": "^14.16.0"
 	},
 	"dependencies": {
-		"@cosmjs/amino": "^0.26.5",
-		"@cosmjs/launchpad": "^0.26.5",
-		"@cosmjs/proto-signing": "^0.26.5",
-		"@cosmjs/stargate": "^0.26.5",
+		"@cosmjs/amino": "^0.27.1",
+		"@cosmjs/launchpad": "^0.27.1",
+		"@cosmjs/math": "^0.27.1",
+		"@cosmjs/proto-signing": "^0.27.1",
+		"@cosmjs/stargate": "^0.27.1",
 		"@emotion/babel-preset-css-prop": "^11.2.0",
 		"@emotion/react": "^11.4.0",
 		"@emotion/styled": "^11.3.0",
@@ -66,6 +67,7 @@
 		"buffer": "^6.0.3",
 		"classnames": "^2.2.6",
 		"clsx": "^1.1.1",
+		"cosmjs-types": "^0.5.0",
 		"dayjs": "^1.10.4",
 		"deepmerge": "^4.2.2",
 		"highcharts": "^9.1.0",
