@@ -53,7 +53,7 @@ const OverviewSection = styled(CenterSection)`
 `;
 
 const MyPoolsSection = styled(CenterSection)`
-	background-color: #1c173c;
+	background-color: rgb(28, 23, 60, 0.6);
 	padding: 24px 20px;
 
 	@media (min-width: 768px) {
@@ -62,7 +62,6 @@ const MyPoolsSection = styled(CenterSection)`
 `;
 
 const IncentivizedPoolsSection = styled(CenterSection)`
-	background-color: rgba(35, 29, 75, 1);
 	padding: 24px 20px;
 
 	@media (min-width: 768px) {
@@ -70,7 +69,6 @@ const IncentivizedPoolsSection = styled(CenterSection)`
 `;
 
 const AllPoolsSection = styled(CenterSection)`
-	background-color: #1c173c;
 	padding: 24px 0;
 
 	@media (min-width: 768px) {

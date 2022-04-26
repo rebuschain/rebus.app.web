@@ -1,4 +1,4 @@
-import { useSelector, shallowEqual, DefaultRootState } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 // eslint-disable-next-line prettier/prettier
 import type { RootState } from 'src';
 
