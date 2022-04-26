@@ -1,3 +1,11 @@
+.stake {
+	padding: 84px 20px 20px;
+
+	@media (min-width: 768px) {
+		padding: 40px 60px;
+	}
+}
+
 .stake .heading {
 	display: flex;
 	align-items: center;

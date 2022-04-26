@@ -14,7 +14,7 @@
 		"lint-test": "eslint \"src/**/*\" webpack.config.js && prettier --check \"src/**/*\" webpack.config.js",
 		"lint-fix": "eslint --fix \"src/**/*\" webpack.config.js && prettier --write \"src/**/*\" webpack.config.js",
 		"localnet": "sh ./scripts/run-localnet.sh",
-		"localnet:stop": "docker rm --force osmosis_localnet",
+		"localnet:stop": "docker rm --force rebus_localnet",
 		"build:css": "tailwindcss build src/styles/tailwind.scss -o src/styles/index.scss",
 		"prettify": "prettier --write './**/*.{js,jsx,ts,tsx,scss,md,json,html}' --config ./.prettierrc"
 	},

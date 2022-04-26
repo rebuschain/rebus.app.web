@@ -69,8 +69,7 @@ class Home extends Component {
 
 		return (
 			<>
-				<NavBar home={true} />
-				<div className="home padding">
+				<div className="home">
 					<div className="card">
 						<div className="left_content">
 							<h2>{variables[this.props.lang].welcome}</h2>

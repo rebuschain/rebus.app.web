@@ -17,6 +17,7 @@ export enum TCardTypes {
 	PRIMARY,
 	SURFACE,
 	CARD,
+	TRANSPARENT,
 }
 
 export enum TModal {

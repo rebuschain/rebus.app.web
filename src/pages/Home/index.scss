@@ -1,3 +1,11 @@
+.home {
+	padding: 84px 20px 20px;
+
+	@media (min-width: 768px) {
+		padding: 40px 60px;
+	}
+}
+
 .home .card {
 	background: rgba(255, 255, 255, 0.14);
 	backdrop-filter: blur(100px);

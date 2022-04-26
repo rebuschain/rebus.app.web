@@ -25,9 +25,6 @@ import { AccountWithCosmosAndOsmosis } from 'src/stores/osmosis/account';
 import { useStore } from 'src/stores';
 import { IJsonRpcRequest, IRequestOptions } from '@walletconnect/types';
 
-// Make sure that this asset is depolyed.
-require('../../public/assets/osmosis-wallet-connect.png');
-
 const walletList = [
 	{
 		name: 'Keplr Wallet',
@@ -186,10 +183,10 @@ export class ConnectWalletManager {
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
 				this.walletConnector._clientMeta = {
-					name: 'Osmosis',
-					description: 'Osmosis is the first IBC-native Cosmos interchain AMM',
-					url: 'https://app.osmosis.zone',
-					icons: [window.location.origin + '/public/assets/osmosis-wallet-connect.png'],
+					name: 'Rebus',
+					description: 'Rebus',
+					url: 'https://app.rebustokenred.com',
+					icons: [window.location.origin + '/public/assets/main/rebus-single.svg'],
 				};
 
 				this.walletConnector!.on('disconnect', this.onWalletConnectDisconnected);

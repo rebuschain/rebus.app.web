@@ -64,9 +64,9 @@ export const SidebarBottom: FunctionComponent = observer(() => {
 					{' CoinGecko'}
 				</a>
 			</p>
-			<div className={'flex items-center transition-all w-full'}>
-				{/*<Img className="w-9 h-9" src={`${MISC.ASSETS_BASE}/Icons/${openSidebar ? 'Menu-in' : 'Menu'}.svg`} />*/}
-				<div
+			{/* <div className={'flex items-center transition-all w-full'}> */}
+			{/*<Img className="w-9 h-9" src={`${MISC.ASSETS_BASE}/Icons/${openSidebar ? 'Menu-in' : 'Menu'}.svg`} />*/}
+			{/* <div
 					className="flex items-center transition-all overflow-x-hidden w-full"
 					style={{ justifyContent: 'space-around' }}>
 					<button
@@ -110,7 +110,7 @@ export const SidebarBottom: FunctionComponent = observer(() => {
 						/>
 					</button>
 				</div>
-			</div>
+			</div> */}
 		</div>
 	);
 });

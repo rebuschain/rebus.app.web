@@ -63,7 +63,7 @@ const Router: FunctionComponent = () => {
 						<AccountConnectionProvider>
 							<IBCHistoryNotifier />
 							<Terms />
-							<div className="md:h-screen bg-background z-0">
+							<div className="h-screen z-0">
 								<BrowserRouter>
 									<Switch>
 										<Route exact path="/">
@@ -106,20 +106,19 @@ const Router: FunctionComponent = () => {
 												<BootstrapPage />
 											</RouteWrapper>
 										</Route>
-										<Route exact path={'/dashboard'}>
-											<InsyncWrapper>
-												<Home />
-											</InsyncWrapper>
-										</Route>
 										<Route exact path={'/staking'}>
-											<InsyncWrapper>
-												<Stake />
-											</InsyncWrapper>
+											<RouteWrapper>
+												<InsyncWrapper>
+													<Home />
+												</InsyncWrapper>
+											</RouteWrapper>
 										</Route>
 										<Route exact path={'/proposals'}>
-											<InsyncWrapper>
-												<Proposals />
-											</InsyncWrapper>
+											<RouteWrapper>
+												<InsyncWrapper>
+													<Proposals />
+												</InsyncWrapper>
+											</RouteWrapper>
 										</Route>
 										<Route>
 											<RouteWrapper>
