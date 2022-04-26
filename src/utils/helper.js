@@ -2,7 +2,9 @@ import { REST_URL, RPC_URL } from 'src/constants/url';
 import { SigningStargateClient } from '@cosmjs/stargate';
 import { SigningCosmosClient } from '@cosmjs/launchpad';
 import { makeSignDoc } from '@cosmjs/amino';
+import txHelper from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { config } from 'src/config-insync';
+import { getAccount } from 'src/utils/account';
 
 const chainId = config.CHAIN_ID;
 const chainName = config.CHAIN_NAME;
@@ -136,8 +138,6 @@ export const aminoSignTxAndBroadcast = (tx, address, cb) => {
 		(await window.keplr) && window.keplr.enable(chainId);
 		const offlineSigner = window.getOfflineSignerOnlyAmino && window.getOfflineSignerOnlyAmino(chainId);
 
-		const client = new SigningCosmosClient(REST_URL, address, offlineSigner);
-
 		const client2 = await SigningStargateClient.connectWithSigner(RPC_URL, offlineSigner);
 		const account = {};
 		try {
@@ -170,7 +170,7 @@ export const aminoSignTxAndBroadcast = (tx, address, cb) => {
 			signatures: [signature],
 		};
 
-		client
+		client2
 			.broadcastTx(voteTx)
 			.then(result => {
 				if (result && result.code !== undefined && result.code !== 0) {
@@ -192,32 +192,33 @@ export const aminoSignTx = (tx, address, cb) => {
 
 		const client = await SigningStargateClient.connectWithSigner(RPC_URL, offlineSigner);
 
-		const account = {};
-		try {
-			const { accountNumber, sequence } = await client.getSequence(address);
-			account.accountNumber = accountNumber;
-			account.sequence = sequence;
-		} catch (e) {
-			account.accountNumber = 0;
-			account.sequence = 0;
-		}
-		const signDoc = makeSignDoc(
-			tx.msgs ? tx.msgs : [tx.msg],
-			tx.fee,
-			chainId,
-			tx.memo,
-			account.accountNumber,
-			account.sequence
-		);
+		let signerData;
 
-		offlineSigner
-			.signAmino(address, signDoc)
+		const myac = await getAccount(address);
+
+		if (!myac) {
+			return cb('Account not found');
+		}
+
+		signerData = {
+			accountNumber: myac.accountNumber,
+			sequence: myac.sequence,
+			chainId: chainId,
+		};
+
+		client
+			.signAmino(address, tx.msgs ? tx.msgs : [tx.msg], tx.fee, tx.memo, signerData)
 			.then(result => {
-				if (result && result.code !== undefined && result.code !== 0) {
-					cb(result.log || result.rawLog);
-				} else {
-					cb(null, result);
-				}
+				const txBytes = txHelper.TxRaw.encode(result).finish();
+
+				client
+					.broadcastTx(txBytes)
+					.then(() => {
+						cb(null, result);
+					})
+					.catch(error => {
+						cb(error && error.message);
+					});
 			})
 			.catch(error => {
 				cb(error && error.message);
