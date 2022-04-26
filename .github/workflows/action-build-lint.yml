@@ -51,7 +51,14 @@ jobs:
         run: yarn
 
       - name: Build
-        run: export NODE_OPTIONS="--max_old_space_size=4096" && yarn build:css && yarn build
+        run: |
+          export NODE_OPTIONS="--max_old_space_size=4096"
+          yarn react-env:testnet
+          mv public/__ENV.js public/__ENV.js.testnet
+          yarn react-env:mainnet
+          mv public/__ENV.js public/__ENV.js.mainnet
+          yarn react-env:alphanet
+          yarn build:css && yarn build
 
       - uses: actions/upload-artifact@v2
         with:

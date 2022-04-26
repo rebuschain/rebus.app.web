@@ -113,7 +113,7 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 				/>
 			) : null}
 			<div className="px-5 md:px-0">
-				<TitleText isMobileView={isMobileView}>Osmosis Assets</TitleText>
+				<TitleText isMobileView={isMobileView}>Assets</TitleText>
 			</div>
 			<table className="w-full pb-8">
 				<AssetBalanceHeader isMobileView={isMobileView} />
