@@ -10,7 +10,6 @@ import DelegateButton from './DelegateButton';
 import { formatCount } from 'src/utils/numberFormats';
 import ValidatorName from './ValidatorName';
 import { config } from 'src/config-insync';
-import ConnectButton from 'src/components/insync/NavBar/ConnectButton';
 import classNames from 'classnames';
 
 class Table extends Component {
@@ -28,13 +27,7 @@ class Table extends Component {
 			},
 			textLabels: {
 				body: {
-					noMatch: this.props.inProgress ? (
-						<CircularProgress />
-					) : !this.props.address ? (
-						<ConnectButton />
-					) : (
-						<div className="no_data_table"> No data found </div>
-					),
+					noMatch: this.props.inProgress ? <CircularProgress /> : <div className="no_data_table"> No data found </div>,
 					toolTip: 'Sort',
 				},
 				viewColumns: {

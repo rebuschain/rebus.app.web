@@ -5,6 +5,7 @@ import { Button, Dialog, DialogActions, DialogContent } from '@material-ui/core'
 import './index.scss';
 import variables from 'src/utils/variables';
 import {
+	getValidators,
 	getDelegatedValidatorsDetails,
 	hideDelegateDialog,
 	showDelegateFailedDialog,
@@ -84,6 +85,7 @@ const DelegateDialog = props => {
 		props.fetchVestingBalance(props.address);
 		props.getDelegations(props.address);
 		props.getUnBondingDelegations(props.address);
+		props.getValidators(props.address);
 		props.getDelegatedValidatorsDetails(props.address);
 		props.fetchRewards(props.address);
 	};
@@ -203,6 +205,7 @@ DelegateDialog.propTypes = {
 	fetchRewards: PropTypes.func.isRequired,
 	fetchVestingBalance: PropTypes.func.isRequired,
 	getBalance: PropTypes.func.isRequired,
+	getValidators: PropTypes.func.isRequired,
 	getDelegatedValidatorsDetails: PropTypes.func.isRequired,
 	getDelegations: PropTypes.func.isRequired,
 	getUnBondingDelegations: PropTypes.func.isRequired,
@@ -259,6 +262,7 @@ const actionToProps = {
 	fetchRewards,
 	getBalance,
 	getDelegations,
+	getValidators,
 	getDelegatedValidatorsDetails,
 	getUnBondingDelegations,
 	showMessage,

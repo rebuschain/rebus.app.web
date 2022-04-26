@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import NavBar from 'src/components/insync/NavBar';
+import React, { useEffect, useState } from 'react';
 import variables from 'src/utils/variables';
 import * as PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
@@ -16,6 +15,17 @@ const Proposals = props => {
 	const [active, setActive] = useState(1);
 	const [filter, setFilter] = useState(null);
 
+	const getProposalDetails = data => {
+		if (data && data.length && data[0]) {
+			props.fetchProposalDetails(data[0], res => {
+				if (data[1]) {
+					data.splice(0, 1);
+					getProposalDetails(data);
+				}
+			});
+		}
+	};
+
 	const handleChange = value => {
 		if (active === value) {
 			return;
@@ -25,6 +35,40 @@ const Proposals = props => {
 		setFilter(value === null ? 2 : value === 2 ? 3 : value === 3 ? 2 : value === 4 ? 4 : null);
 	};
 	const filteredProposals = filter ? props.proposals.filter(item => item.status === filter) : props.proposals;
+
+	const fetchProposals = () => {
+		if (props.proposals && !props.proposals.length && !props.proposalsInProgress) {
+			props.getProposals(result => {
+				if (result && result.length) {
+					const array = [];
+					result.map(val => {
+						const filter =
+							props.proposalDetails &&
+							Object.keys(props.proposalDetails).length &&
+							Object.keys(props.proposalDetails).find(key => key === val.id);
+						if (!filter) {
+							if (val.status !== 2) {
+								return null;
+							}
+
+							array.push(val.id);
+						}
+						if (val.status === 2) {
+							props.fetchProposalTally(val.id);
+						}
+
+						return null;
+					});
+					getProposalDetails(array && array.reverse());
+				}
+			});
+		}
+	};
+
+	useEffect(() => {
+		fetchProposals();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	return (
 		<div className="proposals">

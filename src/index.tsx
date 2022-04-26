@@ -34,7 +34,7 @@ import { AccountConnectionProvider } from 'src/hooks/account/context';
 
 /* Insync Code */
 import reducer from './reducers';
-import InsyncWrapper from './components/insync/InsyncWrapper';
+import { InsyncWrapper } from './components/insync/InsyncWrapper';
 import Home from './pages/Home';
 import Stake from './pages/Stake';
 import Proposals from './pages/Proposals';
@@ -46,6 +46,8 @@ const store = createStore(
 		trace: true,
 	})(applyMiddleware(thunk))
 );
+
+export type RootState = ReturnType<typeof store.getState>;
 /* End Insync Code */
 
 dayjs.extend(relativeTime);

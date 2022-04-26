@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './index.scss';
-import NavBar from 'src/components/insync/NavBar';
 import variables from 'src/utils/variables';
 import * as PropTypes from 'prop-types';
 import TokenDetails from './TokenDetails';
