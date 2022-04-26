@@ -1,48 +1,4 @@
 .insync {
-	margin: 0;
-	text-align: center;
-	background: linear-gradient(125.7deg, #0023da 0.64%, #e4317c 59.22%, #ebff00 114.62%);
-	color: #ffffff;
-	font-family: 'Blinker', sans-serif;
-
-	#root,
-	.of_community,
-	.main_content,
-	.content_div {
-		min-height: 100% !important;
-		height: 100%;
-	}
-
-	* {
-		box-sizing: border-box;
-	}
-
-	p {
-		margin: unset;
-	}
-
-	.padding {
-		padding: 26px 60px;
-	}
-
-	.of_community .connect_button {
-		font-family: 'Blinker', sans-serif;
-		font-weight: 600;
-		font-size: 34px;
-		line-height: 130%;
-		color: #000000;
-		background: #ffffff;
-		border-radius: 5px;
-		padding: 22px;
-		text-transform: unset;
-		box-shadow: unset;
-	}
-
-	.of_community .connect_button img {
-		width: 60px;
-		margin-right: 26px;
-	}
-
 	.hash_text {
 		font-family: 'Blinker', sans-serif;
 		font-size: 20px;
@@ -141,10 +97,6 @@
 	}
 
 	@media (max-width: 1025px) {
-		.padding {
-			padding: 20px 40px;
-		}
-
 		.of_community .card > button {
 			font-size: 28px;
 			padding: 14px;
@@ -153,12 +105,6 @@
 		.of_community .card > button img {
 			width: 50px;
 			margin-right: 20px;
-		}
-	}
-
-	@media (max-width: 769px) {
-		.padding {
-			padding: 20px;
 		}
 	}
 

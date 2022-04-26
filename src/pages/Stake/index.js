@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import NavBar from 'src/components/insync/NavBar';
 import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import variables from 'src/utils/variables';

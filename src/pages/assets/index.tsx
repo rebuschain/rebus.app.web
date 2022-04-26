@@ -35,13 +35,11 @@ export const AssetsPage: FunctionComponent = observer(() => {
 
 const AssetsPageContainer = styled.div`
 	width: 100%;
-	background-color: ${colorPrimaryDark};
 	height: fit-content;
 `;
 
 const AssetsOverviewSection = styled.div`
 	padding: 84px 20px 20px;
-	background-color: ${colorPrimaryDarker};
 
 	@media (min-width: 768px) {
 		padding: 40px 60px;

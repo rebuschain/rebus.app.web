@@ -2,7 +2,7 @@ import { REST_URL, RPC_URL } from 'src/constants/url';
 import { SigningStargateClient } from '@cosmjs/stargate';
 import { SigningCosmosClient } from '@cosmjs/launchpad';
 import { makeSignDoc } from '@cosmjs/amino';
-import txHelper from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { config } from 'src/config-insync';
 import { getAccount } from 'src/utils/account';
 
@@ -13,18 +13,6 @@ export const initializeChain = cb => {
 		if (!window.getOfflineSignerOnlyAmino || !window.keplr) {
 			const error = 'Please install keplr extension';
 			cb(error);
-		} else {
-			if (window.keplr.experimentalSuggestChain) {
-				try {
-					await window.keplr.experimentalSuggestChain(chainConfig);
-				} catch (error) {
-					const chainError = 'Failed to suggest the chain';
-					cb(chainError);
-				}
-			} else {
-				const versionError = 'Please use the recent version of keplr extension';
-				cb(versionError);
-			}
 		}
 
 		if (window.keplr) {
@@ -156,7 +144,7 @@ export const aminoSignTx = (tx, address, cb) => {
 		client
 			.signAmino(address, tx.msgs ? tx.msgs : [tx.msg], tx.fee, tx.memo, signerData)
 			.then(result => {
-				const txBytes = txHelper.TxRaw.encode(result).finish();
+				const txBytes = TxRaw.encode(result).finish();
 
 				client
 					.broadcastTx(txBytes)
