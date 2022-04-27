@@ -19,13 +19,14 @@
 .proposals .heading .tabs {
 	display: flex;
 	align-items: center;
+	margin-left: 40px;
 }
 
 .proposals .tabs > p {
 	cursor: pointer;
-	font-family: 'Blinker', sans-serif;
+	font-family: Poppins, ui-sans-serif, system-ui;
 	font-weight: 600;
-	font-size: 36px;
+	font-size: 24px;
 	line-height: 130%;
 	color: #ffffff80;
 }
@@ -36,7 +37,7 @@
 
 .proposals .tabs > span {
 	border: 1px solid #ffffff;
-	height: 30px;
+	height: 22px;
 	margin: 0 20px;
 }
 
@@ -46,7 +47,7 @@
 }
 
 .proposals .cards_content {
-	background: rgba(255, 255, 255, 0.14);
+	background: rgba(45, 39, 85, 0);
 	backdrop-filter: blur(100px);
 	border-radius: 10px;
 	margin-top: 16px;
@@ -59,9 +60,9 @@
 }
 
 .proposals .card {
-	background: #ffffff;
+	background: rgba(45, 39, 85, 1);
 	border-radius: 20px;
-	color: #000000;
+	color: #fff;
 	padding: 18px 28px;
 	width: 31%;
 	text-align: left;
@@ -76,7 +77,7 @@
 }
 
 .proposals .card .number {
-	position: absolute;
+	/*position: absolute;
 	background: #ffffff;
 	box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
 	width: 40px;
@@ -87,10 +88,14 @@
 	justify-content: center;
 	left: -20px;
 	top: 16px;
-	font-family: 'Blinker', sans-serif;
+	line-height: 130%;*/
+	font-family: Poppins, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 24px;
-	line-height: 130%;
+	background-image: linear-gradient(104.04deg, #e9d050 0%, #e99a50 100%);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 
 .proposals .card_heading {
@@ -101,15 +106,15 @@
 }
 
 .proposals .card_heading > h2 {
-	font-family: 'Blinker', sans-serif;
+	font-family: Poppins, ui-sans-serif, system-ui;
 	font-weight: 600;
-	font-size: 28px;
-	line-height: 130%;
-	color: #000000;
+	font-size: 24px;
+	color: #fff;
 	margin: unset;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	max-width: 85%;
 }
 
 .proposals .card_heading .icon {
@@ -123,11 +128,10 @@
 }
 
 .proposals .card_heading .details > p {
-	font-family: 'Blinker', sans-serif;
+	font-family: Poppins, ui-sans-serif, system-ui;
 	font-size: 14px;
-	line-height: 130%;
 	text-align: right;
-	color: #696969;
+	color: rgba(255, 255, 255, 0.6);
 	width: 100%;
 	margin-left: 10px;
 }
@@ -138,7 +142,7 @@
 	box-sizing: border-box;
 	border-radius: 100px;
 	box-shadow: unset;
-	font-family: 'Blinker', sans-serif;
+	font-family: Poppins, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 14px;
 	line-height: 130%;
@@ -150,23 +154,20 @@
 
 .proposals .card_heading .vote_button {
 	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-	background: linear-gradient(93.41deg, #fc5c7d 4.98%, #6a82fb 103.86%);
+	background: linear-gradient(135deg, #e95062, #e950d0 50%, #5084e9);
 	border-radius: 100px;
-	font-family: 'Blinker', sans-serif;
+	font-family: Poppins, ui-sans-serif, system-ui;
 	font-weight: 600;
-	font-size: 18px;
-	line-height: 130%;
-	color: #000000;
+	font-size: 16px;
+	color: #fff;
 	text-transform: unset;
 	padding: 6px 30px;
 }
 
 .proposals .description {
-	font-family: 'Blinker', sans-serif;
-	font-weight: 600;
-	font-size: 18px;
-	line-height: 130%;
-	color: #696969;
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-size: 14px;
+	color: rgba(255, 255, 255, 0.6);
 	margin-bottom: 26px;
 	display: -webkit-box;
 	-webkit-line-clamp: 5;
@@ -184,20 +185,20 @@
 }
 
 .proposals .card .key_text {
-	font-family: 'Blinker', sans-serif;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 14px;
 	line-height: 130%;
-	color: #696969;
+	color: rgba(255, 255, 255, 0.6);
 	display: flex;
 }
 
 .proposals .card .key_text .hash_text {
-	font-family: 'Blinker', sans-serif;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 14px;
 	line-height: 130%;
-	color: #696969;
+	color: rgba(255, 255, 255, 0.6);
 	max-width: 110px;
 }
 
@@ -213,7 +214,7 @@
 }
 
 .proposals .card .value_text {
-	font-family: 'Blinker', sans-serif;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 14px;
 	line-height: 130%;
@@ -228,28 +229,24 @@
 }
 
 .proposals .card .status > p {
-	background: #02d70a;
-	border: 1px solid #00a306;
+	background: linear-gradient(104.04deg, #50e996 0%, #b8e950 100%);
 	box-sizing: border-box;
-	box-shadow: inset 0 4px 4px rgb(0 0 0 / 25%);
 	border-radius: 100px;
 	width: max-content;
-	font-family: 'Blinker', sans-serif;
+	font-family: Poppins, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 18px;
 	line-height: 130%;
-	color: #000000;
+	color: rgba(255, 255, 255, 0.8);
 	padding: 8px 20px;
 }
 
 .proposals .card .status.voting_period > p {
-	background: #79c7ff;
-	border-color: #3b9be0;
+	background: linear-gradient(104.04deg, #5084e9 0%, #6f50e9 100%);
 }
 
 .proposals .card .status.rejected > p {
-	background: #ff0000;
-	border-color: #c20000;
+	background: linear-gradient(104.04deg, #e95062 0%, #e950d0 100%);
 	color: #ffffff;
 }
 
@@ -288,12 +285,13 @@
 }
 
 .proposals .vote_details > div > p {
-	font-family: 'Blinker', sans-serif;
-	font-weight: 600;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-size: 14px;
-	line-height: 130%;
-	color: #000000;
+	color: rgba(255, 255, 255, 0.6);
 	display: flex;
+}
+.proposals .pagination {
+	padding: 10px 20px;
 }
 
 .proposals .pagination > nav {
@@ -302,10 +300,8 @@
 }
 
 .proposals .pagination li > button {
-	font-family: 'Blinker', sans-serif;
-	font-weight: 600;
-	font-size: 24px;
-	line-height: 130%;
+	font-family: Poppins, ui-sans-serif, system-ui;
+	font-size: 14px;
 	color: #ffffff;
 	border-radius: 4px;
 }
