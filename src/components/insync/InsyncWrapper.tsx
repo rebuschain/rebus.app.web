@@ -88,6 +88,24 @@ export const InsyncWrapper: FunctionComponent = observer(({ children }) => {
 
 	const fetch = useCallback(
 		address => {
+			if (
+				!propsRef.current.validatorList.length &&
+				!propsRef.current.validatorListInProgress &&
+				!propsRef.current.proposalTab
+			) {
+				getValidators((data: Array<any>) => {
+					if (
+						data &&
+						data.length &&
+						propsRef.current.validatorImages &&
+						propsRef.current.validatorImages.length === 0
+					) {
+						const array = data.filter((val: any) => val && val.description && val.description.identity);
+						getValidatorImage(0, array);
+					}
+				});
+			}
+
 			if (!address) {
 				return;
 			}
@@ -130,24 +148,6 @@ export const InsyncWrapper: FunctionComponent = observer(({ children }) => {
 				!propsRef.current.proposalTab
 			) {
 				getDelegatedValidatorsDetails(address);
-			}
-
-			if (
-				!propsRef.current.validatorList.length &&
-				!propsRef.current.validatorListInProgress &&
-				!propsRef.current.proposalTab
-			) {
-				getValidators((data: Array<any>) => {
-					if (
-						data &&
-						data.length &&
-						propsRef.current.validatorImages &&
-						propsRef.current.validatorImages.length === 0
-					) {
-						const array = data.filter((val: any) => val && val.description && val.description.identity);
-						getValidatorImage(0, array);
-					}
-				});
 			}
 		},
 		[
