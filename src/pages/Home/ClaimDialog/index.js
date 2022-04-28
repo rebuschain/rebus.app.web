@@ -11,7 +11,7 @@ import {
 import { connect } from 'react-redux';
 import '../../Stake/DelegateDialog/index.scss';
 import ValidatorsSelectField from './ValidatorsSelectField';
-import { signTxAndBroadcast } from 'src/utils/helper';
+import { aminoSignTx } from 'src/utils/helper';
 import { showMessage } from 'src/actions/snackbar';
 import { fetchRewards, fetchVestingBalance, getBalance } from 'src/actions/accounts';
 import { config } from 'src/config-insync';
@@ -34,7 +34,7 @@ const ClaimDialog = props => {
 			fee: {
 				amount: [
 					{
-						amount: String(gasValue * config.GAS_PRICE_STEP_AVERAGE),
+						amount: String(BigInt(gasValue * config.GAS_PRICE_STEP_AVERAGE)),
 						denom: config.COIN_MINIMAL_DENOM,
 					},
 				],
@@ -57,7 +57,7 @@ const ClaimDialog = props => {
 			});
 		}
 
-		signTxAndBroadcast(updatedTx, props.address, (error, result) => {
+		aminoSignTx(updatedTx, props.address, (error, result) => {
 			setInProgress(false);
 			if (error) {
 				if (error.indexOf('not yet found on the chain') > -1) {
@@ -94,7 +94,7 @@ const ClaimDialog = props => {
 			fee: {
 				amount: [
 					{
-						amount: String(gas.claim_reward * config.GAS_PRICE_STEP_AVERAGE),
+						amount: String(BigInt(gas.claim_reward * config.GAS_PRICE_STEP_AVERAGE)),
 						denom: config.COIN_MINIMAL_DENOM,
 					},
 				],
@@ -103,7 +103,7 @@ const ClaimDialog = props => {
 			memo: '',
 		};
 
-		signTxAndBroadcast(updatedTx, props.address, (error, result) => {
+		aminoSignTx(updatedTx, props.address, (error, result) => {
 			setInProgress(false);
 			if (error) {
 				if (error.indexOf('not yet found on the chain') > -1) {
