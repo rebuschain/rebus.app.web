@@ -7,18 +7,14 @@
 }
 
 .home .card {
-	background: rgba(255, 255, 255, 0.14);
-	backdrop-filter: blur(100px);
-	border-radius: 10px;
-	padding: 80px 100px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	text-align: left;
 }
 
-.home .card h2 {
-	font-family: 'Blinker', sans-serif;
+.home h4 {
+	font-family: Poppin, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 36px;
 	line-height: 130%;
@@ -26,7 +22,7 @@
 }
 
 .home .card .info {
-	font-family: 'Blinker', sans-serif;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-size: 24px;
 	line-height: 130%;
 }
@@ -64,7 +60,7 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	font-family: 'Blinker', sans-serif;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 38px;
 	line-height: 130%;
@@ -73,7 +69,7 @@
 }
 
 .otp_dialog .user_name > p {
-	font-family: 'Blinker', sans-serif;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 30px;
 	line-height: 130%;
@@ -92,7 +88,7 @@
 	box-sizing: border-box;
 	filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.25));
 	border-radius: 5px;
-	font-family: 'Blinker', sans-serif;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 18px;
 	line-height: 130%;
@@ -122,14 +118,14 @@
 }
 
 .otp .copy_field > p {
-	font-family: 'Blinker', sans-serif;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-size: 18px;
 	line-height: 136%;
 	color: #ffffff;
 }
 
 .otp .otp_info {
-	font-family: 'Blinker', sans-serif;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-size: 24px;
 	line-height: 130%;
 	text-align: center;
@@ -144,7 +140,7 @@
 }
 
 .otp .otp_number > p {
-	font-family: 'Blinker', sans-serif;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 36px;
 	line-height: 100%;
@@ -159,7 +155,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-family: 'Blinker', sans-serif;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 36px;
 	line-height: 130%;
@@ -168,7 +164,7 @@
 .content_div .view_all {
 	background: #ffffff;
 	border-radius: 50px;
-	font-family: 'Blinker', sans-serif;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 20px;
 	line-height: 130%;

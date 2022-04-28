@@ -69,11 +69,9 @@ class Home extends Component {
 		return (
 			<>
 				<div className="home">
+					<h4>{variables[this.props.lang].welcome}</h4>
 					<div className="card">
-						<div className="left_content">
-							<h2>{variables[this.props.lang].welcome}</h2>
-							<p className="info">{variables[this.props.lang].participate}</p>
-						</div>
+						{/*<p className="info">{variables[this.props.lang].participate}</p>*/}
 						<TokenDetails lang={this.props.lang} />
 					</div>
 				</div>
@@ -96,7 +94,7 @@ class Home extends Component {
 						<Table active={active} home={true} />
 					</div>
 				</div>
-				<div className="proposals">
+				{/*<div className="proposals">
 					{!this.props.open ? (
 						<div className="proposals_content padding">
 							<div className="heading">
@@ -118,7 +116,7 @@ class Home extends Component {
 					) : (
 						<ProposalDialog />
 					)}
-				</div>
+					</div>*/}
 				<DelegateDialog />
 				<SuccessDialog />
 				<UnSuccessDialog />

@@ -45,7 +45,7 @@
 	color: #fff;
 	background: linear-gradient(104.04deg, #50e996 0%, #b8e950 100%);
 	box-sizing: border-box;
-	border-radius: 100px;
+	border-radius: 0.5em;
 	padding: 3px 20px 5px;
 	display: flex;
 	align-items: center;
@@ -144,7 +144,7 @@
 
 .proposal_dialog_section3_left .vp_cards > p {
 	background: #f3f3f3;
-	border-radius: 100px;
+	border-radius: 0.5em;
 	font-family: Inter, ui-sans-serif, system-ui;
 	font-size: 14px;
 	color: #000000;
@@ -188,7 +188,7 @@
 
 .proposal_dialog .voting_card {
 	background: rgb(45, 39, 85);
-	border-radius: 10px;
+	border-radius: 0.5em;
 	width: 100%;
 	margin-top: 8px;
 	padding: 20px 30px;
@@ -221,7 +221,7 @@
 .proposal_dialog .voting_card .cancel_button {
 	border: 2px solid #ffffff;
 	box-sizing: border-box;
-	border-radius: 60px;
+	border-radius: 0.5em;
 	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 14px;
@@ -229,17 +229,19 @@
 	color: #ffffff;
 	margin-right: 20px;
 	padding: 10px 20px;
+	line-height: 1;
 }
 
 .proposal_dialog .voting_card .confirm_button {
 	background: linear-gradient(135deg, #e95062, #e950d0 50%, #5084e9);
-	border-radius: 60px;
+	border-radius: 0.5em;
 	font-family: Poppin, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 14px;
 	text-align: center;
 	color: #ffffff;
 	padding: 10px 20px;
+	line-height: 1;
 }
 
 .proposal_dialog .already_voted {

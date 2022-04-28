@@ -1,8 +1,6 @@
 .token_details {
 	display: flex;
-	justify-content: flex-end;
 	flex: 1;
-	margin-left: 20px;
 }
 
 .token_details .chip_info {
@@ -15,47 +13,62 @@
 }
 
 .token_details .chip {
-	background: #ffffff;
 	border-radius: 50px;
 	display: flex;
 	align-items: center;
-	justify-content: center;
-	padding: 10px 20px;
+	padding: 10px 0;
 	margin: 10px 0;
 }
 
 .token_details .chip > img {
 	margin-right: 20px;
+	background: rgba(255, 255, 255, 0.9);
+	padding: 1px;
+	border-radius: 30px;
+	height: 50px;
+	max-width: 50px;
 }
 
 .token_details .chip p {
-	font-family: 'Blinker', sans-serif;
-	font-weight: 600;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-size: 30px;
-	line-height: 130%;
-	color: #000000;
+	color: #fff;
 	width: max-content;
 }
 
 .token_details .chip_info > p {
-	font-family: 'Blinker', sans-serif;
-	font-weight: 600;
-	font-size: 18px;
-	line-height: 130%;
+	color: rgba(255, 255, 255, 0.6);
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-size: 16px;
 	width: max-content;
-	margin: auto;
 }
 
 .token_details .outline_button {
-	border: 1px solid #ffffff;
-	box-sizing: border-box;
-	font-family: 'Blinker', sans-serif;
+	background: linear-gradient(104.04deg, #5084e9 0%, #6f50e9 100%);
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 14px;
-	line-height: 130%;
 	text-align: center;
 	color: #ffffff;
-	border-radius: 100px;
+	border-radius: 10px;
+}
+
+.token_details .outline_button.re_delegate {
+	background: linear-gradient(104.04deg, #50e996 0%, #b8e950 100%);
+	color: rgba(0, 0, 0, 0.5);
+}
+.token_details .outline_button.un_delegate {
+	background: linear-gradient(104.04deg, #e95062 0%, #e950d0 100%);
+	color: #fff;
+}
+
+.token_details .outline_button.claim {
+	background: linear-gradient(104.04deg, #5084e9 0%, #6f50e9 100%);
+	color: #fff;
+}
+
+.token_details .outline_button:disabled {
+	opacity: 0.4;
 }
 
 .token_details .buttons_div {
