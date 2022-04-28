@@ -3,7 +3,7 @@ export const commaSeparator = value => {
 };
 
 export const tally = (value, sum) => {
-	const total = (value / sum) * 100;
+	const total = sum ? (value / sum) * 100 : 0;
 	if (value === 0 && sum === 0) {
 		return '0%';
 	}
