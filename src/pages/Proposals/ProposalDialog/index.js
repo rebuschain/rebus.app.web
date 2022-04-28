@@ -152,6 +152,8 @@ class ProposalDialog extends Component {
 									: ''}
 							</div>
 						</div>
+					</div>
+					<div className="pool content">
 						<div className="proposal_dialog_section2">
 							<pre className={ClassNames('proposal_dialog_section2_content', this.state.show ? 'show_more' : '')}>
 								{this.props.proposal &&

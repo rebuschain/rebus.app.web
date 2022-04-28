@@ -1,12 +1,12 @@
 export const LAYOUT = {
 	SIDEBAR: {
-		TRADE: {
+		/*TRADE: {
 			ICON: '/public/assets/Icons/Trade.svg',
 			ICON_SELECTED: '/public/assets/Icons/Trade_selected.svg',
 			TEXT: 'Trade',
 			ROUTE: '/',
 			SELECTED_CHECK: '/',
-		},
+		},*/
 		POOLS: {
 			ICON: '/public/assets/Icons/Pool.svg',
 			ICON_SELECTED: '/public/assets/Icons/Pool_selected.svg',
@@ -40,8 +40,8 @@ export const LAYOUT = {
 			SELECTED_CHECK: '/assets',
 		},
 		PROPOSALS: {
-			ICON: '/public/assets/Icons/Ticket.svg',
-			ICON_SELECTED: '/public/assets/Icons/Ticket_selected.svg',
+			ICON: '/public/assets/Icons/Vote.svg',
+			ICON_SELECTED: '/public/assets/Icons/Vote_selected.svg',
 			TEXT: 'Vote',
 			ROUTE: '/proposals',
 			SELECTED_CHECK: '/proposals',

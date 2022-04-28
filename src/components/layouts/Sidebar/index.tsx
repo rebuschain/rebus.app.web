@@ -63,12 +63,12 @@ const SideBar: FunctionComponent = () => {
 								</section>
 								<section>
 									{mapKeyValues(LAYOUT.SIDEBAR, (_: string, sidebarItem: TSIDEBAR_ITEM) => sidebarItem)
-										.filter(sidebarItem => {
+										/*.filter(sidebarItem => {
 											if (isMobileView && (sidebarItem.TEXT === 'Stake' || sidebarItem.TEXT === 'Vote')) {
 												return false;
 											}
 											return true;
-										})
+										})*/
 										.map(sidebarItem => (
 											<SidebarItem
 												key={sidebarItem.TEXT}

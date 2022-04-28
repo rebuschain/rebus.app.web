@@ -1,8 +1,8 @@
 .proposals {
-	padding: 84px 20px 20px;
+	padding: 0;
 
-	@media (min-width: 768px) {
-		padding: 40px 60px;
+	@media (max-width: 768px) {
+		padding: 80px 10px 10px;
 	}
 }
 
@@ -27,8 +27,11 @@
 	font-family: Poppins, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 24px;
-	line-height: 130%;
-	color: #ffffff80;
+	color: rgba(255, 255, 255, 0.6);
+
+	@media (max-width: 768px) {
+		font-size: 20px;
+	}
 }
 
 .proposals .tabs > p.active {
@@ -39,6 +42,10 @@
 	border: 1px solid #ffffff;
 	height: 22px;
 	margin: 0 20px;
+
+	@media (max-width: 768px) {
+		margin: 0 14px;
+	}
 }
 
 .proposals .heading .text_field {
@@ -109,12 +116,13 @@
 	font-family: Poppins, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 24px;
+	line-height: 130%;
 	color: #fff;
 	margin: unset;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	max-width: 85%;
+	max-width: 80%;
 }
 
 .proposals .card_heading .icon {
@@ -145,7 +153,6 @@
 	font-family: Poppins, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 14px;
-	line-height: 130%;
 	text-align: right;
 	color: #000000;
 	margin-left: 10px;
@@ -153,7 +160,6 @@
 }
 
 .proposals .card_heading .vote_button {
-	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 	background: linear-gradient(135deg, #e95062, #e950d0 50%, #5084e9);
 	border-radius: 100px;
 	font-family: Poppins, ui-sans-serif, system-ui;
@@ -188,7 +194,6 @@
 	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 14px;
-	line-height: 130%;
 	color: rgba(255, 255, 255, 0.6);
 	display: flex;
 }
@@ -197,7 +202,6 @@
 	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 14px;
-	line-height: 130%;
 	color: rgba(255, 255, 255, 0.6);
 	max-width: 110px;
 }
@@ -217,9 +221,9 @@
 	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 14px;
-	line-height: 130%;
 	color: #0085ff;
 	margin-left: 10px;
+	max-width: 50%;
 }
 
 .proposals .card .status {
@@ -236,7 +240,6 @@
 	font-family: Poppins, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 18px;
-	line-height: 130%;
 	color: rgba(255, 255, 255, 0.8);
 	padding: 8px 20px;
 }

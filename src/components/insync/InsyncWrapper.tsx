@@ -186,7 +186,7 @@ export const InsyncWrapper: FunctionComponent = observer(({ children }) => {
 	}, [address, fetch]);
 
 	return (
-		<div className="of_community">
+		<div className="of_community" style={{ height: 'fit-content', width: '100%' }}>
 			{children}
 			<SnackbarMessage />
 		</div>
