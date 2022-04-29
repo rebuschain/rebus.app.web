@@ -62,6 +62,7 @@ const DelegateDialog = props => {
 			},
 			memo: '',
 		};
+
 		aminoSignTx(updatedTx, props.address, (error, result) => {
 			setInProgress(false);
 			if (error) {
@@ -99,7 +100,7 @@ const DelegateDialog = props => {
 					delegatorAddress: props.address,
 					validatorAddress: props.validator,
 					amount: {
-						amount: String(props.amount * COIN_DECI_VALUE),
+						amount: String(BigInt(props.amount * COIN_DECI_VALUE)),
 						denom: config.COIN_MINIMAL_DENOM,
 					},
 				};
@@ -109,7 +110,7 @@ const DelegateDialog = props => {
 					validatorSrcAddress: props.validator,
 					validatorDstAddress: props.toValidator,
 					amount: {
-						amount: String(props.amount * COIN_DECI_VALUE),
+						amount: String(BigInt(props.amount * COIN_DECI_VALUE)),
 						denom: config.COIN_MINIMAL_DENOM,
 					},
 				};
