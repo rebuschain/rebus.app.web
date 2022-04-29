@@ -83,7 +83,7 @@
 	margin: 0 10px;
 }
 
-@media (max-width: 1441px) {
+/*@media (max-width: 1441px) {
 	.token_details {
 		margin: 40px 0 0;
 		width: 100%;
@@ -94,9 +94,9 @@
 	.token_details .chip_info {
 		margin-bottom: 20px;
 	}
-}
+}*/
 
-@media (max-width: 426px) {
+@media (max-width: 769px) {
 	.token_details {
 		flex-direction: column;
 		align-items: center;

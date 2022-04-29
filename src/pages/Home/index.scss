@@ -176,17 +176,17 @@
 	background: #ffffff;
 }
 
-@media (max-width: 1441px) {
+/*@media (max-width: 1441px) {
 	.home .card {
 		flex-direction: column;
 		text-align: center;
 		padding: 50px;
 	}
-}
+}*/
 
 @media (max-width: 769px) {
 	.home .card {
-		padding: 50px 20px;
+		padding: 50px 0 0;
 	}
 
 	.content_div .view_all {
