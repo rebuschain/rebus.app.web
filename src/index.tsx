@@ -70,7 +70,7 @@ const Router: FunctionComponent = () => {
 									<Switch>
 										<Route exact path="/">
 											<RouteWrapper>
-												<MainPage />
+												<PoolsPage />
 											</RouteWrapper>
 										</Route>
 										<Route exact path="/pools">

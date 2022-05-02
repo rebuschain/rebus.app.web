@@ -17,7 +17,7 @@ const ClaimButton = props => {
 	};
 
 	return (
-		<Button className="outline_button" disabled={props.disable} variant="outlined" onClick={handleClick}>
+		<Button className="outline_button claim" disabled={props.disable} variant="outlined" onClick={handleClick}>
 			{variables[props.lang].claim}
 		</Button>
 	);

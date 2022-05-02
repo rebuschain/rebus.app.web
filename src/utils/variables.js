@@ -6,7 +6,7 @@ const variables = {
 		web3_note: 'web3 power user? Your on-chain data will give you exclusive access',
 		select_account: 'Select Account',
 		connect_keplr: 'Connect with Keplr',
-		welcome: `Welcome to the ${config.NETWORK_NAME} community`,
+		welcome: `My Tokens`,
 		participate: 'Know your validators & interact with the community via governance proposals!',
 		total_tokens: 'Total Tokens',
 		available_tokens: 'Available Tokens',

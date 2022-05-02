@@ -104,8 +104,8 @@ const Cards = props => {
 
 							return (
 								<div key={index} className="card" onClick={() => props.handleShow(proposal)}>
-									<span className="number">{proposal.id}</span>
 									<div className="card_heading">
+										<span className="number">{proposal.id}</span>
 										<h2 onClick={() => props.handleShow(proposal)}>
 											{' '}
 											{proposal.content && proposal.content.value && proposal.content.value.title}

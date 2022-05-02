@@ -1,83 +1,73 @@
 .proposal_dialog {
 	height: 100%;
 	width: 100%;
-	margin-top: 30px;
 }
 
 .proposal_dialog .content {
-	background: rgba(255, 255, 255, 0.14);
-	backdrop-filter: blur(100px);
-	border-radius: 10px;
 	width: 100%;
 	height: 100%;
-	padding: 80px;
+	padding: 40px;
 	position: relative;
+}
+.proposal_dialog .pool.content {
+	background-color: #231d4b;
 }
 
 .proposal_dialog .content .close_button {
 	position: absolute;
 	right: 20px;
-	top: -20px;
-	box-shadow: unset;
-	background: linear-gradient(#ffffff24 44%, transparent 50%);
+	top: 37px;
 }
 
 .proposal_dialog .close_button .icon {
 	width: 20px;
+	fill: #ffffff;
 }
 
 .proposal_dialog_section1 {
 	display: flex;
 	align-items: center;
-	justify-content: flex-start;
+	justify-content: space-between;
 }
 
 .proposal_dialog_section1_header {
-	font-family: 'Blinker', sans-serif;
+	font-family: Poppin, ui-sans-serif, system-ui;
 	font-weight: 600;
-	font-size: 48px;
-	line-height: 130%;
+	font-size: 24px;
 	color: #ffffff;
 	text-align: left;
 }
 
 .proposal_dialog_section1_status {
-	font-family: 'Blinker', sans-serif;
+	font-family: Poppin, ui-sans-serif, system-ui;
 	font-weight: 600;
-	font-size: 24px;
-	line-height: 130%;
-	color: #000000;
-	background: #02d70a;
-	border: 1px solid #00a306;
+	font-size: 18px;
+	color: #fff;
+	background: linear-gradient(104.04deg, #50e996 0%, #b8e950 100%);
 	box-sizing: border-box;
-	border-radius: 100px;
-	padding: 8px 30px;
+	border-radius: 0.5em;
+	padding: 3px 20px 5px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-left: 100px;
+	margin-right: 50px;
 	flex-shrink: 0;
 }
 
 .proposal_dialog_section1_status.voting_period {
-	background: #79c7ff;
-	border-color: #3b9be0;
+	background: linear-gradient(104.04deg, #5084e9 0%, #6f50e9 100%);
 }
 
 .proposal_dialog_section1_status.rejected {
-	background: #ff0000;
-	border-color: #c20000;
+	background: linear-gradient(104.04deg, #e95062 0%, #e950d0 100%);
 	color: #ffffff;
 }
 
 .proposal_dialog_section2 {
-	font-family: 'Blinker', sans-serif;
-	font-weight: 600;
-	font-size: 24px;
-	line-height: 130%;
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-size: 14px;
 	color: #ffffff;
 	text-align: left;
-	margin-top: 30px;
 }
 
 .proposal_dialog_section3_left .pds3l_c2.vote_details {
@@ -86,15 +76,14 @@
 }
 
 .proposal_dialog_section2_content {
-	height: 2.8em;
+	height: 3.3em;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: pre-wrap;
 	width: 100%;
-	font-family: 'Blinker', sans-serif;
-	font-weight: 600;
-	font-size: 24px;
-	line-height: 130%;
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-size: 15px;
+	line-height: 25px;
 	color: #ffffff;
 }
 
@@ -108,20 +97,19 @@
 }
 
 .proposal_dialog_section3 {
-	margin-top: 50px;
+	margin-top: 30px;
 	display: flex;
 	justify-content: space-between;
 }
 
 .proposal_dialog_section3_left {
 	flex: 1;
-	margin-top: 30px;
 }
 
 .proposal_dialog_section3_left .pds3l_c {
 	display: flex;
 	align-items: flex-start;
-	margin-bottom: 50px;
+	margin-bottom: 30px;
 }
 
 .proposal_dialog_section3_left .pds3l_c:nth-child(4) {
@@ -129,21 +117,20 @@
 }
 
 .proposal_dialog_section3_left .pds3l_c1 {
-	font-family: 'Blinker', sans-serif;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: bold;
-	font-size: 24px;
-	line-height: 130%;
+	font-size: 14px;
 	color: #ffffff;
 	width: 220px;
 	text-align: left;
 	flex-shrink: 0;
+	max-width: 23%;
 }
 
 .proposal_dialog_section3_left .pds3l_c2 {
-	font-family: 'Blinker', sans-serif;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: 600;
-	font-size: 24px;
-	line-height: 130%;
+	font-size: 14px;
 	color: #ffffff;
 	text-align: left;
 	flex: 1;
@@ -157,21 +144,20 @@
 
 .proposal_dialog_section3_left .vp_cards > p {
 	background: #f3f3f3;
-	border-radius: 100px;
-	font-family: 'Blinker', sans-serif;
-	font-weight: 600;
-	font-size: 18px;
-	line-height: 130%;
+	border-radius: 0.5em;
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-size: 14px;
 	color: #000000;
 	padding: 8px 20px;
-	margin-right: 20px;
+}
+.proposal_dialog_section3_left .vp_cards > p:nth-child(2) {
+	margin-left: 10px;
 }
 
 .proposals .pds3l_c2.vote_details > div > p {
-	font-family: 'Blinker', sans-serif;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: 600;
-	font-size: 24px;
-	line-height: 130%;
+	font-size: 14px;
 	color: #ffffff;
 }
 
@@ -193,20 +179,19 @@
 }
 
 .proposal_dialog .pds3r_heading {
-	font-family: 'Blinker', sans-serif;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: bold;
-	font-size: 24px;
-	line-height: 130%;
+	font-size: 14px;
 	color: #ffffff;
 	margin-left: 10px;
 }
 
 .proposal_dialog .voting_card {
-	background: rgba(255, 255, 255, 0.5);
-	border-radius: 10px;
+	background: rgb(45, 39, 85);
+	border-radius: 0.5em;
 	width: 100%;
 	margin-top: 8px;
-	padding: 50px 60px 40px;
+	padding: 20px 30px;
 }
 
 .proposal_dialog .voting_card label {
@@ -218,47 +203,45 @@
 }
 
 .proposal_dialog .voting_card label > span:last-child {
-	font-family: 'Blinker', sans-serif;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: 600;
-	font-size: 24px;
-	line-height: 130%;
+	font-size: 14px;
 	text-align: center;
-	color: #000000;
+	color: #ffffff;
 }
 
 .proposal_dialog .voting_card label svg {
-	fill: #000000;
+	fill: #ffffff;
 }
 
 .voting_card .buttons_div {
 	text-align: center;
-	margin-top: 50px;
 }
 
 .proposal_dialog .voting_card .cancel_button {
-	border: 2px solid #000000;
+	border: 2px solid #ffffff;
 	box-sizing: border-box;
-	border-radius: 10px;
-	font-family: 'Blinker', sans-serif;
+	border-radius: 0.5em;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: 600;
-	font-size: 24px;
-	line-height: 130%;
+	font-size: 14px;
 	text-align: center;
-	color: #000000;
+	color: #ffffff;
 	margin-right: 20px;
-	padding: 10px 30px;
+	padding: 10px 20px;
+	line-height: 1;
 }
 
 .proposal_dialog .voting_card .confirm_button {
-	background: #000000;
-	border-radius: 10px;
-	font-family: 'Blinker', sans-serif;
+	background: linear-gradient(135deg, #e95062, #e950d0 50%, #5084e9);
+	border-radius: 0.5em;
+	font-family: Poppin, ui-sans-serif, system-ui;
 	font-weight: 600;
-	font-size: 24px;
-	line-height: 130%;
+	font-size: 14px;
 	text-align: center;
 	color: #ffffff;
-	padding: 10px 30px;
+	padding: 10px 20px;
+	line-height: 1;
 }
 
 .proposal_dialog .already_voted {
@@ -277,18 +260,16 @@
 	border: 1px solid #696969;
 	box-sizing: border-box;
 	border-radius: 100px;
-	font-family: 'Blinker', sans-serif;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: 600;
-	font-size: 24px;
-	line-height: 130%;
+	font-size: 14px;
 	color: #ffffff;
 	padding: 8px 40px;
 }
 
 .proposal_dialog .vote_info {
-	font-family: 'Blinker', sans-serif;
+	font-family: Inter, ui-sans-serif, system-ui;
 	font-size: 20px;
-	line-height: 130%;
 	text-align: right;
 	color: #ffffff;
 	flex: 1;
