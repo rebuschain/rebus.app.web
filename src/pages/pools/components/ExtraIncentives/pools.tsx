@@ -53,13 +53,13 @@ export const PoolCardItem = observer(
 
 		const { chainStore, queriesStore } = useStore();
 
-		const queries = queriesStore.get(chainStore.current.chainId);
+		const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 
 		const gauges = gaugeIds.map(gaugeId => {
 			return queries.osmosis.queryGauge.get(gaugeId);
 		});
 
-		const currency = chainStore.getChain(chainStore.current.chainId).forceFindCurrency(incentiveDenom);
+		const currency = chainStore.getChain(chainStore.currentOsmosis.chainId).forceFindCurrency(incentiveDenom);
 		let sumRemainingBonus: CoinPretty = new CoinPretty(currency, new Dec(0));
 
 		let maxRemainingEpoch = 0;

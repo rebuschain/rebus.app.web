@@ -116,7 +116,7 @@ export class RootStore {
 			'health nest provide snow total tissue intact loyal cargo must credit wrist'
 		);
 
-		this.chainStore = new ChainStore(TestChainInfos, 'localnet-1');
+		this.chainStore = new ChainStore(TestChainInfos, 'localnet-1', 'localnet-1');
 
 		this.queriesStore = new QueriesStore(
 			new MemoryKVStore('test_store_web_queries'),

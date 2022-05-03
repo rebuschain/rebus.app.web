@@ -120,6 +120,7 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 
 				<tbody className="w-full">
 					{chainStore.current.currencies
+						.concat(chainStore.currentOsmosis.currencies)
 						.filter(cur => !cur.coinMinimalDenom.includes('/'))
 						.map(cur => {
 							const bal = queries.queryBalances

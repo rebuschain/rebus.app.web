@@ -35,7 +35,7 @@ export class RootStore {
 	public readonly layoutStore: LayoutStore;
 
 	constructor() {
-		this.chainStore = new ChainStore(EmbedChainInfos, EmbedChainInfos[0].chainId);
+		this.chainStore = new ChainStore(EmbedChainInfos, EmbedChainInfos[0].chainId, EmbedChainInfos[1].chainId);
 		this.connectWalletManager = new ConnectWalletManager(this.chainStore);
 
 		this.queriesStore = new QueriesStore(

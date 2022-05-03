@@ -155,6 +155,11 @@ table td p {
 	border-bottom: unset;
 }
 
+.table .outline_button.re_delegate {
+	border-color: rgba(255, 255, 255, 0.9);
+	color: rgba(255, 255, 255, 0.9);
+}
+
 @media (max-width: 1025px) {
 	.stake .table {
 		padding: 20px 30px;

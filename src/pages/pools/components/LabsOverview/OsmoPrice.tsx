@@ -9,8 +9,8 @@ export const OsmoPrice = observer(function OsmoPrice() {
 
 	const price = priceStore.getPricePretty(
 		new CoinPretty(
-			chainStore.current.stakeCurrency,
-			DecUtils.getPrecisionDec(chainStore.current.stakeCurrency.coinDecimals)
+			chainStore.currentOsmosis.stakeCurrency,
+			DecUtils.getPrecisionDec(chainStore.currentOsmosis.stakeCurrency.coinDecimals)
 		)
 	);
 

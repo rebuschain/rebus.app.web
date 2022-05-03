@@ -11,7 +11,7 @@ export const LAYOUT = {
 			ICON: '/public/assets/Icons/Pool.svg',
 			ICON_SELECTED: '/public/assets/Icons/Pool_selected.svg',
 			TEXT: 'Pools',
-			SELECTED_CHECK: ['/', /\/pool\/[0-9]+/],
+			SELECTED_CHECK: ['/pools', /\/pool?\/[0-9]+/],
 			ROUTE: '/pools',
 		},
 		/*

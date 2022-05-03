@@ -22,7 +22,7 @@ export const PoolInfoHeader = observer(function PoolInfoHeader({ poolId, isLBP }
 	const [isSwapDialogOpen, setIsSwapDialogOpen] = useState(false);
 	const { isMobileView } = useWindowSize();
 	const { chainStore, queriesStore } = useStore();
-	const queries = queriesStore.get(chainStore.current.chainId);
+	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 	const pool = queries.osmosis.queryGammPools.getPool(poolId);
 
 	const composition = pool?.poolAssets.reduce((str, poolAsset, i) => {

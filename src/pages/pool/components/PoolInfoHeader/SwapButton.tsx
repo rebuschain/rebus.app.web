@@ -16,7 +16,7 @@ interface SwapButtonProps {
 
 export const SwapButton = observer(function SwapButton({ config, close }: SwapButtonProps) {
 	const { chainStore, accountStore } = useStore();
-	const account = accountStore.getAccount(chainStore.current.chainId);
+	const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
 
 	const { isAccountConnected, connectAccount } = useAccountConnection();
 

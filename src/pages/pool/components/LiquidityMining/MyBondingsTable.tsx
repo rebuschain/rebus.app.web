@@ -22,8 +22,8 @@ export const MyBondingsTable = observer(function MyBondingsTable({ poolId, isSup
 
 	const { isMobileView } = useWindowSize();
 
-	const account = accountStore.getAccount(chainStore.current.chainId);
-	const queries = queriesStore.get(chainStore.current.chainId);
+	const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
+	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 	const poolShareCurrency = queries.osmosis.queryGammPoolShare.getShareCurrency(poolId);
 	const superfluidDelegations = queries.osmosis.querySuperfluidDelegations
 		.getQuerySuperfluidDelegations(account.bech32Address)
@@ -116,8 +116,8 @@ const LockupTableRow = observer(function LockupTableRow({
 }: LockupTableRowProps) {
 	const { chainStore, accountStore, queriesStore } = useStore();
 
-	const account = accountStore.getAccount(chainStore.current.chainId);
-	const queries = queriesStore.get(chainStore.current.chainId);
+	const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
+	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 
 	const [isUnlocking, setIsUnlocking] = useState(false);
 

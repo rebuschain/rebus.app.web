@@ -27,8 +27,8 @@ export const LiquidityMining = observer(function LiquidityMining({ poolId, isSup
 
 	const { isMobileView } = useWindowSize();
 
-	const account = accountStore.getAccount(chainStore.current.chainId);
-	const queries = queriesStore.get(chainStore.current.chainId);
+	const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
+	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 
 	const poolTotalValueLocked =
 		queries.osmosis.queryGammPools
@@ -163,7 +163,7 @@ const LockupBox: FunctionComponent<{
 }> = observer(({ poolId, duration, apy, isMobileView, isSuperfluidEnabled }) => {
 	const { chainStore, queriesStore } = useStore();
 
-	const queries = queriesStore.get(chainStore.current.chainId);
+	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 	const superfluidAPY = isSuperfluidEnabled
 		? queries.cosmos.queryInflation.inflation.mul(
 				queries.osmosis.querySuperfluidOsmoEquivalent.estimatePoolAPROsmoEquivalentMultiplier(poolId)

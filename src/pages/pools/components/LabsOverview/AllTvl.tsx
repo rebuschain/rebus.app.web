@@ -6,7 +6,7 @@ import { useStore } from 'src/stores';
 export const AllTvl = observer(function AllTvl() {
 	const { chainStore, queriesStore, priceStore } = useStore();
 
-	const queries = queriesStore.get(chainStore.current.chainId);
+	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 
 	return (
 		<OverviewLabelValue label="Total Liquidity">

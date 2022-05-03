@@ -5,7 +5,7 @@ import { ExtraGaugeInPool } from 'src/config';
 export const useFilteredExtraIncentivePools = () => {
 	const { chainStore, queriesStore } = useStore();
 
-	const queries = queriesStore.get(chainStore.current.chainId);
+	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 
 	return Object.keys(ExtraGaugeInPool)
 		.filter(poolId => {

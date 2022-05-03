@@ -19,8 +19,8 @@ export const MySuperfluidUnbondingTable = observer(function MySuperfluidUnbondin
 
 	const { isMobileView } = useWindowSize();
 
-	const account = accountStore.getAccount(chainStore.current.chainId);
-	const queries = queriesStore.get(chainStore.current.chainId);
+	const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
+	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 
 	const poolShareCurrency = queries.osmosis.queryGammPoolShare.getShareCurrency(poolId);
 

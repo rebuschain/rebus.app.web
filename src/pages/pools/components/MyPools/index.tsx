@@ -10,8 +10,8 @@ import { LockupAbledPoolIds } from 'src/config';
 export const MyPools = observer(function MyPools() {
 	const { chainStore, accountStore, queriesStore, priceStore } = useStore();
 
-	const queries = queriesStore.get(chainStore.current.chainId);
-	const account = accountStore.getAccount(chainStore.current.chainId);
+	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
+	const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
 
 	const queryIncentivizedPools = queries.osmosis.queryIncentivizedPools;
 	const myPools = queries.osmosis.queryGammPoolShare.getOwnPools(account.bech32Address);
