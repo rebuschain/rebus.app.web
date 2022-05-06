@@ -1,4 +1,4 @@
-import { ROUTES } from 'src/constants/routes';
+import { ROUTES } from './routes';
 
 export const LAYOUT = {
 	SIDEBAR: {
@@ -54,6 +54,13 @@ export const LAYOUT = {
 			TEXT: 'Stake',
 			ROUTE: '/staking',
 			SELECTED_CHECK: '/staking',
+		},
+		TOOLS: {
+			ICON: '/public/assets/Icons/Ticket.svg',
+			ICON_SELECTED: '/public/assets/Icons/Ticket_selected.svg',
+			TEXT: 'Tools',
+			ROUTE: ROUTES.TOOLS,
+			SELECTED_CHECK: ROUTES.TOOLS,
 		},
 	},
 };
