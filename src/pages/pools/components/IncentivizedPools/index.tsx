@@ -10,7 +10,7 @@ import { useStore } from 'src/stores';
 export const IncentivizedPools: FunctionComponent = observer(() => {
 	const { chainStore, queriesStore, priceStore } = useStore();
 
-	const queries = queriesStore.get(chainStore.current.chainId);
+	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 
 	const queryIncentivizedPools = queries.osmosis.queryIncentivizedPools;
 

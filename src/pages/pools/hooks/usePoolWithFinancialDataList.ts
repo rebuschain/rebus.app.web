@@ -6,7 +6,7 @@ import { useStore } from 'src/stores';
 
 export function usePoolWithFinancialDataList() {
 	const { chainStore, queriesStore, priceStore } = useStore();
-	const queries = queriesStore.get(chainStore.current.chainId);
+	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 
 	const pools = queries.osmosis.queryGammPools.getPoolsDescendingOrderTVL(
 		priceStore,

@@ -9,7 +9,9 @@ import { useStore } from 'src/stores';
 export const RewardPayoutCountdown = observer(function RewardPayoutCountdown() {
 	const { chainStore, queriesStore } = useStore();
 
-	const queryEpoch = queriesStore.get(chainStore.current.chainId).osmosis.queryEpochs.getEpoch(RewardEpochIdentifier);
+	const queryEpoch = queriesStore
+		.get(chainStore.currentOsmosis.chainId)
+		.osmosis.queryEpochs.getEpoch(RewardEpochIdentifier);
 
 	const [, setRerender] = React.useState(true);
 

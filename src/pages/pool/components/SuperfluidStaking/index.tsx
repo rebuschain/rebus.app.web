@@ -11,8 +11,8 @@ export const SuperfluidStaking: FunctionComponent<{ poolId: string }> = observer
 	const { isMobileView } = useWindowSize();
 	const { accountStore, queriesStore, chainStore, priceStore } = useStore();
 
-	const account = accountStore.getAccount(chainStore.current.chainId);
-	const queries = queriesStore.get(chainStore.current.chainId);
+	const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
+	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 	const poolShareCurrency = queries.osmosis.queryGammPoolShare.getShareCurrency(poolId);
 
 	const lockableDurations = queries.osmosis.queryLockableDurations.lockableDurations;

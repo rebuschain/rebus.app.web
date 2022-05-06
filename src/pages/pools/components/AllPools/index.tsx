@@ -11,6 +11,7 @@ import { AllPoolsTh } from 'src/pages/pools/components/AllPools/AllPoolsTh';
 import { AllPoolsTr } from 'src/pages/pools/components/AllPools/AllPoolsTr';
 import { usePoolWithFinancialDataList } from 'src/pages/pools/hooks/usePoolWithFinancialDataList';
 import { commaizeNumber } from 'src/utils/format';
+import { ROUTES } from 'src/constants/routes';
 
 const FILTER_TVL_THRESHOLD = 1_000;
 const TABLE_WIDTHS = ['10%', '40%', '30%', '20%'];
@@ -28,7 +29,7 @@ export const AllPools = observer(function AllPools() {
 
 	const handleShowAllPoolsClicked = useCallback(() => {
 		if (allPoolsShown) {
-			history.replace('/pools?page=1');
+			history.replace(`${ROUTES.POOLS}?page=1`);
 		}
 		setAllPoolsShown(shown => !shown);
 	}, [allPoolsShown, history]);

@@ -17,6 +17,7 @@ import { useFakeFeeConfig } from 'src/hooks/tx';
 import { PoolSwapClipboardContent } from 'src/pages/pool/components/PoolInfoHeader/PoolSwapDialog';
 import { TitleText } from 'src/components/Texts';
 import useWindowSize from 'src/hooks/useWindowSize';
+import { ROUTES } from 'src/constants/routes';
 
 interface QueryParams {
 	/**pool id*/
@@ -29,14 +30,14 @@ export const PoolPage: FunctionComponent = observer(() => {
 
 	const { chainStore, queriesStore } = useStore();
 
-	const queries = queriesStore.get(chainStore.current.chainId);
+	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 	const observablePool = queries.osmosis.queryGammPools.getObservableQueryPool(match.params.id);
 	const pool = observablePool.pool;
 
 	useEffect(() => {
 		if (!observablePool.isFetching && !observablePool.pool) {
 			// Invalid request.
-			history.push('/pools');
+			history.push(ROUTES.POOLS);
 		}
 	}, [history, observablePool.isFetching, observablePool.pool]);
 
@@ -92,18 +93,22 @@ export const LBPInPageSwapClipboard: FunctionComponent<{
 }> = ({ poolId }) => {
 	const { chainStore, queriesStore, accountStore } = useStore();
 
-	const account = accountStore.getAccount(chainStore.current.chainId);
-	const queries = queriesStore.get(chainStore.current.chainId);
+	const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
+	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 
 	const config = usePoolSwapConfig(
 		chainStore,
-		chainStore.current.chainId,
+		chainStore.currentOsmosis.chainId,
 		account.bech32Address,
 		queries.queryBalances,
 		poolId,
 		queries.osmosis.queryGammPools
 	);
-	const feeConfig = useFakeFeeConfig(chainStore, chainStore.current.chainId, account.msgOpts.swapExactAmountIn.gas);
+	const feeConfig = useFakeFeeConfig(
+		chainStore,
+		chainStore.currentOsmosis.chainId,
+		account.msgOpts.swapExactAmountIn.gas
+	);
 	config.setFeeConfig(feeConfig);
 
 	useEffect(() => {

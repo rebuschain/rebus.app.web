@@ -21,7 +21,7 @@ interface Props {
 export const ExtraGauge = observer(function ExtraGauge({ gaugeIds, currency, extraRewardAmount }: Props) {
 	const { chainStore, queriesStore } = useStore();
 
-	const queries = queriesStore.get(chainStore.current.chainId);
+	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 
 	const gauges = useMemo(() => {
 		let gauges = gaugeIds.map(gaugeId => queries.osmosis.queryGauge.get(gaugeId));

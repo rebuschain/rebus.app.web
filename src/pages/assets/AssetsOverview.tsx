@@ -82,7 +82,7 @@ export const AssetsOverview: FunctionComponent<{ title: string }> = observer(({ 
 						</TitleText>
 					</OverviewLabelValue>
 
-					<OverviewLabelValue label="Staked OSMO">
+					<OverviewLabelValue label="Staked Rebus">
 						<TitleText size="2xl" pb={0} isMobileView={isMobileView}>
 							{delegatedBalancePrice.toString()}
 						</TitleText>

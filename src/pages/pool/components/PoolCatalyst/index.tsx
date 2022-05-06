@@ -16,10 +16,10 @@ export const PoolCatalyst = observer(function PoolCatalyst({ poolId }: Props) {
 
 	const { isMobileView } = useWindowSize();
 
-	const queries = queriesStore.get(chainStore.current.chainId);
+	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 	const pool = queries.osmosis.queryGammPools.getPool(poolId);
 
-	const account = accountStore.getAccount(chainStore.current.chainId);
+	const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
 	// ShareRatio가 백분률로 온다는 것을 주의하자.
 	const shareRatio = queries.osmosis.queryGammPoolShare.getAllGammShareRatio(account.bech32Address, poolId);
 
