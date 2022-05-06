@@ -9,8 +9,9 @@ import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { Bounce, ToastContainer } from 'react-toastify';
+import { ROUTES } from './constants/routes';
 import 'react-toastify/dist/ReactToastify.css';
 
 import 'tippy.js/dist/tippy.css';
@@ -69,11 +70,9 @@ const Router: FunctionComponent = () => {
 								<BrowserRouter>
 									<Switch>
 										<Route exact path="/">
-											<RouteWrapper>
-												<PoolsPage />
-											</RouteWrapper>
+											<Redirect to={ROUTES.POOLS} />
 										</Route>
-										<Route exact path="/pools">
+										<Route exact path={ROUTES.POOLS}>
 											<RouteWrapper>
 												<PoolsPage />
 											</RouteWrapper>

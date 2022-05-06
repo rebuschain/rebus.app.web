@@ -17,6 +17,7 @@ import { useFakeFeeConfig } from 'src/hooks/tx';
 import { PoolSwapClipboardContent } from 'src/pages/pool/components/PoolInfoHeader/PoolSwapDialog';
 import { TitleText } from 'src/components/Texts';
 import useWindowSize from 'src/hooks/useWindowSize';
+import { ROUTES } from 'src/constants/routes';
 
 interface QueryParams {
 	/**pool id*/
@@ -36,7 +37,7 @@ export const PoolPage: FunctionComponent = observer(() => {
 	useEffect(() => {
 		if (!observablePool.isFetching && !observablePool.pool) {
 			// Invalid request.
-			history.push('/pools');
+			history.push(ROUTES.POOLS);
 		}
 	}, [history, observablePool.isFetching, observablePool.pool]);
 

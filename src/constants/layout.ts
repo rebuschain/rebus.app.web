@@ -1,3 +1,5 @@
+import { ROUTES } from 'src/constants/routes';
+
 export const LAYOUT = {
 	SIDEBAR: {
 		/*TRADE: {
@@ -11,8 +13,8 @@ export const LAYOUT = {
 			ICON: '/public/assets/Icons/Pool.svg',
 			ICON_SELECTED: '/public/assets/Icons/Pool_selected.svg',
 			TEXT: 'Pools',
-			SELECTED_CHECK: ['/pools', /\/pool?\/[0-9]+/],
-			ROUTE: '/pools',
+			SELECTED_CHECK: [ROUTES.POOLS, /\/pool\/[0-9]+/],
+			ROUTE: ROUTES.POOLS,
 		},
 		/*
 		LBP: {
