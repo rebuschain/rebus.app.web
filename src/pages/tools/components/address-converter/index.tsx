@@ -13,11 +13,11 @@ const AddressConverterView: FunctionComponent<PropsFromRedux> = ({ showMessage }
 	useEffect(() => {
 		if (address) {
 			try {
-				setConvertedAddress(ethToEvmos(address));
+				setConvertedAddress(evmosToEth(address));
 				setError('');
 			} catch (ethError) {
 				try {
-					setConvertedAddress(evmosToEth(address));
+					setConvertedAddress(ethToEvmos(address));
 					setError('');
 				} catch (evmosError) {
 					console.error('Error parsing address', ethError, evmosError);
