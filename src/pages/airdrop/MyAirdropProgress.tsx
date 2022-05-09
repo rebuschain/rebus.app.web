@@ -3,7 +3,7 @@ import { Dec, IntPretty } from '@keplr-wallet/unit';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { TitleText } from 'src/components/Texts';
-import { colorPrimaryDarker } from 'src/emotionStyles/colors';
+import { colorPrimaryDark, colorPrimaryDarker } from 'src/emotionStyles/colors';
 import { useStore } from 'src/stores';
 import useWindowSize from 'src/hooks/useWindowSize';
 
@@ -38,7 +38,7 @@ export const MyAirdropProgress = observer(function MyAirdropProgress() {
 	percent = percent.add(new Dec(20 * countOfCompleted));
 
 	return (
-		<>
+		<Container>
 			<TitleText pb={4} isMobileView={isMobileView}>
 				My Progress
 			</TitleText>
@@ -50,9 +50,15 @@ export const MyAirdropProgress = observer(function MyAirdropProgress() {
 					<ProgressBarValue percent={percent.maxDecimals(0).toString()} />
 				</ProgressBar>
 			</ProgressBarSection>
-		</>
+		</Container>
 	);
 });
+
+const Container = styled.div`
+	background-color: ${colorPrimaryDark};
+	border-radius: 1rem;
+	padding: 20px;
+`;
 
 const ProgressBarSection = styled.div`
 	width: 100%;

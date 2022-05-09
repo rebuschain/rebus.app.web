@@ -3,7 +3,7 @@ import { Dec } from '@keplr-wallet/unit';
 import { observer } from 'mobx-react-lite';
 import React, { HTMLAttributes } from 'react';
 import { SubTitleText, Text, TitleText } from 'src/components/Texts';
-import { colorWhiteFaint } from 'src/emotionStyles/colors';
+import { colorPrimaryDark, colorWhiteFaint } from 'src/emotionStyles/colors';
 import { useStore } from 'src/stores';
 import useWindowSize from 'src/hooks/useWindowSize';
 
@@ -127,6 +127,7 @@ function MissionCard({ num, description, complete, ineligible, isMobileView }: M
 }
 
 const MissionCardContainer = styled.li`
+	background-color: ${colorPrimaryDark};
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
