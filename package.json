@@ -49,6 +49,7 @@
 		"@emotion/babel-preset-css-prop": "^11.2.0",
 		"@emotion/react": "^11.4.0",
 		"@emotion/styled": "^11.3.0",
+		"@hanchon/ethermint-address-converter": "^1.1.0",
 		"@headlessui/react": "^1.2.0",
 		"@keplr-wallet/common": "0.9.12-rc.3",
 		"@keplr-wallet/cosmos": "0.9.12-rc.3",

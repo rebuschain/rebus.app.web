@@ -22,10 +22,10 @@ import { AssetsPage } from './pages/assets';
 import { BootstrapPage } from './pages/bootstrap';
 import { GovernancePage } from './pages/governance';
 import { GovernanceDetailsPage } from './pages/governance/[id]/GovernanceDetailsPage';
-import { MainPage } from './pages/main';
 import { NotFoundPage } from './pages/NotFound';
 import { PoolPage } from './pages/pool';
 import { PoolsPage } from './pages/pools';
+import { ToolsPage } from './pages/tools';
 import { StoreProvider } from './stores';
 import './styles/globals.scss';
 import './styles/index.scss';
@@ -37,7 +37,6 @@ import { AccountConnectionProvider } from 'src/hooks/account/context';
 import reducer from './reducers';
 import { InsyncWrapper } from './components/insync/InsyncWrapper';
 import Home from './pages/Home';
-import Stake from './pages/Stake';
 import Proposals from './pages/Proposals';
 import './styles/insync.scss';
 
@@ -71,6 +70,11 @@ const Router: FunctionComponent = () => {
 									<Switch>
 										<Route exact path="/">
 											<Redirect to={ROUTES.POOLS} />
+										</Route>
+										<Route exact path={ROUTES.TOOLS}>
+											<RouteWrapper>
+												<ToolsPage />
+											</RouteWrapper>
 										</Route>
 										<Route exact path={ROUTES.POOLS}>
 											<RouteWrapper>
