@@ -3,6 +3,7 @@ import { Dec, IntPretty } from '@keplr-wallet/unit';
 import { PricePretty } from '@keplr-wallet/unit/build/price-pretty';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent, useState } from 'react';
+import { Button } from 'src/components/common/button';
 import { Img } from 'src/components/common/Img';
 import { ButtonPrimary } from 'src/components/layouts/Buttons';
 import { CenterSelf } from 'src/components/layouts/Containers';
@@ -78,14 +79,14 @@ export const LiquidityMining = observer(function LiquidityMining({ poolId, isSup
 								: '$0'}
 						</Text>
 						<div>
-							<ButtonPrimary
+							<Button
 								onClick={() => {
 									setIsDialogOpen(true);
 								}}>
 								<Text isMobileView={isMobileView} emphasis="high">
 									Start Earning
 								</Text>
-							</ButtonPrimary>
+							</Button>
 						</div>
 					</AvailableLpColumn>
 				</LiquidityMiningSummary>

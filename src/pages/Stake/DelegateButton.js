@@ -17,7 +17,7 @@ const DelegateButton = props => {
 	};
 
 	return (
-		<Button className="delegate_button" variant="outlined" onClick={handleClick}>
+		<Button className="btn gradient-green" variant="outlined" onClick={handleClick}>
 			{variables[props.lang].delegate}
 		</Button>
 	);

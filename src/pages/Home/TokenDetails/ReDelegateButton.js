@@ -17,7 +17,7 @@ const ReDelegateButton = props => {
 	};
 
 	return (
-		<Button className="outline_button re_delegate" variant="outlined" onClick={handleClick}>
+		<Button className="btn gradient-green" variant="outlined" onClick={handleClick}>
 			{variables[props.lang]['re_delegate']}
 		</Button>
 	);

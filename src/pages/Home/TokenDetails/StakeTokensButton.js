@@ -17,7 +17,7 @@ const StakeTokensButton = props => {
 	};
 
 	return (
-		<Button className="outline_button" variant="outlined" onClick={handleClick}>
+		<Button className="btn gradient-blue" variant="outlined" onClick={handleClick}>
 			{variables[props.lang]['stake_tokens']}
 		</Button>
 	);
