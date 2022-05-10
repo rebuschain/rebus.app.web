@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import React, { FunctionComponent } from 'react';
 import { CenterSelf } from 'src/components/layouts/Containers';
-import { colorPrimaryDark } from 'src/emotionStyles/colors';
 import { AirdropMissions } from './AirdropMissions';
 import { AirdropOverview } from './AirdropOverview';
 import { MyAirdropProgress } from './MyAirdropProgress';
@@ -40,7 +39,6 @@ const AirdropOverviewSection = styled.div`
 
 const ProgressSection = styled.div`
 	padding: 20px;
-	background-color: ${colorPrimaryDark};
 
 	@media (min-width: 768px) {
 		padding: 50px 60px;

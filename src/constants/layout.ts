@@ -25,7 +25,6 @@ export const LAYOUT = {
 			SELECTED_CHECK: '/bootstrap',
 		},
 		 */
-		/*
 		AIRDROP: {
 			ICON: '/public/assets/Icons/Airdrop.svg',
 			ICON_SELECTED: '/public/assets/Icons/Airdrop_selected.svg',
@@ -33,7 +32,6 @@ export const LAYOUT = {
 			ROUTE: '/airdrop',
 			SELECTED_CHECK: '/airdrop',
 		},
-		 */
 		ASSETS: {
 			ICON: '/public/assets/Icons/Asset.svg',
 			ICON_SELECTED: '/public/assets/Icons/Asset_selected.svg',
