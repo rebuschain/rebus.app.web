@@ -1,4 +1,4 @@
-import { ethToEvmos, evmosToEth } from '@hanchon/ethermint-address-converter';
+import { ethToRebus, rebusToEth } from './rebusHelper';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { copyTextToClipboard } from 'src/utils/copy-to-clipboard';
@@ -13,11 +13,11 @@ const AddressConverterView: FunctionComponent<PropsFromRedux> = ({ showMessage }
 	useEffect(() => {
 		if (address) {
 			try {
-				setConvertedAddress(evmosToEth(address));
+				setConvertedAddress(rebusToEth(address));
 				setError('');
 			} catch (ethError) {
 				try {
-					setConvertedAddress(ethToEvmos(address));
+					setConvertedAddress(ethToRebus(address));
 					setError('');
 				} catch (evmosError) {
 					console.error('Error parsing address', ethError, evmosError);
