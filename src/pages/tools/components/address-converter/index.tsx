@@ -1,7 +1,7 @@
-import { ethToRebus, rebusToEth } from './rebusHelper';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { copyTextToClipboard } from 'src/utils/copy-to-clipboard';
+import { ethToRebus, rebusToEth } from 'src/utils/rebus-converter';
 import classNames from 'classnames';
 import * as snackbarActions from '../../../../actions/snackbar';
 
