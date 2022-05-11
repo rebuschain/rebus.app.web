@@ -15,12 +15,14 @@ export const colorPrimary200 = `#322dc2`;
 /** 196, 164, 106 */
 export const colorGold = `#c4a46a`;
 
+export const colorWhite = `#ffffff`;
 export const colorWhiteHigh = `rgba(255, 255, 255, 0.95)`;
 export const colorWhiteEmphasis = `rgba(255, 255, 255, 0.87)`;
 export const colorWhiteRegular = `rgba(255, 255, 255, 0.6)`;
 export const colorWhiteFaint = `rgba(255, 255, 255, 0.12)`;
 
 export const colorBlack = `#000`;
+export const colorBlackLow = `rgba(0, 0, 0, 0.5)`;
 
 export const colorError = `rgba(239, 52, 86)`;
 

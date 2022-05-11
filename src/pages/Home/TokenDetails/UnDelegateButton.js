@@ -17,7 +17,7 @@ const UnDelegateButton = props => {
 	};
 
 	return (
-		<Button className="outline_button un_delegate" variant="outlined" onClick={handleClick}>
+		<Button className="btn gradient-pink" variant="outlined" onClick={handleClick}>
 			{variables[props.lang]['un_delegate']}
 		</Button>
 	);

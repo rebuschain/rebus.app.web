@@ -61,9 +61,9 @@ class Table extends Component {
 						<div
 							className={classNames('status', value.jailed ? 'red_status' : '')}
 							title={
-								value.status === 1 ? 'unbonded' : value.status === 2 ? 'unbonding' : value.status === 3 ? 'active' : ''
+								value.status === 1 ? 'Unbonded' : value.status === 2 ? 'Unbonding' : value.status === 3 ? 'Active' : ''
 							}>
-							{value.status === 1 ? 'unbonded' : value.status === 2 ? 'unbonding' : value.status === 3 ? 'active' : ''}
+							{value.status === 1 ? 'Unbonded' : value.status === 2 ? 'Unbonding' : value.status === 3 ? 'Active' : ''}
 						</div>
 					),
 				},

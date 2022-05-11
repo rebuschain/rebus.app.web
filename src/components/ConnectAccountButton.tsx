@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import * as React from 'react';
+import { Button } from 'src/components/common/button';
 import { Text } from 'src/components/Texts';
-import { colorPrimary200 } from 'src/emotionStyles/colors';
 import useWindowSize from 'src/hooks/useWindowSize';
 
 interface ConnectAccountButtonProps {
@@ -12,11 +12,11 @@ export function ConnectAccountButton(props: React.HTMLAttributes<HTMLButtonEleme
 	const { isMobileView } = useWindowSize();
 
 	return (
-		<ConnectAccountButtonWrapper {...props}>
+		<Button {...(props as any)} style={{ whiteSpace: 'nowrap' }}>
 			<WalletImg src="/public/assets/Icons/Wallet.svg" />
 			<Text
 				style={{
-					marginLeft: '10px',
+					marginLeft: '6px',
 					...props.textStyle,
 				}}
 				isMobileView={isMobileView}
@@ -24,7 +24,7 @@ export function ConnectAccountButton(props: React.HTMLAttributes<HTMLButtonEleme
 				weight="semiBold">
 				Connect Wallet
 			</Text>
-		</ConnectAccountButtonWrapper>
+		</Button>
 	);
 }
 
@@ -34,8 +34,6 @@ const ConnectAccountButtonWrapper = styled.button`
 	justify-content: center;
 	width: 100%;
 	padding: 12px 4px;
-	border-radius: 0.375rem;
-	background-color: ${colorPrimary200};
 
 	@media (min-width: 768px) {
 		padding: 14px 4px;

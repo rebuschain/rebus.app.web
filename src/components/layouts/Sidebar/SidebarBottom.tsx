@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent } from 'react';
+import { Button } from 'src/components/common/button';
 import { LINKS, MISC } from '../../../constants';
 import { useAccountConnection } from '../../../hooks/account/useAccountConnection';
 import { useStore } from '../../../stores';
@@ -34,17 +35,16 @@ export const SidebarBottom: FunctionComponent = observer(() => {
 						</div>
 					</div>
 					{!isMobileWeb ? (
-						<button
+						<Button
+							backgroundStyle="gradient-blue"
 							onClick={e => {
 								e.preventDefault();
 								disconnectAccount();
 							}}
-							className="bg-transparent border border-opacity-30 border-secondary-200 h-9 w-full rounded-md py-2 px-1 flex items-center justify-center mb-8">
+							className="w-full mb-8">
 							<img alt="sign-out" className="w-5 h-5" src={`${MISC.ASSETS_BASE}/Icons/SignOutSecondary.svg`} />
-							<p className="text-sm max-w-24 ml-3 text-secondary-200 font-semibold overflow-x-hidden truncate transition-all">
-								Sign Out
-							</p>
-						</button>
+							<p className="text-sm max-w-24 ml-3 overflow-x-hidden truncate transition-all">Sign Out</p>
+						</Button>
 					) : null}
 				</React.Fragment>
 			) : (

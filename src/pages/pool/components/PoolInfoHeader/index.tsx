@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
-import { ButtonPrimary } from 'src/components/layouts/Buttons';
+import { Button } from 'src/components/common/button';
 import { CenterV } from 'src/components/layouts/Containers';
 import { Text } from 'src/components/Texts';
 import { HideAddLiquidityPoolIds } from 'src/config';
@@ -62,28 +62,26 @@ export const PoolInfoHeader = observer(function PoolInfoHeader({ poolId, isLBP }
 				<div className="flex mb-2.5 md:mb-0">
 					{!HideAddLiquidityPoolIds[poolId] && (
 						<div className="mr-1.5 md:mr-0 md:ml-6">
-							<ButtonPrimary
-								type="button"
+							<Button
 								onClick={() => {
 									setIsDialogOpen(true);
 								}}>
 								<Text emphasis="high" isMobileView={isMobileView}>
 									Add / Remove Liquidity
 								</Text>
-							</ButtonPrimary>
+							</Button>
 						</div>
 					)}
 					{!isLBP ? (
 						<div className="md:ml-6">
-							<ButtonPrimary
-								type="button"
+							<Button
 								onClick={() => {
 									setIsSwapDialogOpen(true);
 								}}>
 								<Text emphasis="high" isMobileView={isMobileView}>
 									Swap Tokens
 								</Text>
-							</ButtonPrimary>
+							</Button>
 						</div>
 					) : null}
 				</div>

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
-import { ButtonPrimary } from 'src/components/layouts/Buttons';
+import { Button } from 'src/components/common/button';
 import { CenterV, FullWidthContainer } from 'src/components/layouts/Containers';
 import { HideCreateNewPool } from 'src/config';
 import { CreateNewPoolDialog } from 'src/dialogs/create-new-pool';
@@ -46,11 +46,11 @@ const OverviewTitle = styled(CenterV)`
 	}
 `;
 
-const CreateButton = styled(ButtonPrimary)`
-	margin-left: 24px;
+const CreateButton = styled(Button)`
+	margin-left: 24px !important;
 
 	@media (min-width: 768px) {
-		margin-left: 28px;
+		margin-left: 28px !important;
 	}
 `;
 
