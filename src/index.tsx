@@ -69,14 +69,14 @@ const Router: FunctionComponent = () => {
 								<BrowserRouter>
 									<Switch>
 										<Route exact path="/">
-											<Redirect to={ROUTES.POOLS} />
+											<Redirect to={ROUTES.ASSETS} />
 										</Route>
 										<Route exact path={ROUTES.TOOLS}>
 											<RouteWrapper>
 												<ToolsPage />
 											</RouteWrapper>
 										</Route>
-										<Route exact path={ROUTES.POOLS}>
+										{/*<Route exact path={ROUTES.POOLS}>
 											<RouteWrapper>
 												<PoolsPage />
 											</RouteWrapper>
@@ -84,11 +84,6 @@ const Router: FunctionComponent = () => {
 										<Route path="/pool/:id">
 											<RouteWrapper>
 												<PoolPage />
-											</RouteWrapper>
-										</Route>
-										<Route exact path="/assets">
-											<RouteWrapper>
-												<AssetsPage />
 											</RouteWrapper>
 										</Route>
 										<Route exact path="/governance">
@@ -100,25 +95,30 @@ const Router: FunctionComponent = () => {
 											<RouteWrapper>
 												<GovernanceDetailsPage />
 											</RouteWrapper>
+										</Route> */}
+										<Route exact path={ROUTES.ASSETS}>
+											<RouteWrapper>
+												<AssetsPage />
+											</RouteWrapper>
 										</Route>
-										<Route exact path="/airdrop">
+										<Route exact path={ROUTES.AIRDROP}>
 											<RouteWrapper>
 												<AirdropPage />
 											</RouteWrapper>
 										</Route>
-										<Route exact path={'/bootstrap'}>
+										{/* <Route exact path={'/bootstrap'}>
 											<RouteWrapper>
 												<BootstrapPage />
 											</RouteWrapper>
-										</Route>
-										<Route exact path={'/staking'}>
+										</Route> */}
+										<Route exact path={ROUTES.STAKE}>
 											<RouteWrapper>
 												<InsyncWrapper>
 													<Home />
 												</InsyncWrapper>
 											</RouteWrapper>
 										</Route>
-										<Route exact path={'/proposals'}>
+										<Route exact path={ROUTES.VOTE}>
 											<RouteWrapper>
 												<InsyncWrapper>
 													<Proposals />
