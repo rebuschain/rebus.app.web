@@ -16,7 +16,7 @@ enum TTab {
 	STAKING,
 	GOVERNANCE,
 }
-export const GovernancePage: FunctionComponent = observer(() => {
+const GovernancePage: FunctionComponent = observer(() => {
 	const [tab, setTab] = React.useState<TTab>(TTab.STAKING);
 
 	const [state, setState] = React.useState<IGovernanceState>({
@@ -80,3 +80,5 @@ const TabSelect: FunctionComponent<{ tab: TTab; setTab: Dispatch<SetStateAction<
 		</div>
 	);
 };
+
+export default GovernancePage;

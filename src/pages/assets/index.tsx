@@ -2,13 +2,12 @@ import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent } from 'react';
 import { CenterSelf } from 'src/components/layouts/Containers';
-import { colorPrimaryDark, colorPrimaryDarker } from 'src/emotionStyles/colors';
 import { useStore } from 'src/stores';
 import { AssetBalancesList } from './AssetBalancesList';
 import { AssetsOverview } from './AssetsOverview';
 import { IbcTransferHistoryList } from './IbcTransferHistoryList';
 
-export const AssetsPage: FunctionComponent = observer(() => {
+const AssetsPage: FunctionComponent = observer(() => {
 	const { ibcTransferHistoryStore, chainStore, accountStore } = useStore();
 
 	return (
@@ -53,3 +52,5 @@ const BalanceAndHistorySection = styled.div`
 		padding: 40px 60px;
 	}
 `;
+
+export default AssetsPage;

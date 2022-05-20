@@ -8,6 +8,7 @@ import DelegateDialog from './DelegateDialog';
 import SuccessDialog from './DelegateDialog/SuccessDialog';
 import UnSuccessDialog from './DelegateDialog/UnSuccessDialog';
 import PendingDialog from './DelegateDialog/PendingDialog';
+import { InsyncWrapper } from 'src/components/insync/InsyncWrapper';
 
 const Stake = props => {
 	const [active, setActive] = useState(1);
@@ -21,26 +22,28 @@ const Stake = props => {
 	};
 
 	return (
-		<div className="stake">
-			<div className="stake_content padding">
-				<div className="heading">
-					<div className="tabs">
-						<p className={active === 1 ? 'active' : ''} onClick={() => handleChange(1)}>
-							{variables[props.lang]['all_validators']}
-						</p>
-						<span />
-						<p className={active === 2 ? 'active' : ''} onClick={() => handleChange(2)}>
-							{variables[props.lang]['staked_validators']}
-						</p>
+		<InsyncWrapper>
+			<div className="stake">
+				<div className="stake_content padding">
+					<div className="heading">
+						<div className="tabs">
+							<p className={active === 1 ? 'active' : ''} onClick={() => handleChange(1)}>
+								{variables[props.lang]['all_validators']}
+							</p>
+							<span />
+							<p className={active === 2 ? 'active' : ''} onClick={() => handleChange(2)}>
+								{variables[props.lang]['staked_validators']}
+							</p>
+						</div>
 					</div>
+					<Table active={active} />
 				</div>
-				<Table active={active} />
+				<DelegateDialog />
+				<SuccessDialog />
+				<UnSuccessDialog />
+				<PendingDialog />
 			</div>
-			<DelegateDialog />
-			<SuccessDialog />
-			<UnSuccessDialog />
-			<PendingDialog />
-		</div>
+		</InsyncWrapper>
 	);
 };
 

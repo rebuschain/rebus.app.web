@@ -14,6 +14,7 @@ import ProposalDialog from '../Proposals/ProposalDialog';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import PendingDialog from '../Stake/DelegateDialog/PendingDialog';
+import { InsyncWrapper } from 'src/components/insync/InsyncWrapper';
 
 class Home extends Component {
 	constructor(props) {
@@ -67,7 +68,7 @@ class Home extends Component {
 		const filteredProposals = this.props.proposals && this.props.proposals.filter(item => item.status === 2);
 
 		return (
-			<>
+			<InsyncWrapper>
 				<div className="home">
 					<h4>{variables[this.props.lang].welcome}</h4>
 					<div className="card">
@@ -122,7 +123,7 @@ class Home extends Component {
 				<UnSuccessDialog />
 				<PendingDialog />
 				<ClaimDialog />
-			</>
+			</InsyncWrapper>
 		);
 	}
 }

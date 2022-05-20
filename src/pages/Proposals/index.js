@@ -10,6 +10,7 @@ import { fetchProposalTally, fetchVoteDetails, getProposals } from 'src/actions/
 import UnSuccessDialog from '../Stake/DelegateDialog/UnSuccessDialog';
 import PendingDialog from '../Stake/DelegateDialog/PendingDialog';
 import SuccessDialog from '../Stake/DelegateDialog/SuccessDialog';
+import { InsyncWrapper } from 'src/components/insync/InsyncWrapper';
 
 const Proposals = props => {
 	const [active, setActive] = useState(1);
@@ -71,43 +72,45 @@ const Proposals = props => {
 	}, []);
 
 	return (
-		<div className="proposals">
-			{!props.open ? (
-				<div className="proposals_content padding">
-					<div className="heading">
-						<div className="tabs">
-							<p className={active === 1 ? 'active' : ''} onClick={() => handleChange(1)}>
-								{variables[props.lang].all}
-							</p>
-							<span />
-							<p className={active === 2 ? 'active' : ''} onClick={() => handleChange(2)}>
-								{variables[props.lang].active}
-							</p>
-							<span />
-							<p className={active === 3 ? 'active' : ''} onClick={() => handleChange(3)}>
-								{variables[props.lang].pending}
-							</p>
-							<span />
-							<p className={active === 4 ? 'active' : ''} onClick={() => handleChange(4)}>
-								{variables[props.lang].closed}
-							</p>
+		<InsyncWrapper>
+			<div className="proposals">
+				{!props.open ? (
+					<div className="proposals_content padding">
+						<div className="heading">
+							<div className="tabs">
+								<p className={active === 1 ? 'active' : ''} onClick={() => handleChange(1)}>
+									{variables[props.lang].all}
+								</p>
+								<span />
+								<p className={active === 2 ? 'active' : ''} onClick={() => handleChange(2)}>
+									{variables[props.lang].active}
+								</p>
+								<span />
+								<p className={active === 3 ? 'active' : ''} onClick={() => handleChange(3)}>
+									{variables[props.lang].pending}
+								</p>
+								<span />
+								<p className={active === 4 ? 'active' : ''} onClick={() => handleChange(4)}>
+									{variables[props.lang].closed}
+								</p>
+							</div>
 						</div>
+						{props.proposalsInProgress || props.voteDetailsInProgress ? (
+							<div className="cards_content">Loading...</div>
+						) : filteredProposals && filteredProposals.length ? (
+							<Cards proposals={filteredProposals} />
+						) : (
+							<div className="cards_content">No data found</div>
+						)}
 					</div>
-					{props.proposalsInProgress || props.voteDetailsInProgress ? (
-						<div className="cards_content">Loading...</div>
-					) : filteredProposals && filteredProposals.length ? (
-						<Cards proposals={filteredProposals} />
-					) : (
-						<div className="cards_content">No data found</div>
-					)}
-				</div>
-			) : (
-				<ProposalDialog />
-			)}
-			<UnSuccessDialog />
-			<PendingDialog />
-			<SuccessDialog />
-		</div>
+				) : (
+					<ProposalDialog />
+				)}
+				<UnSuccessDialog />
+				<PendingDialog />
+				<SuccessDialog />
+			</div>
+		</InsyncWrapper>
 	);
 };
 

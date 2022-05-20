@@ -4,7 +4,7 @@ import { SynthesisList } from './SynthesisList';
 import { LBPOverview } from './overview';
 import { PromotedLBPPoolIds } from '../../config';
 
-export const BootstrapPage: FunctionComponent = observer(() => {
+const BootstrapPage: FunctionComponent = observer(() => {
 	return (
 		<div className="w-full h-full">
 			<div className="pt-21 px-5 pb-5 md:p-10">
@@ -20,3 +20,5 @@ export const BootstrapPage: FunctionComponent = observer(() => {
 		</div>
 	);
 });
+
+export default BootstrapPage;

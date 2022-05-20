@@ -9,7 +9,7 @@ import { LabsOverview } from './components/LabsOverview';
 import { ExtraIncentivizedPools } from 'src/pages/pools/components/ExtraIncentives';
 import { useFilteredExtraIncentivePools } from 'src/pages/pools/components/ExtraIncentives/hook';
 
-export const PoolsPage = observer(function PoolsPage() {
+const PoolsPage = observer(function PoolsPage() {
 	const extraIncentivePools = useFilteredExtraIncentivePools();
 
 	return (
@@ -74,3 +74,5 @@ const AllPoolsSection = styled(CenterSection)`
 	@media (min-width: 768px) {
 		padding: 40px;
 `;
+
+export default PoolsPage;

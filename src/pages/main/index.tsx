@@ -4,7 +4,7 @@ import { colorPrimaryDarker } from 'src/emotionStyles/colors';
 import { TradeClipboard } from './components/TradeClipboard';
 import useWindowSize from 'src/hooks/useWindowSize';
 
-export const MainPage: FunctionComponent = () => {
+const MainPage: FunctionComponent = () => {
 	return (
 		<PageContainer>
 			<TradeClipboardContainer>
@@ -70,3 +70,5 @@ const TradeContainer = styled.div`
 	width: 100%;
 	max-height: 678px;
 `;
+
+export default MainPage;

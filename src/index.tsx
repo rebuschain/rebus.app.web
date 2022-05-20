@@ -1,8 +1,18 @@
+import env from '@beam-australia/react-env';
+
+const publicPath = env('PUBLIC_PATH');
+
+if (publicPath) {
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	__webpack_public_path__ = publicPath;
+}
+
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
@@ -11,34 +21,33 @@ import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { Bounce, ToastContainer } from 'react-toastify';
+import { Loader } from 'src/components/common/Loader';
 import { ROUTES } from './constants/routes';
 import 'react-toastify/dist/ReactToastify.css';
 
 import 'tippy.js/dist/tippy.css';
 import { ToastProvider } from './components/common/toasts';
-import { RouteWrapper } from './components/layouts/RouteWrapper';
-import { AirdropPage } from './pages/airdrop';
-import { AssetsPage } from './pages/assets';
-import { BootstrapPage } from './pages/bootstrap';
-import { GovernancePage } from './pages/governance';
-import { GovernanceDetailsPage } from './pages/governance/[id]/GovernanceDetailsPage';
 import { NotFoundPage } from './pages/NotFound';
-import { PoolPage } from './pages/pool';
-import { PoolsPage } from './pages/pools';
-import { ToolsPage } from './pages/tools';
 import { StoreProvider } from './stores';
 import './styles/globals.scss';
 import './styles/index.scss';
 import { Terms } from './terms';
 import { IBCHistoryNotifier } from './provider';
 import { AccountConnectionProvider } from 'src/hooks/account/context';
+import styled from '@emotion/styled';
 
 /* Insync Code */
 import reducer from './reducers';
-import { InsyncWrapper } from './components/insync/InsyncWrapper';
-import Home from './pages/Home';
-import Proposals from './pages/Proposals';
-import './styles/insync.scss';
+import { RouteWrapper } from './components/layouts/RouteWrapper';
+
+const LoaderStyled = styled(Loader)`
+	width: 6rem;
+	height: 6rem;
+	@media (min-width: 768px) {
+		width: 12.5rem;
+		height: 12.5rem;
+	}
+`;
 
 const store = createStore(
 	reducer,
@@ -67,70 +76,28 @@ const Router: FunctionComponent = () => {
 							<Terms />
 							<div className="h-screen z-0">
 								<BrowserRouter>
-									<Switch>
-										<Route exact path="/">
-											<Redirect to={ROUTES.ASSETS} />
-										</Route>
-										<Route exact path={ROUTES.TOOLS}>
-											<RouteWrapper>
-												<ToolsPage />
-											</RouteWrapper>
-										</Route>
-										{/*<Route exact path={ROUTES.POOLS}>
-											<RouteWrapper>
-												<PoolsPage />
-											</RouteWrapper>
-										</Route>
-										<Route path="/pool/:id">
-											<RouteWrapper>
-												<PoolPage />
-											</RouteWrapper>
-										</Route>
-										<Route exact path="/governance">
-											<RouteWrapper>
-												<GovernancePage />
-											</RouteWrapper>
-										</Route>
-										<Route exact path="/governance/:id">
-											<RouteWrapper>
-												<GovernanceDetailsPage />
-											</RouteWrapper>
-										</Route> */}
-										<Route exact path={ROUTES.ASSETS}>
-											<RouteWrapper>
-												<AssetsPage />
-											</RouteWrapper>
-										</Route>
-										<Route exact path={ROUTES.AIRDROP}>
-											<RouteWrapper>
-												<AirdropPage />
-											</RouteWrapper>
-										</Route>
-										{/* <Route exact path={'/bootstrap'}>
-											<RouteWrapper>
-												<BootstrapPage />
-											</RouteWrapper>
-										</Route> */}
-										<Route exact path={ROUTES.STAKE}>
-											<RouteWrapper>
-												<InsyncWrapper>
-													<Home />
-												</InsyncWrapper>
-											</RouteWrapper>
-										</Route>
-										<Route exact path={ROUTES.VOTE}>
-											<RouteWrapper>
-												<InsyncWrapper>
-													<Proposals />
-												</InsyncWrapper>
-											</RouteWrapper>
-										</Route>
-										<Route>
-											<RouteWrapper>
-												<NotFoundPage />
-											</RouteWrapper>
-										</Route>
-									</Switch>
+									<RouteWrapper>
+										<Suspense fallback={() => <LoaderStyled />}>
+											<Switch>
+												<Route exact path="/">
+													<Redirect to={ROUTES.ASSETS} />
+												</Route>
+												<Route exact path={ROUTES.TOOLS} component={lazy(() => import('./pages/tools'))} />
+												{/*<Route exact path={ROUTES.POOLS} component={lazy(() => import('./pages/pools'))} />
+												<Route path="/pool/:id" component={lazy(() => import('./pages/pool'))} />
+												<Route exact path="/governance" component={lazy(() => import('./pages/governance'))} />
+												<Route exact path="/governance/:id" component={lazy(() => import('./pages/governance/[id]/GovernanceDetailsPage'))} /> */}
+												<Route exact path={ROUTES.ASSETS} component={lazy(() => import('./pages/assets'))} />
+												<Route exact path={ROUTES.AIRDROP} component={lazy(() => import('./pages/airdrop'))} />
+												{/* <Route exact path={'/bootstrap'} component={lazy(() => import('./pages/bootstrap'))} /> */}
+												<Route exact path={ROUTES.STAKE} component={lazy(() => import('./pages/Stake'))} />
+												<Route exact path={ROUTES.VOTE} component={lazy(() => import('./pages/Proposals'))} />
+												<Route>
+													<NotFoundPage />
+												</Route>
+											</Switch>
+										</Suspense>
+									</RouteWrapper>
 								</BrowserRouter>
 							</div>
 							<ToastContainer transition={Bounce} />

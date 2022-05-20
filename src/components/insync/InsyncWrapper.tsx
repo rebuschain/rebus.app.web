@@ -7,6 +7,7 @@ import * as stake from '../../actions/stake';
 import { config } from '../../config-insync';
 import SnackbarMessage from './SnackbarMessage';
 import { useShallowEqualSelector } from 'src/hooks/useShallowEqualSelector';
+import 'src/styles/insync.scss';
 
 export const InsyncWrapper: FunctionComponent = observer(({ children }) => {
 	const { chainStore, accountStore } = useStore();
