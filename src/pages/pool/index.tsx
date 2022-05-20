@@ -24,7 +24,7 @@ interface QueryParams {
 	id: string;
 }
 
-export const PoolPage: FunctionComponent = observer(() => {
+const PoolPage: FunctionComponent = observer(() => {
 	const history = useHistory();
 	const match = useRouteMatch<QueryParams>();
 
@@ -194,3 +194,5 @@ function isLbp(
 ): smoothWeightChangeParams is NonNullable<QueriedPoolBase['smoothWeightChangeParams']> {
 	return smoothWeightChangeParams != null;
 }
+
+export default PoolPage;

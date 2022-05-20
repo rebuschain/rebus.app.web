@@ -22,7 +22,7 @@ export interface IProposal {
 	voteResults: Record<TVote, number>;
 }
 
-export const GovernanceDetailsPage: FunctionComponent = observer(() => {
+const GovernanceDetailsPage: FunctionComponent = observer(() => {
 	const history = useHistory();
 	const match = useRouteMatch<{
 		id: string;
@@ -71,3 +71,5 @@ export const GovernanceDetailsPage: FunctionComponent = observer(() => {
 		</div>
 	);
 });
+
+export default GovernanceDetailsPage;

@@ -5,7 +5,7 @@ import { AirdropMissions } from './AirdropMissions';
 import { AirdropOverview } from './AirdropOverview';
 import { MyAirdropProgress } from './MyAirdropProgress';
 
-export const AirdropPage: FunctionComponent = () => {
+const AirdropPage: FunctionComponent = () => {
 	return (
 		<AirdropPageContainer>
 			<AirdropOverviewSection>
@@ -44,3 +44,5 @@ const ProgressSection = styled.div`
 		padding: 50px 60px;
 	}
 `;
+
+export default AirdropPage;

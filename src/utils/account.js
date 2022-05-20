@@ -1,5 +1,5 @@
 import { decodeBech32Pubkey } from '@cosmjs/amino';
-import { Uint64 } from '@cosmjs/math';
+import { Uint64 } from '@cosmjs/math/build/integers';
 import axios from 'axios';
 import { config } from 'src/config-insync';
 

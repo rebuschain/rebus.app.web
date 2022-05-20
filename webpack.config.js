@@ -86,7 +86,9 @@ const tsRule = {
 	use: [
 		{
 			loader: require.resolve('ts-loader'),
-			options: {},
+			options: {
+				transpileOnly: true,
+			},
 		},
 	],
 };
@@ -139,6 +141,7 @@ const webConfig = () => {
 			rules: [sassRule, cssRule, tsRule, jsxRule, fileRule],
 		},
 		optimization: {
+			minimize: !isEnvDevelopment,
 			usedExports: true,
 		},
 		plugins: [

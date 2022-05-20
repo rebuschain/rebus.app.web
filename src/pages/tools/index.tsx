@@ -4,7 +4,7 @@ import { FullScreenContainer } from 'src/components/layouts/Containers';
 import SnackbarMessage from '../../components/insync/SnackbarMessage';
 import { AddressConverter } from './components/address-converter';
 
-export const ToolsPage: FunctionComponent = () => {
+const ToolsPage: FunctionComponent = () => {
 	return (
 		<FullScreenContainerWithPadding>
 			<AddressConverter />
@@ -20,3 +20,5 @@ const FullScreenContainerWithPadding = styled(FullScreenContainer)`
 		padding: 40px 60px;
 	}
 `;
+
+export default ToolsPage;
