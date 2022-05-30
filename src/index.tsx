@@ -90,7 +90,7 @@ const Router: FunctionComponent = () => {
 												<Route exact path={ROUTES.ASSETS} component={lazy(() => import('./pages/assets'))} />
 												<Route exact path={ROUTES.AIRDROP} component={lazy(() => import('./pages/airdrop'))} />
 												{/* <Route exact path={'/bootstrap'} component={lazy(() => import('./pages/bootstrap'))} /> */}
-												<Route exact path={ROUTES.STAKE} component={lazy(() => import('./pages/Stake'))} />
+												<Route exact path={ROUTES.STAKE} component={lazy(() => import('./pages/Home'))} />
 												<Route exact path={ROUTES.VOTE} component={lazy(() => import('./pages/Proposals'))} />
 												<Route>
 													<NotFoundPage />
