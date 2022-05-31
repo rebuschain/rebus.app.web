@@ -35,6 +35,7 @@ export const SidebarItem: FunctionComponent<TSidebarItem> = ({ sidebarItem, sele
 				<div className="h-11 w-11 relative">
 					<img
 						className={cn('w-full h-full absolute top-0 left-0 transition-all')}
+						style={{ opacity: '0.99' }}
 						src={
 							selected
 								? '/public/assets/sidebar/icon-border_selected.svg'
