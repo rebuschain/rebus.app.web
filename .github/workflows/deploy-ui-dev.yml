@@ -19,6 +19,6 @@ jobs:
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.DEPLOY_PAT }}
-          repository: rebuschain/rebus.app.web.deploy
+          repository: rebuschain/rebus.app.deploy
           event-type: dev-ui
           client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
