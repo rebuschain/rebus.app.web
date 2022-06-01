@@ -26,15 +26,15 @@ export const LAYOUT = {
 		},
 		 */
 		ASSETS: {
-			ICON: '/public/assets/Icons/Asset.svg',
-			ICON_SELECTED: '/public/assets/Icons/Asset_selected.svg',
+			ICON: '/public/assets/Icons/Assets.svg',
+			ICON_SELECTED: '/public/assets/Icons/Assets_selected.svg',
 			TEXT: 'Assets',
 			ROUTE: '/assets',
 			SELECTED_CHECK: '/assets',
 		},
 		STAKE: {
-			ICON: '/public/assets/Icons/Ticket.svg',
-			ICON_SELECTED: '/public/assets/Icons/Ticket_selected.svg',
+			ICON: '/public/assets/Icons/Stake.svg',
+			ICON_SELECTED: '/public/assets/Icons/Stake_selected.svg',
 			TEXT: 'Stake',
 			ROUTE: '/staking',
 			SELECTED_CHECK: '/staking',
@@ -54,8 +54,8 @@ export const LAYOUT = {
 			SELECTED_CHECK: '/proposals',
 		},
 		TOOLS: {
-			ICON: '/public/assets/Icons/Ticket.svg',
-			ICON_SELECTED: '/public/assets/Icons/Ticket_selected.svg',
+			ICON: '/public/assets/Icons/Tools.svg',
+			ICON_SELECTED: '/public/assets/Icons/Tools_selected.svg',
 			TEXT: 'Tools',
 			ROUTE: ROUTES.TOOLS,
 			SELECTED_CHECK: ROUTES.TOOLS,
