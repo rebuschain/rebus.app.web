@@ -64,11 +64,11 @@ jobs:
 
           yarn build:css && yarn build
 
-          cp ./prod/index.html ./prod/index.html.testnet
-          cp ./prod/index.html ./prod/index.html.mainnet
+          cp ./prod/index.html ./prod/index.testnet.html
+          cp ./prod/index.html ./prod/index.mainnet.html
           sed -i -r "/manifest\.json/! s/(src|href)=\"[^h]([^\"]*)\"/\1=\"${DEV_PUBLIC_URL//\//\\/}\2\"/g" ./prod/index.html
-          sed -i -r "/manifest\.json/! s/(src|href)=\"[^h]([^\"]*)\"/\1=\"${TESTNET_PUBLIC_URL//\//\\/}\2\"/g" ./prod/index.html.testnet
-          sed -i -r "/manifest\.json/! s/(src|href)=\"[^h]([^\"]*)\"/\1=\"${MAINNET_PUBLIC_URL//\//\\/}\2\"/g" ./prod/index.html.mainnet
+          sed -i -r "/manifest\.json/! s/(src|href)=\"[^h]([^\"]*)\"/\1=\"${TESTNET_PUBLIC_URL//\//\\/}\2\"/g" ./prod/index.testnet.html
+          sed -i -r "/manifest\.json/! s/(src|href)=\"[^h]([^\"]*)\"/\1=\"${MAINNET_PUBLIC_URL//\//\\/}\2\"/g" ./prod/index.mainnet.html
 
           sed -i -r "s/url\(\/assets/url\(\.\/assets/g" ./prod/styles.css
 
