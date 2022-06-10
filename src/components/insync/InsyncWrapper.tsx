@@ -89,11 +89,7 @@ export const InsyncWrapper: FunctionComponent = observer(({ children }) => {
 
 	const fetch = useCallback(
 		address => {
-			if (
-				!propsRef.current.validatorList.length &&
-				!propsRef.current.validatorListInProgress &&
-				!propsRef.current.proposalTab
-			) {
+			if (!propsRef.current.proposalTab) {
 				getValidators((data: Array<any>) => {
 					if (
 						data &&
@@ -111,43 +107,12 @@ export const InsyncWrapper: FunctionComponent = observer(({ children }) => {
 				return;
 			}
 
-			if (propsRef.current.balance && !propsRef.current.balance.length && !propsRef.current.balanceInProgress) {
-				getBalance(address);
-			}
-			if (
-				propsRef.current.vestingBalance &&
-				!propsRef.current.vestingBalance.value &&
-				!propsRef.current.vestingBalanceInProgress
-			) {
-				fetchVestingBalance(address);
-			}
-
 			if (!propsRef.current.proposalTab) {
+				getBalance(address);
+				fetchVestingBalance(address);
 				fetchRewards(address);
-			}
-
-			if (
-				propsRef.current.unBondingDelegations &&
-				!propsRef.current.unBondingDelegations.length &&
-				!propsRef.current.unBondingDelegationsInProgress &&
-				!propsRef.current.proposalTab
-			) {
 				getUnBondingDelegations(address);
-			}
-			if (
-				propsRef.current.delegations &&
-				!propsRef.current.delegations.length &&
-				!propsRef.current.delegationsInProgress &&
-				!propsRef.current.proposalTab
-			) {
 				getDelegations(address);
-			}
-			if (
-				propsRef.current.delegatedValidatorList &&
-				!propsRef.current.delegatedValidatorList.length &&
-				!propsRef.current.delegatedValidatorListInProgress &&
-				!propsRef.current.proposalTab
-			) {
 				getDelegatedValidatorsDetails(address);
 			}
 		},
@@ -171,16 +136,6 @@ export const InsyncWrapper: FunctionComponent = observer(({ children }) => {
 		document.body.classList.add('insync');
 		return () => document.body.classList.remove('insync');
 	}, []);
-
-	useEffect(() => {
-		const callback = () => {
-			if (address) {
-				fetch(address);
-			}
-		};
-		window.addEventListener('keplr_keystorechange', callback);
-		return () => window.removeEventListener('keplr_keystorechange', callback);
-	}, [address, fetch]);
 
 	useEffect(() => {
 		fetch(address);
