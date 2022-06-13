@@ -1,23 +1,37 @@
 import React, { Component } from 'react';
-import './index.scss';
-import variables from 'src/utils/variables';
-import * as PropTypes from 'prop-types';
-import TokenDetails from './TokenDetails';
+import { Button } from '@material-ui/core';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { connect } from 'react-redux';
+import variables from '../../utils/variables';
 import DelegateDialog from '../Stake/DelegateDialog';
 import SuccessDialog from '../Stake/DelegateDialog/SuccessDialog';
 import UnSuccessDialog from '../Stake/DelegateDialog/UnSuccessDialog';
-import ClaimDialog from './ClaimDialog';
 import Table from '../Stake/Table';
-import { Button } from '@material-ui/core';
 import Cards from '../Proposals/Cards';
 import ProposalDialog from '../Proposals/ProposalDialog';
-import { withRouter } from 'react-router';
-import { connect } from 'react-redux';
 import PendingDialog from '../Stake/DelegateDialog/PendingDialog';
-import { InsyncWrapper } from 'src/components/insync/InsyncWrapper';
+import { InsyncWrapper } from '../../components/insync/InsyncWrapper';
+import ClaimDialog from './ClaimDialog';
+import TokenDetails from './TokenDetails';
+import './index.scss';
 
-class Home extends Component {
-	constructor(props) {
+// TODO: Refactor types
+type Proposal = {
+	status: number;
+};
+
+interface HomeProps extends RouteComponentProps<any> {
+	address: string;
+	lang: string;
+	proposals: Array<Proposal>;
+}
+
+type HomeState = {
+	active: number;
+};
+
+class Home extends Component<HomeProps, HomeState> {
+	constructor(props: HomeProps) {
 		super(props);
 
 		this.state = {
@@ -36,7 +50,7 @@ class Home extends Component {
 		}
 	}
 
-	componentDidUpdate(pp, ps, ss) {
+	componentDidUpdate(pp: HomeProps, ps: HomeState, ss: HomeState) {
 		if (pp.address !== this.props.address && this.props.address !== '' && this.state.active !== 2) {
 			this.setState({
 				active: 2,
@@ -49,7 +63,7 @@ class Home extends Component {
 		}
 	}
 
-	handleChange(value) {
+	handleChange(value: number) {
 		if (this.state.active === value) {
 			return;
 		}
@@ -59,20 +73,21 @@ class Home extends Component {
 		});
 	}
 
-	handleRedirect(value) {
+	handleRedirect(value: string) {
 		this.props.history.push(value);
 	}
 
 	render() {
 		const { active } = this.state;
 		const filteredProposals = this.props.proposals && this.props.proposals.filter(item => item.status === 2);
+		const langVariables = (variables as any)[this.props.lang] as { [key: string]: string };
 
 		return (
 			<InsyncWrapper>
 				<div className="home">
-					<h4>{variables[this.props.lang].welcome}</h4>
+					<h4>{langVariables.welcome}</h4>
 					<div className="card">
-						{/*<p className="info">{variables[this.props.lang].participate}</p>*/}
+						{/*<p className="info">{langVariables.participate}</p>*/}
 						<TokenDetails lang={this.props.lang} />
 					</div>
 				</div>
@@ -81,15 +96,15 @@ class Home extends Component {
 						<div className="heading">
 							<div className="tabs">
 								<p className={active === 2 ? 'active' : ''} onClick={() => this.handleChange(2)}>
-									{variables[this.props.lang]['staked_validators']}
+									{langVariables['staked_validators']}
 								</p>
 								<span />
 								<p className={active === 1 ? 'active' : ''} onClick={() => this.handleChange(1)}>
-									{variables[this.props.lang]['all_validators']}
+									{langVariables['all_validators']}
 								</p>
 							</div>
 							<Button className="view_all" onClick={() => this.handleRedirect('/staking')}>
-								{variables[this.props.lang]['view_all']}
+								{langVariables['view_all']}
 							</Button>
 						</div>
 						<Table active={active} home={true} />
@@ -100,10 +115,10 @@ class Home extends Component {
 						<div className="proposals_content padding">
 							<div className="heading">
 								<div className="tabs">
-									<p className="active">{variables[this.props.lang]['top_active_proposals']}</p>
+									<p className="active">{langVariables['top_active_proposals']}</p>
 								</div>
 								<Button className="view_all" onClick={() => this.handleRedirect('/proposals')}>
-									{variables[this.props.lang]['view_all']}
+									{langVariables['view_all']}
 								</Button>
 							</div>
 							{this.props.proposalsInProgress || this.props.voteDetailsInProgress ? (
@@ -111,7 +126,7 @@ class Home extends Component {
 							) : filteredProposals && filteredProposals.length ? (
 								<Cards home={true} proposals={filteredProposals} />
 							) : (
-								<div className="cards_content">{variables[this.props.lang]['no_data_found']}</div>
+								<div className="cards_content">{langVariables['no_data_found']}</div>
 							)}
 						</div>
 					) : (
@@ -128,19 +143,7 @@ class Home extends Component {
 	}
 }
 
-Home.propTypes = {
-	history: PropTypes.shape({
-		push: PropTypes.func.isRequired,
-	}).isRequired,
-	lang: PropTypes.string.isRequired,
-	open: PropTypes.bool.isRequired,
-	proposals: PropTypes.array.isRequired,
-	voteDetailsInProgress: PropTypes.bool.isRequired,
-	address: PropTypes.string,
-	proposalsInProgress: PropTypes.bool,
-};
-
-const stateToProps = state => {
+const stateToProps = (state: any) => {
 	return {
 		address: state.accounts.address.value,
 		lang: state.language,
