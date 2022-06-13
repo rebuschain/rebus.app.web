@@ -61,7 +61,10 @@ export const getValidators = cb => dispatch => {
 	})
 		.then(res => {
 			dispatch(fetchValidatorsSuccess(res.data && res.data.result));
-			cb(res.data && res.data.result);
+
+			if (cb) {
+				cb(res.data && res.data.result);
+			}
 		})
 		.catch(error => {
 			dispatch(
@@ -69,7 +72,10 @@ export const getValidators = cb => dispatch => {
 					error.response && error.response.data && error.response.data.message ? error.response.data.message : 'Failed!'
 				)
 			);
-			cb(null);
+
+			if (cb) {
+				cb(null);
+			}
 		});
 };
 
