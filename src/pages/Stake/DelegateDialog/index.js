@@ -27,9 +27,14 @@ import { showMessage } from 'src/actions/snackbar';
 import { config } from 'src/config-insync';
 import { gas } from 'src/constants/defaultGasValues';
 import CircularProgress from 'src/components/insync/CircularProgress';
+import { useStore } from '../../../stores';
 
 const COIN_DECI_VALUE = 1000000000000000000;
 const DelegateDialog = props => {
+	const { chainStore, accountStore, queriesStore } = useStore();
+	const account = accountStore.getAccount(chainStore.current.chainId);
+	const queries = queriesStore.get(chainStore.current.chainId);
+
 	const [inProgress, setInProgress] = useState(false);
 	const handleDelegateType = () => {
 		setInProgress(true);
@@ -86,9 +91,14 @@ const DelegateDialog = props => {
 		props.fetchVestingBalance(props.address);
 		props.getDelegations(props.address);
 		props.getUnBondingDelegations(props.address);
-		props.getValidators(props.address);
+		props.getValidators();
 		props.getDelegatedValidatorsDetails(props.address);
 		props.fetchRewards(props.address);
+
+		queries.queryBalances.getQueryBech32Address(account.bech32Address).fetch();
+		queries.cosmos.queryRewards.getQueryBech32Address(account.bech32Address).fetch();
+		queries.cosmos.queryDelegations.getQueryBech32Address(account.bech32Address).fetch();
+		queries.cosmos.queryUnbondingDelegations.getQueryBech32Address(account.bech32Address).fetch();
 	};
 
 	const getValueObject = type => {

@@ -10,6 +10,7 @@ import {
 } from 'src/actions/stake';
 import { connect } from 'react-redux';
 import '../../Stake/DelegateDialog/index.scss';
+import { useStore } from '../../../stores';
 import ValidatorsSelectField from './ValidatorsSelectField';
 import { aminoSignTx } from 'src/utils/helper';
 import { showMessage } from 'src/actions/snackbar';
@@ -21,6 +22,10 @@ import CircularProgress from 'src/components/insync/CircularProgress';
 
 const ClaimDialog = props => {
 	const [inProgress, setInProgress] = useState(false);
+
+	const { chainStore, accountStore, queriesStore } = useStore();
+	const account = accountStore.getAccount(chainStore.current.chainId);
+	const queries = queriesStore.get(chainStore.current.chainId);
 
 	const handleClaimAll = () => {
 		setInProgress(true);
@@ -74,6 +79,9 @@ const ClaimDialog = props => {
 				props.fetchRewards(props.address);
 				props.getBalance(props.address);
 				props.fetchVestingBalance(props.address);
+
+				queries.queryBalances.getQueryBech32Address(account.bech32Address).fetch();
+				queries.cosmos.queryRewards.getQueryBech32Address(account.bech32Address).fetch();
 			}
 		});
 	};
@@ -121,6 +129,9 @@ const ClaimDialog = props => {
 				props.fetchRewards(props.address);
 				props.getBalance(props.address);
 				props.fetchVestingBalance(props.address);
+
+				queries.queryBalances.getQueryBech32Address(account.bech32Address).fetch();
+				queries.cosmos.queryRewards.getQueryBech32Address(account.bech32Address).fetch();
 			}
 		});
 	};
