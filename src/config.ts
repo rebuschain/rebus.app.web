@@ -975,6 +975,7 @@ export const EmbedChainInfos: ChainInfoWithExplorer[] = [
 		rest: env('REST_URL'),
 		chainId: env('CHAIN_ID'),
 		chainName: env('CHAIN_NAME'),
+		walletUrlForStaking: env('STAKING_URL'),
 		stakeCurrency: {
 			coinDenom: denom,
 			coinMinimalDenom: minDenom,
@@ -1012,9 +1013,9 @@ export const EmbedChainInfos: ChainInfoWithExplorer[] = [
 			},
 		],
 		gasPriceStep: {
-			low: 0.01,
+			low: parseFloat(env('GAS_PRICE_STEP_LOW')),
 			average: parseFloat(env('GAS_PRICE_STEP_AVERAGE')),
-			high: 0.03,
+			high: parseFloat(env('GAS_PRICE_STEP_HIGH')),
 		},
 		explorerUrlToTx: `${env('EXPLORER_URL')}/txs/{txHash}`,
 	},
