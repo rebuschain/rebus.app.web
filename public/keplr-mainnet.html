@@ -10,6 +10,7 @@
 				chainName: 'Rebus',
 				rpc: url + ':26657',
 				rest: url + ':1317',
+				walletUrlForStaking: "https://app.rebustoken.com/staking",
 				bip44: {
 					coinType: 118,
 				},
@@ -45,9 +46,9 @@
 				},
 				coinType: 118,
 				gasPriceStep: {
-					low: 0.01,
-					average: 0.025,
-					high: 0.03,
+					low: 10000000000,
+					average: 25000000000,
+					high: 40000000000,
 				},
 			});
 		} catch (error) {
