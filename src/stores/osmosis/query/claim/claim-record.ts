@@ -45,25 +45,22 @@ export class ObservableQueryClaimRecordInner extends ObservableChainQuery<ClaimR
 
 	@computed
 	get completedActions(): {
-		addLiquidity: boolean;
-		swap: boolean;
-		vote: boolean;
-		delegate: boolean;
+		stake: boolean;
+		mint: boolean;
+		vault: boolean;
 	} {
 		if (!this.response) {
 			return {
-				addLiquidity: false,
-				swap: false,
-				vote: false,
-				delegate: false,
+				stake: false,
+				mint: false,
+				vault: false,
 			};
 		}
 
 		return {
-			addLiquidity: this.response.data.claim_record.action_completed[0] === true,
-			swap: this.response.data.claim_record.action_completed[1] === true,
-			vote: this.response.data.claim_record.action_completed[2] === true,
-			delegate: this.response.data.claim_record.action_completed[3] === true,
+			stake: this.response.data.claim_record.action_completed[0] === true,
+			mint: this.response.data.claim_record.action_completed[1] === true,
+			vault: this.response.data.claim_record.action_completed[2] === true,
 		};
 	}
 }

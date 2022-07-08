@@ -24,7 +24,7 @@ export const MyAirdropProgress = observer(function MyAirdropProgress() {
 	const countOfCompleted = (() => {
 		let count = 0;
 		for (const key of Object.keys(completed)) {
-			if (key in completed && completed[key as 'addLiquidity' | 'swap' | 'vote' | 'delegate']) {
+			if (key in completed && completed[key as 'stake' | 'mint' | 'vault']) {
 				count++;
 			}
 		}
