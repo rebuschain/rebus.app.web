@@ -80,15 +80,15 @@ const Router: FunctionComponent = () => {
 										<Suspense fallback={() => <LoaderStyled />}>
 											<Switch>
 												<Route exact path="/">
-													<Redirect to={ROUTES.ASSETS} />
+													<Redirect to={ROUTES.STAKE} />
 												</Route>
 												<Route exact path={ROUTES.TOOLS} component={lazy(() => import('./pages/tools'))} />
 												{/*<Route exact path={ROUTES.POOLS} component={lazy(() => import('./pages/pools'))} />
 												<Route path="/pool/:id" component={lazy(() => import('./pages/pool'))} />
 												<Route exact path="/governance" component={lazy(() => import('./pages/governance'))} />
-												<Route exact path="/governance/:id" component={lazy(() => import('./pages/governance/[id]/GovernanceDetailsPage'))} /> */}
+												<Route exact path="/governance/:id" component={lazy(() => import('./pages/governance/[id]/GovernanceDetailsPage'))} />
 												<Route exact path={ROUTES.ASSETS} component={lazy(() => import('./pages/assets'))} />
-												<Route exact path={ROUTES.AIRDROP} component={lazy(() => import('./pages/airdrop'))} />
+												<Route exact path={ROUTES.AIRDROP} component={lazy(() => import('./pages/airdrop'))} /> */}
 												{/* <Route exact path={'/bootstrap'} component={lazy(() => import('./pages/bootstrap'))} /> */}
 												<Route exact path={ROUTES.STAKE} component={lazy(() => import('./pages/Home'))} />
 												<Route exact path={ROUTES.VOTE} component={lazy(() => import('./pages/Proposals'))} />
