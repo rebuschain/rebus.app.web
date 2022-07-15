@@ -24,7 +24,6 @@ export const LAYOUT = {
 			ROUTE: '/bootstrap',
 			SELECTED_CHECK: '/bootstrap',
 		},
-		 */
 		ASSETS: {
 			ICON: '/public/assets/Icons/Assets.svg',
 			ICON_SELECTED: '/public/assets/Icons/Assets_selected.svg',
@@ -32,6 +31,7 @@ export const LAYOUT = {
 			ROUTE: '/assets',
 			SELECTED_CHECK: '/assets',
 		},
+		 */
 		STAKE: {
 			ICON: '/public/assets/Icons/Stake.svg',
 			ICON_SELECTED: '/public/assets/Icons/Stake_selected.svg',
@@ -39,13 +39,14 @@ export const LAYOUT = {
 			ROUTE: '/staking',
 			SELECTED_CHECK: '/staking',
 		},
+		/*
 		AIRDROP: {
 			ICON: '/public/assets/Icons/Airdrop.svg',
 			ICON_SELECTED: '/public/assets/Icons/Airdrop_selected.svg',
 			TEXT: 'Airdrop',
 			ROUTE: '/airdrop',
 			SELECTED_CHECK: '/airdrop',
-		},
+		},*/
 		PROPOSALS: {
 			ICON: '/public/assets/Icons/Vote.svg',
 			ICON_SELECTED: '/public/assets/Icons/Vote_selected.svg',
