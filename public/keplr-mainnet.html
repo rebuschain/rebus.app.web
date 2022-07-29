@@ -1,7 +1,7 @@
 <script>
 	async function addRebus() {
 		const chainId = 'reb_1111-1';
-		const url = 'http://api.rebustoken.com';
+		const url = 'http://api.rebuschain.com';
 		console.log('test mainnet Rebus wallet integration with keplr');
 
 		try {
@@ -10,7 +10,7 @@
 				chainName: 'Rebus',
 				rpc: url + ':26657',
 				rest: url + ':1317',
-				walletUrlForStaking: "https://app.rebustoken.com/staking",
+				walletUrlForStaking: "https://app.rebuschain.com/staking",
 				bip44: {
 					coinType: 118,
 				},

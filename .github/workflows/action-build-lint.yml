@@ -54,7 +54,7 @@ jobs:
         run: |
           export DEV_PUBLIC_URL="https://assets.rebustokenred.com/portal/"
           export TESTNET_PUBLIC_URL="https://assets.rebustestnet.com/portal/"
-          export MAINNET_PUBLIC_URL="https://assets.rebustoken.com/portal/"
+          export MAINNET_PUBLIC_URL="https://assets.rebuschain.com/portal/"
           export NODE_OPTIONS="--max_old_space_size=4096"
           yarn 'react-env:testnet'
           mv public/__ENV.js public/__ENV.js.testnet
