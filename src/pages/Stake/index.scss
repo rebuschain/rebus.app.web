@@ -132,11 +132,32 @@ table td p {
 
 .table td .status.red_status {
 	background: linear-gradient(104.04deg, #e95062 0%, #e950d0 100%);
-	color: red;
+	color: white;
+}
+
+.table td .status.unbonded {
+	background: linear-gradient(104.04deg, #dddbe9 0%, #c2c0d1 100%);
+	color: black;
 }
 
 .table tfoot td {
 	border-bottom: unset;
+}
+
+.table .MuiTableRow-footer {
+	border-bottom: none;
+
+	.MuiTableCell-footer {
+		background-color: #2d2755;
+		border-bottom-left-radius: 1rem;
+		border-bottom-right-radius: 1rem;
+
+		p,
+		.MuiSelect-select,
+		svg {
+			color: rgba(255, 255, 255, 0.6);
+		}
+	}
 }
 
 @media (max-width: 1025px) {

@@ -36,6 +36,7 @@ const variables = {
 		un_delegate: 'Undelegate',
 		re_delegate: 'Redelegate',
 		all_validators: 'All Validators',
+		inactive_validators: 'Inactive Validators',
 		staked_validators: 'Staked Validators',
 		tokens: 'Tokens',
 		done: 'Done',
