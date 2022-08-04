@@ -53,17 +53,27 @@ const fetchValidatorsError = message => {
 
 export const getValidators = cb => dispatch => {
 	dispatch(fetchValidatorsInProgress());
-	Axios.get(VALIDATORS_LIST_URL, {
+	const axiosOptions = {
 		headers: {
 			Accept: 'application/json, text/plain, */*',
 			Connection: 'keep-alive',
 		},
-	})
+	};
+	Promise.all([
+		Axios.get(`${VALIDATORS_LIST_URL}?status=BOND_STATUS_BONDED&limit=9999`, axiosOptions),
+		Axios.get(`${VALIDATORS_LIST_URL}?status=BOND_STATUS_UNBONDED&limit=9999`, axiosOptions),
+	])
+		.then(responses => {
+			const result = [];
+			responses[0].data && result.push(...responses[0].data.result);
+			responses[1].data && result.push(...responses[1].data.result);
+			return result;
+		})
 		.then(res => {
-			dispatch(fetchValidatorsSuccess(res.data && res.data.result));
+			dispatch(fetchValidatorsSuccess(res));
 
 			if (cb) {
-				cb(res.data && res.data.result);
+				cb(res);
 			}
 		})
 		.catch(error => {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useMemo } from 'react';
 import DataTable from 'src/components/insync/DataTable';
 import './index.scss';
 import * as PropTypes from 'prop-types';
@@ -12,128 +12,122 @@ import ValidatorName from './ValidatorName';
 import { config } from 'src/config-insync';
 import classNames from 'classnames';
 
-class Table extends Component {
-	render() {
-		const options = {
-			serverSide: false,
-			print: false,
-			fixedHeader: false,
-			pagination: false,
-			selectableRows: 'none',
-			selectToolbarPlacement: 'none',
-			sortOrder: {
-				name: 'validator',
-				direction: 'asc',
-			},
-			textLabels: {
-				body: {
-					noMatch: this.props.inProgress ? <CircularProgress /> : <div className="no_data_table"> No data found </div>,
-					toolTip: 'Sort',
-				},
-				viewColumns: {
-					title: 'Show Columns',
-					titleAria: 'Show/Hide Table Columns',
-				},
-			},
-		};
+const ValidatorCell = (value, index) => (
+	<ValidatorName
+		index={index && index.rowIndex}
+		name={value}
+		value={index.rowData && index.rowData.length && index.rowData[1]}
+	/>
+);
 
-		const columns = [
-			{
-				name: 'validator',
-				label: 'Validator',
-				options: {
-					sort: true,
-					customBodyRender: (value, index) => (
-						<ValidatorName
-							index={index && index.rowIndex}
-							name={value}
-							value={index.rowData && index.rowData.length && index.rowData[1]}
-						/>
-					),
-				},
-			},
-			{
-				name: 'status',
-				label: 'Status',
-				options: {
-					sort: false,
-					customBodyRender: value => (
-						<div
-							className={classNames('status', value.jailed ? 'red_status' : '')}
-							title={
-								value.status === 1 ? 'Unbonded' : value.status === 2 ? 'Unbonding' : value.status === 3 ? 'Active' : ''
-							}>
-							{value.status === 1 ? 'Unbonded' : value.status === 2 ? 'Unbonding' : value.status === 3 ? 'Active' : ''}
-						</div>
-					),
-				},
-			},
-			{
-				name: 'voting_power',
-				label: 'Voting Power',
-				options: {
-					sort: true,
-					customBodyRender: value => (
-						<div className="voting_power">
-							<p>{formatCount(value, true)}</p>
-						</div>
-					),
-				},
-			},
-			{
-				name: 'commission',
-				label: 'Commission',
-				options: {
-					sort: true,
-					customBodyRender: value => (value ? value + '%' : '0%'),
-				},
-			},
-			{
-				name: 'tokens_staked',
-				label: 'Tokens Staked',
-				options: {
-					sort: false,
-					customBodyRender: item => {
-						let value = this.props.delegations.find(
-							val => (val.delegation && val.delegation.validator_address) === item.operator_address
-						);
-						value = value
-							? value.balance && value.balance.amount && value.balance.amount / 10 ** config.COIN_DECIMALS
-							: null;
+const StatusCell = value => (
+	<div
+		className={classNames('status', value.jailed ? 'red_status' : '', value.status !== 3 ? 'unbonded' : '')}
+		title={value.status === 1 ? 'Unbonded' : value.status === 2 ? 'Unbonding' : value.status === 3 ? 'Active' : ''}>
+		{value.status === 1 ? 'Unbonded' : value.status === 2 ? 'Unbonding' : value.status === 3 ? 'Active' : ''}
+	</div>
+);
 
-						return <div className={value ? 'tokens' : 'no_tokens'}>{value || 'no tokens'}</div>;
-					},
-				},
-			},
-			{
-				name: 'action',
-				label: 'Action',
-				options: {
-					sort: false,
-					customBodyRender: validatorAddress =>
-						this.props.delegations.find(
-							item => (item.delegation && item.delegation.validator_address) === validatorAddress
-						) ? (
-							<div className="actions">
-								<ReDelegateButton valAddress={validatorAddress} />
-								<span />
-								<UnDelegateButton valAddress={validatorAddress} />
-								<span />
-								<DelegateButton valAddress={validatorAddress} />
-							</div>
-						) : (
-							<div className="actions">
-								<DelegateButton valAddress={validatorAddress} />
-							</div>
-						),
-				},
-			},
-		];
-		const dataToMap = this.props.active === 2 ? this.props.delegatedValidatorList : this.props.validatorList;
+const VotingPowerCell = value => (
+	<div className="voting_power">
+		<p>{formatCount(value, true)}</p>
+	</div>
+);
 
-		const tableData =
-			dataToMap && dataToMap.length
-				? dataToMap.map(item => [
+const CommissionCell = value => (value ? value + '%' : '0%');
+
+const TokensStakedCell = item => {
+	let value = item.delegations.find(
+		val => (val.delegation && val.delegation.validator_address) === item.operator_address
+	);
+	value = value ? value.balance && value.balance.amount && value.balance.amount / 10 ** config.COIN_DECIMALS : null;
+
+	return <div className={value ? 'tokens' : 'no_tokens'}>{value || 'no tokens'}</div>;
+};
+
+const ActionCell = ({ delegations, operator_address: validatorAddress }) =>
+	delegations.find(item => (item.delegation && item.delegation.validator_address) === validatorAddress) ? (
+		<div className="actions">
+			<ReDelegateButton valAddress={validatorAddress} />
+			<span />
+			<UnDelegateButton valAddress={validatorAddress} />
+			<span />
+			<DelegateButton valAddress={validatorAddress} />
+		</div>
+	) : (
+		<div className="actions">
+			<DelegateButton valAddress={validatorAddress} />
+		</div>
+	);
+
+const columns = [
+	{
+		name: 'validator',
+		label: 'Validator',
+		options: {
+			sort: true,
+			customBodyRender: ValidatorCell,
+		},
+	},
+	{
+		name: 'status',
+		label: 'Status',
+		options: {
+			sort: false,
+			customBodyRender: StatusCell,
+		},
+	},
+	{
+		name: 'voting_power',
+		label: 'Voting Power',
+		options: {
+			sort: true,
+			customBodyRender: VotingPowerCell,
+		},
+	},
+	{
+		name: 'commission',
+		label: 'Commission',
+		options: {
+			sort: true,
+			customBodyRender: CommissionCell,
+		},
+	},
+	{
+		name: 'tokens_staked',
+		label: 'Tokens Staked',
+		options: {
+			sort: false,
+			customBodyRender: TokensStakedCell,
+		},
+	},
+	{
+		name: 'action',
+		label: 'Action',
+		options: {
+			sort: false,
+			customBodyRender: ActionCell,
+		},
+	},
+];
+
+const Table = ({ active, delegations, delegatedValidatorList, inProgress, validatorList }) => {
+	const tableData = useMemo(() => {
+		let dataToMap = active === 2 ? delegatedValidatorList : validatorList;
+
+		if (active === 3 && dataToMap) {
+			// Inactive validators
+			dataToMap = dataToMap.filter(item => item.status !== 3);
+		} else if (active === 1 && dataToMap) {
+			// Active validators
+			dataToMap = dataToMap.filter(item => item.status === 3);
+		}
+
+		return dataToMap && dataToMap.length
+			? dataToMap.map(item => {
+					item.delegations = delegations;
+
+					return [
 						item.description && item.description.moniker,
 						item,
 						parseFloat((Number(item.tokens) / 10 ** config.COIN_DECIMALS).toFixed(1)),
@@ -141,17 +135,46 @@ class Table extends Component {
 							? parseFloat((Number(item.commission.commission_rates.rate) * 100).toFixed(2))
 							: null,
 						item,
-						item.operator_address,
-				  ])
-				: [];
+						item,
+					];
+			  })
+			: [];
+	}, [active, delegations, delegatedValidatorList, validatorList]);
 
-		return (
-			<div className="table">
-				<DataTable columns={columns} data={tableData} name="stake" options={options} />
-			</div>
-		);
-	}
-}
+	const options = useMemo(
+		() => ({
+			serverSide: false,
+			print: false,
+			fixedHeader: false,
+			pagination: true,
+			rowsPerPage: 25,
+			rowsPerPageOptions: [10, 25, 50, 100, 500],
+			selectableRows: 'none',
+			selectToolbarPlacement: 'none',
+			sortOrder: {
+				name: 'voting_power',
+				direction: 'desc',
+			},
+			textLabels: {
+				body: {
+					noMatch: inProgress ? <CircularProgress /> : <div className="no_data_table"> No data found </div>,
+					toolTip: 'Sort',
+				},
+				viewColumns: {
+					title: 'Show Columns',
+					titleAria: 'Show/Hide Table Columns',
+				},
+			},
+		}),
+		[inProgress]
+	);
+
+	return (
+		<div className="table">
+			<DataTable columns={columns} data={tableData} name="stake" options={options} />
+		</div>
+	);
+};
 
 Table.propTypes = {
 	active: PropTypes.number.isRequired,

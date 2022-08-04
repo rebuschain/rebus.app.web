@@ -31,6 +31,10 @@ const Stake = props => {
 								{variables[props.lang]['all_validators']}
 							</p>
 							<span />
+							<p className={active === 3 ? 'active' : ''} onClick={() => handleChange(3)}>
+								{variables[props.lang]['inactive_validators']}
+							</p>
+							<span />
 							<p className={active === 2 ? 'active' : ''} onClick={() => handleChange(2)}>
 								{variables[props.lang]['staked_validators']}
 							</p>

@@ -102,10 +102,11 @@ class Home extends Component<HomeProps, HomeState> {
 								<p className={active === 1 ? 'active' : ''} onClick={() => this.handleChange(1)}>
 									{langVariables['all_validators']}
 								</p>
+								<span />
+								<p className={active === 3 ? 'active' : ''} onClick={() => this.handleChange(3)}>
+									{langVariables['inactive_validators']}
+								</p>
 							</div>
-							<Button className="view_all" onClick={() => this.handleRedirect('/staking')}>
-								{langVariables['view_all']}
-							</Button>
 						</div>
 						<Table active={active} home={true} />
 					</div>
