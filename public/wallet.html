@@ -1,0 +1,209 @@
+<head>
+	<script>
+		function activateError() {
+			document.getElementsByClassName('error-container')[0].style.display = 'block';
+		}
+
+		async function addRebus() {
+			if (!window.keplr) {
+				activateError();
+				alert('Please install Keplr extension');
+				return;
+			}
+
+			const chainId = 'reb_1111-1';
+			const url = 'http://api.rebuschain.com';
+
+			try {
+				await window.keplr.experimentalSuggestChain({
+					chainId: chainId,
+					chainName: 'Rebus',
+					rpc: url + ':26657',
+					rest: url + ':1317',
+					walletUrlForStaking: "https://app.rebuschain.com/staking",
+					bip44: {
+						coinType: 118,
+					},
+					bech32Config: {
+						bech32PrefixAccAddr: 'rebus',
+						bech32PrefixAccPub: 'rebus' + 'pub',
+						bech32PrefixValAddr: 'rebus' + 'valoper',
+						bech32PrefixValPub: 'rebus' + 'valoperpub',
+						bech32PrefixConsAddr: 'rebus' + 'valcons',
+						bech32PrefixConsPub: 'rebus' + 'valconspub',
+					},
+					currencies: [
+						{
+							coinDenom: 'REBUS',
+							coinMinimalDenom: 'arebus',
+							coinDecimals: 18,
+							coinGeckoId: 'rebus',
+						},
+					],
+					feeCurrencies: [
+						{
+							coinDenom: 'REBUS',
+							coinMinimalDenom: 'arebus',
+							coinDecimals: 18,
+							coinGeckoId: 'rebus',
+						},
+					],
+					stakeCurrency: {
+						coinDenom: 'REBUS',
+						coinMinimalDenom: 'arebus',
+						coinDecimals: 18,
+						coinGeckoId: 'rebus',
+					},
+					coinType: 118,
+					gasPriceStep: {
+						low: 10000000000,
+						average: 25000000000,
+						high: 40000000000,
+					},
+				});
+			} catch (error) {
+				console.log(error);
+			}
+
+			if (window.keplr) {
+				await window.keplr.enable(chainId);
+
+				const offlineSigner = window.getOfflineSignerOnlyAmino(chainId);
+				const accounts = await offlineSigner.getAccounts();
+
+				if (accounts.length) {
+					const tooltip = document.getElementsByClassName('copy-tooltip')[0];
+
+					document.getElementsByClassName('address-container')[0].style.display = 'block';
+					document.getElementsByClassName('value-text')[0].innerHTML = accounts[0].address;
+
+					tooltip.onclick = () => {
+						tooltip.style.top = '-64px';
+					};
+
+					document.getElementsByClassName('copy-button')[0].onclick = () => {
+						navigator.clipboard.writeText(accounts[0].address);
+
+						tooltip.style.top = '24px';
+
+						setTimeout(() => {
+							tooltip.style.top = '-64px';
+						}, 3000);
+					};
+				} else {
+					activateError();
+				}
+			} else {
+				activateError();
+				return null;
+			}
+		}
+
+		window.onload = () => addRebus();
+	</script>
+
+	<style>
+		html,
+		body,
+		.content {
+			height: 100%;
+			margin: 0;
+			width: 100%;
+		}
+
+		.content {
+			align-items: center;
+			background-color: #141518;
+			background-image: url(https://assets.rebustestnet.com/portal/assets/background-1.svg),url(https://assets.rebustestnet.com/portal/assets/background-2.svg),url(https://assets.rebustestnet.com/portal/assets/background-3.svg),url(https://assets.rebustestnet.com/portal/assets/background-4.svg),url(https://assets.rebustestnet.com/portal/assets/background-5.svg),url(https://assets.rebustestnet.com/portal/assets/background-6.svg),url(https://assets.rebustestnet.com/portal/assets/background-7.svg);
+			background-position: 50% -700%,100% 290%,0 -320%,50% 0,0 170%,100% 0,0 50%;
+			background-repeat: no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,no-repeat;
+			background-size: cover,auto,cover,cover,auto,auto,auto;
+			color: rgba(255, 255, 255, 0.90);
+			font-family: Poppins,ui-sans-serif,system-ui;
+			display: flex;
+			justify-content: center;
+		}
+
+		.address-container,
+		.error-container {
+			background: linear-gradient(104.04deg, #5084e9 0%, #6f50e9 100%);
+			border-radius: 1rem;
+			display: none;
+			padding: 18px;
+			max-width: 100%;
+		}
+
+		.error-container {
+			background: linear-gradient(104.04deg, rgb(233, 80, 98) 0%, rgb(233, 80, 208) 100%);
+		}
+
+		.address-container .label {
+			font-size: 20px;
+			font-weight: 600;
+			margin: 0;
+			margin-bottom: 16px;
+			text-align: center;
+		}
+
+		.address-container .value {
+			background-color: rgba(23, 15, 52);
+			border-radius: 0.5rem;
+			padding: 8px;
+			padding-right: 40px;
+			position: relative;
+			text-align: center;
+		}
+
+		.address-container .copy-button {
+			background: none;
+			border: none;
+			cursor: pointer;
+			height: 100%;
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
+
+		.copy-tooltip {
+			align-items: center;
+			background-color: #282525;
+			border-radius: 4px;
+			box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
+			color: white;
+			cursor: pointer;
+			display: flex;
+			font-family: Roboto, Helvetica, Arial, sans-serif;
+			font-size: 14px;
+			padding: 14px 16px;
+			position: absolute;
+			right: 24px;
+			top: -68px;
+			transition: all 0.3s ease-in-out;
+		}
+	</style>
+</head>
+<body>
+	<div class="content">
+		<div class="address-container">
+			<h2 class="label">
+				Wallet Address
+			</h2>
+			<div class="value">
+				<span class="value-text">
+					123
+				</span>
+				<button class="copy-button">
+					<img src="./assets/common/copy.svg" />
+				</button>
+			</div>
+		</div>
+
+		<div class="error-container">
+			Keplr not installed or no account found
+		</div>
+
+		<div class="copy-tooltip">
+			Copied address to clipboard!
+		</div>
+	</div>
+</body>
