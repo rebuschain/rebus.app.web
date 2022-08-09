@@ -1,5 +1,12 @@
 <head>
 	<script>
+		let address = '';
+
+		function updateAddress(newAddress) {
+			address = newAddress;
+			document.getElementsByClassName('value-text')[0].innerHTML = address;
+		}
+
 		function activateError() {
 			document.getElementsByClassName('error-container')[0].style.display = 'block';
 		}
@@ -69,20 +76,20 @@
 				await window.keplr.enable(chainId);
 
 				const offlineSigner = window.getOfflineSignerOnlyAmino(chainId);
-				const accounts = await offlineSigner.getAccounts();
+				let accounts = await offlineSigner.getAccounts();
 
 				if (accounts.length) {
 					const tooltip = document.getElementsByClassName('copy-tooltip')[0];
 
 					document.getElementsByClassName('address-container')[0].style.display = 'block';
-					document.getElementsByClassName('value-text')[0].innerHTML = accounts[0].address;
+					updateAddress(accounts[0].address);
 
 					tooltip.onclick = () => {
 						tooltip.style.top = '-64px';
 					};
 
 					document.getElementsByClassName('copy-button')[0].onclick = () => {
-						navigator.clipboard.writeText(accounts[0].address);
+						navigator.clipboard.writeText(address);
 
 						tooltip.style.top = '24px';
 
@@ -90,6 +97,11 @@
 							tooltip.style.top = '-64px';
 						}, 3000);
 					};
+
+					window.addEventListener('keplr_keystorechange', async () => {
+						accounts = await offlineSigner.getAccounts();
+						updateAddress(accounts[0].address);
+					});
 				} else {
 					activateError();
 				}
