@@ -126,15 +126,28 @@
 		.content {
 			align-items: center;
 			background-color: #141518;
-			background-image: url(https://assets.rebustestnet.com/portal/assets/background-1.svg),url(https://assets.rebustestnet.com/portal/assets/background-2.svg),url(https://assets.rebustestnet.com/portal/assets/background-3.svg),url(https://assets.rebustestnet.com/portal/assets/background-4.svg),url(https://assets.rebustestnet.com/portal/assets/background-5.svg),url(https://assets.rebustestnet.com/portal/assets/background-6.svg),url(https://assets.rebustestnet.com/portal/assets/background-7.svg);
-			background-position: 50% -700%,100% 290%,0 -320%,50% 0,0 170%,100% 0,0 50%;
-			background-repeat: no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,no-repeat;
-			background-size: cover,auto,cover,cover,auto,auto,auto;
+			background-image: url(/public/assets/backgrounds/wax-coins.png);
+            background-position: top center;
+			background-repeat: no-repeat;
+			background-size: cover;
 			color: rgba(255, 255, 255, 0.90);
 			font-family: Poppins,ui-sans-serif,system-ui;
 			display: flex;
-			justify-content: center;
+            flex-direction: column;
+			justify-content: flex-start;
 		}
+
+        .content .logo {
+            margin-top: 30px;
+            max-height: 40%;
+        }
+
+        .wrapper {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            margin-top: 60px;
+        }
 
 		.address-container,
 		.error-container {
@@ -196,25 +209,29 @@
 </head>
 <body>
 	<div class="content">
-		<div class="address-container">
-			<h2 class="label">
-				Wallet Address
-			</h2>
-			<div class="value">
-				<span class="value-text">
-				</span>
-				<button class="copy-button">
-					<img src="/public/assets/common/copy.svg" />
-				</button>
-			</div>
-		</div>
+        <img class="logo" src="/public/assets/backgrounds/wax-logo.png"></img>
 
-		<div class="error-container">
-			Keplr not installed or no account found
-		</div>
+        <div class="wrapper">
+            <div class="address-container">
+                <h2 class="label">
+                    Wallet Address
+                </h2>
+                <div class="value">
+                    <span class="value-text">
+                    </span>
+                    <button class="copy-button">
+                        <img src="/public/assets/common/copy.svg" />
+                    </button>
+                </div>
+            </div>
 
-		<div class="copy-tooltip">
-			Copied address to clipboard!
-		</div>
+            <div class="error-container">
+                Keplr not installed or no account found
+            </div>
+
+            <div class="copy-tooltip">
+                Copied address to clipboard!
+            </div>
+        </div>
 	</div>
 </body>
