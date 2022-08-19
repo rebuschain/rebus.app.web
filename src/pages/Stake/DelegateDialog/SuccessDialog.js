@@ -10,7 +10,7 @@ import { config } from 'src/config-insync';
 
 const SuccessDialog = props => {
 	const handleRedirect = () => {
-		const link = `${config.EXPLORER_URL}/txs/${props.hash}`;
+		const link = `${config.EXPLORER_URL}/${props.hash}`;
 		window.open(link, '_blank');
 	};
 

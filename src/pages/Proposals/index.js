@@ -126,13 +126,11 @@ Proposals.propTypes = {
 	proposals: PropTypes.array.isRequired,
 	voteDetails: PropTypes.array.isRequired,
 	voteDetailsInProgress: PropTypes.bool.isRequired,
-	address: PropTypes.string,
 	proposalsInProgress: PropTypes.bool,
 };
 
 const stateToProps = state => {
 	return {
-		address: state.accounts.address.value,
 		proposals: state.proposals._.list,
 		proposalsInProgress: state.proposals._.inProgress,
 		lang: state.language,

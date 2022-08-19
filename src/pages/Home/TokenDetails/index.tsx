@@ -20,7 +20,7 @@ type TokenDetailsProps = {
 };
 
 const TokenDetails: FunctionComponent<TokenDetailsProps> = observer(props => {
-	const { chainStore, accountStore, queriesStore } = useStore();
+	const { chainStore, accountStore, queriesStore, metamaskStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);
 
@@ -30,24 +30,25 @@ const TokenDetails: FunctionComponent<TokenDetailsProps> = observer(props => {
 		account.bech32Address,
 		queries.queryBalances
 	);
+	const address = metamaskStore.isLoaded ? metamaskStore.rebusAddress : account.bech32Address;
 
 	const langVariables = (variables as any)[props.lang] as { [key: string]: string };
 
-	const balanceQuery = queries.queryBalances.getQueryBech32Address(account.bech32Address);
+	const balanceQuery = queries.queryBalances.getQueryBech32Address(address);
 	const available = balanceQuery.stakable.balance
 		.hideDenom(true)
 		.maxDecimals(2)
 		.toString();
 	const balanceInProgress = balanceQuery.stakable.isFetching;
 
-	const delegationsQuery = queries.cosmos.queryDelegations.getQueryBech32Address(account.bech32Address);
+	const delegationsQuery = queries.cosmos.queryDelegations.getQueryBech32Address(address);
 	const staked = delegationsQuery.total
 		.hideDenom(true)
 		.maxDecimals(2)
 		.toString();
 	const stakedInProgress = delegationsQuery.isFetching;
 
-	const rewardsQuery = queries.cosmos.queryRewards.getQueryBech32Address(account.bech32Address);
+	const rewardsQuery = queries.cosmos.queryRewards.getQueryBech32Address(address);
 	const rewards = rewardsQuery.rewards
 		.reduce((acc, amount) => acc.add(amount), new CoinPretty(amountConfig.sendCurrency, 0))
 		.hideDenom(true)
@@ -55,9 +56,7 @@ const TokenDetails: FunctionComponent<TokenDetailsProps> = observer(props => {
 		.toString();
 	const rewardsInProgress = rewardsQuery.isFetching;
 
-	const unBondingDelegationsQuery = queries.cosmos.queryUnbondingDelegations.getQueryBech32Address(
-		account.bech32Address
-	);
+	const unBondingDelegationsQuery = queries.cosmos.queryUnbondingDelegations.getQueryBech32Address(address);
 	const unstaked = unBondingDelegationsQuery.total
 		.hideDenom(true)
 		.maxDecimals(2)

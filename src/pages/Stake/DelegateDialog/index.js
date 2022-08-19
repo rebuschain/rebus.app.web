@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import * as PropTypes from 'prop-types';
+import { observer } from 'mobx-react-lite';
+import env from '@beam-australia/react-env';
 import { connect } from 'react-redux';
 import { Button, Dialog, DialogActions, DialogContent } from '@material-ui/core';
 import './index.scss';
@@ -30,60 +32,95 @@ import CircularProgress from 'src/components/insync/CircularProgress';
 import { useStore } from '../../../stores';
 
 const COIN_DECI_VALUE = 1000000000000000000;
-const DelegateDialog = props => {
-	const { chainStore, accountStore, queriesStore } = useStore();
-	const account = accountStore.getAccount(chainStore.current.chainId);
+const DelegateDialog = observer(props => {
+	const { chainStore, queriesStore, metamaskStore } = useStore();
 	const queries = queriesStore.get(chainStore.current.chainId);
 
 	const [inProgress, setInProgress] = useState(false);
-	const handleDelegateType = () => {
+	const handleDelegateType = async () => {
 		setInProgress(true);
+
+		let txHash = '';
 		let gasValue = gas.delegate;
+		let method = 'delegate';
+
 		if (props.name === 'Redelegate') {
 			gasValue = gas.re_delegate;
+			method = 'reDelegate';
 		} else if (props.name === 'Undelegate') {
 			gasValue = gas.un_delegate;
+			method = 'unDelegate';
 		}
-		const updatedTx = {
-			msg: {
-				typeUrl:
-					props.name === 'Delegate' || props.name === 'Stake'
-						? '/cosmos.staking.v1beta1.MsgDelegate'
-						: props.name === 'Undelegate'
-						? '/cosmos.staking.v1beta1.MsgUndelegate'
-						: props.name === 'Redelegate'
-						? '/cosmos.staking.v1beta1.MsgBeginRedelegate'
-						: '',
-				value: getValueObject(props.name),
-			},
-			fee: {
-				amount: [
-					{
-						amount: String(gasValue * config.GAS_PRICE_STEP_AVERAGE),
-						denom: config.COIN_MINIMAL_DENOM,
-					},
-				],
-				gas: String(gasValue),
-			},
-			memo: '',
-		};
 
-		aminoSignTx(updatedTx, props.address, (error, result) => {
-			setInProgress(false);
-			if (error) {
-				if (error.indexOf('not yet found on the chain') > -1) {
-					props.pendingDialog();
-					return;
+		const value = getValueObject(props.name);
+		const gasAmount = {
+			amount: String(BigInt(gasValue * config.GAS_PRICE_STEP_AVERAGE)),
+			denom: config.COIN_MINIMAL_DENOM,
+		};
+		const gasString = String(gasValue);
+
+		try {
+			if (metamaskStore.isLoaded) {
+				const tx = await metamaskStore[method](
+					{
+						...gasAmount,
+						gas: gasString,
+					},
+					{
+						...value,
+						amount: value.amount.amount,
+						denom: value.amount.denom,
+					},
+					''
+				);
+				txHash = tx?.tx_response?.txhash;
+
+				if (tx?.tx_response?.raw_log?.includes('too many unbonding delegation entries')) {
+					throw new Error(variables[props.lang]['error_too_many_delegations']);
 				}
-				props.failedDialog();
-				props.showMessage(error);
-				return;
+			} else {
+				const updatedTx = {
+					msg: {
+						typeUrl:
+							props.name === 'Delegate' || props.name === 'Stake'
+								? '/cosmos.staking.v1beta1.MsgDelegate'
+								: props.name === 'Undelegate'
+								? '/cosmos.staking.v1beta1.MsgUndelegate'
+								: props.name === 'Redelegate'
+								? '/cosmos.staking.v1beta1.MsgBeginRedelegate'
+								: '',
+						value,
+					},
+					fee: {
+						amount: [gasAmount],
+						gas: gasString,
+					},
+					memo: '',
+				};
+
+				const tx = await aminoSignTx(updatedTx, props.address);
+				txHash = tx?.transactionHash;
+
+				if (tx?.rawLog?.includes('too many unbonding delegation entries')) {
+					throw new Error(variables[props.lang]['error_too_many_delegations']);
+				}
 			}
-			if (result) {
-				props.successDialog(result.transactionHash);
-				updateBalance();
+
+			updateBalance();
+			setInProgress(false);
+			props.successDialog(txHash);
+		} catch (error) {
+			setInProgress(false);
+
+			const message = error?.message || '';
+
+			if (message.indexOf('not yet found on the chain') > -1) {
+				props.pendingDialog();
+			} else {
+				props.failedDialog(txHash);
+				props.showMessage(message);
 			}
-		});
+		}
 	};
 
 	const updateBalance = () => {
@@ -95,10 +132,10 @@ const DelegateDialog = props => {
 		props.getDelegatedValidatorsDetails(props.address);
 		props.fetchRewards(props.address);
 
-		queries.queryBalances.getQueryBech32Address(account.bech32Address).fetch();
-		queries.cosmos.queryRewards.getQueryBech32Address(account.bech32Address).fetch();
-		queries.cosmos.queryDelegations.getQueryBech32Address(account.bech32Address).fetch();
-		queries.cosmos.queryUnbondingDelegations.getQueryBech32Address(account.bech32Address).fetch();
+		queries.queryBalances.getQueryBech32Address(props.address).fetch();
+		queries.cosmos.queryRewards.getQueryBech32Address(props.address).fetch();
+		queries.cosmos.queryDelegations.getQueryBech32Address(props.address).fetch();
+		queries.cosmos.queryUnbondingDelegations.getQueryBech32Address(props.address).fetch();
 	};
 
 	const getValueObject = type => {
@@ -209,7 +246,7 @@ const DelegateDialog = props => {
 			</DialogActions>
 		</Dialog>
 	);
-};
+});
 
 DelegateDialog.propTypes = {
 	failedDialog: PropTypes.func.isRequired,

@@ -14,7 +14,7 @@ export interface AccountConnection {
 export const AccountConnectionContext = React.createContext<AccountConnection | null>(null);
 
 export const AccountConnectionProvider: FunctionComponent = observer(({ children }) => {
-	const { chainStore, accountStore, connectWalletManager } = useStore();
+	const { chainStore, accountStore, metamaskStore, connectWalletManager } = useStore();
 	const [isOpenDialog, setIsOpenDialog] = useState(false);
 
 	const account = accountStore.getAccount(chainStore.current.chainId);
@@ -34,7 +34,10 @@ export const AccountConnectionProvider: FunctionComponent = observer(({ children
 	// Because the initing the wallet is asyncronous, when users enter the site the wallet is seen as not loaded.
 	// To reduce this problem, if the wallet is connected when users enter the site, just assume that the wallet is already connected.
 	const isAccountConnected =
-		account.walletStatus === WalletStatus.Loaded || connectWalletManager.autoConnectingWalletType || isMobileWeb;
+		account.walletStatus === WalletStatus.Loaded ||
+		connectWalletManager.autoConnectingWalletType ||
+		isMobileWeb ||
+		metamaskStore.isLoaded;
 
 	const disconnectAccount = useCallback(async () => {
 		connectWalletManager.disableAutoConnect();
@@ -55,11 +58,12 @@ export const AccountConnectionProvider: FunctionComponent = observer(({ children
 	}, [account, isMobileWeb]);
 
 	useEffect(() => {
-		// 이전에 로그인한 후에 sign out을 명시적으로 하지 않았으면 자동으로 로그인한다.
-		if (!!connectWalletManager.autoConnectingWalletType && account.walletStatus === WalletStatus.NotInit) {
+		if (connectWalletManager.autoConnectingWalletType === 'metamask') {
+			metamaskStore.init();
+		} else if (!!connectWalletManager.autoConnectingWalletType && account.walletStatus === WalletStatus.NotInit) {
 			account.init();
 		}
-	}, [account, connectWalletManager.autoConnectingWalletType]);
+	}, [account, connectWalletManager.autoConnectingWalletType, metamaskStore]);
 
 	/*
 	    Disconnect the accounts if the wallet doesn't exist or the connection rejected.
@@ -71,6 +75,7 @@ export const AccountConnectionProvider: FunctionComponent = observer(({ children
 	 */
 	for (const chainInfo of chainStore.chainInfos) {
 		const account = accountStore.getAccount(chainInfo.chainId);
+
 		if (account.walletStatus === WalletStatus.NotExist || account.walletStatus === WalletStatus.Rejected) {
 			if (chainInfo.chainId === chainStore.current.chainId) {
 				connectWalletManager.disableAutoConnect();

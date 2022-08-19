@@ -120,43 +120,29 @@ export const aminoSignTxAndBroadcast = (tx, address, cb) => {
 	})();
 };
 
-export const aminoSignTx = (tx, address, cb) => {
-	(async () => {
-		(await window.keplr) && window.keplr.enable(chainId);
-		const offlineSigner = window.getOfflineSignerOnlyAmino && window.getOfflineSignerOnlyAmino(chainId);
+export const aminoSignTx = async (tx, address) => {
+	(await window.keplr) && window.keplr.enable(chainId);
+	const offlineSigner = window.getOfflineSignerOnlyAmino && window.getOfflineSignerOnlyAmino(chainId);
 
-		const client = await SigningStargateClient.connectWithSigner(RPC_URL, offlineSigner);
+	const client = await SigningStargateClient.connectWithSigner(RPC_URL, offlineSigner);
 
-		let signerData;
+	let signerData;
 
-		const myac = await getAccount(address);
+	const myac = await getAccount(address);
 
-		if (!myac) {
-			return cb('Account not found');
-		}
+	if (!myac) {
+		throw new Error('Account not found');
+	}
 
-		signerData = {
-			accountNumber: myac.accountNumber,
-			sequence: myac.sequence,
-			chainId: chainId,
-		};
+	signerData = {
+		accountNumber: myac.accountNumber,
+		sequence: myac.sequence,
+		chainId: chainId,
+	};
 
-		client
-			.signAmino(address, tx.msgs ? tx.msgs : [tx.msg], tx.fee, tx.memo, signerData)
-			.then(result => {
-				const txBytes = TxRaw.encode(result).finish();
+	const result = await client.signAmino(address, tx.msgs ? tx.msgs : [tx.msg], tx.fee, tx.memo, signerData);
 
-				client
-					.broadcastTx(txBytes)
-					.then(() => {
-						cb(null, result);
-					})
-					.catch(error => {
-						cb(error && error.message);
-					});
-			})
-			.catch(error => {
-				cb(error && error.message);
-			});
-	})();
+	const txBytes = TxRaw.encode(result).finish();
+
+	return client.broadcastTx(txBytes);
 };
