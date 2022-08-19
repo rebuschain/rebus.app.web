@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { observer } from 'mobx-react-lite';
 import { Button, Dialog, DialogActions, DialogContent } from '@material-ui/core';
 import * as PropTypes from 'prop-types';
 import {
@@ -20,30 +21,29 @@ import { gas } from 'src/constants/defaultGasValues';
 import variables from 'src/utils/variables';
 import CircularProgress from 'src/components/insync/CircularProgress';
 
-const ClaimDialog = props => {
+const ClaimDialog = observer(props => {
 	const [inProgress, setInProgress] = useState(false);
 
-	const { chainStore, accountStore, queriesStore } = useStore();
-	const account = accountStore.getAccount(chainStore.current.chainId);
+	const { chainStore, queriesStore, metamaskStore } = useStore();
 	const queries = queriesStore.get(chainStore.current.chainId);
 
-	const handleClaimAll = () => {
+	const handleClaimAll = async () => {
 		setInProgress(true);
 		var gasValue = gas.claim_reward;
 		if (props.rewards && props.rewards.rewards && props.rewards.rewards.length > 1) {
 			gasValue = ((props.rewards.rewards.length - 1) / 2) * gas.claim_reward + gas.claim_reward;
 		}
 
+		const gasAmount = {
+			amount: String(BigInt(gasValue * config.GAS_PRICE_STEP_AVERAGE)),
+			denom: config.COIN_MINIMAL_DENOM,
+		};
+		const gasString = String(gasValue);
 		const updatedTx = {
 			msgs: [],
 			fee: {
-				amount: [
-					{
-						amount: String(BigInt(gasValue * config.GAS_PRICE_STEP_AVERAGE)),
-						denom: config.COIN_MINIMAL_DENOM,
-					},
-				],
-				gas: String(gasValue),
+				amount: [gasAmount],
+				gas: gasString,
 			},
 			memo: '',
 		};
@@ -62,32 +62,53 @@ const ClaimDialog = props => {
 			});
 		}
 
-		aminoSignTx(updatedTx, props.address, (error, result) => {
-			setInProgress(false);
-			if (error) {
-				if (error.indexOf('not yet found on the chain') > -1) {
-					props.pendingDialog();
-					return;
-				}
-				props.failedDialog();
-				props.showMessage(error);
-				return;
+		try {
+			if (metamaskStore.isLoaded) {
+				const tx = await metamaskStore.claimRewards(
+					{
+						...gasAmount,
+						gas: gasString,
+					},
+					{
+						validatorAddresses: updatedTx.msgs.map(({ value }) => value.validatorAddress),
+					},
+					''
+				);
+				props.successDialog(tx?.tx_response?.txhash);
+			} else {
+				const result = await aminoSignTx(updatedTx, props.address);
+				props.successDialog(result?.transactionHash);
 			}
-			if (result) {
-				props.setTokens(tokens);
-				props.successDialog(result.transactionHash);
-				props.fetchRewards(props.address);
-				props.getBalance(props.address);
-				props.fetchVestingBalance(props.address);
+		} catch (error) {
+			const message = error?.message || '';
 
-				queries.queryBalances.getQueryBech32Address(account.bech32Address).fetch();
-				queries.cosmos.queryRewards.getQueryBech32Address(account.bech32Address).fetch();
+			if (message) {
+				if (message.indexOf('not yet found on the chain') > -1) {
+					props.pendingDialog();
+				} else {
+					props.failedDialog();
+					props.showMessage(message);
+				}
 			}
-		});
+		}
+
+		props.setTokens(tokens);
+		props.fetchRewards(props.address);
+		props.getBalance(props.address);
+		props.fetchVestingBalance(props.address);
+		queries.queryBalances.getQueryBech32Address(props.address).fetch();
+		queries.cosmos.queryRewards.getQueryBech32Address(props.address).fetch();
+		setInProgress(false);
 	};
 
-	const handleClaim = () => {
+	const handleClaim = async () => {
 		setInProgress(true);
+
+		const gasAmount = {
+			amount: String(BigInt(gas.claim_reward * config.GAS_PRICE_STEP_AVERAGE)),
+			denom: config.COIN_MINIMAL_DENOM,
+		};
+		const gasString = String(gas.claim_reward);
 		const updatedTx = {
 			msg: {
 				typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
@@ -100,40 +121,49 @@ const ClaimDialog = props => {
 				},
 			},
 			fee: {
-				amount: [
-					{
-						amount: String(BigInt(gas.claim_reward * config.GAS_PRICE_STEP_AVERAGE)),
-						denom: config.COIN_MINIMAL_DENOM,
-					},
-				],
-				gas: String(gas.claim_reward),
+				amount: [gasAmount],
+				gas: gasString,
 			},
 			memo: '',
 		};
 
-		aminoSignTx(updatedTx, props.address, (error, result) => {
-			setInProgress(false);
-			if (error) {
-				if (error.indexOf('not yet found on the chain') > -1) {
+		try {
+			if (metamaskStore.isLoaded) {
+				const tx = await metamaskStore.claimRewards(
+					{
+						...gasAmount,
+						gas: gasString,
+					},
+					{
+						validatorAddresses: [props.value],
+					},
+					''
+				);
+				props.successDialog(tx?.tx_response?.txhash);
+			} else {
+				const result = await aminoSignTx(updatedTx, props.address);
+				props.successDialog(result?.transactionHash);
+			}
+		} catch (error) {
+			const message = error?.message || '';
+
+			if (message) {
+				if (message.indexOf('not yet found on the chain') > -1) {
 					props.pendingDialog();
-					return;
+				} else {
+					props.failedDialog();
+					props.showMessage(message);
 				}
-				props.failedDialog();
-				props.showMessage(error);
-				return;
 			}
+		}
 
-			if (result) {
-				props.setTokens(tokens);
-				props.successDialog(result.transactionHash);
-				props.fetchRewards(props.address);
-				props.getBalance(props.address);
-				props.fetchVestingBalance(props.address);
-
-				queries.queryBalances.getQueryBech32Address(account.bech32Address).fetch();
-				queries.cosmos.queryRewards.getQueryBech32Address(account.bech32Address).fetch();
-			}
-		});
+		props.setTokens(tokens);
+		props.fetchRewards(props.address);
+		props.getBalance(props.address);
+		props.fetchVestingBalance(props.address);
+		queries.queryBalances.getQueryBech32Address(props.address).fetch();
+		queries.cosmos.queryRewards.getQueryBech32Address(props.address).fetch();
+		setInProgress(false);
 	};
 
 	const rewards =
@@ -192,7 +222,7 @@ const ClaimDialog = props => {
 			</DialogActions>
 		</Dialog>
 	);
-};
+});
 
 ClaimDialog.propTypes = {
 	failedDialog: PropTypes.func.isRequired,

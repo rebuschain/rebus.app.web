@@ -150,6 +150,7 @@ const failedDialog = (
 	state = {
 		open: false,
 		message: '',
+		hash: '',
 	},
 	action
 ) => {
@@ -158,6 +159,7 @@ const failedDialog = (
 			return {
 				...state,
 				open: true,
+				hash: action.value,
 			};
 		case DELEGATE_FAILED_DIALOG_HIDE:
 			return {

@@ -30,7 +30,13 @@ class ProposalDialog extends Component {
 			this.props.proposal.id &&
 			this.props.voteDetails.filter(vote => vote.proposal_id === this.props.proposal.id)[0];
 
-		if (!votedOption && this.props.proposal && this.props.proposal.id && this.props.address) {
+		if (!votedOption && this.props.proposal?.id && this.props.address) {
+			this.props.fetchVoteDetails(this.props.proposal.id, this.props.address);
+		}
+	}
+
+	componentDidUpdate() {
+		if (!votedOption && this.props.proposal?.id && this.props.address) {
 			this.props.fetchVoteDetails(this.props.proposal.id, this.props.address);
 		}
 	}

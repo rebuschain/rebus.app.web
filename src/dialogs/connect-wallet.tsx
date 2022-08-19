@@ -9,6 +9,7 @@ import {
 	saveMobileLinkInfo,
 } from '@walletconnect/browser-utils';
 
+import env from '@beam-australia/react-env';
 import { observer } from 'mobx-react-lite';
 import { action, makeObservable, observable } from 'mobx';
 import { Keplr } from '@keplr-wallet/types';
@@ -24,6 +25,7 @@ import { ChainStore } from 'src/stores/chain';
 import { AccountWithCosmosAndOsmosis } from 'src/stores/osmosis/account';
 import { useStore } from 'src/stores';
 import { IJsonRpcRequest, IRequestOptions } from '@walletconnect/types';
+import { MetamaskStore } from 'src/stores/metamask';
 
 const walletList = [
 	{
@@ -37,6 +39,13 @@ const walletList = [
 		description: 'Keplr Mobile',
 		logoUrl: '/public/assets/other-logos/wallet-connect.png',
 		type: 'wallet-connect',
+	},
+	{
+		name: 'Metamask',
+		description: 'Metamask Browser Extension',
+		logoUrl: '/public/assets/other-logos/metamask.png',
+		type: 'extension',
+		isMetamask: true,
 	},
 ];
 
@@ -107,7 +116,7 @@ class WalletConnectQRCodeModalV1Renderer {
 	}
 }
 
-export type WalletType = 'true' | 'extension' | 'wallet-connect' | null;
+export type WalletType = 'true' | 'extension' | 'wallet-connect' | 'metamask' | null;
 export const KeyConnectingWalletType = 'connecting_wallet_type';
 export const KeyAutoConnectingWalletType = 'account_auto_connect';
 
@@ -126,7 +135,8 @@ export class ConnectWalletManager {
 
 	constructor(
 		protected readonly chainStore: ChainStore,
-		protected accountStore?: AccountStore<AccountWithCosmosAndOsmosis>
+		protected accountStore?: AccountStore<AccountWithCosmosAndOsmosis>,
+		protected metamaskStore?: MetamaskStore
 	) {
 		this.autoConnectingWalletType = localStorage?.getItem(KeyAutoConnectingWalletType) as WalletType;
 		makeObservable(this);
@@ -137,6 +147,10 @@ export class ConnectWalletManager {
 	// To solve this problem, just set the account store field lazily.
 	setAccountStore(accountStore: AccountStore<AccountWithCosmosAndOsmosis>) {
 		this.accountStore = accountStore;
+	}
+
+	setMetamaskStore(metamaskStore: MetamaskStore) {
+		this.metamaskStore = metamaskStore;
 	}
 
 	protected onBeforeSendRequest = (request: Partial<IJsonRpcRequest>): void => {
@@ -185,7 +199,7 @@ export class ConnectWalletManager {
 				this.walletConnector._clientMeta = {
 					name: 'Rebus',
 					description: 'Rebus',
-					url: 'https://app.rebustokenred.com',
+					url: env('REBUS_URL'),
 					icons: [window.location.origin + '/public/assets/main/rebus-single.svg'],
 				};
 
@@ -266,6 +280,10 @@ export class ConnectWalletManager {
 				}
 			}
 		}
+
+		if (this.metamaskStore) {
+			this.metamaskStore.disconnect();
+		}
 	}
 
 	@action
@@ -277,7 +295,7 @@ export class ConnectWalletManager {
 
 export const ConnectWalletDialog = wrapBaseDialog(
 	observer(({ initialFocus, close }: { initialFocus: React.RefObject<HTMLDivElement>; close: () => void }) => {
-		const { chainStore, accountStore } = useStore();
+		const { chainStore, accountStore, metamaskStore } = useStore();
 		const [isMobile] = useState(() => checkIsMobile());
 
 		useEffect(() => {
@@ -307,7 +325,16 @@ export const ConnectWalletDialog = wrapBaseDialog(
 							className="w-full text-left p-3 md:p-5 rounded-2xl bg-background flex items-center mt-4 md:mt-5"
 							onClick={() => {
 								localStorage.setItem(KeyConnectingWalletType, wallet.type);
-								accountStore.getAccount(chainStore.current.chainId).init();
+
+								if (wallet.isMetamask) {
+									metamaskStore.init().then(success => {
+										if (success) {
+											localStorage.setItem(KeyAutoConnectingWalletType, 'metamask');
+										}
+									});
+								} else {
+									accountStore.getAccount(chainStore.current.chainId).init();
+								}
 								close();
 							}}>
 							<img src={wallet.logoUrl} className="w-12 mr-3 md:w-16 md:mr-5" />

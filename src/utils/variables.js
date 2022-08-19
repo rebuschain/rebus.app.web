@@ -13,6 +13,7 @@ const variables = {
 		staked_tokens: 'Staked Tokens',
 		un_staked_tokens: 'Unstaked Tokens',
 		eligible_groups: 'Eligible Groups',
+		error_too_many_delegations: 'Too many delegations to this validator',
 		connect_telegram: 'Connect your Telegram account',
 		telegram_communities: 'Participate in exclusive Telegram communities, only for on-chain pros!',
 		connect_to_telegram: 'Connect to your Telegram Account',

@@ -1,17 +1,30 @@
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent } from 'react';
 import { Button } from 'src/components/common/button';
-import { LINKS, MISC } from '../../../constants';
+import { useActions } from 'src/hooks/useActions';
+import * as accounts from '../../../actions/accounts';
+import { MISC } from '../../../constants';
 import { useAccountConnection } from '../../../hooks/account/useAccountConnection';
 import { useStore } from '../../../stores';
 import { ConnectAccountButton } from '../../ConnectAccountButton';
 
 export const SidebarBottom: FunctionComponent = observer(() => {
-	const { chainStore, accountStore, queriesStore } = useStore();
+	const [disconnectSet] = useActions([accounts.disconnectSet]);
+
+	const { chainStore, accountStore, queriesStore, metamaskStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);
+	const address = metamaskStore.isLoaded ? metamaskStore.rebusAddress : account.bech32Address;
 
 	const { isAccountConnected, connectAccount, disconnectAccount, isMobileWeb } = useAccountConnection();
+
+	const balance = queries.queryBalances
+		.getQueryBech32Address(address)
+		.stakable.balance.trim(true)
+		.maxDecimals(2)
+		.shrink(true)
+		.upperCase(true)
+		.toString();
 
 	return (
 		<div>
@@ -23,15 +36,7 @@ export const SidebarBottom: FunctionComponent = observer(() => {
 						</div>
 						<div className="flex flex-col">
 							<p className="font-semibold text-white-high text-base">{account.name}</p>
-							<p className="opacity-50 text-white-emphasis text-sm">
-								{queries.queryBalances
-									.getQueryBech32Address(account.bech32Address)
-									.stakable.balance.trim(true)
-									.maxDecimals(2)
-									.shrink(true)
-									.upperCase(true)
-									.toString()}
-							</p>
+							<p className="opacity-50 text-white-emphasis text-sm">{balance}</p>
 						</div>
 					</div>
 					{!isMobileWeb ? (
@@ -40,6 +45,7 @@ export const SidebarBottom: FunctionComponent = observer(() => {
 							onClick={e => {
 								e.preventDefault();
 								disconnectAccount();
+								disconnectSet();
 							}}
 							className="w-full mb-8">
 							<img alt="sign-out" className="w-5 h-5" src={`${MISC.ASSETS_BASE}/Icons/SignOutSecondary.svg`} />
