@@ -35,12 +35,6 @@ const ethChainId = Number(chainId.split('_')[1].split('-')[0]);
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const headers = { 'Content-Type': 'application/json' };
 
-type RpcResult = {
-	id: string;
-	jsonrpc: string;
-	result: string;
-};
-
 type TxResponse = {
 	code: number;
 	codespace: SifchainLiquidityAPYResult;
@@ -97,6 +91,12 @@ export class MetamaskStore {
 			return false;
 		}
 
+		if (!window.ethereum) {
+			throw new Error('Metamask is not installed');
+		}
+
+		await window.ethereum.enable();
+
 		this.address = (await provider.listAccounts())?.[0];
 
 		if (!this.address) {
@@ -134,7 +134,6 @@ export class MetamaskStore {
 		return signatureToPubkey(
 			signature,
 			Buffer.from([
-				// eslint-disable-next-line prettier/prettier
 				50,
 				215,
 				18,
@@ -151,7 +150,6 @@ export class MetamaskStore {
 				165,
 				146,
 				216,
-				// eslint-disable-next-line prettier/prettier
 				40,
 				162,
 				115,

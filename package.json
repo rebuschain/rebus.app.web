@@ -156,6 +156,7 @@
 		"eslint-plugin-react": "^7.14.3",
 		"eslint-plugin-react-hooks": "^2.0.1",
 		"eslint-plugin-unicorn": "^23.0.0",
+		"ethereum-types": "^3.7.1",
 		"file-loader": "^6.2.0",
 		"fork-ts-checker-webpack-plugin": "^6.2.0",
 		"html-webpack-plugin": "^3.2.0",
