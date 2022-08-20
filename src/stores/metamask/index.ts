@@ -92,7 +92,8 @@ export class MetamaskStore {
 		}
 
 		if (!window.ethereum) {
-			throw new Error('Metamask is not installed');
+			window.open('https://metamask.io/');
+			return;
 		}
 
 		await window.ethereum.enable();
