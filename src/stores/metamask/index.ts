@@ -183,12 +183,7 @@ export class MetamaskStore {
 
 		const {
 			account: {
-				base_account: {
-					address: accountAddress,
-					account_number: accountNumber,
-					sequence,
-					pub_key: { key },
-				},
+				base_account: { address: accountAddress, account_number: accountNumber, sequence, pub_key: pubkey },
 			},
 		} = res.data as any;
 
@@ -196,7 +191,7 @@ export class MetamaskStore {
 			accountAddress,
 			accountNumber,
 			sequence,
-			pubkey: key || (await this.getPubKey()),
+			pubkey: pubkey?.key || (await this.getPubKey()),
 		};
 	}
 
