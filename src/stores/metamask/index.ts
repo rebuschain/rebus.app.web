@@ -32,7 +32,6 @@ import { ChainInfoWithExplorer } from '../chain';
 const chainId = env('CHAIN_ID');
 const restUrl = env('REST_URL');
 const ethChainId = Number(chainId.split('_')[1].split('-')[0]);
-const provider = new ethers.providers.Web3Provider(window.ethereum);
 const headers = { 'Content-Type': 'application/json' };
 
 type TxResponse = {
@@ -68,6 +67,8 @@ export class MetamaskStore {
 	@observable.ref
 	public balance: CoinPretty;
 
+	private provider!: ethers.providers.Web3Provider;
+
 	constructor(protected readonly chain: ChainInfoWithExplorer) {
 		this.balance = new CoinPretty(this.currency, new Dec(0));
 		this.onAccountChange = this.onAccountChange.bind(this);
@@ -96,9 +97,11 @@ export class MetamaskStore {
 			return;
 		}
 
+		this.provider = new ethers.providers.Web3Provider(window.ethereum);
+
 		await window.ethereum.enable();
 
-		this.address = (await provider.listAccounts())?.[0];
+		this.address = (await this.provider.listAccounts())?.[0];
 
 		if (!this.address) {
 			return false;
@@ -107,7 +110,7 @@ export class MetamaskStore {
 		this.rebusAddress = ethToRebus(this.address);
 
 		// this.balance = new MetaCurrency(BigInt(await web3.eth.getBalance(this.address)), coinDecimals, coinDenom));
-		const balanceAmount = await provider.getBalance(this.address);
+		const balanceAmount = await this.provider.getBalance(this.address);
 		this.balance = new CoinPretty(this.currency, new Dec(balanceAmount.toBigInt()));
 
 		if (window.ethereum) {
@@ -130,7 +133,7 @@ export class MetamaskStore {
 	}
 
 	public async getPubKey() {
-		const signature = await provider.getSigner().signMessage('generate_pubkey');
+		const signature = await this.provider.getSigner().signMessage('generate_pubkey');
 
 		return signatureToPubkey(
 			signature,
