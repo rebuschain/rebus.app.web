@@ -224,21 +224,18 @@ export class MetamaskStore {
 	public async delegate(fee: Fee, msg: MsgDelegateParams, memo: string): Promise<TransactionResponse> {
 		const sender = await this.getSender();
 		const txMsg = createTxMsgDelegate(this.chainInfo, sender, fee, memo, msg);
-		txMsg.eipToSign.domain.name = 'Rebus';
 		return this.broadcast(sender, txMsg);
 	}
 
 	public async unDelegate(fee: Fee, msg: MsgUndelegateParams, memo: string): Promise<TransactionResponse> {
 		const sender = await this.getSender();
 		const txMsg = createTxMsgUndelegate(this.chainInfo, sender, fee, memo, msg);
-		txMsg.eipToSign.domain.name = 'Rebus';
 		return this.broadcast(sender, txMsg);
 	}
 
 	public async reDelegate(fee: Fee, msg: MsgBeginRedelegateParams, memo: string): Promise<TransactionResponse> {
 		const sender = await this.getSender();
 		const txMsg = createTxMsgBeginRedelegate(this.chainInfo, sender, fee, memo, msg);
-		txMsg.eipToSign.domain.name = 'Rebus';
 		return this.broadcast(sender, txMsg);
 	}
 
@@ -249,14 +246,12 @@ export class MetamaskStore {
 	): Promise<TransactionResponse> {
 		const sender = await this.getSender();
 		const txMsg = createTxMsgMultipleWithdrawDelegatorReward(this.chainInfo, sender, fee, memo, msg);
-		txMsg.eipToSign.domain.name = 'Rebus';
 		return this.broadcast(sender, txMsg);
 	}
 
 	public async vote(fee: Fee, msg: MessageMsgVote, memo: string): Promise<TransactionResponse> {
 		const sender = await this.getSender();
 		const txMsg = createTxMsgVote(this.chainInfo, sender, fee, memo, msg);
-		txMsg.eipToSign.domain.name = 'Rebus';
 		return this.broadcast(sender, txMsg);
 	}
 
