@@ -47,20 +47,23 @@ export class ObservableQueryClaimRecordInner extends ObservableChainQuery<ClaimR
 	get completedActions(): {
 		stake: boolean;
 		mint: boolean;
+		vote: boolean;
 		vault: boolean;
 	} {
 		if (!this.response) {
 			return {
 				stake: false,
 				mint: false,
+				vote: false,
 				vault: false,
 			};
 		}
 
 		return {
 			stake: this.response.data.claim_record.action_completed[0] === true,
-			mint: this.response.data.claim_record.action_completed[1] === true,
-			vault: this.response.data.claim_record.action_completed[2] === true,
+			vote: this.response.data.claim_record.action_completed[1] === true,
+			mint: this.response.data.claim_record.action_completed[2] === true,
+			vault: this.response.data.claim_record.action_completed[3] === true,
 		};
 	}
 }

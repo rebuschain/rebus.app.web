@@ -9,7 +9,7 @@ import useWindowSize from 'src/hooks/useWindowSize';
 
 export const ActionToDescription: { [action: string]: string } = {
 	stake: 'Stake $REBUS',
-	wax: 'Swap Wax for Rebus', //TODO finalize what this does
+	vote: 'Vote on a proposal',
 	mint: 'Mint one NFTID on Rebus',
 	vault: 'Use the Rebus Vault',
 };
@@ -36,7 +36,7 @@ export const AirdropMissions = observer(function AirdropMissions(props: HTMLAttr
 				<MissionCard
 					num={0}
 					complete={!isIneligible}
-					description="Hold and stake Atom, Osmo or Wax on August 31st."
+					description="Stake Atom, Evmos or Osmo on July 14th or Join our community with your Wax account until August 31st."
 					ineligible={isIneligible}
 					isMobileView={isMobileView}
 				/>
