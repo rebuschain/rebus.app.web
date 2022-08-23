@@ -1,18 +1,22 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
+import { observer } from 'mobx-react-lite';
 import { fetchProposalTally, fetchVoteDetails, hideProposalDialog } from 'src/actions/proposals';
 import { connect } from 'react-redux';
 import { Button, FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
 import CircularProgress from 'src/components/insync/CircularProgress';
-import { signTxAndBroadcast } from 'src/utils/helper';
+import { aminoSignTx } from 'src/utils/helper';
 import { config } from 'src/config-insync';
 import { gas } from 'src/constants/defaultGasValues';
 import variables from 'src/utils/variables';
 import { showMessage } from 'src/actions/snackbar';
 import { showDelegateFailedDialog, showDelegateProcessingDialog, showDelegateSuccessDialog } from 'src/actions/stake';
 import { fetchVestingBalance, getBalance } from 'src/actions/accounts';
+import { useStore } from 'src/stores';
 
-const Voting = props => {
+const Voting = observer(props => {
+	const { metamaskStore } = useStore();
+
 	const [value, setValue] = React.useState('');
 	const [inProgress, setInProgress] = React.useState(false);
 
@@ -26,7 +30,7 @@ const Voting = props => {
 		}
 	};
 
-	const handleVote = () => {
+	const handleVote = async () => {
 		if (!props.address) {
 			props.showMessage(variables[props.lang]['connect_account']);
 			return;
@@ -60,24 +64,43 @@ const Voting = props => {
 			memo: '',
 		};
 
-		signTxAndBroadcast(tx, props.address, (error, result) => {
-			if (error) {
-				if (error.indexOf('not yet found on the chain') > -1) {
-					props.pendingDialog();
-					return;
-				}
-				props.failedDialog();
-				props.showMessage(error);
+		let result = null;
+
+		try {
+			if (metamaskStore.isLoaded) {
+				result = await metamaskStore.vote(
+					{
+						amount: String(gas.vote * config.GAS_PRICE_STEP_AVERAGE),
+						denom: config.COIN_MINIMAL_DENOM,
+						gas: String(gas.vote),
+					},
+					{
+						proposalId: props.proposalId,
+						option,
+					},
+					''
+				);
+			} else {
+				result = await aminoSignTx(tx, props.address);
+			}
+		} catch (err) {
+			const message = err?.message || '';
+
+			if (message.indexOf('not yet found on the chain') > -1) {
+				props.pendingDialog();
 				return;
 			}
-			if (result) {
-				props.successDialog(result.transactionHash);
-				props.fetchVoteDetails(props.proposalId, props.address);
-				props.fetchProposalTally(props.proposalId);
-				props.getBalance(props.address);
-				props.fetchVestingBalance(props.address);
-			}
-		});
+			props.failedDialog();
+			props.showMessage(message);
+		}
+
+		if (result) {
+			props.successDialog(result.tx_response?.txhash || result.transactionHash);
+			props.fetchVoteDetails(props.proposalId, props.address);
+			props.fetchProposalTally(props.proposalId);
+			props.getBalance(props.address);
+			props.fetchVestingBalance(props.address);
+		}
 	};
 
 	const disable = value === '';
@@ -110,7 +133,7 @@ const Voting = props => {
 			</form>
 		</div>
 	);
-};
+});
 
 Voting.propTypes = {
 	failedDialog: PropTypes.func.isRequired,

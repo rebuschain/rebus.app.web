@@ -190,6 +190,7 @@
 }
 
 .proposals .card .key_text {
+	flex-shrink: 0;
 	font-family: Inter, ui-sans-serif, system-ui;
 	font-weight: 600;
 	font-size: 14px;
@@ -212,6 +213,7 @@
 }
 
 .proposals .card .icon_info .icon {
+	flex-shrink: 0;
 	width: 18px;
 	margin-right: 10px;
 }
@@ -222,7 +224,6 @@
 	font-size: 14px;
 	color: #0085ff;
 	margin-left: 10px;
-	max-width: 50%;
 }
 
 .proposals .card .status {

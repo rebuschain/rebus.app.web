@@ -22,21 +22,29 @@ class ProposalDialog extends Component {
 		this.VoteCalculation = this.VoteCalculation.bind(this);
 	}
 
-	componentDidMount() {
-		const votedOption =
+	get votedOption() {
+		return (
 			this.props.voteDetails &&
 			this.props.voteDetails.length &&
 			this.props.proposal &&
 			this.props.proposal.id &&
-			this.props.voteDetails.filter(vote => vote.proposal_id === this.props.proposal.id)[0];
+			this.props.voteDetails.filter(vote => vote.proposal_id === this.props.proposal.id)[0]
+		);
+	}
 
-		if (!votedOption && this.props.proposal?.id && this.props.address) {
+	componentDidMount() {
+		if (!this.votedOption && this.props.proposal?.id && this.props.address) {
 			this.props.fetchVoteDetails(this.props.proposal.id, this.props.address);
 		}
 	}
 
-	componentDidUpdate() {
-		if (!votedOption && this.props.proposal?.id && this.props.address) {
+	componentDidUpdate(prevProps) {
+		if (
+			this.props.address !== prevProps.address &&
+			!this.votedOption &&
+			this.props.proposal?.id &&
+			this.props.address
+		) {
 			this.props.fetchVoteDetails(this.props.proposal.id, this.props.address);
 		}
 	}

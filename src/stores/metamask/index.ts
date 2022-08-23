@@ -13,6 +13,7 @@ import {
 	createTxMsgDelegate,
 	createTxMsgUndelegate,
 	createTxMsgBeginRedelegate,
+	createTxMsgVote,
 	createTxRawEIP712,
 	signatureToWeb3Extension,
 	Fee,
@@ -22,6 +23,7 @@ import {
 	MsgUndelegateParams,
 	MsgMultipleWithdrawDelegatorRewardParams,
 	createTxMsgMultipleWithdrawDelegatorReward,
+	MessageMsgVote,
 } from '@tharsis/transactions';
 import { ethers } from 'ethers';
 import { signatureToPubkey } from '@hanchon/signature-to-pubkey';
@@ -247,6 +249,13 @@ export class MetamaskStore {
 	): Promise<TransactionResponse> {
 		const sender = await this.getSender();
 		const txMsg = createTxMsgMultipleWithdrawDelegatorReward(this.chainInfo, sender, fee, memo, msg);
+		txMsg.eipToSign.domain.name = 'Rebus';
+		return this.broadcast(sender, txMsg);
+	}
+
+	public async vote(fee: Fee, msg: MessageMsgVote, memo: string): Promise<TransactionResponse> {
+		const sender = await this.getSender();
+		const txMsg = createTxMsgVote(this.chainInfo, sender, fee, memo, msg);
 		txMsg.eipToSign.domain.name = 'Rebus';
 		return this.broadcast(sender, txMsg);
 	}
