@@ -25,8 +25,10 @@ import { ChainStore } from 'src/stores/chain';
 import { AccountWithCosmosAndOsmosis } from 'src/stores/osmosis/account';
 import { useStore } from 'src/stores';
 import { IJsonRpcRequest } from '@walletconnect/types';
-import { MetamaskStore } from 'src/stores/metamask';
+import { EtherumStore } from 'src/stores/etherum';
 import { WALLET_LIST } from 'src/constants/wallet';
+import { useActions } from 'src/hooks/useActions';
+import * as snackbar from '../actions/snackbar';
 
 async function sendTx(chainId: string, tx: StdTx | Uint8Array, mode: BroadcastMode): Promise<Uint8Array> {
 	const restInstance = Axios.create({
@@ -97,6 +99,7 @@ class WalletConnectQRCodeModalV1Renderer {
 
 export type WalletType = 'true' | 'extension' | 'wallet-connect' | 'metamask' | null;
 export const KeyConnectingWalletType = 'connecting_wallet_type';
+export const KeyConnectingWalletName = 'connecting_wallet_name';
 export const KeyAutoConnectingWalletType = 'account_auto_connect';
 
 export class ConnectWalletManager {
@@ -111,13 +114,15 @@ export class ConnectWalletManager {
 
 	@observable
 	autoConnectingWalletType: WalletType;
+	connectingWalletName: string;
 
 	constructor(
 		protected readonly chainStore: ChainStore,
 		protected accountStore?: AccountStore<AccountWithCosmosAndOsmosis>,
-		protected metamaskStore?: MetamaskStore
+		protected etherumStore?: EtherumStore
 	) {
 		this.autoConnectingWalletType = localStorage?.getItem(KeyAutoConnectingWalletType) as WalletType;
+		this.connectingWalletName = localStorage?.getItem(KeyConnectingWalletName) as string;
 		makeObservable(this);
 	}
 
@@ -128,8 +133,8 @@ export class ConnectWalletManager {
 		this.accountStore = accountStore;
 	}
 
-	setMetamaskStore(metamaskStore: MetamaskStore) {
-		this.metamaskStore = metamaskStore;
+	setEtherumStore(etherumStore: EtherumStore) {
+		this.etherumStore = etherumStore;
 	}
 
 	protected onBeforeSendRequest = (request: Partial<IJsonRpcRequest>): void => {
@@ -164,6 +169,7 @@ export class ConnectWalletManager {
 	getKeplr = (): Promise<Keplr | undefined> => {
 		const connectingWalletType =
 			localStorage?.getItem(KeyAutoConnectingWalletType) || localStorage?.getItem(KeyConnectingWalletType);
+		const connectingWalletName = localStorage?.getItem(KeyConnectingWalletName);
 
 		if (connectingWalletType === 'wallet-connect') {
 			if (!this.walletConnector) {
@@ -221,13 +227,15 @@ export class ConnectWalletManager {
 					})
 				);
 			}
-		} else {
+		} else if (!connectingWalletName) {
 			localStorage?.removeItem(KeyConnectingWalletType);
 			localStorage?.setItem(KeyAutoConnectingWalletType, 'extension');
 			this.autoConnectingWalletType = 'extension';
 
 			return getKeplrFromWindow();
 		}
+
+		return Promise.resolve(undefined);
 	};
 
 	onWalletConnectDisconnected = (error: Error | null) => {
@@ -260,8 +268,8 @@ export class ConnectWalletManager {
 			}
 		}
 
-		if (this.metamaskStore) {
-			this.metamaskStore.disconnect();
+		if (this.etherumStore) {
+			this.etherumStore.disconnect();
 		}
 	}
 
@@ -274,8 +282,9 @@ export class ConnectWalletManager {
 
 export const ConnectWalletDialog = wrapBaseDialog(
 	observer(({ initialFocus, close }: { initialFocus: React.RefObject<HTMLDivElement>; close: () => void }) => {
-		const { chainStore, accountStore, metamaskStore } = useStore();
+		const { chainStore, accountStore, etherumStore } = useStore();
 		const [isMobile] = useState(() => checkIsMobile());
+		const [showMessage] = useActions([snackbar.showMessage]);
 
 		useEffect(() => {
 			if (isMobile) {
@@ -283,6 +292,7 @@ export const ConnectWalletDialog = wrapBaseDialog(
 				const wallet = WALLET_LIST[1];
 
 				localStorage.setItem(KeyConnectingWalletType, wallet.type);
+				localStorage.removeItem(KeyConnectingWalletName);
 				accountStore.getAccount(chainStore.current.chainId).init();
 				close();
 			}
@@ -302,13 +312,17 @@ export const ConnectWalletDialog = wrapBaseDialog(
 						className="w-full text-left p-3 md:p-5 rounded-2xl bg-background flex items-center mt-4 md:mt-5"
 						onClick={() => {
 							localStorage.setItem(KeyConnectingWalletType, wallet.type);
+							localStorage.setItem(KeyConnectingWalletName, wallet.etherumWallet || '');
 
-							if (wallet.isMetamask) {
-								metamaskStore.init().then(success => {
-									if (success) {
-										localStorage.setItem(KeyAutoConnectingWalletType, 'metamask');
-									}
-								});
+							if (wallet.etherumWallet) {
+								etherumStore
+									.init(wallet.etherumWallet, true)
+									.then(success => {
+										localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
+									})
+									.catch(err => {
+										showMessage(err?.message || err);
+									});
 							} else {
 								accountStore.getAccount(chainStore.current.chainId).init();
 							}

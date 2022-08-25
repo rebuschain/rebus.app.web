@@ -8,7 +8,7 @@ import env from '@beam-australia/react-env';
 import { FullScreenContainer } from 'src/components/layouts/Containers';
 import { WALLET_LIST } from 'src/constants/wallet';
 import { useStore } from 'src/stores';
-import { KeyConnectingWalletType, KeyAutoConnectingWalletType } from 'src/dialogs';
+import { KeyConnectingWalletType, KeyConnectingWalletName, KeyAutoConnectingWalletType } from 'src/dialogs';
 import { Button } from 'src/components/common/button';
 import { Text } from 'src/components/Texts';
 import { useActions } from 'src/hooks/useActions';
@@ -55,13 +55,13 @@ const WalletConnect: FunctionComponent = observer(() => {
 
 	const [disconnectSet, showMessage] = useActions([accounts.disconnectSet, snackbar.showMessage]);
 
-	const { chainStore, accountStore, metamaskStore } = useStore();
+	const { chainStore, accountStore, etherumStore } = useStore();
 	const [isMobile] = useState(() => checkIsMobile());
 	const { isAccountConnected, disconnectAccount, isMobileWeb } = useAccountConnection();
-	const isConnected = isAccountConnected || metamaskStore.isLoaded;
+	const isConnected = isAccountConnected || etherumStore.isLoaded;
 
-	const address = metamaskStore.isLoaded
-		? metamaskStore.address
+	const address = etherumStore.isLoaded
+		? etherumStore.address
 		: accountStore.getAccount(chainStore.current.chainId).bech32Address;
 
 	useEffect(() => {
@@ -76,6 +76,7 @@ const WalletConnect: FunctionComponent = observer(() => {
 			const wallet = WALLET_LIST[1];
 
 			localStorage.setItem(KeyConnectingWalletType, wallet.type);
+			localStorage.removeItem(KeyConnectingWalletName);
 			accountStore.getAccount(chainStore.current.chainId).init();
 		}
 	}, [accountStore, chainStore, isConnected, isMobile]);
@@ -99,8 +100,8 @@ const WalletConnect: FunctionComponent = observer(() => {
 			let signature = '';
 			let pubKey = '';
 
-			if (metamaskStore.isLoaded) {
-				signature = await metamaskStore.signMessage(
+			if (etherumStore.isLoaded) {
+				signature = await etherumStore.signMessage(
 					JSON.stringify({
 						address,
 						nonce,
@@ -143,7 +144,7 @@ const WalletConnect: FunctionComponent = observer(() => {
 		}
 
 		setLoading(false);
-	}, [address, metamaskStore, serverId, showMessage, userId]);
+	}, [address, app, etherumStore, serverId, showMessage, userId]);
 
 	let content = null;
 
@@ -167,8 +168,11 @@ const WalletConnect: FunctionComponent = observer(() => {
 	} else if (isConnected) {
 		const connectingWalletType =
 			localStorage?.getItem(KeyAutoConnectingWalletType) || localStorage?.getItem(KeyConnectingWalletType);
+		const connectingWalletName = localStorage.getItem(KeyConnectingWalletName);
 		const walletConnected = WALLET_LIST.find(
-			({ isMetamask, type }) => (metamaskStore.isLoaded && isMetamask) || type === connectingWalletType
+			({ etherumWallet, type }) =>
+				(etherumStore.isLoaded && connectingWalletName === etherumWallet) ||
+				(!etherumStore.isLoaded && type === connectingWalletType)
 		);
 
 		content = (
@@ -225,13 +229,12 @@ const WalletConnect: FunctionComponent = observer(() => {
 						key={wallet.name}
 						className="w-full text-left p-3 md:p-5 rounded-2xl bg-background flex items-center mt-4 md:mt-5"
 						onClick={() => {
-							localStorage.setItem(KeyConnectingWalletType, wallet.isMetamask ? 'metamask' : wallet.type);
+							localStorage.setItem(KeyConnectingWalletType, wallet.type);
+							localStorage.setItem(KeyConnectingWalletName, wallet.etherumWallet || '');
 
-							if (wallet.isMetamask) {
-								metamaskStore.init().then(success => {
-									if (success) {
-										localStorage.setItem(KeyAutoConnectingWalletType, 'metamask');
-									}
+							if (wallet.etherumWallet) {
+								etherumStore.init(wallet.etherumWallet, true).then(success => {
+									localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
 								});
 							} else {
 								accountStore.getAccount(chainStore.current.chainId).init();

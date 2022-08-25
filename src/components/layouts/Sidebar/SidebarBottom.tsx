@@ -11,10 +11,10 @@ import { ConnectAccountButton } from '../../ConnectAccountButton';
 export const SidebarBottom: FunctionComponent = observer(() => {
 	const [disconnectSet] = useActions([accounts.disconnectSet]);
 
-	const { chainStore, accountStore, queriesStore, metamaskStore } = useStore();
+	const { chainStore, accountStore, queriesStore, etherumStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);
-	const address = metamaskStore.isLoaded ? metamaskStore.rebusAddress : account.bech32Address;
+	const address = etherumStore.isLoaded ? etherumStore.rebusAddress : account.bech32Address;
 
 	const { isAccountConnected, connectAccount, disconnectAccount, isMobileWeb } = useAccountConnection();
 
