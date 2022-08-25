@@ -134,6 +134,10 @@ export class MetamaskStore {
 		this.balance = new CoinPretty(this.currency, new Dec(0));
 	}
 
+	public async signMessage(message: string) {
+		return this.provider.getSigner().signMessage(message);
+	}
+
 	public async getPubKey() {
 		const signature = await this.provider.getSigner().signMessage('generate_pubkey');
 

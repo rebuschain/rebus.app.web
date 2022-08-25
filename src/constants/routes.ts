@@ -5,4 +5,5 @@ export const ROUTES = {
 	VOTE: '/proposals',
 	AIRDROP: '/airdrop',
 	STAKE: '/staking',
+	WALLET_CONNECT: '/wallet-connect',
 };

@@ -56,6 +56,38 @@ yarn build:css && yarn dev
 
 The app should be live at http://localhost:8081
 
+## Wallet Connect Page
+
+The wallet connect page is mainly used to interface with the discord bot which authenticates discord users to their wallets.
+The URL of the bot can be configured by env vars and multiple can be specified.
+When the user is redirected to that page, the URL query params contain a param called `app` which will specify which API url to use.
+
+`REACT_APP_DROPMINT_DISCORD_BOT_URL`: URL to connect to the dropmint app
+
+There are only two API calls made to the bot URL:
+- POST /nonce
+```
+{ address }
+```
+- POST /authorize
+```
+{
+    address,
+    nonce,
+    signature,
+    userId,
+    pubKey,
+    serverId,
+    chainPrefix.
+}
+```
+
+### Adding New Apps
+
+To add new apps, it is necessary to add it in two places.
+- Define the url in the .env file
+- Add it to the `baseUrls` variable in the WalletConnect page component
+
 ## License
 
 This work is dual-licensed under Apache 2.0 and MIT.
