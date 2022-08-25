@@ -33,7 +33,7 @@ import { useStore } from '../../../stores';
 
 const COIN_DECI_VALUE = 1000000000000000000;
 const DelegateDialog = observer(props => {
-	const { chainStore, queriesStore, metamaskStore } = useStore();
+	const { chainStore, queriesStore, etherumStore } = useStore();
 	const queries = queriesStore.get(chainStore.current.chainId);
 
 	const [inProgress, setInProgress] = useState(false);
@@ -60,8 +60,8 @@ const DelegateDialog = observer(props => {
 		const gasString = String(gasValue);
 
 		try {
-			if (metamaskStore.isLoaded) {
-				const tx = await metamaskStore[method](
+			if (etherumStore.isLoaded) {
+				const tx = await etherumStore[method](
 					{
 						...gasAmount,
 						gas: gasString,

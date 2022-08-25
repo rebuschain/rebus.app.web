@@ -10,7 +10,7 @@ import { useShallowEqualSelector } from 'src/hooks/useShallowEqualSelector';
 import 'src/styles/insync.scss';
 
 export const InsyncWrapper: FunctionComponent = observer(({ children }) => {
-	const { chainStore, accountStore, metamaskStore } = useStore();
+	const { chainStore, accountStore, etherumStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
 
 	const props = useShallowEqualSelector(state => ({
@@ -55,7 +55,7 @@ export const InsyncWrapper: FunctionComponent = observer(({ children }) => {
 		stake.fetchValidatorImageSuccess,
 	]);
 
-	const address = metamaskStore.isLoaded ? metamaskStore.rebusAddress : account.bech32Address;
+	const address = etherumStore.isLoaded ? etherumStore.rebusAddress : account.bech32Address;
 
 	const getValidatorImage = useCallback(
 		(index: number, data: Array<any>) => {

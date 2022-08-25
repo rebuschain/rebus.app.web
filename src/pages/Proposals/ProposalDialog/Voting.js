@@ -15,7 +15,7 @@ import { fetchVestingBalance, getBalance } from 'src/actions/accounts';
 import { useStore } from 'src/stores';
 
 const Voting = observer(props => {
-	const { metamaskStore } = useStore();
+	const { etherumStore } = useStore();
 
 	const [value, setValue] = React.useState('');
 	const [inProgress, setInProgress] = React.useState(false);
@@ -67,8 +67,8 @@ const Voting = observer(props => {
 		let result = null;
 
 		try {
-			if (metamaskStore.isLoaded) {
-				result = await metamaskStore.vote(
+			if (etherumStore.isLoaded) {
+				result = await etherumStore.vote(
 					{
 						amount: String(gas.vote * config.GAS_PRICE_STEP_AVERAGE),
 						denom: config.COIN_MINIMAL_DENOM,

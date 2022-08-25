@@ -24,7 +24,7 @@ import CircularProgress from 'src/components/insync/CircularProgress';
 const ClaimDialog = observer(props => {
 	const [inProgress, setInProgress] = useState(false);
 
-	const { chainStore, queriesStore, metamaskStore } = useStore();
+	const { chainStore, queriesStore, etherumStore } = useStore();
 	const queries = queriesStore.get(chainStore.current.chainId);
 
 	const handleClaimAll = async () => {
@@ -63,8 +63,8 @@ const ClaimDialog = observer(props => {
 		}
 
 		try {
-			if (metamaskStore.isLoaded) {
-				const tx = await metamaskStore.claimRewards(
+			if (etherumStore.isLoaded) {
+				const tx = await etherumStore.claimRewards(
 					{
 						...gasAmount,
 						gas: gasString,
@@ -128,8 +128,8 @@ const ClaimDialog = observer(props => {
 		};
 
 		try {
-			if (metamaskStore.isLoaded) {
-				const tx = await metamaskStore.claimRewards(
+			if (etherumStore.isLoaded) {
+				const tx = await etherumStore.claimRewards(
 					{
 						...gasAmount,
 						gas: gasString,

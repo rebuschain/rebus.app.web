@@ -28,6 +28,8 @@ import {
 import { ethers } from 'ethers';
 import { signatureToPubkey } from '@hanchon/signature-to-pubkey';
 import { SifchainLiquidityAPYResult } from '@keplr-wallet/stores/build/query/cosmos/supply/sifchain';
+import { DeFiWeb3Connector } from 'deficonnect';
+import { WALLET_LIST } from 'src/constants/wallet';
 import { ethToRebus } from 'src/utils/rebus-converter';
 import { ChainInfoWithExplorer } from '../chain';
 
@@ -57,9 +59,9 @@ type TransactionResponse = {
 };
 
 /**
- * MetamaskStore permits connecting and using the metamask wallet
+ * EtherumStore permits connecting and using the etherum wallets
  */
-export class MetamaskStore {
+export class EtherumStore {
 	@observable
 	public isLoaded = false;
 	@observable
@@ -70,6 +72,7 @@ export class MetamaskStore {
 	public balance: CoinPretty;
 
 	private provider!: ethers.providers.Web3Provider;
+	private walletType: 'metamask' | 'crypto' | undefined;
 
 	constructor(protected readonly chain: ChainInfoWithExplorer) {
 		this.balance = new CoinPretty(this.currency, new Dec(0));
@@ -89,29 +92,81 @@ export class MetamaskStore {
 		return this.chain.stakeCurrency as AppCurrency;
 	}
 
-	public async init() {
+	public async init(walletType: 'metamask' | 'crypto', shouldOpenLinkIfProviderNotFound = false) {
 		if (this.isLoaded) {
 			return false;
 		}
 
-		if (!window.ethereum) {
-			window.open('https://metamask.io/');
-			return;
+		const wallet = WALLET_LIST.find(({ etherumWallet }) => etherumWallet === walletType);
+
+		if (!wallet) {
+			console.error('No wallet type found', walletType);
+			return false;
 		}
 
-		this.provider = new ethers.providers.Web3Provider(window.ethereum);
+		switch (walletType) {
+			case 'metamask':
+				if (!window.ethereum?.isMetaMask) {
+					if (wallet.link && shouldOpenLinkIfProviderNotFound) {
+						window.open(wallet.link);
+					}
 
-		await window.ethereum.enable();
+					return false;
+				}
 
-		this.address = (await this.provider.listAccounts())?.[0];
+				this.provider = new ethers.providers.Web3Provider(window.ethereum);
+				await window.ethereum.enable();
+
+				try {
+					await this.switchNetwork();
+					this.provider = new ethers.providers.Web3Provider(window.ethereum);
+				} catch (err) {
+					console.error(err);
+				}
+				break;
+			case 'crypto':
+				try {
+					const connector = new DeFiWeb3Connector({
+						supportedChainIds: [ethChainId],
+						rpc: {
+							[ethChainId]: env('RPC_URL'),
+						},
+						pollingInterval: 15000,
+					});
+					await connector.activate();
+					this.provider = new ethers.providers.Web3Provider(await connector.getProvider());
+
+					try {
+						await this.switchNetwork();
+						this.provider = new ethers.providers.Web3Provider(await connector.getProvider());
+					} catch (err) {
+						console.error(err);
+					}
+				} catch (err) {
+					console.error(err);
+					return false;
+				}
+				break;
+		}
+
+		this.walletType = walletType;
+
+		try {
+			this.address = (await this.provider.listAccounts())?.[0];
+		} catch (err) {
+			console.log(err);
+		}
 
 		if (!this.address) {
-			return false;
+			throw new Error('No wallet address found, please make sure you switch to the rebus network');
+		}
+
+		if (!this.address.startsWith(env('PREFIX')) && !this.address.startsWith('0x')) {
+			throw new Error('Invalid wallet address, please try switching to rebus network');
 		}
 
 		this.rebusAddress = ethToRebus(this.address);
 
-		// this.balance = new MetaCurrency(BigInt(await web3.eth.getBalance(this.address)), coinDecimals, coinDenom));
 		const balanceAmount = await this.provider.getBalance(this.address);
 		this.balance = new CoinPretty(this.currency, new Dec(balanceAmount.toBigInt()));
 
@@ -201,12 +256,33 @@ export class MetamaskStore {
 		};
 	}
 
+	public async switchNetwork(): Promise<void> {
+		try {
+			const network = await this.provider.getNetwork();
+			if (network?.chainId === ethChainId) {
+				return Promise.resolve();
+			}
+		} catch (err) {
+			console.error(err);
+		}
+
+		return this.provider.send('wallet_addEthereumChain', [
+			{
+				chainId: `0x${ethChainId.toString(16)}`,
+				rpcUrls: [env('RPC_URL')],
+				chainName: env('CHAIN_NAME') as string,
+				nativeCurrency: {
+					name: env('COIN_DENOM'),
+					symbol: env('COIN_DENOM'),
+					decimals: env('COIN_DECIMALS'),
+				},
+				blockExplorerUrls: [env('EXPLORER_URL')],
+			},
+		]);
+	}
+
 	public sign(msgToSign: string): Promise<string> {
-		return window.ethereum.request({
-			method: 'eth_signTypedData_v4',
-			params: [this.address, msgToSign],
-			from: this.address,
-		});
+		return this.provider.send('eth_signTypedData_v4', [this.address, msgToSign]);
 	}
 
 	public async broadcast(sender: Sender, tx: any) {
@@ -225,19 +301,28 @@ export class MetamaskStore {
 		return response.data;
 	}
 
+	public checkIfSupported() {
+		if (this.walletType === 'crypto') {
+			throw new Error('Transactions not supported for crypto.com wallets');
+		}
+	}
+
 	public async delegate(fee: Fee, msg: MsgDelegateParams, memo: string): Promise<TransactionResponse> {
+		this.checkIfSupported();
 		const sender = await this.getSender();
 		const txMsg = createTxMsgDelegate(this.chainInfo, sender, fee, memo, msg);
 		return this.broadcast(sender, txMsg);
 	}
 
 	public async unDelegate(fee: Fee, msg: MsgUndelegateParams, memo: string): Promise<TransactionResponse> {
+		this.checkIfSupported();
 		const sender = await this.getSender();
 		const txMsg = createTxMsgUndelegate(this.chainInfo, sender, fee, memo, msg);
 		return this.broadcast(sender, txMsg);
 	}
 
 	public async reDelegate(fee: Fee, msg: MsgBeginRedelegateParams, memo: string): Promise<TransactionResponse> {
+		this.checkIfSupported();
 		const sender = await this.getSender();
 		const txMsg = createTxMsgBeginRedelegate(this.chainInfo, sender, fee, memo, msg);
 		return this.broadcast(sender, txMsg);
@@ -254,6 +339,7 @@ export class MetamaskStore {
 	}
 
 	public async vote(fee: Fee, msg: MessageMsgVote, memo: string): Promise<TransactionResponse> {
+		this.checkIfSupported();
 		const sender = await this.getSender();
 		const txMsg = createTxMsgVote(this.chainInfo, sender, fee, memo, msg);
 		return this.broadcast(sender, txMsg);

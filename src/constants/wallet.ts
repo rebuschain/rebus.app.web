@@ -1,4 +1,11 @@
-export const WALLET_LIST = [
+export const WALLET_LIST: {
+	name: string;
+	description: string;
+	logoUrl: string;
+	type: 'extension' | 'wallet-connect';
+	etherumWallet?: 'metamask' | 'crypto';
+	link?: string;
+}[] = [
 	{
 		name: 'Keplr Wallet',
 		description: 'Keplr Browser Extension',
@@ -16,6 +23,14 @@ export const WALLET_LIST = [
 		description: 'Metamask Browser Extension',
 		logoUrl: '/public/assets/other-logos/metamask.png',
 		type: 'extension',
-		isMetamask: true,
+		etherumWallet: 'metamask',
+		link: 'https://metamask.io/',
+	},
+	{
+		name: 'Crypto.com',
+		description: 'Crypto.com Browser Extension (Transactions Not Supported)',
+		logoUrl: '/public/assets/other-logos/crypto.jpg',
+		type: 'extension',
+		etherumWallet: 'crypto',
 	},
 ];

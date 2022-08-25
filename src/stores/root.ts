@@ -12,7 +12,7 @@ import { LPCurrencyRegistrar } from './osmosis/currency-registrar';
 import { ChainInfoInner } from '@keplr-wallet/stores';
 import { PoolIntermediatePriceStore } from './price';
 import { IBCTransferHistoryStore } from './ibc-history';
-import { MetamaskStore } from './metamask';
+import { EtherumStore } from './etherum';
 import { displayToast, TToastType } from '../components/common/toasts';
 import { isSlippageError } from '../utils/tx';
 import { prettifyTxError } from 'src/stores/prettify-tx-error';
@@ -24,7 +24,7 @@ export class RootStore {
 	public readonly accountStore: AccountStore<AccountWithCosmosAndOsmosis>;
 	public readonly queriesStore: QueriesStore<QueriesWithCosmosAndOsmosis>;
 	public readonly priceStore: PoolIntermediatePriceStore;
-	public readonly metamaskStore: MetamaskStore;
+	public readonly etherumStore: EtherumStore;
 
 	public readonly ibcTransferHistoryStore: IBCTransferHistoryStore;
 
@@ -175,8 +175,8 @@ export class RootStore {
 			this.chainStore
 		);
 
-		this.metamaskStore = new MetamaskStore(EmbedChainInfos[0]);
-		this.connectWalletManager.setMetamaskStore(this.metamaskStore);
+		this.etherumStore = new EtherumStore(EmbedChainInfos[0]);
+		this.connectWalletManager.setEtherumStore(this.etherumStore);
 
 		// TODO: Add pools
 		this.swapManager = new GammSwapManager([

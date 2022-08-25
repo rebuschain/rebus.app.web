@@ -14,7 +14,7 @@ export interface AccountConnection {
 export const AccountConnectionContext = React.createContext<AccountConnection | null>(null);
 
 export const AccountConnectionProvider: FunctionComponent = observer(({ children }) => {
-	const { chainStore, accountStore, metamaskStore, connectWalletManager } = useStore();
+	const { chainStore, accountStore, etherumStore, connectWalletManager } = useStore();
 	const [isOpenDialog, setIsOpenDialog] = useState(false);
 
 	const account = accountStore.getAccount(chainStore.current.chainId);
@@ -37,7 +37,7 @@ export const AccountConnectionProvider: FunctionComponent = observer(({ children
 		account.walletStatus === WalletStatus.Loaded ||
 		connectWalletManager.autoConnectingWalletType ||
 		isMobileWeb ||
-		metamaskStore.isLoaded;
+		etherumStore.isLoaded;
 
 	const disconnectAccount = useCallback(async () => {
 		connectWalletManager.disableAutoConnect();
@@ -58,12 +58,23 @@ export const AccountConnectionProvider: FunctionComponent = observer(({ children
 	}, [account, isMobileWeb]);
 
 	useEffect(() => {
-		if (connectWalletManager.autoConnectingWalletType === 'metamask') {
-			metamaskStore.init();
+		if (connectWalletManager.autoConnectingWalletType === 'extension' && connectWalletManager.connectingWalletName) {
+			etherumStore.init(connectWalletManager.connectingWalletName as any).then(success => {
+				localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
+				if (!success) {
+					connectWalletManager.disableAutoConnect();
+				}
+			});
 		} else if (!!connectWalletManager.autoConnectingWalletType && account.walletStatus === WalletStatus.NotInit) {
 			account.init();
 		}
-	}, [account, connectWalletManager.autoConnectingWalletType, metamaskStore]);
+	}, [
+		account,
+		connectWalletManager,
+		connectWalletManager.autoConnectingWalletType,
+		connectWalletManager.connectingWalletName,
+		etherumStore,
+	]);
 
 	/*
 	    Disconnect the accounts if the wallet doesn't exist or the connection rejected.
