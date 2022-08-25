@@ -24,30 +24,9 @@ import { AccountStore, getKeplrFromWindow, WalletStatus } from '@keplr-wallet/st
 import { ChainStore } from 'src/stores/chain';
 import { AccountWithCosmosAndOsmosis } from 'src/stores/osmosis/account';
 import { useStore } from 'src/stores';
-import { IJsonRpcRequest, IRequestOptions } from '@walletconnect/types';
+import { IJsonRpcRequest } from '@walletconnect/types';
 import { MetamaskStore } from 'src/stores/metamask';
-
-const walletList = [
-	{
-		name: 'Keplr Wallet',
-		description: 'Keplr Browser Extension',
-		logoUrl: '/public/assets/other-logos/keplr.png',
-		type: 'extension',
-	},
-	{
-		name: 'WalletConnect',
-		description: 'Keplr Mobile',
-		logoUrl: '/public/assets/other-logos/wallet-connect.png',
-		type: 'wallet-connect',
-	},
-	{
-		name: 'Metamask',
-		description: 'Metamask Browser Extension',
-		logoUrl: '/public/assets/other-logos/metamask.png',
-		type: 'extension',
-		isMetamask: true,
-	},
-];
+import { WALLET_LIST } from 'src/constants/wallet';
 
 async function sendTx(chainId: string, tx: StdTx | Uint8Array, mode: BroadcastMode): Promise<Uint8Array> {
 	const restInstance = Axios.create({
@@ -301,7 +280,7 @@ export const ConnectWalletDialog = wrapBaseDialog(
 		useEffect(() => {
 			if (isMobile) {
 				// Skip the selection of wallet type if mobile
-				const wallet = walletList[1];
+				const wallet = WALLET_LIST[1];
 
 				localStorage.setItem(KeyConnectingWalletType, wallet.type);
 				accountStore.getAccount(chainStore.current.chainId).init();
@@ -312,38 +291,36 @@ export const ConnectWalletDialog = wrapBaseDialog(
 		return (
 			<div ref={initialFocus}>
 				<h4 className="text-lg md:text-xl text-white-high">Connect Wallet</h4>
-				{walletList
-					.filter(wallet => {
-						if (isMobile && wallet.type == 'extension') {
-							return false;
-						}
-						return true;
-					})
-					.map(wallet => (
-						<button
-							key={wallet.name}
-							className="w-full text-left p-3 md:p-5 rounded-2xl bg-background flex items-center mt-4 md:mt-5"
-							onClick={() => {
-								localStorage.setItem(KeyConnectingWalletType, wallet.type);
+				{WALLET_LIST.filter(wallet => {
+					if (isMobile && wallet.type == 'extension') {
+						return false;
+					}
+					return true;
+				}).map(wallet => (
+					<button
+						key={wallet.name}
+						className="w-full text-left p-3 md:p-5 rounded-2xl bg-background flex items-center mt-4 md:mt-5"
+						onClick={() => {
+							localStorage.setItem(KeyConnectingWalletType, wallet.type);
 
-								if (wallet.isMetamask) {
-									metamaskStore.init().then(success => {
-										if (success) {
-											localStorage.setItem(KeyAutoConnectingWalletType, 'metamask');
-										}
-									});
-								} else {
-									accountStore.getAccount(chainStore.current.chainId).init();
-								}
-								close();
-							}}>
-							<img src={wallet.logoUrl} className="w-12 mr-3 md:w-16 md:mr-5" />
-							<div>
-								<h5 className="text-base md:text-lg mb-1 text-white-high">{wallet.name}</h5>
-								<p className="text-xs md:text-sm text-iconDefault">{wallet.description}</p>
-							</div>
-						</button>
-					))}
+							if (wallet.isMetamask) {
+								metamaskStore.init().then(success => {
+									if (success) {
+										localStorage.setItem(KeyAutoConnectingWalletType, 'metamask');
+									}
+								});
+							} else {
+								accountStore.getAccount(chainStore.current.chainId).init();
+							}
+							close();
+						}}>
+						<img src={wallet.logoUrl} className="w-12 mr-3 md:w-16 md:mr-5" />
+						<div>
+							<h5 className="text-base md:text-lg mb-1 text-white-high">{wallet.name}</h5>
+							<p className="text-xs md:text-sm text-iconDefault">{wallet.description}</p>
+						</div>
+					</button>
+				))}
 			</div>
 		);
 	})
