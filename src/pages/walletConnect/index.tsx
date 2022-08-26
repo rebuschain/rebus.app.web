@@ -169,11 +169,9 @@ const WalletConnect: FunctionComponent = observer(() => {
 		const connectingWalletType =
 			localStorage?.getItem(KeyAutoConnectingWalletType) || localStorage?.getItem(KeyConnectingWalletType);
 		const connectingWalletName = localStorage.getItem(KeyConnectingWalletName);
-		const walletConnected = WALLET_LIST.find(
-			({ etherumWallet, type }) =>
-				(etherumStore.isLoaded && connectingWalletName === etherumWallet) ||
-				(!etherumStore.isLoaded && type === connectingWalletType)
-		);
+		const walletConnected =
+			WALLET_LIST.find(({ etherumWallet }) => connectingWalletName === etherumWallet) ||
+			WALLET_LIST.find(({ type }) => type === connectingWalletType);
 
 		content = (
 			<>
