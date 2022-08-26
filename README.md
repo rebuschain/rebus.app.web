@@ -65,11 +65,11 @@ When the user is redirected to that page, the URL query params contain a param c
 `REACT_APP_DROPMINT_DISCORD_BOT_URL`: URL to connect to the dropmint app
 
 There are only two API calls made to the bot URL:
-- POST /nonce
+- POST /api/v1/nonce
 ```
 { address }
 ```
-- POST /authorize
+- POST /api/v1/authorize
 ```
 {
     address,

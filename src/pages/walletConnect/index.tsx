@@ -90,7 +90,7 @@ const WalletConnect: FunctionComponent = observer(() => {
 				return showMessage(`Invalid app: ${app}`);
 			}
 
-			const { data } = await axios.post(`${baseUrl}/nonce`, { address }, { headers });
+			const { data } = await axios.post(`${baseUrl}/api/v1/nonce`, { address }, { headers });
 			const nonce = data?.nonce;
 
 			if (!nonce) {
@@ -120,7 +120,7 @@ const WalletConnect: FunctionComponent = observer(() => {
 			}
 
 			const authorizeRes = await axios.post(
-				`${baseUrl}/authorize`,
+				`${baseUrl}/api/v1/authorize`,
 				{
 					address,
 					nonce,
