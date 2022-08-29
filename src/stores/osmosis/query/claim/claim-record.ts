@@ -46,15 +46,15 @@ export class ObservableQueryClaimRecordInner extends ObservableChainQuery<ClaimR
 	@computed
 	get completedActions(): {
 		stake: boolean;
-		mint: boolean;
 		vote: boolean;
+		mint: boolean;
 		vault: boolean;
 	} {
 		if (!this.response) {
 			return {
 				stake: false,
-				mint: false,
 				vote: false,
+				mint: false,
 				vault: false,
 			};
 		}
