@@ -8,14 +8,16 @@ import { useStore } from 'src/stores';
 import useWindowSize from 'src/hooks/useWindowSize';
 
 export const MyAirdropProgress = observer(function MyAirdropProgress() {
-	const { chainStore, queriesStore, accountStore } = useStore();
+	const { chainStore, queriesStore, accountStore, etherumStore } = useStore();
 
 	const { isMobileView } = useWindowSize();
 
 	const queries = queriesStore.get(chainStore.current.chainId);
 	const account = accountStore.getAccount(chainStore.current.chainId);
 
-	const claimRecord = queries.osmosis.queryClaimRecord.get(account.bech32Address);
+	const claimRecord = queries.osmosis.queryClaimRecord.get(
+		etherumStore.isLoaded ? etherumStore.rebusAddress : account.bech32Address
+	);
 
 	const totalClaimable = claimRecord.initialClaimableAmountOf(chainStore.current.stakeCurrency.coinMinimalDenom);
 

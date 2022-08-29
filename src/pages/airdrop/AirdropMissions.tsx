@@ -15,13 +15,15 @@ export const ActionToDescription: { [action: string]: string } = {
 };
 
 export const AirdropMissions = observer(function AirdropMissions(props: HTMLAttributes<HTMLDivElement>) {
-	const { chainStore, queriesStore, accountStore } = useStore();
+	const { chainStore, queriesStore, accountStore, etherumStore } = useStore();
 	const { isMobileView } = useWindowSize();
 
 	const queries = queriesStore.get(chainStore.current.chainId);
 	const account = accountStore.getAccount(chainStore.current.chainId);
 
-	const claimRecord = queries.osmosis.queryClaimRecord.get(account.bech32Address);
+	const claimRecord = queries.osmosis.queryClaimRecord.get(
+		etherumStore.isLoaded ? etherumStore.rebusAddress : account.bech32Address
+	);
 	const isIneligible = claimRecord
 		.initialClaimableAmountOf(chainStore.current.stakeCurrency.coinMinimalDenom)
 		.toDec()
