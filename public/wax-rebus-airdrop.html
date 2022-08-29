@@ -27,7 +27,7 @@
 					chainName: 'Rebus',
 					rpc: url + ':26657',
 					rest: url + ':1317',
-					walletUrlForStaking: "https://app.rebuschain.com/staking",
+					walletUrlForStaking: 'https://app.rebuschain.com/staking',
 					bip44: {
 						coinType: 118,
 					},
@@ -127,27 +127,27 @@
 			align-items: center;
 			background-color: #141518;
 			background-image: url(/public/assets/backgrounds/wax-coins.png);
-            background-position: top center;
+			background-position: top center;
 			background-repeat: no-repeat;
 			background-size: cover;
-			color: rgba(255, 255, 255, 0.90);
-			font-family: Poppins,ui-sans-serif,system-ui;
+			color: rgba(255, 255, 255, 0.9);
+			font-family: Poppins, ui-sans-serif, system-ui;
 			display: flex;
-            flex-direction: column;
+			flex-direction: column;
 			justify-content: flex-start;
 		}
 
-        .content .logo {
-            margin-top: 30px;
-            max-height: 40%;
-        }
+		.content .logo {
+			margin-top: 30px;
+			max-height: 40%;
+		}
 
-        .wrapper {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-            margin-top: 60px;
-        }
+		.wrapper {
+			align-items: center;
+			display: flex;
+			justify-content: center;
+			margin-top: 60px;
+		}
 
 		.address-container,
 		.error-container {
@@ -193,7 +193,8 @@
 			align-items: center;
 			background-color: #282525;
 			border-radius: 4px;
-			box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
+			box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14),
+				0px 1px 18px 0px rgba(0, 0, 0, 0.12);
 			color: white;
 			cursor: pointer;
 			display: flex;
@@ -209,29 +210,28 @@
 </head>
 <body>
 	<div class="content">
-        <img class="logo" src="/public/assets/backgrounds/wax-logo.png"></img>
+		<img class="logo" src="/public/assets/backgrounds/wax-logo.png" />
 
-        <div class="wrapper">
-            <div class="address-container">
-                <h2 class="label">
-                    Wallet Address
-                </h2>
-                <div class="value">
-                    <span class="value-text">
-                    </span>
-                    <button class="copy-button">
-                        <img src="/public/assets/common/copy.svg" />
-                    </button>
-                </div>
-            </div>
+		<div class="wrapper">
+			<div class="address-container">
+				<h2 class="label">
+					Wallet Address
+				</h2>
+				<div class="value">
+					<span class="value-text"> </span>
+					<button class="copy-button">
+						<img src="/public/assets/common/copy.svg" />
+					</button>
+				</div>
+			</div>
 
-            <div class="error-container">
-                Keplr not installed or no account found
-            </div>
+			<div class="error-container">
+				Keplr not installed or no account found
+			</div>
 
-            <div class="copy-tooltip">
-                Copied address to clipboard!
-            </div>
-        </div>
+			<div class="copy-tooltip">
+				Copied address to clipboard!
+			</div>
+		</div>
 	</div>
 </body>

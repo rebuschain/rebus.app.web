@@ -65,11 +65,15 @@ When the user is redirected to that page, the URL query params contain a param c
 `REACT_APP_DROPMINT_DISCORD_BOT_URL`: URL to connect to the dropmint app
 
 There are only two API calls made to the bot URL:
+
 - POST /api/v1/nonce
+
 ```
 { address }
 ```
+
 - POST /api/v1/authorize
+
 ```
 {
     address,
@@ -85,6 +89,7 @@ There are only two API calls made to the bot URL:
 ### Adding New Apps
 
 To add new apps, it is necessary to add it in two places.
+
 - Define the url in the .env file
 - Add it to the `baseUrls` variable in the WalletConnect page component
 

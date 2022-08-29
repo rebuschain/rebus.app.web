@@ -39,14 +39,13 @@ export const LAYOUT = {
 			ROUTE: '/staking',
 			SELECTED_CHECK: '/staking',
 		},
-		/*
 		AIRDROP: {
 			ICON: '/public/assets/Icons/Airdrop.svg',
 			ICON_SELECTED: '/public/assets/Icons/Airdrop_selected.svg',
 			TEXT: 'Airdrop',
 			ROUTE: '/airdrop',
 			SELECTED_CHECK: '/airdrop',
-		},*/
+		},
 		PROPOSALS: {
 			ICON: '/public/assets/Icons/Vote.svg',
 			ICON_SELECTED: '/public/assets/Icons/Vote_selected.svg',
