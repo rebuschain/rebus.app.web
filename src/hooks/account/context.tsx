@@ -59,7 +59,7 @@ export const AccountConnectionProvider: FunctionComponent = observer(({ children
 
 	useEffect(() => {
 		if (connectWalletManager.autoConnectingWalletType === 'extension' && connectWalletManager.connectingWalletName) {
-			etherumStore.init(connectWalletManager.connectingWalletName as any).then(success => {
+			etherumStore.init(connectWalletManager.connectingWalletName as any, false, false).then(success => {
 				localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
 				if (!success) {
 					connectWalletManager.disableAutoConnect();

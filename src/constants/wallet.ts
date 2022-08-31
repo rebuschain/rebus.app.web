@@ -1,9 +1,11 @@
+export type EtherumWallet = 'metamask' | 'crypto' | 'falcon' | undefined;
+
 export const WALLET_LIST: {
 	name: string;
 	description: string;
 	logoUrl: string;
 	type: 'extension' | 'wallet-connect';
-	etherumWallet?: 'metamask' | 'crypto';
+	etherumWallet?: EtherumWallet;
 	link?: string;
 }[] = [
 	{

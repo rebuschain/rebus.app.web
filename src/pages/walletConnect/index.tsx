@@ -231,7 +231,7 @@ const WalletConnect: FunctionComponent = observer(() => {
 							localStorage.setItem(KeyConnectingWalletName, wallet.etherumWallet || '');
 
 							if (wallet.etherumWallet) {
-								etherumStore.init(wallet.etherumWallet, true).then(success => {
+								etherumStore.init(wallet.etherumWallet, true, false).then(success => {
 									localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
 								});
 							} else {

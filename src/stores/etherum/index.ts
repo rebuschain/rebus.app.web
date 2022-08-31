@@ -29,7 +29,7 @@ import { ethers } from 'ethers';
 import { signatureToPubkey } from '@hanchon/signature-to-pubkey';
 import { SifchainLiquidityAPYResult } from '@keplr-wallet/stores/build/query/cosmos/supply/sifchain';
 import { DeFiWeb3Connector } from 'deficonnect';
-import { WALLET_LIST } from 'src/constants/wallet';
+import { WALLET_LIST, EtherumWallet } from 'src/constants/wallet';
 import { ethToRebus } from 'src/utils/rebus-converter';
 import { ChainInfoWithExplorer } from '../chain';
 
@@ -68,16 +68,11 @@ export class EtherumStore {
 	public address = '';
 	@observable
 	public rebusAddress = '';
-	@observable.ref
-	public balance: CoinPretty;
 
 	private provider!: ethers.providers.Web3Provider;
-	private walletType: 'metamask' | 'crypto' | undefined;
+	private walletType: EtherumWallet = undefined;
 
 	constructor(protected readonly chain: ChainInfoWithExplorer) {
-		this.balance = new CoinPretty(this.currency, new Dec(0));
-		this.onAccountChange = this.onAccountChange.bind(this);
-
 		makeObservable(this);
 	}
 
@@ -92,7 +87,7 @@ export class EtherumStore {
 		return this.chain.stakeCurrency as AppCurrency;
 	}
 
-	public async init(walletType: 'metamask' | 'crypto', shouldOpenLinkIfProviderNotFound = false) {
+	public async init(walletType: EtherumWallet, shouldOpenLinkIfProviderNotFound = false, shouldSwitchNetwork = true) {
 		if (this.isLoaded) {
 			return false;
 		}
@@ -117,15 +112,21 @@ export class EtherumStore {
 				this.provider = new ethers.providers.Web3Provider(window.ethereum);
 				await window.ethereum.enable();
 
-				try {
-					await this.switchNetwork();
-					this.provider = new ethers.providers.Web3Provider(window.ethereum);
-				} catch (err) {
-					console.error(err);
+				if (shouldSwitchNetwork) {
+					try {
+						await this.switchNetwork();
+						this.provider = new ethers.providers.Web3Provider(window.ethereum);
+					} catch (err) {
+						console.error(err);
+					}
 				}
 				break;
 			case 'crypto':
 				try {
+					if (window.deficonnectProvider) {
+						await window.deficonnectProvider.enable();
+					}
+
 					const connector = new DeFiWeb3Connector({
 						supportedChainIds: [ethChainId],
 						rpc: {
@@ -134,14 +135,24 @@ export class EtherumStore {
 						pollingInterval: 15000,
 					});
 					await connector.activate();
-					this.provider = new ethers.providers.Web3Provider(await connector.getProvider());
 
-					try {
-						await this.switchNetwork();
-						this.provider = new ethers.providers.Web3Provider(await connector.getProvider());
-					} catch (err) {
-						console.error(err);
+					const connectorProvider = await connector.getProvider();
+					this.provider = new ethers.providers.Web3Provider(connectorProvider);
+
+					if (shouldSwitchNetwork) {
+						try {
+							if (connectorProvider.chainId !== chainId) {
+								await this.switchNetwork();
+								this.provider = new ethers.providers.Web3Provider(await connector.getProvider());
+							}
+						} catch (err) {
+							console.error(err);
+						}
 					}
+
+					connector.on('session_update', this.onUpdate);
+					connector.on('Web3ReactDeactivate', this.onUpdate);
+					connector.on('Web3ReactUpdate', this.onUpdate);
 				} catch (err) {
 					console.error(err);
 					return false;
@@ -151,24 +162,7 @@ export class EtherumStore {
 
 		this.walletType = walletType;
 
-		try {
-			this.address = (await this.provider.listAccounts())?.[0];
-		} catch (err) {
-			console.log(err);
-		}
-
-		if (!this.address) {
-			throw new Error('No wallet address found, please make sure you switch to the rebus network');
-		}
-
-		if (!this.address.startsWith(env('PREFIX')) && !this.address.startsWith('0x')) {
-			throw new Error('Invalid wallet address, please try switching to rebus network');
-		}
-
-		this.rebusAddress = ethToRebus(this.address);
-
-		const balanceAmount = await this.provider.getBalance(this.address);
-		this.balance = new CoinPretty(this.currency, new Dec(balanceAmount.toBigInt()));
+		this.onUpdate();
 
 		if (window.ethereum) {
 			window.ethereum.on('accountsChanged', this.onAccountChange);
@@ -183,10 +177,6 @@ export class EtherumStore {
 		this.isLoaded = false;
 		this.address = '';
 		this.rebusAddress = '';
-	}
-
-	public resetBalance() {
-		this.balance = new CoinPretty(this.currency, new Dec(0));
 	}
 
 	public async signMessage(message: string) {
@@ -345,8 +335,31 @@ export class EtherumStore {
 		return this.broadcast(sender, txMsg);
 	}
 
-	private onAccountChange(accounts: string[]) {
+	private onUpdate = async () => {
+		try {
+			try {
+				this.address = (await this.provider.listAccounts())?.[0];
+			} catch (err) {
+				console.log(err);
+			}
+
+			if (!this.address) {
+				throw new Error('No wallet address found, please make sure you switch to the rebus network');
+			}
+
+			if (!this.address.startsWith(env('PREFIX')) && !this.address.startsWith('0x')) {
+				throw new Error('Invalid wallet address, please try switching to rebus network');
+			}
+
+			this.rebusAddress = ethToRebus(this.address);
+		} catch (err) {
+			this.disconnect();
+			throw err;
+		}
+	};
+
+	private onAccountChange = (accounts: string[]) => {
 		this.address = accounts[0];
 		this.rebusAddress = ethToRebus(this.address);
-	}
+	};
 }
