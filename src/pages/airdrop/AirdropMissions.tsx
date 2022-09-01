@@ -36,7 +36,7 @@ export const AirdropMissions = observer(function AirdropMissions(props: HTMLAttr
 			</TitleText>
 			<MissionCardList>
 				<MissionCard
-					num={0}
+					num={1}
 					complete={!isIneligible}
 					description="Stake Atom, Evmos or Osmo on July 14th or Join our community with your Wax account until August 31st."
 					ineligible={isIneligible}
@@ -46,7 +46,7 @@ export const AirdropMissions = observer(function AirdropMissions(props: HTMLAttr
 					return (
 						<MissionCard
 							key={action}
-							num={Object.keys(claimRecord.completedActions).indexOf(action) + 1}
+							num={Object.keys(claimRecord.completedActions).indexOf(action) + 2}
 							complete={value}
 							ineligible={isIneligible}
 							description={ActionToDescription[action] ?? 'Oops'}
