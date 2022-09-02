@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import * as PropTypes from 'prop-types';
 import { observer } from 'mobx-react-lite';
-import env from '@beam-australia/react-env';
 import { connect } from 'react-redux';
 import { Button, Dialog, DialogActions, DialogContent } from '@material-ui/core';
 import './index.scss';
@@ -33,7 +32,7 @@ import { useStore } from '../../../stores';
 
 const COIN_DECI_VALUE = 1000000000000000000;
 const DelegateDialog = observer(props => {
-	const { chainStore, queriesStore, etherumStore } = useStore();
+	const { chainStore, queriesStore, walletStore } = useStore();
 	const queries = queriesStore.get(chainStore.current.chainId);
 
 	const [inProgress, setInProgress] = useState(false);
@@ -59,45 +58,46 @@ const DelegateDialog = observer(props => {
 		};
 		const gasString = String(gasValue);
 
+		const updatedTx = {
+			msg: {
+				typeUrl:
+					props.name === 'Delegate' || props.name === 'Stake'
+						? '/cosmos.staking.v1beta1.MsgDelegate'
+						: props.name === 'Undelegate'
+						? '/cosmos.staking.v1beta1.MsgUndelegate'
+						: props.name === 'Redelegate'
+						? '/cosmos.staking.v1beta1.MsgBeginRedelegate'
+						: '',
+				value,
+			},
+			fee: {
+				amount: [gasAmount],
+				gas: gasString,
+			},
+			memo: '',
+		};
+		const ethTx = {
+			fee: {
+				...gasAmount,
+				gas: gasString,
+			},
+			msg: {
+				...value,
+				amount: value.amount.amount,
+				denom: value.amount.denom,
+			},
+			memo: '',
+		};
+
 		try {
-			if (etherumStore.isLoaded) {
-				const tx = await etherumStore[method](
-					{
-						...gasAmount,
-						gas: gasString,
-					},
-					{
-						...value,
-						amount: value.amount.amount,
-						denom: value.amount.denom,
-					},
-					''
-				);
+			if (walletStore.isLoaded) {
+				const tx = await walletStore[method](ethTx, updatedTx);
 				txHash = tx?.tx_response?.txhash;
 
 				if (tx?.tx_response?.raw_log?.includes('too many unbonding delegation entries')) {
 					throw new Error(variables[props.lang]['error_too_many_delegations']);
 				}
 			} else {
-				const updatedTx = {
-					msg: {
-						typeUrl:
-							props.name === 'Delegate' || props.name === 'Stake'
-								? '/cosmos.staking.v1beta1.MsgDelegate'
-								: props.name === 'Undelegate'
-								? '/cosmos.staking.v1beta1.MsgUndelegate'
-								: props.name === 'Redelegate'
-								? '/cosmos.staking.v1beta1.MsgBeginRedelegate'
-								: '',
-						value,
-					},
-					fee: {
-						amount: [gasAmount],
-						gas: gasString,
-					},
-					memo: '',
-				};
-
 				const tx = await aminoSignTx(updatedTx, props.address);
 				txHash = tx?.transactionHash;
 

@@ -25,7 +25,7 @@ sudo npm install -g yarn
 First clone the repo;
 
 ```bash
-git clone https://github.com/osmosis-labs/osmosis-frontend.git && cd osmosis-frontend
+git clone https://github.com/rebuschain/rebus.app.web
 ```
 
 Then install project dependencies;
@@ -54,7 +54,7 @@ To spin up the local dev server;
 yarn build:css && yarn dev
 ```
 
-The app should be live at http://localhost:8081
+The app should be live at http://localhost:8080
 
 ## Wallet Connect Page
 
