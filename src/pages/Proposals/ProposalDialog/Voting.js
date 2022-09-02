@@ -15,7 +15,7 @@ import { fetchVestingBalance, getBalance } from 'src/actions/accounts';
 import { useStore } from 'src/stores';
 
 const Voting = observer(props => {
-	const { etherumStore } = useStore();
+	const { walletStore } = useStore();
 
 	const [value, setValue] = React.useState('');
 	const [inProgress, setInProgress] = React.useState(false);
@@ -63,23 +63,24 @@ const Voting = observer(props => {
 			},
 			memo: '',
 		};
+		const ethTx = {
+			fee: {
+				amount: String(gas.vote * config.GAS_PRICE_STEP_AVERAGE),
+				denom: config.COIN_MINIMAL_DENOM,
+				gas: String(gas.vote),
+			},
+			msg: {
+				proposalId: props.proposalId,
+				option,
+			},
+			memo: '',
+		};
 
 		let result = null;
 
 		try {
-			if (etherumStore.isLoaded) {
-				result = await etherumStore.vote(
-					{
-						amount: String(gas.vote * config.GAS_PRICE_STEP_AVERAGE),
-						denom: config.COIN_MINIMAL_DENOM,
-						gas: String(gas.vote),
-					},
-					{
-						proposalId: props.proposalId,
-						option,
-					},
-					''
-				);
+			if (walletStore.isLoaded) {
+				result = await walletStore.vote(ethTx, tx);
 			} else {
 				result = await aminoSignTx(tx, props.address);
 			}

@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
 import { useLocation, useHistory } from 'react-router';
@@ -55,13 +54,13 @@ const WalletConnect: FunctionComponent = observer(() => {
 
 	const [disconnectSet, showMessage] = useActions([accounts.disconnectSet, snackbar.showMessage]);
 
-	const { chainStore, accountStore, etherumStore } = useStore();
+	const { connectWalletManager, chainStore, accountStore, walletStore } = useStore();
 	const [isMobile] = useState(() => checkIsMobile());
 	const { isAccountConnected, disconnectAccount, isMobileWeb } = useAccountConnection();
-	const isConnected = isAccountConnected || etherumStore.isLoaded;
+	const isConnected = isAccountConnected || walletStore.isLoaded;
 
-	const address = etherumStore.isLoaded
-		? etherumStore.address
+	const address = walletStore.isLoaded
+		? walletStore.address
 		: accountStore.getAccount(chainStore.current.chainId).bech32Address;
 
 	useEffect(() => {
@@ -77,9 +76,10 @@ const WalletConnect: FunctionComponent = observer(() => {
 
 			localStorage.setItem(KeyConnectingWalletType, wallet.type);
 			localStorage.removeItem(KeyConnectingWalletName);
+			connectWalletManager.setWalletName('');
 			accountStore.getAccount(chainStore.current.chainId).init();
 		}
-	}, [accountStore, chainStore, isConnected, isMobile]);
+	}, [accountStore, chainStore, connectWalletManager, isConnected, isMobile]);
 
 	const onConfirm = useCallback(async () => {
 		setLoading(true);
@@ -100,8 +100,8 @@ const WalletConnect: FunctionComponent = observer(() => {
 			let signature = '';
 			let pubKey = '';
 
-			if (etherumStore.isLoaded) {
-				signature = await etherumStore.signMessage(
+			if (walletStore.isLoaded) {
+				signature = await walletStore.signMessage(
 					JSON.stringify({
 						address,
 						nonce,
@@ -144,7 +144,7 @@ const WalletConnect: FunctionComponent = observer(() => {
 		}
 
 		setLoading(false);
-	}, [address, app, etherumStore, serverId, showMessage, userId]);
+	}, [address, app, walletStore, serverId, showMessage, userId]);
 
 	let content = null;
 
@@ -170,7 +170,7 @@ const WalletConnect: FunctionComponent = observer(() => {
 			localStorage?.getItem(KeyAutoConnectingWalletType) || localStorage?.getItem(KeyConnectingWalletType);
 		const connectingWalletName = localStorage.getItem(KeyConnectingWalletName);
 		const walletConnected =
-			WALLET_LIST.find(({ etherumWallet }) => connectingWalletName === etherumWallet) ||
+			WALLET_LIST.find(({ walletType }) => connectingWalletName === walletType) ||
 			WALLET_LIST.find(({ type }) => type === connectingWalletType);
 
 		content = (
@@ -228,10 +228,11 @@ const WalletConnect: FunctionComponent = observer(() => {
 						className="w-full text-left p-3 md:p-5 rounded-2xl bg-background flex items-center mt-4 md:mt-5"
 						onClick={() => {
 							localStorage.setItem(KeyConnectingWalletType, wallet.type);
-							localStorage.setItem(KeyConnectingWalletName, wallet.etherumWallet || '');
+							localStorage.setItem(KeyConnectingWalletName, wallet.walletType || '');
+							connectWalletManager.setWalletName(wallet.walletType || '');
 
-							if (wallet.etherumWallet) {
-								etherumStore.init(wallet.etherumWallet, true, false).then(success => {
+							if (wallet.walletType) {
+								walletStore.init(wallet.walletType, true, false).then(success => {
 									localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
 								});
 							} else {

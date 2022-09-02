@@ -20,7 +20,7 @@ type TokenDetailsProps = {
 };
 
 const TokenDetails: FunctionComponent<TokenDetailsProps> = observer(props => {
-	const { chainStore, accountStore, queriesStore, etherumStore } = useStore();
+	const { chainStore, accountStore, queriesStore, walletStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);
 
@@ -30,7 +30,7 @@ const TokenDetails: FunctionComponent<TokenDetailsProps> = observer(props => {
 		account.bech32Address,
 		queries.queryBalances
 	);
-	const address = etherumStore.isLoaded ? etherumStore.rebusAddress : account.bech32Address;
+	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 
 	const langVariables = (variables as any)[props.lang] as { [key: string]: string };
 

@@ -120,9 +120,11 @@ export const aminoSignTxAndBroadcast = (tx, address, cb) => {
 	})();
 };
 
-export const aminoSignTx = async (tx, address) => {
-	(await window.keplr) && window.keplr.enable(chainId);
-	const offlineSigner = window.getOfflineSignerOnlyAmino && window.getOfflineSignerOnlyAmino(chainId);
+export const aminoSignTx = async (tx, address, offlineSigner) => {
+	if (!offlineSigner) {
+		(await window.keplr) && window.keplr.enable(chainId);
+		offlineSigner = window.getOfflineSignerOnlyAmino && window.getOfflineSignerOnlyAmino(chainId);
+	}
 
 	const client = await SigningStargateClient.connectWithSigner(RPC_URL, offlineSigner);
 

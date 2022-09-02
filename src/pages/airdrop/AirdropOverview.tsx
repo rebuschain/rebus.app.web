@@ -10,12 +10,12 @@ import { useStore } from 'src/stores';
 import useWindowSize from 'src/hooks/useWindowSize';
 
 export const AirdropOverview = observer(function AirdropOverview() {
-	const { chainStore, accountStore, queriesStore, etherumStore } = useStore();
+	const { chainStore, accountStore, queriesStore, walletStore } = useStore();
 	const { isMobileView } = useWindowSize();
 
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);
-	const rebusAddress = etherumStore.isLoaded ? etherumStore.rebusAddress : account.bech32Address;
+	const rebusAddress = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 
 	const unclaimed = queries.osmosis.queryTotalClaimable
 		.get(rebusAddress)

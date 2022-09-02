@@ -25,7 +25,7 @@ import { ChainStore } from 'src/stores/chain';
 import { AccountWithCosmosAndOsmosis } from 'src/stores/osmosis/account';
 import { useStore } from 'src/stores';
 import { IJsonRpcRequest } from '@walletconnect/types';
-import { EtherumStore } from 'src/stores/etherum';
+import { WalletStore } from 'src/stores/wallet';
 import { WALLET_LIST } from 'src/constants/wallet';
 import { useActions } from 'src/hooks/useActions';
 import * as snackbar from '../actions/snackbar';
@@ -119,7 +119,7 @@ export class ConnectWalletManager {
 	constructor(
 		protected readonly chainStore: ChainStore,
 		protected accountStore?: AccountStore<AccountWithCosmosAndOsmosis>,
-		protected etherumStore?: EtherumStore
+		protected walletStore?: WalletStore
 	) {
 		this.autoConnectingWalletType = localStorage?.getItem(KeyAutoConnectingWalletType) as WalletType;
 		this.connectingWalletName = localStorage?.getItem(KeyConnectingWalletName) as string;
@@ -133,8 +133,12 @@ export class ConnectWalletManager {
 		this.accountStore = accountStore;
 	}
 
-	setEtherumStore(etherumStore: EtherumStore) {
-		this.etherumStore = etherumStore;
+	setWalletStore(walletStore: WalletStore) {
+		this.walletStore = walletStore;
+	}
+
+	setWalletName(name = '') {
+		this.connectingWalletName = name;
 	}
 
 	protected onBeforeSendRequest = (request: Partial<IJsonRpcRequest>): void => {
@@ -268,8 +272,8 @@ export class ConnectWalletManager {
 			}
 		}
 
-		if (this.etherumStore) {
-			this.etherumStore.disconnect();
+		if (this.walletStore) {
+			this.walletStore.disconnect();
 		}
 	}
 
@@ -282,7 +286,7 @@ export class ConnectWalletManager {
 
 export const ConnectWalletDialog = wrapBaseDialog(
 	observer(({ initialFocus, close }: { initialFocus: React.RefObject<HTMLDivElement>; close: () => void }) => {
-		const { chainStore, accountStore, etherumStore } = useStore();
+		const { connectWalletManager, chainStore, accountStore, walletStore } = useStore();
 		const [isMobile] = useState(() => checkIsMobile());
 		const [showMessage] = useActions([snackbar.showMessage]);
 
@@ -293,10 +297,11 @@ export const ConnectWalletDialog = wrapBaseDialog(
 
 				localStorage.setItem(KeyConnectingWalletType, wallet.type);
 				localStorage.removeItem(KeyConnectingWalletName);
+				connectWalletManager.setWalletName('');
 				accountStore.getAccount(chainStore.current.chainId).init();
 				close();
 			}
-		}, [accountStore, chainStore, close, isMobile]);
+		}, [accountStore, chainStore, close, connectWalletManager, isMobile]);
 
 		return (
 			<div ref={initialFocus}>
@@ -312,11 +317,12 @@ export const ConnectWalletDialog = wrapBaseDialog(
 						className="w-full text-left p-3 md:p-5 rounded-2xl bg-background flex items-center mt-4 md:mt-5"
 						onClick={() => {
 							localStorage.setItem(KeyConnectingWalletType, wallet.type);
-							localStorage.setItem(KeyConnectingWalletName, wallet.etherumWallet || '');
+							localStorage.setItem(KeyConnectingWalletName, wallet.walletType || '');
+							connectWalletManager.setWalletName(wallet.walletType || '');
 
-							if (wallet.etherumWallet) {
-								etherumStore
-									.init(wallet.etherumWallet, true)
+							if (wallet.walletType) {
+								walletStore
+									.init(wallet.walletType, true)
 									.then(success => {
 										localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
 									})

@@ -49,6 +49,8 @@
 		"@emotion/babel-preset-css-prop": "^11.2.0",
 		"@emotion/react": "^11.4.0",
 		"@emotion/styled": "^11.3.0",
+		"@ethersproject/abstract-provider": "^5.7.0",
+		"@ethersproject/providers": "^5.7.0",
 		"@hanchon/ethermint-address-converter": "^1.1.0",
 		"@hanchon/signature-to-pubkey": "^1.0.0",
 		"@headlessui/react": "^1.2.0",

@@ -24,7 +24,7 @@ import CircularProgress from 'src/components/insync/CircularProgress';
 const ClaimDialog = observer(props => {
 	const [inProgress, setInProgress] = useState(false);
 
-	const { chainStore, queriesStore, etherumStore } = useStore();
+	const { chainStore, queriesStore, walletStore } = useStore();
 	const queries = queriesStore.get(chainStore.current.chainId);
 
 	const handleClaimAll = async () => {
@@ -62,18 +62,20 @@ const ClaimDialog = observer(props => {
 			});
 		}
 
+		const ethTx = {
+			fee: {
+				...gasAmount,
+				gas: gasString,
+			},
+			msg: {
+				validatorAddresses: updatedTx.msgs.map(({ value }) => value.validatorAddress),
+			},
+			memo: '',
+		};
+
 		try {
-			if (etherumStore.isLoaded) {
-				const tx = await etherumStore.claimRewards(
-					{
-						...gasAmount,
-						gas: gasString,
-					},
-					{
-						validatorAddresses: updatedTx.msgs.map(({ value }) => value.validatorAddress),
-					},
-					''
-				);
+			if (walletStore.isLoaded) {
+				const tx = await walletStore.claimRewards(ethTx, updatedTx);
 				props.successDialog(tx?.tx_response?.txhash);
 			} else {
 				const result = await aminoSignTx(updatedTx, props.address);
@@ -126,19 +128,20 @@ const ClaimDialog = observer(props => {
 			},
 			memo: '',
 		};
+		const ethTx = {
+			fee: {
+				...gasAmount,
+				gas: gasString,
+			},
+			msg: {
+				validatorAddresses: [props.value],
+			},
+			memo: '',
+		};
 
 		try {
-			if (etherumStore.isLoaded) {
-				const tx = await etherumStore.claimRewards(
-					{
-						...gasAmount,
-						gas: gasString,
-					},
-					{
-						validatorAddresses: [props.value],
-					},
-					''
-				);
+			if (walletStore.isLoaded) {
+				const tx = await walletStore.claimRewards(ethTx, updatedTx);
 				props.successDialog(tx?.tx_response?.txhash);
 			} else {
 				const result = await aminoSignTx(updatedTx, props.address);

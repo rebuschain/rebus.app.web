@@ -14,7 +14,7 @@ export interface AccountConnection {
 export const AccountConnectionContext = React.createContext<AccountConnection | null>(null);
 
 export const AccountConnectionProvider: FunctionComponent = observer(({ children }) => {
-	const { chainStore, accountStore, etherumStore, connectWalletManager } = useStore();
+	const { chainStore, accountStore, walletStore, connectWalletManager } = useStore();
 	const [isOpenDialog, setIsOpenDialog] = useState(false);
 
 	const account = accountStore.getAccount(chainStore.current.chainId);
@@ -37,7 +37,7 @@ export const AccountConnectionProvider: FunctionComponent = observer(({ children
 		account.walletStatus === WalletStatus.Loaded ||
 		connectWalletManager.autoConnectingWalletType ||
 		isMobileWeb ||
-		etherumStore.isLoaded;
+		walletStore.isLoaded;
 
 	const disconnectAccount = useCallback(async () => {
 		connectWalletManager.disableAutoConnect();
@@ -58,22 +58,25 @@ export const AccountConnectionProvider: FunctionComponent = observer(({ children
 	}, [account, isMobileWeb]);
 
 	useEffect(() => {
-		if (connectWalletManager.autoConnectingWalletType === 'extension' && connectWalletManager.connectingWalletName) {
-			etherumStore.init(connectWalletManager.connectingWalletName as any, false, false).then(success => {
-				localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
-				if (!success) {
-					connectWalletManager.disableAutoConnect();
-				}
-			});
-		} else if (!!connectWalletManager.autoConnectingWalletType && account.walletStatus === WalletStatus.NotInit) {
-			account.init();
-		}
+		// SetTimeout is used to make sure the extensions have been loaded into the window object before we call the init code
+		setTimeout(() => {
+			if (connectWalletManager.autoConnectingWalletType === 'extension' && connectWalletManager.connectingWalletName) {
+				walletStore.init(connectWalletManager.connectingWalletName as any, false, false).then(success => {
+					localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
+					if (!success) {
+						connectWalletManager.disableAutoConnect();
+					}
+				});
+			} else if (!!connectWalletManager.autoConnectingWalletType && account.walletStatus === WalletStatus.NotInit) {
+				account.init();
+			}
+		});
 	}, [
 		account,
 		connectWalletManager,
 		connectWalletManager.autoConnectingWalletType,
 		connectWalletManager.connectingWalletName,
-		etherumStore,
+		walletStore,
 	]);
 
 	/*
