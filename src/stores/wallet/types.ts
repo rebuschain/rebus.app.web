@@ -1,6 +1,12 @@
 import { SifchainLiquidityAPYResult } from '@keplr-wallet/stores/build/query/cosmos/supply/sifchain';
 import { Fee } from '@tharsis/transactions';
 
+export type Account = {
+	address: string;
+	name: string;
+	publicKey: string;
+};
+
 export type TxResponse = {
 	code: number;
 	codespace?: SifchainLiquidityAPYResult;

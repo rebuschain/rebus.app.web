@@ -226,15 +226,18 @@ const WalletConnect: FunctionComponent = observer(() => {
 					<button
 						key={wallet.name}
 						className="w-full text-left p-3 md:p-5 rounded-2xl bg-background flex items-center mt-4 md:mt-5"
-						onClick={() => {
+						onClick={async () => {
 							localStorage.setItem(KeyConnectingWalletType, wallet.type);
 							localStorage.setItem(KeyConnectingWalletName, wallet.walletType || '');
 							connectWalletManager.setWalletName(wallet.walletType || '');
 
 							if (wallet.walletType) {
-								walletStore.init(wallet.walletType, true, false).then(success => {
+								try {
+									const success = await walletStore.init(wallet.walletType, true);
 									localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
-								});
+								} catch (err) {
+									showMessage((err as any)?.message || err);
+								}
 							} else {
 								accountStore.getAccount(chainStore.current.chainId).init();
 							}

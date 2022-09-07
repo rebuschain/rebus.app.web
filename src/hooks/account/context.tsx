@@ -59,14 +59,17 @@ export const AccountConnectionProvider: FunctionComponent = observer(({ children
 
 	useEffect(() => {
 		// SetTimeout is used to make sure the extensions have been loaded into the window object before we call the init code
-		setTimeout(() => {
+		setTimeout(async () => {
 			if (connectWalletManager.autoConnectingWalletType === 'extension' && connectWalletManager.connectingWalletName) {
-				walletStore.init(connectWalletManager.connectingWalletName as any, false, false).then(success => {
+				try {
+					const success = await walletStore.init(connectWalletManager.connectingWalletName as any, false, false);
 					localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
 					if (!success) {
 						connectWalletManager.disableAutoConnect();
 					}
-				});
+				} catch (err) {
+					connectWalletManager.disableAutoConnect();
+				}
 			} else if (!!connectWalletManager.autoConnectingWalletType && account.walletStatus === WalletStatus.NotInit) {
 				account.init();
 			}
