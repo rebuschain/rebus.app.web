@@ -28,11 +28,14 @@ import { ethers } from 'ethers';
 import { signatureToPubkey } from '@hanchon/signature-to-pubkey';
 import { AminoMsgDelegate, AminoMsgUndelegate, AminoMsgVote, AminoMsgWithdrawDelegatorReward } from '@cosmjs/stargate';
 import { DeFiWeb3Connector } from 'deficonnect';
+import { InstallError, tendermint } from '@cosmostation/extension-client';
 import { WALLET_LIST, WalletTypes } from 'src/constants/wallet';
 import { ethToRebus } from 'src/utils/rebus-converter';
-import { AminoProvider } from './amino-provider';
+import { FalconProvider } from './falcon-provider';
 import { ChainInfoWithExplorer } from '../chain';
 import { TransactionResponse, Tx } from './types';
+import { CosmostationProvider } from './cosmostation-provider';
+import { BaseProvider } from './base-provider';
 
 const chainId = env('CHAIN_ID');
 const restUrl = env('REST_URL');
@@ -46,6 +49,8 @@ export class WalletStore {
 	@observable
 	public isLoaded = false;
 	@observable
+	public accountName = '';
+	@observable
 	public address = '';
 	@observable
 	public rebusAddress = '';
@@ -53,7 +58,7 @@ export class WalletStore {
 	public walletType: WalletTypes = undefined;
 
 	private _provider: ethers.providers.Web3Provider | undefined;
-	private _aminoProvider: AminoProvider<AminoProviderBase> | undefined;
+	private _aminoProvider: BaseProvider<AminoProviderBase> | undefined;
 
 	constructor(protected readonly chain: ChainInfoWithExplorer) {
 		makeObservable(this);
@@ -157,6 +162,28 @@ export class WalletStore {
 					return false;
 				}
 				break;
+			case 'cosmostation':
+				try {
+					const provider = await tendermint();
+					const tendermintExtendedProvider = provider as TendermintExtended;
+					tendermintExtendedProvider.getOfflineAminoSigner = () => tendermintExtendedProvider as any;
+					tendermintExtendedProvider.getOfflineSigner = () => tendermintExtendedProvider as any;
+
+					this._aminoProvider = new CosmostationProvider(wallet.name, tendermintExtendedProvider);
+
+					await this.aminoProvider.connect();
+				} catch (err) {
+					if (err instanceof InstallError) {
+						if (wallet.link && shouldOpenLinkIfProviderNotFound) {
+							window.open(wallet.link);
+						}
+					} else {
+						console.error(err);
+					}
+
+					return false;
+				}
+				break;
 			case 'falcon':
 				if (!window.falcon) {
 					if (wallet.link && shouldOpenLinkIfProviderNotFound) {
@@ -166,14 +193,14 @@ export class WalletStore {
 					return false;
 				}
 
-				this._aminoProvider = new AminoProvider<Falcon>(wallet.name, 'falcon');
+				this._aminoProvider = new FalconProvider(wallet.name, window.falcon);
 				await this.aminoProvider.connect();
 				break;
 		}
 
 		this.walletType = walletType;
 
-		this.onUpdate();
+		await this.onUpdate();
 
 		if (window.ethereum) {
 			window.ethereum.on('accountsChanged', this.onAccountChange);
@@ -186,6 +213,7 @@ export class WalletStore {
 
 	public disconnect() {
 		this.isLoaded = false;
+		this.accountName = '';
 		this.address = '';
 		this.rebusAddress = '';
 		this._provider = undefined;
@@ -198,7 +226,7 @@ export class WalletStore {
 
 	public async getPubKey() {
 		if (this._aminoProvider) {
-			return this.aminoProvider.pubKeysByAddressMap[this.address] || '';
+			return this.aminoProvider.account?.publicKey || '';
 		}
 
 		const signature = await this.provider.getSigner().signMessage('generate_pubkey');
@@ -395,11 +423,20 @@ export class WalletStore {
 	private onUpdate = async () => {
 		try {
 			try {
-				this.address = this._aminoProvider
-					? (await this.aminoProvider.listAccounts())?.[0]
-					: (await this.provider.listAccounts())?.[0];
+				if (this._aminoProvider) {
+					const account = await this.aminoProvider.getAccount();
+					this.accountName = account.name;
+					this.address = account.address;
+				} else {
+					this.address = (await this.provider.listAccounts())?.[0];
+					this.accountName = '';
+				}
 			} catch (err) {
 				console.log(err);
+
+				if ((<any>err)?.code === 4100) {
+					throw err;
+				}
 			}
 
 			if (!this.address) {

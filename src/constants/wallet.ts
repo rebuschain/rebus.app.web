@@ -1,4 +1,4 @@
-export type WalletTypes = 'metamask' | 'crypto' | 'falcon' | undefined;
+export type WalletTypes = 'metamask' | 'crypto' | 'cosmostation' | 'falcon' | undefined;
 
 (window as any).enableFalcon = (isEnabled = true) => {
 	localStorage.setItem('falcon_enabled', isEnabled ? 'true' : 'false');
@@ -32,6 +32,14 @@ export const WALLET_LIST: {
 		type: 'extension',
 		walletType: 'metamask',
 		link: 'https://metamask.io/',
+	},
+	{
+		name: 'Cosmostation',
+		description: 'Cosmostation Browser Extension',
+		logoUrl: '/public/assets/other-logos/cosmostation.jpg',
+		type: 'extension',
+		walletType: 'cosmostation',
+		link: 'https://www.cosmostation.io/wallet/',
 	},
 	(localStorage.getItem('falcon_enabled') === 'true' && {
 		name: 'Falcon',

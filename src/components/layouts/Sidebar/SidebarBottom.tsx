@@ -15,6 +15,7 @@ export const SidebarBottom: FunctionComponent = observer(() => {
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);
 	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
+	const name = walletStore.isLoaded ? walletStore.accountName : account.name;
 
 	const { isAccountConnected, connectAccount, disconnectAccount, isMobileWeb } = useAccountConnection();
 
@@ -35,7 +36,7 @@ export const SidebarBottom: FunctionComponent = observer(() => {
 							<img alt="wallet" className="w-5 h-5" src={`${MISC.ASSETS_BASE}/Icons/Wallet.svg`} />
 						</div>
 						<div className="flex flex-col">
-							<p className="font-semibold text-white-high text-base">{account.name}</p>
+							<p className="font-semibold text-white-high text-base">{name}</p>
 							<p className="opacity-50 text-white-emphasis text-sm">{balance}</p>
 						</div>
 					</div>
