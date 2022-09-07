@@ -573,12 +573,13 @@ export const ManageLiquidityDialog = wrapBaseDialog(
 	observer(({ poolId, close }: { poolId: string; close: () => void }) => {
 		const [tab, setTab] = React.useState<Tabs>(Tabs.ADD);
 
-		const { chainStore, queriesStore, accountStore } = useStore();
+		const { chainStore, queriesStore, accountStore, walletStore } = useStore();
 
 		const { isMobileView } = useWindowSize();
 
 		const queries = queriesStore.get(chainStore.current.chainId);
 		const account = accountStore.getAccount(chainStore.current.chainId);
+		const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
 
 		const [addLiquidityConfig] = useState(
 			() =>
@@ -586,7 +587,7 @@ export const ManageLiquidityDialog = wrapBaseDialog(
 					chainStore,
 					chainStore.current.chainId,
 					poolId,
-					account.bech32Address,
+					address,
 					queries.rebus.queryGammPoolShare,
 					queries.rebus.queryGammPools,
 					queries.queryBalances
@@ -597,7 +598,7 @@ export const ManageLiquidityDialog = wrapBaseDialog(
 		addLiquidityConfig.setQueryPoolShare(queries.rebus.queryGammPoolShare);
 		addLiquidityConfig.setQueryPools(queries.rebus.queryGammPools);
 		addLiquidityConfig.setQueryBalances(queries.queryBalances);
-		addLiquidityConfig.setSender(account.bech32Address);
+		addLiquidityConfig.setSender(address);
 
 		const [removeLiquidityConfig] = useState(
 			() =>
@@ -605,7 +606,7 @@ export const ManageLiquidityDialog = wrapBaseDialog(
 					chainStore,
 					chainStore.current.chainId,
 					poolId,
-					account.bech32Address,
+					address,
 					queries.rebus.queryGammPoolShare,
 					'35'
 				)
@@ -613,7 +614,7 @@ export const ManageLiquidityDialog = wrapBaseDialog(
 		removeLiquidityConfig.setChain(chainStore.current.chainId);
 		removeLiquidityConfig.setPoolId(poolId);
 		removeLiquidityConfig.setQueryPoolShare(queries.rebus.queryGammPoolShare);
-		removeLiquidityConfig.setSender(account.bech32Address);
+		removeLiquidityConfig.setSender(address);
 
 		return (
 			<div className="text-white-high w-full h-full">

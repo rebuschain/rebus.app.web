@@ -18,12 +18,13 @@ const tableWidths = ['45%', '25%', '15%', '15%'];
 const tableWidthsOnMobileView = ['70%', '30%'];
 
 export const AssetBalancesList = observer(function AssetBalancesList() {
-	const { chainStore, queriesStore, accountStore, priceStore } = useStore();
+	const { chainStore, queriesStore, accountStore, priceStore, walletStore } = useStore();
 
 	const { isMobileView } = useWindowSize();
 
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);
+	const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
 
 	const ibcBalances = IBCAssetInfos.map(channelInfo => {
 		const chainInfo = chainStore.getChain(channelInfo.counterpartyChainId);
@@ -49,7 +50,7 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 			sourceDenom = channelInfo.coinMinimalDenom;
 		}
 
-		const balance = queries.queryBalances.getQueryBech32Address(account.bech32Address).getBalanceFromCurrency({
+		const balance = queries.queryBalances.getQueryBech32Address(address).getBalanceFromCurrency({
 			coinDecimals: originCurrency.coinDecimals,
 			coinGeckoId: originCurrency.coinGeckoId,
 			coinImageUrl: originCurrency.coinImageUrl,
@@ -123,9 +124,7 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 						.concat(chainStore.currentOsmosis.currencies)
 						.filter(cur => !cur.coinMinimalDenom.includes('/'))
 						.map(cur => {
-							const bal = queries.queryBalances
-								.getQueryBech32Address(account.bech32Address)
-								.getBalanceFromCurrency(cur);
+							const bal = queries.queryBalances.getQueryBech32Address(address).getBalanceFromCurrency(cur);
 
 							const totalFiatValue = priceStore.calculatePrice(bal, 'usd');
 

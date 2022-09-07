@@ -691,9 +691,9 @@ export const RewardEpochIdentifier = 'day';
  */
 export const IBCAssetInfos: {
 	counterpartyChainId: string;
-	// Souce channel id based on the Osmosis chain
+	// Souce channel id
 	sourceChannelId: string;
-	// Destination channel id from Osmosis chain
+	// Destination channel id
 	destChannelId: string;
 	coinMinimalDenom: string;
 	// In some reasons, ibc channel is in unstable status.

@@ -156,7 +156,7 @@ export class ConnectWalletManager {
 				// By the current logic, `enable()` is requested immediately after wallet connect is connected.
 				// However, in this case, two requests are made consecutively.
 				// So in ios, the deep link modal pops up twice and confuses the user.
-				// To solve this problem, enable on the osmosis chain does not open deep links.
+				// To solve this problem, enable on the rebus chain does not open deep links.
 				if (request.params && request.params.length === 1 && request.params[0] === this.chainStore.current.chainId) {
 					break;
 				}

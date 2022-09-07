@@ -21,16 +21,17 @@ interface PoolSwapDialogProps {
 
 export const PoolSwapDialog = wrapBaseDialog(
 	observer(function PoolSwapDialog({ poolId, close }: PoolSwapDialogProps) {
-		const { chainStore, queriesStore, accountStore } = useStore();
+		const { chainStore, queriesStore, accountStore, walletStore } = useStore();
 		const { isMobileView } = useWindowSize();
 
 		const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
 		const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
+		const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 
 		const config = usePoolSwapConfig(
 			chainStore,
 			chainStore.currentOsmosis.chainId,
-			account.bech32Address,
+			address,
 			queries.queryBalances,
 			poolId,
 			queries.rebus.queryGammPools

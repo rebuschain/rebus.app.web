@@ -1,6 +1,8 @@
 export const LINKS = {
-	TWITTER: 'https://twitter.com/osmosiszone',
-	MEDIUM: 'https://medium.com/@Osmosis',
-	DISCORD: 'https://discord.gg/osmosis',
-	TELEGRAM: 'https://t.me/osmosis_chat',
+	FACEBOOK: 'https://www.facebook.com/rebuschain',
+	TWITTER: 'https://twitter.com/RebusChain',
+	INSTAGRAM: 'https://www.instagram.com/rebuschain/',
+	MEDIUM: 'https://medium.com/@RebusChain',
+	DISCORD: 'https://discord.gg/tqfSntHxvv',
+	TELEGRAM: 'https://t.me/RebusChain',
 };

@@ -8,13 +8,14 @@ import { useStore } from 'src/stores';
 import { LockupAbledPoolIds } from 'src/config';
 
 export const MyPools = observer(function MyPools() {
-	const { chainStore, accountStore, queriesStore, priceStore } = useStore();
+	const { chainStore, accountStore, queriesStore, priceStore, walletStore } = useStore();
 
 	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 	const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
+	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 
 	const queryIncentivizedPools = queries.rebus.queryIncentivizedPools;
-	const myPools = queries.rebus.queryGammPoolShare.getOwnPools(account.bech32Address);
+	const myPools = queries.rebus.queryGammPoolShare.getOwnPools(address);
 
 	const myPoolInfoList = myPools
 		.map(poolId => {
@@ -26,10 +27,10 @@ export const MyPools = observer(function MyPools() {
 			}
 
 			const tvl = pool.computeTotalValueLocked(priceStore, priceStore.getFiatCurrency('usd')!);
-			const shareRatio = queries.rebus.queryGammPoolShare.getAllGammShareRatio(account.bech32Address, pool.id);
+			const shareRatio = queries.rebus.queryGammPoolShare.getAllGammShareRatio(address, pool.id);
 			const actualShareRatio = shareRatio.increasePrecision(2);
 
-			const lockedShareRatio = queries.rebus.queryGammPoolShare.getLockedGammShareRatio(account.bech32Address, pool.id);
+			const lockedShareRatio = queries.rebus.queryGammPoolShare.getLockedGammShareRatio(address, pool.id);
 			const actualLockedShareRatio = lockedShareRatio.increasePrecision(2);
 
 			// 데이터 구조를 바꿀 필요가 있다.

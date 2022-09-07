@@ -225,16 +225,12 @@ export const useCreateNewPoolConfig = (
 
 export const CreateNewPoolDialog = wrapBaseDialog(
 	observer(({ close }: { close: () => void }) => {
-		const { chainStore, accountStore, queriesStore } = useStore();
+		const { chainStore, accountStore, queriesStore, walletStore } = useStore();
 		const account = accountStore.getAccount(chainStore.current.chainId);
 		const queries = queriesStore.get(chainStore.current.chainId);
+		const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
 
-		const config = useCreateNewPoolConfig(
-			chainStore,
-			chainStore.current.chainId,
-			account.bech32Address,
-			queries.queryBalances
-		);
+		const config = useCreateNewPoolConfig(chainStore, chainStore.current.chainId, address, queries.queryBalances);
 		const feeConfig = useFakeFeeConfig(chainStore, chainStore.current.chainId, account.msgOpts.createPool.gas);
 		config.setFeeConfig(feeConfig);
 

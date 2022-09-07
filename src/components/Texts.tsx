@@ -46,7 +46,7 @@ const RgbByColor = {
 
 const solidColorList = ['gold', 'primary', 'black', 'green', 'red'];
 
-interface OsmosisTextProps {
+interface TextProps {
 	size?: keyof typeof FontSizeBySize | number | string;
 	weight?: keyof typeof FontWeightByBoldness;
 	emphasis?: keyof typeof OpacityByEmphasis;
@@ -56,7 +56,7 @@ interface OsmosisTextProps {
 	isMobileView?: boolean;
 }
 
-export const Text = styled.p<OsmosisTextProps>`
+export const Text = styled.p<TextProps>`
 	${mapTextPropsToCssProps};
 `;
 
@@ -68,7 +68,7 @@ function mapTextPropsToCssProps({
 	fontType,
 	pb,
 	isMobileView = false,
-}: OsmosisTextProps) {
+}: TextProps) {
 	const fontTypeProps = ['2xl', 'xl', 'lg'].some(largeSize => size === largeSize)
 		? { lineHeight: 1, fontFamily: `${fontType ?? 'Poppins'}, ui-sans-serif, system-ui` }
 		: { lineHeight: undefined, fontFamily: `${fontType ?? 'Inter'}, ui-sans-serif, system-ui` };

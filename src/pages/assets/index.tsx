@@ -8,7 +8,9 @@ import { AssetsOverview } from './AssetsOverview';
 import { IbcTransferHistoryList } from './IbcTransferHistoryList';
 
 const AssetsPage: FunctionComponent = observer(() => {
-	const { ibcTransferHistoryStore, chainStore, accountStore } = useStore();
+	const { ibcTransferHistoryStore, chainStore, accountStore, walletStore } = useStore();
+	const account = accountStore.getAccount(chainStore.current.chainId);
+	const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
 
 	return (
 		<AssetsPageContainer>
@@ -21,9 +23,7 @@ const AssetsPage: FunctionComponent = observer(() => {
 			<BalanceAndHistorySection>
 				<CenterSelf>
 					<AssetBalancesList />
-					{ibcTransferHistoryStore.getHistoriesAndUncommitedHistoriesByAccount(
-						accountStore.getAccount(chainStore.current.chainId).bech32Address
-					).length > 0 ? (
+					{ibcTransferHistoryStore.getHistoriesAndUncommitedHistoriesByAccount(address).length > 0 ? (
 						<IbcTransferHistoryList />
 					) : null}
 				</CenterSelf>

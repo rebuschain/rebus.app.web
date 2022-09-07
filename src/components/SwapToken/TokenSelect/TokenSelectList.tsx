@@ -49,11 +49,12 @@ export const TokenSelectList = observer(function TokenSelectList({
 	...props
 }: Props) {
 	const [searchedToken, setSearchedToken] = useState<string>('');
-	const { chainStore, accountStore, queriesStore } = useStore();
+	const { chainStore, accountStore, queriesStore, walletStore } = useStore();
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);
+	const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
 
 	const filteredCurrencies = useMemo(() => {
 		return currencies.filter(cur => {
@@ -93,7 +94,7 @@ export const TokenSelectList = observer(function TokenSelectList({
 			<TokenItemList>
 				{filteredCurrencies.map(cur => {
 					const balance = queries.queryBalances
-						.getQueryBech32Address(account.bech32Address)
+						.getQueryBech32Address(address)
 						.balances.find(bal => bal.currency.coinMinimalDenom === cur.coinMinimalDenom);
 
 					const amount =

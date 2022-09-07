@@ -59,8 +59,7 @@ const WalletConnect: FunctionComponent = observer(() => {
 	const { isAccountConnected, disconnectAccount, isMobileWeb } = useAccountConnection();
 	const isConnected = isAccountConnected || walletStore.isLoaded;
 	const account = accountStore.getAccount(chainStore.current.chainId);
-
-	const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
+	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 
 	useEffect(() => {
 		if (!serverId || !userId) {

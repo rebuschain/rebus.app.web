@@ -15,17 +15,18 @@ interface Props {
 }
 
 export const MySuperfluidUnbondingTable = observer(function MySuperfluidUnbondingTable({ poolId }: Props) {
-	const { chainStore, accountStore, queriesStore } = useStore();
+	const { chainStore, accountStore, queriesStore, walletStore } = useStore();
 
 	const { isMobileView } = useWindowSize();
 
 	const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
 	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
+	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 
 	const poolShareCurrency = queries.rebus.queryGammPoolShare.getShareCurrency(poolId);
 
 	const superfluidUndelegations = queries.rebus.querySuperfluidUndelegations
-		.getQuerySuperfluidDelegations(account.bech32Address)
+		.getQuerySuperfluidDelegations(address)
 		.getUndelegations(poolShareCurrency);
 	const queryActiveValidators = queries.cosmos.queryValidators.getQueryStatus(Staking.BondStatus.Bonded);
 	const activeValidators = queryActiveValidators.validators;

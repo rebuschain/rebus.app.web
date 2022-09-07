@@ -18,15 +18,16 @@ interface Props {
 }
 
 export const MyBondingsTable = observer(function MyBondingsTable({ poolId, isSuperfluidEnabled }: Props) {
-	const { chainStore, accountStore, queriesStore, priceStore } = useStore();
+	const { chainStore, accountStore, queriesStore, priceStore, walletStore } = useStore();
 
 	const { isMobileView } = useWindowSize();
 
 	const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
+	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 	const poolShareCurrency = queries.rebus.queryGammPoolShare.getShareCurrency(poolId);
 	const superfluidDelegations = queries.rebus.querySuperfluidDelegations
-		.getQuerySuperfluidDelegations(account.bech32Address)
+		.getQuerySuperfluidDelegations(address)
 		.getDelegations(poolShareCurrency);
 
 	const lockableDurations = queries.rebus.queryLockableDurations.lockableDurations;
@@ -41,7 +42,7 @@ export const MyBondingsTable = observer(function MyBondingsTable({ poolId, isSup
 				<tbody className="w-full">
 					{lockableDurations.map((lockableDuration, index) => {
 						const lockedCoin = queries.rebus.queryAccountLocked
-							.get(account.bech32Address)
+							.get(address)
 							.getLockedCoinWithDuration(poolShareCurrency, lockableDuration);
 						return (
 							<LockupTableRow

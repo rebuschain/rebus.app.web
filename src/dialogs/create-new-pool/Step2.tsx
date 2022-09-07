@@ -42,12 +42,13 @@ const Pool: FunctionComponent<{
 }> = observer(({ config, assetAt }) => {
 	const asset = config.assets[assetAt];
 
-	const { chainStore, queriesStore, accountStore } = useStore();
+	const { chainStore, queriesStore, accountStore, walletStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);
+	const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
 
 	const balance = queries.queryBalances
-		.getQueryBech32Address(account.bech32Address)
+		.getQueryBech32Address(address)
 		.getBalanceFromCurrency(asset.amountConfig.currency);
 
 	return (

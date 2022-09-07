@@ -15,24 +15,25 @@ import { IAmountConfig, InsufficientAmountError, useAmountConfig } from '@keplr-
 export const LockLpTokenDialog = wrapBaseDialog(
 	observer(
 		({ poolId, close, isSuperfluidEnabled }: { poolId: string; close: () => void; isSuperfluidEnabled: boolean }) => {
-			const { chainStore, queriesStore, accountStore, priceStore } = useStore();
+			const { chainStore, queriesStore, accountStore, priceStore, walletStore } = useStore();
 
 			const account = accountStore.getAccount(chainStore.current.chainId);
 			const queries = queriesStore.get(chainStore.current.chainId);
+			const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
 			const lockableDurations = queries.rebus.queryLockableDurations.lockableDurations;
 
 			const hasNotExistSuperfluidLock = useMemo(() => {
 				const superfluidDelegations = queries.rebus.querySuperfluidDelegations
-					.getQuerySuperfluidDelegations(account.bech32Address)
+					.getQuerySuperfluidDelegations(address)
 					.getDelegations(queries.rebus.queryGammPoolShare.getShareCurrency(poolId));
 
 				return !superfluidDelegations || superfluidDelegations.length === 0;
-			}, [account.bech32Address, poolId, queries.rebus.queryGammPoolShare, queries.rebus.querySuperfluidDelegations]);
+			}, [address, poolId, queries.rebus.queryGammPoolShare, queries.rebus.querySuperfluidDelegations]);
 
 			const amountConfig = useBasicAmountConfig(
 				chainStore,
 				chainStore.current.chainId,
-				account.bech32Address,
+				address,
 				queries.rebus.queryGammPoolShare.getShareCurrency(poolId),
 				queries.queryBalances
 			);
@@ -116,7 +117,7 @@ export const LockLpTokenDialog = wrapBaseDialog(
 									Available LP token:{' '}
 									<span className="text-primary-50">
 										{queries.queryBalances
-											.getQueryBech32Address(account.bech32Address)
+											.getQueryBech32Address(address)
 											.getBalanceFromCurrency(amountConfig.sendCurrency)
 											.trim(true)
 											.toString()}
@@ -243,16 +244,12 @@ export const LockLpTokenDialog = wrapBaseDialog(
 
 export const UpgradeLockedLPToSuperfluidDialog = wrapBaseDialog(
 	observer(({ amount, lockIds, close }: { amount: CoinPretty; lockIds: string[]; close: () => void }) => {
-		const { chainStore, queriesStore, accountStore } = useStore();
+		const { chainStore, queriesStore, accountStore, walletStore } = useStore();
 
 		const account = accountStore.getAccount(chainStore.current.chainId);
 		const queries = queriesStore.get(chainStore.current.chainId);
-		const amountConfig = useAmountConfig(
-			chainStore,
-			chainStore.current.chainId,
-			account.bech32Address,
-			queries.queryBalances
-		);
+		const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
+		const amountConfig = useAmountConfig(chainStore, chainStore.current.chainId, address, queries.queryBalances);
 
 		useEffect(() => {
 			amountConfig.setAmount(amount.toDec().toString());
@@ -316,14 +313,15 @@ export const LockLpTokenValidatorSelectStageViewInDialog: FunctionComponent<{
 			return amountConfig.getError() != null;
 		},
 	}) => {
-		const { chainStore, queriesStore, accountStore } = useStore();
+		const { chainStore, queriesStore, accountStore, walletStore } = useStore();
 
 		const account = accountStore.getAccount(chainStore.current.chainId);
 		const queries = queriesStore.get(chainStore.current.chainId);
+		const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
 
 		const activeValidatorsResult = queries.cosmos.queryValidators.getQueryStatus(Staking.BondStatus.Bonded);
 		const activeValidators = activeValidatorsResult.validators;
-		const delegationsResult = queries.cosmos.queryDelegations.getQueryBech32Address(account.bech32Address);
+		const delegationsResult = queries.cosmos.queryDelegations.getQueryBech32Address(address);
 		const delegations = delegationsResult.delegations;
 		const delegatedValidators = useMemo(
 			() =>

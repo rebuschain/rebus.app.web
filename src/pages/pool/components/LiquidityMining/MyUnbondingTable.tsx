@@ -18,12 +18,13 @@ interface Props {
 }
 
 export const MyUnBondingTable = observer(function MyUnBondingTable({ poolId }: Props) {
-	const { chainStore, accountStore, queriesStore } = useStore();
+	const { chainStore, accountStore, queriesStore, walletStore } = useStore();
 
 	const { isMobileView } = useWindowSize();
 
 	const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
 	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
+	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 
 	const poolShareCurrency = queries.rebus.queryGammPoolShare.getShareCurrency(poolId);
 	const lockableDurations = queries.rebus.queryLockableDurations.lockableDurations;
@@ -37,7 +38,7 @@ export const MyUnBondingTable = observer(function MyUnBondingTable({ poolId }: P
 
 	for (const lockableDuration of lockableDurations) {
 		const unlockings = queries.rebus.queryAccountLocked
-			.get(account.bech32Address)
+			.get(address)
 			.getUnlockingCoinWithDuration(poolShareCurrency, lockableDuration);
 
 		unlockingDatas = unlockingDatas.concat(

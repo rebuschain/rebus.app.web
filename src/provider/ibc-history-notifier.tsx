@@ -112,7 +112,7 @@ export const ToastIBCTransferRefunded: FunctionComponent<{
  * XXX: `IBCHistoryNotifier` doesn't render anything.
  */
 export const IBCHistoryNotifier: FunctionComponent = observer(() => {
-	const { chainStore, queriesStore, ibcTransferHistoryStore, accountStore } = useStore();
+	const { chainStore, queriesStore, ibcTransferHistoryStore, accountStore, walletStore } = useStore();
 
 	useEffect(() => {
 		ibcTransferHistoryStore.addHistoryChangedHandler(history => {
@@ -129,7 +129,8 @@ export const IBCHistoryNotifier: FunctionComponent = observer(() => {
 				}
 
 				const account = accountStore.getAccount(chainStore.current.chainId);
-				if (history.sender === account.bech32Address || history.recipient === account.bech32Address) {
+				const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
+				if (history.sender === address || history.recipient === address) {
 					if (history.status === 'complete') {
 						queriesStore
 							.get(history.destChainId)
@@ -144,7 +145,7 @@ export const IBCHistoryNotifier: FunctionComponent = observer(() => {
 				}
 			}
 		});
-	}, [accountStore, chainStore, ibcTransferHistoryStore, queriesStore]);
+	}, [accountStore, chainStore, ibcTransferHistoryStore, queriesStore, walletStore.isLoaded, walletStore.rebusAddress]);
 
 	return null;
 });

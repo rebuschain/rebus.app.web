@@ -8,11 +8,11 @@ const PaddingBySize = {
 	small: '4px 6px',
 };
 
-interface OsmosisButtonProps {
+interface ButtonProps {
 	size?: keyof typeof PaddingBySize;
 	isOutlined?: boolean;
 }
-export const ButtonPrimary = styled.button<OsmosisButtonProps>`
+export const ButtonPrimary = styled.button<ButtonProps>`
 	${({ size = 'regular', isOutlined = false }) => ({
 		padding: PaddingBySize[size],
 		backgroundColor: isOutlined ? 'transparent' : colorPrimary200,
@@ -31,7 +31,7 @@ export const ButtonPrimary = styled.button<OsmosisButtonProps>`
 	}
 `;
 
-export const ButtonSecondary = styled.button<OsmosisButtonProps>`
+export const ButtonSecondary = styled.button<ButtonProps>`
 	${({ size = 'regular', isOutlined = false }) => ({
 		padding: PaddingBySize[size],
 		backgroundColor: isOutlined ? 'transparent' : colorGold,
@@ -50,7 +50,7 @@ export const ButtonSecondary = styled.button<OsmosisButtonProps>`
 	}
 `;
 
-export const ButtonToggle = styled.button<OsmosisButtonProps & { isActive: boolean }>`
+export const ButtonToggle = styled.button<ButtonProps & { isActive: boolean }>`
 	${({ size = 'regular', isActive = false }) => ({
 		padding: PaddingBySize[size],
 		backgroundColor: isActive ? colorPrimary200 : colorWhiteFaint,

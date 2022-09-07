@@ -23,14 +23,9 @@ const TokenDetails: FunctionComponent<TokenDetailsProps> = observer(props => {
 	const { chainStore, accountStore, queriesStore, walletStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);
-
-	const amountConfig = useAmountConfig(
-		chainStore,
-		chainStore.current.chainId,
-		account.bech32Address,
-		queries.queryBalances
-	);
 	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
+
+	const amountConfig = useAmountConfig(chainStore, chainStore.current.chainId, address, queries.queryBalances);
 
 	const langVariables = (variables as any)[props.lang] as { [key: string]: string };
 

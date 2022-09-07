@@ -9,23 +9,22 @@ import { useStore } from 'src/stores';
 import useWindowSize from 'src/hooks/useWindowSize';
 
 export const AssetsOverview: FunctionComponent<{ title: string }> = observer(({ title }) => {
-	const { chainStore, accountStore, queriesStore, priceStore } = useStore();
+	const { chainStore, accountStore, queriesStore, priceStore, walletStore } = useStore();
 
 	const { isMobileView } = useWindowSize();
 
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);
+	const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
 
-	const availableBalanceList = queries.queryBalances
-		.getQueryBech32Address(account.bech32Address)
-		.balances.map(bal => bal.balance);
+	const availableBalanceList = queries.queryBalances.getQueryBech32Address(address).balances.map(bal => bal.balance);
 	const availableBalancePrice = calcTotalFiatValue(availableBalanceList);
 
-	const lockedCoins = queries.rebus.queryLockedCoins.get(account.bech32Address).lockedCoins;
+	const lockedCoins = queries.rebus.queryLockedCoins.get(address).lockedCoins;
 	const lockedBalancePrice = calcTotalFiatValue(lockedCoins);
 
-	const delegatedBalance = queries.cosmos.queryDelegations.getQueryBech32Address(account.bech32Address).total;
-	const unbondingBanace = queries.cosmos.queryUnbondingDelegations.getQueryBech32Address(account.bech32Address).total;
+	const delegatedBalance = queries.cosmos.queryDelegations.getQueryBech32Address(address).total;
+	const unbondingBanace = queries.cosmos.queryUnbondingDelegations.getQueryBech32Address(address).total;
 	const delegatedBalancePrice = calcTotalFiatValue([delegatedBalance, unbondingBanace]);
 
 	function calcTotalFiatValue(balanceList: CoinPretty[]) {

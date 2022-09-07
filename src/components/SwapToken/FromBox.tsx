@@ -22,13 +22,14 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 
 export const FromBox = observer(function FromBox({ config, dropdownStyle, dropdownClassName, ...props }: Props) {
 	const [isTokenDropdownOpen, setIsTokenDropdownOpen] = useBooleanStateWithWindowEvent(false);
-	const { chainStore, accountStore, queriesStore } = useStore();
+	const { chainStore, accountStore, queriesStore, walletStore } = useStore();
 
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);
+	const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
 
 	const balance = queries.queryBalances
-		.getQueryBech32Address(account.bech32Address)
+		.getQueryBech32Address(address)
 		.balances.find(bal => bal.currency.coinMinimalDenom === config.sendCurrency.coinMinimalDenom);
 
 	const availableBalance = (() => {
