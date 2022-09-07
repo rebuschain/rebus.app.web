@@ -1,5 +1,10 @@
 export type WalletTypes = 'metamask' | 'crypto' | 'falcon' | undefined;
 
+(window as any).enableFalcon = (isEnabled = true) => {
+	localStorage.setItem('falcon_enabled', isEnabled ? 'true' : 'false');
+	window.location.reload();
+};
+
 export const WALLET_LIST: {
 	name: string;
 	description: string;
@@ -28,14 +33,14 @@ export const WALLET_LIST: {
 		walletType: 'metamask',
 		link: 'https://metamask.io/',
 	},
-	{
+	(localStorage.getItem('falcon_enabled') === 'true' && {
 		name: 'Falcon',
 		description: 'Falcon Browser Extension',
 		logoUrl: '/public/assets/other-logos/falcon.jpg',
 		type: 'extension',
 		walletType: 'falcon',
 		link: 'https://www.falconwallet.app/',
-	},
+	}) as any,
 	{
 		name: 'Crypto.com',
 		description: 'Crypto.com Browser Extension (Transactions Not Supported)',
@@ -43,4 +48,4 @@ export const WALLET_LIST: {
 		type: 'extension',
 		walletType: 'crypto',
 	},
-];
+].filter(Boolean);
