@@ -60,6 +60,8 @@ export class WalletStore {
 	private _provider: ethers.providers.Web3Provider | undefined;
 	private _aminoProvider: BaseProvider<AminoProviderBase> | undefined;
 
+	private _isEtherumListenerAttached = false;
+
 	constructor(protected readonly chain: ChainInfoWithExplorer) {
 		makeObservable(this);
 	}
@@ -124,6 +126,11 @@ export class WalletStore {
 						console.error(err);
 					}
 				}
+
+				if (this._isEtherumListenerAttached) {
+					window.ethereum.on('accountsChanged', this.metamaskOnAccountChange);
+				}
+
 				break;
 			case 'crypto':
 				try {
@@ -202,8 +209,8 @@ export class WalletStore {
 
 		await this.onUpdate();
 
-		if (window.ethereum) {
-			window.ethereum.on('accountsChanged', this.onAccountChange);
+		if (this._aminoProvider) {
+			this.aminoProvider.onAccountsChanged(this.onUpdate);
 		}
 
 		this.isLoaded = true;
@@ -212,6 +219,10 @@ export class WalletStore {
 	}
 
 	public disconnect() {
+		if (this._aminoProvider) {
+			this.aminoProvider.offAccountsChanged();
+		}
+
 		this.isLoaded = false;
 		this.accountName = '';
 		this.address = '';
@@ -456,8 +467,10 @@ export class WalletStore {
 		}
 	};
 
-	private onAccountChange = (accounts: string[]) => {
-		this.address = accounts[0];
-		this.rebusAddress = ethToRebus(this.address);
+	private metamaskOnAccountChange = (accounts: string[]) => {
+		if (this.walletType === 'metamask') {
+			this.address = accounts[0];
+			this.rebusAddress = ethToRebus(this.address);
+		}
 	};
 }

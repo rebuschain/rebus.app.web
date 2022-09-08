@@ -23,6 +23,8 @@ export class BaseProvider<T extends AminoProviderBase> {
 	}
 
 	connect() {}
+	onAccountsChanged(callback: () => void) {}
+	offAccountsChanged() {}
 
 	publicKeyToString(publicKey: Uint8Array) {
 		return btoa(String.fromCharCode.apply(null, publicKey as any));
