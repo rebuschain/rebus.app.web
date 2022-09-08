@@ -7,12 +7,22 @@ const chainId = env('CHAIN_ID');
 const chainName = env('CHAIN_NAME');
 
 export class CosmostationProvider extends BaseProvider<TendermintExtended> {
+	accountsChangedEvent: any;
+
 	constructor(name = '', provider: TendermintExtended) {
 		super(name, provider);
 	}
 
 	get cosmostation() {
 		return (this.provider as unknown) as TendermintExtended;
+	}
+
+	onAccountsChanged(callback: () => void) {
+		this.accountsChangedEvent = this.cosmostation.onAccountChanged(callback);
+	}
+
+	offAccountsChanged() {
+		this.cosmostation.offAccountChanged(this.accountsChangedEvent);
 	}
 
 	async connect() {
