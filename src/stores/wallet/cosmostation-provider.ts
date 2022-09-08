@@ -18,7 +18,12 @@ export class CosmostationProvider extends BaseProvider<TendermintExtended> {
 	async connect() {
 		const supportedChains = await this.cosmostation.getSupportedChains();
 		const lowerChainName = chainName.toLowerCase();
-		await this.cosmostation.requestAccount(chainName);
+
+		try {
+			await this.cosmostation.requestAccount(chainName);
+		} catch {
+			// Ignore error in case wallet plugin is not connected to the site
+		}
 
 		if (supportedChains.official.concat(supportedChains.unofficial).includes(lowerChainName)) {
 			return;
