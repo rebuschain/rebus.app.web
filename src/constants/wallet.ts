@@ -5,19 +5,26 @@ export type WalletTypes = 'metamask' | 'crypto' | 'cosmostation' | 'falcon' | un
 	window.location.reload();
 };
 
+(window as any).enableKeplrMobile = (isEnabled = true) => {
+	localStorage.setItem('keplr_mobile_enabled', isEnabled ? 'true' : 'false');
+	window.location.reload();
+};
+
 // Wallets do not work on safari
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 const isExtensionEnvironment = !/^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
-export const WALLET_LIST: {
+export type WalletConfig = {
 	name: string;
 	description: string;
 	logoUrl: string;
 	type: 'extension' | 'wallet-connect';
 	walletType?: WalletTypes;
 	link?: string;
-}[] = [
+};
+
+export const WALLET_LIST: WalletConfig[] = [
 	isExtensionEnvironment && {
 		name: 'Keplr Wallet',
 		description: 'Keplr Browser Extension',
@@ -25,7 +32,7 @@ export const WALLET_LIST: {
 		type: 'extension',
 	},
 	// Disable mobile app for now since it is not working at all with rebus
-	false && {
+	localStorage.getItem('keplr_mobile_enabled') === 'true' && {
 		name: 'WalletConnect',
 		description: 'Keplr Mobile',
 		logoUrl: '/public/assets/other-logos/wallet-connect.png',
@@ -47,7 +54,7 @@ export const WALLET_LIST: {
 		walletType: 'cosmostation',
 		link: 'https://www.cosmostation.io/wallet/',
 	},
-	(localStorage.getItem('falcon_enabled') === 'true' &&
+	localStorage.getItem('falcon_enabled') === 'true' &&
 		isExtensionEnvironment && {
 			name: 'Falcon',
 			description: 'Falcon Browser Extension',
@@ -55,7 +62,7 @@ export const WALLET_LIST: {
 			type: 'extension',
 			walletType: 'falcon',
 			link: 'https://www.falconwallet.app/',
-		}) as any,
+		},
 	isExtensionEnvironment && {
 		name: 'Crypto.com',
 		description: 'Crypto.com Browser Extension (Transactions Not Supported)',
@@ -63,4 +70,4 @@ export const WALLET_LIST: {
 		type: 'extension',
 		walletType: 'crypto',
 	},
-].filter(Boolean);
+].filter(Boolean) as WalletConfig[];
