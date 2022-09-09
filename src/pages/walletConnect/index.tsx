@@ -70,10 +70,10 @@ const WalletConnect: FunctionComponent = observer(() => {
 	}, [history, serverId, userId]);
 
 	useEffect(() => {
-		if (isMobile && !isConnected) {
-			// Skip the selection of wallet type if mobile
-			const wallet = WALLET_LIST[1];
+		// Skip the selection of wallet type if mobile
+		const wallet = WALLET_LIST.find(({ type }) => type === 'wallet-connect');
 
+		if (isMobile && !isConnected && wallet) {
 			localStorage.setItem(KeyConnectingWalletType, wallet.type);
 			localStorage.removeItem(KeyConnectingWalletName);
 			connectWalletManager.setWalletName('');
@@ -210,6 +210,15 @@ const WalletConnect: FunctionComponent = observer(() => {
 						</div>
 					) : null}
 				</div>
+			</>
+		);
+	} else if (!WALLET_LIST.length) {
+		content = (
+			<>
+				<h4 className="text-lg md:text-xl text-white-high">Connect Wallet</h4>
+				<p className="text-xs md:text-sm text-white-high mt-4">
+					This browser does not support any wallet extensions, please use either Chrome or Firefox.
+				</p>
 			</>
 		);
 	} else {

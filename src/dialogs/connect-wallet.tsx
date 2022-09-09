@@ -291,10 +291,10 @@ export const ConnectWalletDialog = wrapBaseDialog(
 		const [showMessage] = useActions([snackbar.showMessage]);
 
 		useEffect(() => {
-			if (isMobile) {
-				// Skip the selection of wallet type if mobile
-				const wallet = WALLET_LIST[1];
+			// Skip the selection of wallet type if mobile
+			const wallet = WALLET_LIST.find(({ type }) => type === 'wallet-connect');
 
+			if (isMobile && wallet) {
 				localStorage.setItem(KeyConnectingWalletType, wallet.type);
 				localStorage.removeItem(KeyConnectingWalletName);
 				connectWalletManager.setWalletName('');
@@ -302,6 +302,17 @@ export const ConnectWalletDialog = wrapBaseDialog(
 				close();
 			}
 		}, [accountStore, chainStore, close, connectWalletManager, isMobile]);
+
+		if (!WALLET_LIST.length) {
+			return (
+				<div ref={initialFocus}>
+					<h4 className="text-lg md:text-xl text-white-high">Connect Wallet</h4>
+					<p className="text-xs md:text-sm text-white-high mt-4">
+						This browser does not support any wallet extensions, please use either Chrome or Firefox.
+					</p>
+				</div>
+			);
+		}
 
 		return (
 			<div ref={initialFocus}>
