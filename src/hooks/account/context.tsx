@@ -53,7 +53,7 @@ export const AccountConnectionProvider: FunctionComponent = observer(({ children
 
 	useEffect(() => {
 		if (isMobileWeb) {
-			account.init();
+			// account.init();
 		}
 	}, [account, isMobileWeb]);
 
@@ -62,16 +62,16 @@ export const AccountConnectionProvider: FunctionComponent = observer(({ children
 		setTimeout(async () => {
 			if (connectWalletManager.autoConnectingWalletType === 'extension' && connectWalletManager.connectingWalletName) {
 				try {
-					const success = await walletStore.init(connectWalletManager.connectingWalletName as any, false, false);
-					localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
-					if (!success) {
-						connectWalletManager.disableAutoConnect();
-					}
+					// const success = await walletStore.init(connectWalletManager.connectingWalletName as any, false, false);
+					// localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
+					// if (!success) {
+					// 	connectWalletManager.disableAutoConnect();
+					// }
 				} catch (err) {
 					connectWalletManager.disableAutoConnect();
 				}
 			} else if (!!connectWalletManager.autoConnectingWalletType && account.walletStatus === WalletStatus.NotInit) {
-				account.init();
+				// account.init();
 			}
 		});
 	}, [

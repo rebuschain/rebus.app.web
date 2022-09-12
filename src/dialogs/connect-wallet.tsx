@@ -298,7 +298,7 @@ export const ConnectWalletDialog = wrapBaseDialog(
 				localStorage.setItem(KeyConnectingWalletType, wallet.type);
 				localStorage.removeItem(KeyConnectingWalletName);
 				connectWalletManager.setWalletName('');
-				accountStore.getAccount(chainStore.current.chainId).init();
+				// accountStore.getAccount(chainStore.current.chainId).init();
 				close();
 			}
 		}, [accountStore, chainStore, close, connectWalletManager, isMobile]);
@@ -333,13 +333,13 @@ export const ConnectWalletDialog = wrapBaseDialog(
 
 							if (wallet.walletType) {
 								try {
-									const success = await walletStore.init(wallet.walletType, true);
-									localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
+									// const success = await walletStore.init(wallet.walletType, true);
+									// localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
 								} catch (err) {
 									showMessage((err as any)?.message || err);
 								}
 							} else {
-								accountStore.getAccount(chainStore.current.chainId).init();
+								// accountStore.getAccount(chainStore.current.chainId).init();
 							}
 							close();
 						}}>

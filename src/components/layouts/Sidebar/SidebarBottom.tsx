@@ -29,7 +29,7 @@ export const SidebarBottom: FunctionComponent = observer(() => {
 
 	return (
 		<div>
-			{isAccountConnected ? (
+			{/* {isAccountConnected ? (
 				<React.Fragment>
 					<div className="flex items-center mb-2">
 						<div className="p-4">
@@ -64,13 +64,13 @@ export const SidebarBottom: FunctionComponent = observer(() => {
 						connectAccount();
 					}}
 				/>
-			)}
-			<p className="py-2 text-xs text-white-high text-center opacity-30">
+			)} */}
+			{/* <p className="py-2 text-xs text-white-high text-center opacity-30">
 				Price Data by
 				<a href="https://www.coingecko.com" target="_blank" rel="noreferrer">
 					{' CoinGecko'}
 				</a>
-			</p>
+			</p> */}
 			{/* <div className={'flex items-center transition-all w-full'}> */}
 			{/*<Img className="w-9 h-9" src={`${MISC.ASSETS_BASE}/Icons/${openSidebar ? 'Menu-in' : 'Menu'}.svg`} />*/}
 			{/* <div

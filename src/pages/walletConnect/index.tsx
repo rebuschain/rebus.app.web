@@ -74,10 +74,10 @@ const WalletConnect: FunctionComponent = observer(() => {
 		const wallet = WALLET_LIST.find(({ type }) => type === 'wallet-connect');
 
 		if (isMobile && !isConnected && wallet) {
-			localStorage.setItem(KeyConnectingWalletType, wallet.type);
-			localStorage.removeItem(KeyConnectingWalletName);
-			connectWalletManager.setWalletName('');
-			accountStore.getAccount(chainStore.current.chainId).init();
+			// localStorage.setItem(KeyConnectingWalletType, wallet.type);
+			// localStorage.removeItem(KeyConnectingWalletName);
+			// connectWalletManager.setWalletName('');
+			// accountStore.getAccount(chainStore.current.chainId).init();
 		}
 	}, [accountStore, chainStore, connectWalletManager, isConnected, isMobile]);
 
@@ -242,13 +242,13 @@ const WalletConnect: FunctionComponent = observer(() => {
 
 							if (wallet.walletType) {
 								try {
-									const success = await walletStore.init(wallet.walletType, true);
-									localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
+									// const success = await walletStore.init(wallet.walletType, true);
+									// localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
 								} catch (err) {
 									showMessage((err as any)?.message || err);
 								}
 							} else {
-								accountStore.getAccount(chainStore.current.chainId).init();
+								// accountStore.getAccount(chainStore.current.chainId).init();
 							}
 						}}>
 						<img src={wallet.logoUrl} className="w-12 mr-3 md:w-16 md:mr-5" />
