@@ -802,8 +802,8 @@ export namespace cosmos {
 	}
 }
 
-/** Namespace osmosis. */
-export namespace osmosis {
+/** Namespace rebus. */
+export namespace rebus {
 	/** Namespace gamm. */
 	namespace gamm {
 		/** Namespace v1beta1. */
@@ -823,7 +823,7 @@ export namespace osmosis {
 				 * Constructs a new PoolAsset.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.IPoolAsset);
+				constructor(p?: rebus.gamm.v1beta1.IPoolAsset);
 
 				/** PoolAsset token. */
 				public token?: cosmos.base.v1beta1.ICoin | null;
@@ -836,15 +836,15 @@ export namespace osmosis {
 				 * @param [properties] Properties to set
 				 * @returns PoolAsset instance
 				 */
-				public static create(properties?: osmosis.gamm.v1beta1.IPoolAsset): osmosis.gamm.v1beta1.PoolAsset;
+				public static create(properties?: rebus.gamm.v1beta1.IPoolAsset): rebus.gamm.v1beta1.PoolAsset;
 
 				/**
-				 * Encodes the specified PoolAsset message. Does not implicitly {@link osmosis.gamm.v1beta1.PoolAsset.verify|verify} messages.
+				 * Encodes the specified PoolAsset message. Does not implicitly {@link rebus.gamm.v1beta1.PoolAsset.verify|verify} messages.
 				 * @param m PoolAsset message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
-				public static encode(m: osmosis.gamm.v1beta1.IPoolAsset, w?: $protobuf.Writer): $protobuf.Writer;
+				public static encode(m: rebus.gamm.v1beta1.IPoolAsset, w?: $protobuf.Writer): $protobuf.Writer;
 
 				/**
 				 * Decodes a PoolAsset message from the specified reader or buffer.
@@ -854,14 +854,14 @@ export namespace osmosis {
 				 * @throws {Error} If the payload is not a reader or valid buffer
 				 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 				 */
-				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.gamm.v1beta1.PoolAsset;
+				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.gamm.v1beta1.PoolAsset;
 
 				/**
 				 * Creates a PoolAsset message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns PoolAsset
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.PoolAsset;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.PoolAsset;
 
 				/**
 				 * Creates a plain object from a PoolAsset message. Also converts values to other types if specified.
@@ -870,7 +870,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.PoolAsset,
+					m: rebus.gamm.v1beta1.PoolAsset,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -906,8 +906,8 @@ export namespace osmosis {
 				 * @param callback Node-style callback called with the error, if any, and MsgJoinPoolResponse
 				 */
 				public joinPool(
-					request: osmosis.gamm.v1beta1.IMsgJoinPool,
-					callback: osmosis.gamm.v1beta1.Msg.JoinPoolCallback
+					request: rebus.gamm.v1beta1.IMsgJoinPool,
+					callback: rebus.gamm.v1beta1.Msg.JoinPoolCallback
 				): void;
 
 				/**
@@ -915,7 +915,7 @@ export namespace osmosis {
 				 * @param request MsgJoinPool message or plain object
 				 * @returns Promise
 				 */
-				public joinPool(request: osmosis.gamm.v1beta1.IMsgJoinPool): Promise<osmosis.gamm.v1beta1.MsgJoinPoolResponse>;
+				public joinPool(request: rebus.gamm.v1beta1.IMsgJoinPool): Promise<rebus.gamm.v1beta1.MsgJoinPoolResponse>;
 
 				/**
 				 * Calls ExitPool.
@@ -923,8 +923,8 @@ export namespace osmosis {
 				 * @param callback Node-style callback called with the error, if any, and MsgExitPoolResponse
 				 */
 				public exitPool(
-					request: osmosis.gamm.v1beta1.IMsgExitPool,
-					callback: osmosis.gamm.v1beta1.Msg.ExitPoolCallback
+					request: rebus.gamm.v1beta1.IMsgExitPool,
+					callback: rebus.gamm.v1beta1.Msg.ExitPoolCallback
 				): void;
 
 				/**
@@ -932,7 +932,7 @@ export namespace osmosis {
 				 * @param request MsgExitPool message or plain object
 				 * @returns Promise
 				 */
-				public exitPool(request: osmosis.gamm.v1beta1.IMsgExitPool): Promise<osmosis.gamm.v1beta1.MsgExitPoolResponse>;
+				public exitPool(request: rebus.gamm.v1beta1.IMsgExitPool): Promise<rebus.gamm.v1beta1.MsgExitPoolResponse>;
 
 				/**
 				 * Calls SwapExactAmountIn.
@@ -940,8 +940,8 @@ export namespace osmosis {
 				 * @param callback Node-style callback called with the error, if any, and MsgSwapExactAmountInResponse
 				 */
 				public swapExactAmountIn(
-					request: osmosis.gamm.v1beta1.IMsgSwapExactAmountIn,
-					callback: osmosis.gamm.v1beta1.Msg.SwapExactAmountInCallback
+					request: rebus.gamm.v1beta1.IMsgSwapExactAmountIn,
+					callback: rebus.gamm.v1beta1.Msg.SwapExactAmountInCallback
 				): void;
 
 				/**
@@ -950,8 +950,8 @@ export namespace osmosis {
 				 * @returns Promise
 				 */
 				public swapExactAmountIn(
-					request: osmosis.gamm.v1beta1.IMsgSwapExactAmountIn
-				): Promise<osmosis.gamm.v1beta1.MsgSwapExactAmountInResponse>;
+					request: rebus.gamm.v1beta1.IMsgSwapExactAmountIn
+				): Promise<rebus.gamm.v1beta1.MsgSwapExactAmountInResponse>;
 
 				/**
 				 * Calls SwapExactAmountOut.
@@ -959,8 +959,8 @@ export namespace osmosis {
 				 * @param callback Node-style callback called with the error, if any, and MsgSwapExactAmountOutResponse
 				 */
 				public swapExactAmountOut(
-					request: osmosis.gamm.v1beta1.IMsgSwapExactAmountOut,
-					callback: osmosis.gamm.v1beta1.Msg.SwapExactAmountOutCallback
+					request: rebus.gamm.v1beta1.IMsgSwapExactAmountOut,
+					callback: rebus.gamm.v1beta1.Msg.SwapExactAmountOutCallback
 				): void;
 
 				/**
@@ -969,8 +969,8 @@ export namespace osmosis {
 				 * @returns Promise
 				 */
 				public swapExactAmountOut(
-					request: osmosis.gamm.v1beta1.IMsgSwapExactAmountOut
-				): Promise<osmosis.gamm.v1beta1.MsgSwapExactAmountOutResponse>;
+					request: rebus.gamm.v1beta1.IMsgSwapExactAmountOut
+				): Promise<rebus.gamm.v1beta1.MsgSwapExactAmountOutResponse>;
 
 				/**
 				 * Calls JoinSwapExternAmountIn.
@@ -978,8 +978,8 @@ export namespace osmosis {
 				 * @param callback Node-style callback called with the error, if any, and MsgJoinSwapExternAmountInResponse
 				 */
 				public joinSwapExternAmountIn(
-					request: osmosis.gamm.v1beta1.IMsgJoinSwapExternAmountIn,
-					callback: osmosis.gamm.v1beta1.Msg.JoinSwapExternAmountInCallback
+					request: rebus.gamm.v1beta1.IMsgJoinSwapExternAmountIn,
+					callback: rebus.gamm.v1beta1.Msg.JoinSwapExternAmountInCallback
 				): void;
 
 				/**
@@ -988,8 +988,8 @@ export namespace osmosis {
 				 * @returns Promise
 				 */
 				public joinSwapExternAmountIn(
-					request: osmosis.gamm.v1beta1.IMsgJoinSwapExternAmountIn
-				): Promise<osmosis.gamm.v1beta1.MsgJoinSwapExternAmountInResponse>;
+					request: rebus.gamm.v1beta1.IMsgJoinSwapExternAmountIn
+				): Promise<rebus.gamm.v1beta1.MsgJoinSwapExternAmountInResponse>;
 
 				/**
 				 * Calls JoinSwapShareAmountOut.
@@ -997,8 +997,8 @@ export namespace osmosis {
 				 * @param callback Node-style callback called with the error, if any, and MsgJoinSwapShareAmountOutResponse
 				 */
 				public joinSwapShareAmountOut(
-					request: osmosis.gamm.v1beta1.IMsgJoinSwapShareAmountOut,
-					callback: osmosis.gamm.v1beta1.Msg.JoinSwapShareAmountOutCallback
+					request: rebus.gamm.v1beta1.IMsgJoinSwapShareAmountOut,
+					callback: rebus.gamm.v1beta1.Msg.JoinSwapShareAmountOutCallback
 				): void;
 
 				/**
@@ -1007,8 +1007,8 @@ export namespace osmosis {
 				 * @returns Promise
 				 */
 				public joinSwapShareAmountOut(
-					request: osmosis.gamm.v1beta1.IMsgJoinSwapShareAmountOut
-				): Promise<osmosis.gamm.v1beta1.MsgJoinSwapShareAmountOutResponse>;
+					request: rebus.gamm.v1beta1.IMsgJoinSwapShareAmountOut
+				): Promise<rebus.gamm.v1beta1.MsgJoinSwapShareAmountOutResponse>;
 
 				/**
 				 * Calls ExitSwapExternAmountOut.
@@ -1016,8 +1016,8 @@ export namespace osmosis {
 				 * @param callback Node-style callback called with the error, if any, and MsgExitSwapExternAmountOutResponse
 				 */
 				public exitSwapExternAmountOut(
-					request: osmosis.gamm.v1beta1.IMsgExitSwapExternAmountOut,
-					callback: osmosis.gamm.v1beta1.Msg.ExitSwapExternAmountOutCallback
+					request: rebus.gamm.v1beta1.IMsgExitSwapExternAmountOut,
+					callback: rebus.gamm.v1beta1.Msg.ExitSwapExternAmountOutCallback
 				): void;
 
 				/**
@@ -1026,8 +1026,8 @@ export namespace osmosis {
 				 * @returns Promise
 				 */
 				public exitSwapExternAmountOut(
-					request: osmosis.gamm.v1beta1.IMsgExitSwapExternAmountOut
-				): Promise<osmosis.gamm.v1beta1.MsgExitSwapExternAmountOutResponse>;
+					request: rebus.gamm.v1beta1.IMsgExitSwapExternAmountOut
+				): Promise<rebus.gamm.v1beta1.MsgExitSwapExternAmountOutResponse>;
 
 				/**
 				 * Calls ExitSwapShareAmountIn.
@@ -1035,8 +1035,8 @@ export namespace osmosis {
 				 * @param callback Node-style callback called with the error, if any, and MsgExitSwapShareAmountInResponse
 				 */
 				public exitSwapShareAmountIn(
-					request: osmosis.gamm.v1beta1.IMsgExitSwapShareAmountIn,
-					callback: osmosis.gamm.v1beta1.Msg.ExitSwapShareAmountInCallback
+					request: rebus.gamm.v1beta1.IMsgExitSwapShareAmountIn,
+					callback: rebus.gamm.v1beta1.Msg.ExitSwapShareAmountInCallback
 				): void;
 
 				/**
@@ -1045,83 +1045,83 @@ export namespace osmosis {
 				 * @returns Promise
 				 */
 				public exitSwapShareAmountIn(
-					request: osmosis.gamm.v1beta1.IMsgExitSwapShareAmountIn
-				): Promise<osmosis.gamm.v1beta1.MsgExitSwapShareAmountInResponse>;
+					request: rebus.gamm.v1beta1.IMsgExitSwapShareAmountIn
+				): Promise<rebus.gamm.v1beta1.MsgExitSwapShareAmountInResponse>;
 			}
 
 			namespace Msg {
 				/**
-				 * Callback as used by {@link osmosis.gamm.v1beta1.Msg#joinPool}.
+				 * Callback as used by {@link rebus.gamm.v1beta1.Msg#joinPool}.
 				 * @param error Error, if any
 				 * @param [response] MsgJoinPoolResponse
 				 */
-				type JoinPoolCallback = (error: Error | null, response?: osmosis.gamm.v1beta1.MsgJoinPoolResponse) => void;
+				type JoinPoolCallback = (error: Error | null, response?: rebus.gamm.v1beta1.MsgJoinPoolResponse) => void;
 
 				/**
-				 * Callback as used by {@link osmosis.gamm.v1beta1.Msg#exitPool}.
+				 * Callback as used by {@link rebus.gamm.v1beta1.Msg#exitPool}.
 				 * @param error Error, if any
 				 * @param [response] MsgExitPoolResponse
 				 */
-				type ExitPoolCallback = (error: Error | null, response?: osmosis.gamm.v1beta1.MsgExitPoolResponse) => void;
+				type ExitPoolCallback = (error: Error | null, response?: rebus.gamm.v1beta1.MsgExitPoolResponse) => void;
 
 				/**
-				 * Callback as used by {@link osmosis.gamm.v1beta1.Msg#swapExactAmountIn}.
+				 * Callback as used by {@link rebus.gamm.v1beta1.Msg#swapExactAmountIn}.
 				 * @param error Error, if any
 				 * @param [response] MsgSwapExactAmountInResponse
 				 */
 				type SwapExactAmountInCallback = (
 					error: Error | null,
-					response?: osmosis.gamm.v1beta1.MsgSwapExactAmountInResponse
+					response?: rebus.gamm.v1beta1.MsgSwapExactAmountInResponse
 				) => void;
 
 				/**
-				 * Callback as used by {@link osmosis.gamm.v1beta1.Msg#swapExactAmountOut}.
+				 * Callback as used by {@link rebus.gamm.v1beta1.Msg#swapExactAmountOut}.
 				 * @param error Error, if any
 				 * @param [response] MsgSwapExactAmountOutResponse
 				 */
 				type SwapExactAmountOutCallback = (
 					error: Error | null,
-					response?: osmosis.gamm.v1beta1.MsgSwapExactAmountOutResponse
+					response?: rebus.gamm.v1beta1.MsgSwapExactAmountOutResponse
 				) => void;
 
 				/**
-				 * Callback as used by {@link osmosis.gamm.v1beta1.Msg#joinSwapExternAmountIn}.
+				 * Callback as used by {@link rebus.gamm.v1beta1.Msg#joinSwapExternAmountIn}.
 				 * @param error Error, if any
 				 * @param [response] MsgJoinSwapExternAmountInResponse
 				 */
 				type JoinSwapExternAmountInCallback = (
 					error: Error | null,
-					response?: osmosis.gamm.v1beta1.MsgJoinSwapExternAmountInResponse
+					response?: rebus.gamm.v1beta1.MsgJoinSwapExternAmountInResponse
 				) => void;
 
 				/**
-				 * Callback as used by {@link osmosis.gamm.v1beta1.Msg#joinSwapShareAmountOut}.
+				 * Callback as used by {@link rebus.gamm.v1beta1.Msg#joinSwapShareAmountOut}.
 				 * @param error Error, if any
 				 * @param [response] MsgJoinSwapShareAmountOutResponse
 				 */
 				type JoinSwapShareAmountOutCallback = (
 					error: Error | null,
-					response?: osmosis.gamm.v1beta1.MsgJoinSwapShareAmountOutResponse
+					response?: rebus.gamm.v1beta1.MsgJoinSwapShareAmountOutResponse
 				) => void;
 
 				/**
-				 * Callback as used by {@link osmosis.gamm.v1beta1.Msg#exitSwapExternAmountOut}.
+				 * Callback as used by {@link rebus.gamm.v1beta1.Msg#exitSwapExternAmountOut}.
 				 * @param error Error, if any
 				 * @param [response] MsgExitSwapExternAmountOutResponse
 				 */
 				type ExitSwapExternAmountOutCallback = (
 					error: Error | null,
-					response?: osmosis.gamm.v1beta1.MsgExitSwapExternAmountOutResponse
+					response?: rebus.gamm.v1beta1.MsgExitSwapExternAmountOutResponse
 				) => void;
 
 				/**
-				 * Callback as used by {@link osmosis.gamm.v1beta1.Msg#exitSwapShareAmountIn}.
+				 * Callback as used by {@link rebus.gamm.v1beta1.Msg#exitSwapShareAmountIn}.
 				 * @param error Error, if any
 				 * @param [response] MsgExitSwapShareAmountInResponse
 				 */
 				type ExitSwapShareAmountInCallback = (
 					error: Error | null,
-					response?: osmosis.gamm.v1beta1.MsgExitSwapShareAmountInResponse
+					response?: rebus.gamm.v1beta1.MsgExitSwapShareAmountInResponse
 				) => void;
 			}
 
@@ -1131,10 +1131,10 @@ export namespace osmosis {
 				sender?: string | null;
 
 				/** MsgCreateBalancerPool poolParams */
-				poolParams?: osmosis.gamm.v1beta1.IPoolParams | null;
+				poolParams?: rebus.gamm.v1beta1.IPoolParams | null;
 
 				/** MsgCreateBalancerPool poolAssets */
-				poolAssets?: osmosis.gamm.v1beta1.IPoolAsset[] | null;
+				poolAssets?: rebus.gamm.v1beta1.IPoolAsset[] | null;
 
 				/** MsgCreateBalancerPool futurePoolGovernor */
 				futurePoolGovernor?: string | null;
@@ -1146,16 +1146,16 @@ export namespace osmosis {
 				 * Constructs a new MsgCreateBalancerPool.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.IMsgCreateBalancerPool);
+				constructor(p?: rebus.gamm.v1beta1.IMsgCreateBalancerPool);
 
 				/** MsgCreateBalancerPool sender. */
 				public sender: string;
 
 				/** MsgCreateBalancerPool poolParams. */
-				public poolParams?: osmosis.gamm.v1beta1.IPoolParams | null;
+				public poolParams?: rebus.gamm.v1beta1.IPoolParams | null;
 
 				/** MsgCreateBalancerPool poolAssets. */
-				public poolAssets: osmosis.gamm.v1beta1.IPoolAsset[];
+				public poolAssets: rebus.gamm.v1beta1.IPoolAsset[];
 
 				/** MsgCreateBalancerPool futurePoolGovernor. */
 				public futurePoolGovernor: string;
@@ -1166,16 +1166,16 @@ export namespace osmosis {
 				 * @returns MsgCreateBalancerPool instance
 				 */
 				public static create(
-					properties?: osmosis.gamm.v1beta1.IMsgCreateBalancerPool
-				): osmosis.gamm.v1beta1.MsgCreateBalancerPool;
+					properties?: rebus.gamm.v1beta1.IMsgCreateBalancerPool
+				): rebus.gamm.v1beta1.MsgCreateBalancerPool;
 
 				/**
-				 * Encodes the specified MsgCreateBalancerPool message. Does not implicitly {@link osmosis.gamm.v1beta1.MsgCreateBalancerPool.verify|verify} messages.
+				 * Encodes the specified MsgCreateBalancerPool message. Does not implicitly {@link rebus.gamm.v1beta1.MsgCreateBalancerPool.verify|verify} messages.
 				 * @param m MsgCreateBalancerPool message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
-				public static encode(m: osmosis.gamm.v1beta1.IMsgCreateBalancerPool, w?: $protobuf.Writer): $protobuf.Writer;
+				public static encode(m: rebus.gamm.v1beta1.IMsgCreateBalancerPool, w?: $protobuf.Writer): $protobuf.Writer;
 
 				/**
 				 * Decodes a MsgCreateBalancerPool message from the specified reader or buffer.
@@ -1185,14 +1185,14 @@ export namespace osmosis {
 				 * @throws {Error} If the payload is not a reader or valid buffer
 				 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 				 */
-				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.gamm.v1beta1.MsgCreateBalancerPool;
+				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.gamm.v1beta1.MsgCreateBalancerPool;
 
 				/**
 				 * Creates a MsgCreateBalancerPool message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns MsgCreateBalancerPool
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.MsgCreateBalancerPool;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.MsgCreateBalancerPool;
 
 				/**
 				 * Creates a plain object from a MsgCreateBalancerPool message. Also converts values to other types if specified.
@@ -1201,7 +1201,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.MsgCreateBalancerPool,
+					m: rebus.gamm.v1beta1.MsgCreateBalancerPool,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -1221,7 +1221,7 @@ export namespace osmosis {
 				 * Constructs a new MsgCreateBalancerPoolResponse.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.IMsgCreateBalancerPoolResponse);
+				constructor(p?: rebus.gamm.v1beta1.IMsgCreateBalancerPoolResponse);
 
 				/**
 				 * Creates a new MsgCreateBalancerPoolResponse instance using the specified properties.
@@ -1229,17 +1229,17 @@ export namespace osmosis {
 				 * @returns MsgCreateBalancerPoolResponse instance
 				 */
 				public static create(
-					properties?: osmosis.gamm.v1beta1.IMsgCreateBalancerPoolResponse
-				): osmosis.gamm.v1beta1.MsgCreateBalancerPoolResponse;
+					properties?: rebus.gamm.v1beta1.IMsgCreateBalancerPoolResponse
+				): rebus.gamm.v1beta1.MsgCreateBalancerPoolResponse;
 
 				/**
-				 * Encodes the specified MsgCreateBalancerPoolResponse message. Does not implicitly {@link osmosis.gamm.v1beta1.MsgCreateBalancerPoolResponse.verify|verify} messages.
+				 * Encodes the specified MsgCreateBalancerPoolResponse message. Does not implicitly {@link rebus.gamm.v1beta1.MsgCreateBalancerPoolResponse.verify|verify} messages.
 				 * @param m MsgCreateBalancerPoolResponse message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
 				public static encode(
-					m: osmosis.gamm.v1beta1.IMsgCreateBalancerPoolResponse,
+					m: rebus.gamm.v1beta1.IMsgCreateBalancerPoolResponse,
 					w?: $protobuf.Writer
 				): $protobuf.Writer;
 
@@ -1254,14 +1254,14 @@ export namespace osmosis {
 				public static decode(
 					r: $protobuf.Reader | Uint8Array,
 					l?: number
-				): osmosis.gamm.v1beta1.MsgCreateBalancerPoolResponse;
+				): rebus.gamm.v1beta1.MsgCreateBalancerPoolResponse;
 
 				/**
 				 * Creates a MsgCreateBalancerPoolResponse message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns MsgCreateBalancerPoolResponse
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.MsgCreateBalancerPoolResponse;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.MsgCreateBalancerPoolResponse;
 
 				/**
 				 * Creates a plain object from a MsgCreateBalancerPoolResponse message. Also converts values to other types if specified.
@@ -1270,7 +1270,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.MsgCreateBalancerPoolResponse,
+					m: rebus.gamm.v1beta1.MsgCreateBalancerPoolResponse,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -1302,7 +1302,7 @@ export namespace osmosis {
 				 * Constructs a new MsgJoinPool.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.IMsgJoinPool);
+				constructor(p?: rebus.gamm.v1beta1.IMsgJoinPool);
 
 				/** MsgJoinPool sender. */
 				public sender: string;
@@ -1321,15 +1321,15 @@ export namespace osmosis {
 				 * @param [properties] Properties to set
 				 * @returns MsgJoinPool instance
 				 */
-				public static create(properties?: osmosis.gamm.v1beta1.IMsgJoinPool): osmosis.gamm.v1beta1.MsgJoinPool;
+				public static create(properties?: rebus.gamm.v1beta1.IMsgJoinPool): rebus.gamm.v1beta1.MsgJoinPool;
 
 				/**
-				 * Encodes the specified MsgJoinPool message. Does not implicitly {@link osmosis.gamm.v1beta1.MsgJoinPool.verify|verify} messages.
+				 * Encodes the specified MsgJoinPool message. Does not implicitly {@link rebus.gamm.v1beta1.MsgJoinPool.verify|verify} messages.
 				 * @param m MsgJoinPool message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
-				public static encode(m: osmosis.gamm.v1beta1.IMsgJoinPool, w?: $protobuf.Writer): $protobuf.Writer;
+				public static encode(m: rebus.gamm.v1beta1.IMsgJoinPool, w?: $protobuf.Writer): $protobuf.Writer;
 
 				/**
 				 * Decodes a MsgJoinPool message from the specified reader or buffer.
@@ -1339,14 +1339,14 @@ export namespace osmosis {
 				 * @throws {Error} If the payload is not a reader or valid buffer
 				 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 				 */
-				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.gamm.v1beta1.MsgJoinPool;
+				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.gamm.v1beta1.MsgJoinPool;
 
 				/**
 				 * Creates a MsgJoinPool message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns MsgJoinPool
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.MsgJoinPool;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.MsgJoinPool;
 
 				/**
 				 * Creates a plain object from a MsgJoinPool message. Also converts values to other types if specified.
@@ -1355,7 +1355,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.MsgJoinPool,
+					m: rebus.gamm.v1beta1.MsgJoinPool,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -1375,7 +1375,7 @@ export namespace osmosis {
 				 * Constructs a new MsgJoinPoolResponse.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.IMsgJoinPoolResponse);
+				constructor(p?: rebus.gamm.v1beta1.IMsgJoinPoolResponse);
 
 				/**
 				 * Creates a new MsgJoinPoolResponse instance using the specified properties.
@@ -1383,16 +1383,16 @@ export namespace osmosis {
 				 * @returns MsgJoinPoolResponse instance
 				 */
 				public static create(
-					properties?: osmosis.gamm.v1beta1.IMsgJoinPoolResponse
-				): osmosis.gamm.v1beta1.MsgJoinPoolResponse;
+					properties?: rebus.gamm.v1beta1.IMsgJoinPoolResponse
+				): rebus.gamm.v1beta1.MsgJoinPoolResponse;
 
 				/**
-				 * Encodes the specified MsgJoinPoolResponse message. Does not implicitly {@link osmosis.gamm.v1beta1.MsgJoinPoolResponse.verify|verify} messages.
+				 * Encodes the specified MsgJoinPoolResponse message. Does not implicitly {@link rebus.gamm.v1beta1.MsgJoinPoolResponse.verify|verify} messages.
 				 * @param m MsgJoinPoolResponse message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
-				public static encode(m: osmosis.gamm.v1beta1.IMsgJoinPoolResponse, w?: $protobuf.Writer): $protobuf.Writer;
+				public static encode(m: rebus.gamm.v1beta1.IMsgJoinPoolResponse, w?: $protobuf.Writer): $protobuf.Writer;
 
 				/**
 				 * Decodes a MsgJoinPoolResponse message from the specified reader or buffer.
@@ -1402,14 +1402,14 @@ export namespace osmosis {
 				 * @throws {Error} If the payload is not a reader or valid buffer
 				 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 				 */
-				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.gamm.v1beta1.MsgJoinPoolResponse;
+				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.gamm.v1beta1.MsgJoinPoolResponse;
 
 				/**
 				 * Creates a MsgJoinPoolResponse message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns MsgJoinPoolResponse
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.MsgJoinPoolResponse;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.MsgJoinPoolResponse;
 
 				/**
 				 * Creates a plain object from a MsgJoinPoolResponse message. Also converts values to other types if specified.
@@ -1418,7 +1418,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.MsgJoinPoolResponse,
+					m: rebus.gamm.v1beta1.MsgJoinPoolResponse,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -1450,7 +1450,7 @@ export namespace osmosis {
 				 * Constructs a new MsgExitPool.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.IMsgExitPool);
+				constructor(p?: rebus.gamm.v1beta1.IMsgExitPool);
 
 				/** MsgExitPool sender. */
 				public sender: string;
@@ -1469,15 +1469,15 @@ export namespace osmosis {
 				 * @param [properties] Properties to set
 				 * @returns MsgExitPool instance
 				 */
-				public static create(properties?: osmosis.gamm.v1beta1.IMsgExitPool): osmosis.gamm.v1beta1.MsgExitPool;
+				public static create(properties?: rebus.gamm.v1beta1.IMsgExitPool): rebus.gamm.v1beta1.MsgExitPool;
 
 				/**
-				 * Encodes the specified MsgExitPool message. Does not implicitly {@link osmosis.gamm.v1beta1.MsgExitPool.verify|verify} messages.
+				 * Encodes the specified MsgExitPool message. Does not implicitly {@link rebus.gamm.v1beta1.MsgExitPool.verify|verify} messages.
 				 * @param m MsgExitPool message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
-				public static encode(m: osmosis.gamm.v1beta1.IMsgExitPool, w?: $protobuf.Writer): $protobuf.Writer;
+				public static encode(m: rebus.gamm.v1beta1.IMsgExitPool, w?: $protobuf.Writer): $protobuf.Writer;
 
 				/**
 				 * Decodes a MsgExitPool message from the specified reader or buffer.
@@ -1487,14 +1487,14 @@ export namespace osmosis {
 				 * @throws {Error} If the payload is not a reader or valid buffer
 				 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 				 */
-				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.gamm.v1beta1.MsgExitPool;
+				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.gamm.v1beta1.MsgExitPool;
 
 				/**
 				 * Creates a MsgExitPool message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns MsgExitPool
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.MsgExitPool;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.MsgExitPool;
 
 				/**
 				 * Creates a plain object from a MsgExitPool message. Also converts values to other types if specified.
@@ -1503,7 +1503,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.MsgExitPool,
+					m: rebus.gamm.v1beta1.MsgExitPool,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -1523,7 +1523,7 @@ export namespace osmosis {
 				 * Constructs a new MsgExitPoolResponse.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.IMsgExitPoolResponse);
+				constructor(p?: rebus.gamm.v1beta1.IMsgExitPoolResponse);
 
 				/**
 				 * Creates a new MsgExitPoolResponse instance using the specified properties.
@@ -1531,16 +1531,16 @@ export namespace osmosis {
 				 * @returns MsgExitPoolResponse instance
 				 */
 				public static create(
-					properties?: osmosis.gamm.v1beta1.IMsgExitPoolResponse
-				): osmosis.gamm.v1beta1.MsgExitPoolResponse;
+					properties?: rebus.gamm.v1beta1.IMsgExitPoolResponse
+				): rebus.gamm.v1beta1.MsgExitPoolResponse;
 
 				/**
-				 * Encodes the specified MsgExitPoolResponse message. Does not implicitly {@link osmosis.gamm.v1beta1.MsgExitPoolResponse.verify|verify} messages.
+				 * Encodes the specified MsgExitPoolResponse message. Does not implicitly {@link rebus.gamm.v1beta1.MsgExitPoolResponse.verify|verify} messages.
 				 * @param m MsgExitPoolResponse message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
-				public static encode(m: osmosis.gamm.v1beta1.IMsgExitPoolResponse, w?: $protobuf.Writer): $protobuf.Writer;
+				public static encode(m: rebus.gamm.v1beta1.IMsgExitPoolResponse, w?: $protobuf.Writer): $protobuf.Writer;
 
 				/**
 				 * Decodes a MsgExitPoolResponse message from the specified reader or buffer.
@@ -1550,14 +1550,14 @@ export namespace osmosis {
 				 * @throws {Error} If the payload is not a reader or valid buffer
 				 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 				 */
-				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.gamm.v1beta1.MsgExitPoolResponse;
+				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.gamm.v1beta1.MsgExitPoolResponse;
 
 				/**
 				 * Creates a MsgExitPoolResponse message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns MsgExitPoolResponse
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.MsgExitPoolResponse;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.MsgExitPoolResponse;
 
 				/**
 				 * Creates a plain object from a MsgExitPoolResponse message. Also converts values to other types if specified.
@@ -1566,7 +1566,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.MsgExitPoolResponse,
+					m: rebus.gamm.v1beta1.MsgExitPoolResponse,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -1592,7 +1592,7 @@ export namespace osmosis {
 				 * Constructs a new SwapAmountInRoute.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.ISwapAmountInRoute);
+				constructor(p?: rebus.gamm.v1beta1.ISwapAmountInRoute);
 
 				/** SwapAmountInRoute poolId. */
 				public poolId: Long;
@@ -1606,16 +1606,16 @@ export namespace osmosis {
 				 * @returns SwapAmountInRoute instance
 				 */
 				public static create(
-					properties?: osmosis.gamm.v1beta1.ISwapAmountInRoute
-				): osmosis.gamm.v1beta1.SwapAmountInRoute;
+					properties?: rebus.gamm.v1beta1.ISwapAmountInRoute
+				): rebus.gamm.v1beta1.SwapAmountInRoute;
 
 				/**
-				 * Encodes the specified SwapAmountInRoute message. Does not implicitly {@link osmosis.gamm.v1beta1.SwapAmountInRoute.verify|verify} messages.
+				 * Encodes the specified SwapAmountInRoute message. Does not implicitly {@link rebus.gamm.v1beta1.SwapAmountInRoute.verify|verify} messages.
 				 * @param m SwapAmountInRoute message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
-				public static encode(m: osmosis.gamm.v1beta1.ISwapAmountInRoute, w?: $protobuf.Writer): $protobuf.Writer;
+				public static encode(m: rebus.gamm.v1beta1.ISwapAmountInRoute, w?: $protobuf.Writer): $protobuf.Writer;
 
 				/**
 				 * Decodes a SwapAmountInRoute message from the specified reader or buffer.
@@ -1625,14 +1625,14 @@ export namespace osmosis {
 				 * @throws {Error} If the payload is not a reader or valid buffer
 				 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 				 */
-				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.gamm.v1beta1.SwapAmountInRoute;
+				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.gamm.v1beta1.SwapAmountInRoute;
 
 				/**
 				 * Creates a SwapAmountInRoute message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns SwapAmountInRoute
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.SwapAmountInRoute;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.SwapAmountInRoute;
 
 				/**
 				 * Creates a plain object from a SwapAmountInRoute message. Also converts values to other types if specified.
@@ -1641,7 +1641,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.SwapAmountInRoute,
+					m: rebus.gamm.v1beta1.SwapAmountInRoute,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -1658,7 +1658,7 @@ export namespace osmosis {
 				sender?: string | null;
 
 				/** MsgSwapExactAmountIn routes */
-				routes?: osmosis.gamm.v1beta1.ISwapAmountInRoute[] | null;
+				routes?: rebus.gamm.v1beta1.ISwapAmountInRoute[] | null;
 
 				/** MsgSwapExactAmountIn tokenIn */
 				tokenIn?: cosmos.base.v1beta1.ICoin | null;
@@ -1673,13 +1673,13 @@ export namespace osmosis {
 				 * Constructs a new MsgSwapExactAmountIn.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.IMsgSwapExactAmountIn);
+				constructor(p?: rebus.gamm.v1beta1.IMsgSwapExactAmountIn);
 
 				/** MsgSwapExactAmountIn sender. */
 				public sender: string;
 
 				/** MsgSwapExactAmountIn routes. */
-				public routes: osmosis.gamm.v1beta1.ISwapAmountInRoute[];
+				public routes: rebus.gamm.v1beta1.ISwapAmountInRoute[];
 
 				/** MsgSwapExactAmountIn tokenIn. */
 				public tokenIn?: cosmos.base.v1beta1.ICoin | null;
@@ -1693,16 +1693,16 @@ export namespace osmosis {
 				 * @returns MsgSwapExactAmountIn instance
 				 */
 				public static create(
-					properties?: osmosis.gamm.v1beta1.IMsgSwapExactAmountIn
-				): osmosis.gamm.v1beta1.MsgSwapExactAmountIn;
+					properties?: rebus.gamm.v1beta1.IMsgSwapExactAmountIn
+				): rebus.gamm.v1beta1.MsgSwapExactAmountIn;
 
 				/**
-				 * Encodes the specified MsgSwapExactAmountIn message. Does not implicitly {@link osmosis.gamm.v1beta1.MsgSwapExactAmountIn.verify|verify} messages.
+				 * Encodes the specified MsgSwapExactAmountIn message. Does not implicitly {@link rebus.gamm.v1beta1.MsgSwapExactAmountIn.verify|verify} messages.
 				 * @param m MsgSwapExactAmountIn message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
-				public static encode(m: osmosis.gamm.v1beta1.IMsgSwapExactAmountIn, w?: $protobuf.Writer): $protobuf.Writer;
+				public static encode(m: rebus.gamm.v1beta1.IMsgSwapExactAmountIn, w?: $protobuf.Writer): $protobuf.Writer;
 
 				/**
 				 * Decodes a MsgSwapExactAmountIn message from the specified reader or buffer.
@@ -1712,14 +1712,14 @@ export namespace osmosis {
 				 * @throws {Error} If the payload is not a reader or valid buffer
 				 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 				 */
-				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.gamm.v1beta1.MsgSwapExactAmountIn;
+				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.gamm.v1beta1.MsgSwapExactAmountIn;
 
 				/**
 				 * Creates a MsgSwapExactAmountIn message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns MsgSwapExactAmountIn
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.MsgSwapExactAmountIn;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.MsgSwapExactAmountIn;
 
 				/**
 				 * Creates a plain object from a MsgSwapExactAmountIn message. Also converts values to other types if specified.
@@ -1728,7 +1728,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.MsgSwapExactAmountIn,
+					m: rebus.gamm.v1beta1.MsgSwapExactAmountIn,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -1748,7 +1748,7 @@ export namespace osmosis {
 				 * Constructs a new MsgSwapExactAmountInResponse.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.IMsgSwapExactAmountInResponse);
+				constructor(p?: rebus.gamm.v1beta1.IMsgSwapExactAmountInResponse);
 
 				/**
 				 * Creates a new MsgSwapExactAmountInResponse instance using the specified properties.
@@ -1756,17 +1756,17 @@ export namespace osmosis {
 				 * @returns MsgSwapExactAmountInResponse instance
 				 */
 				public static create(
-					properties?: osmosis.gamm.v1beta1.IMsgSwapExactAmountInResponse
-				): osmosis.gamm.v1beta1.MsgSwapExactAmountInResponse;
+					properties?: rebus.gamm.v1beta1.IMsgSwapExactAmountInResponse
+				): rebus.gamm.v1beta1.MsgSwapExactAmountInResponse;
 
 				/**
-				 * Encodes the specified MsgSwapExactAmountInResponse message. Does not implicitly {@link osmosis.gamm.v1beta1.MsgSwapExactAmountInResponse.verify|verify} messages.
+				 * Encodes the specified MsgSwapExactAmountInResponse message. Does not implicitly {@link rebus.gamm.v1beta1.MsgSwapExactAmountInResponse.verify|verify} messages.
 				 * @param m MsgSwapExactAmountInResponse message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
 				public static encode(
-					m: osmosis.gamm.v1beta1.IMsgSwapExactAmountInResponse,
+					m: rebus.gamm.v1beta1.IMsgSwapExactAmountInResponse,
 					w?: $protobuf.Writer
 				): $protobuf.Writer;
 
@@ -1781,14 +1781,14 @@ export namespace osmosis {
 				public static decode(
 					r: $protobuf.Reader | Uint8Array,
 					l?: number
-				): osmosis.gamm.v1beta1.MsgSwapExactAmountInResponse;
+				): rebus.gamm.v1beta1.MsgSwapExactAmountInResponse;
 
 				/**
 				 * Creates a MsgSwapExactAmountInResponse message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns MsgSwapExactAmountInResponse
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.MsgSwapExactAmountInResponse;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.MsgSwapExactAmountInResponse;
 
 				/**
 				 * Creates a plain object from a MsgSwapExactAmountInResponse message. Also converts values to other types if specified.
@@ -1797,7 +1797,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.MsgSwapExactAmountInResponse,
+					m: rebus.gamm.v1beta1.MsgSwapExactAmountInResponse,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -1823,7 +1823,7 @@ export namespace osmosis {
 				 * Constructs a new SwapAmountOutRoute.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.ISwapAmountOutRoute);
+				constructor(p?: rebus.gamm.v1beta1.ISwapAmountOutRoute);
 
 				/** SwapAmountOutRoute poolId. */
 				public poolId: Long;
@@ -1837,16 +1837,16 @@ export namespace osmosis {
 				 * @returns SwapAmountOutRoute instance
 				 */
 				public static create(
-					properties?: osmosis.gamm.v1beta1.ISwapAmountOutRoute
-				): osmosis.gamm.v1beta1.SwapAmountOutRoute;
+					properties?: rebus.gamm.v1beta1.ISwapAmountOutRoute
+				): rebus.gamm.v1beta1.SwapAmountOutRoute;
 
 				/**
-				 * Encodes the specified SwapAmountOutRoute message. Does not implicitly {@link osmosis.gamm.v1beta1.SwapAmountOutRoute.verify|verify} messages.
+				 * Encodes the specified SwapAmountOutRoute message. Does not implicitly {@link rebus.gamm.v1beta1.SwapAmountOutRoute.verify|verify} messages.
 				 * @param m SwapAmountOutRoute message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
-				public static encode(m: osmosis.gamm.v1beta1.ISwapAmountOutRoute, w?: $protobuf.Writer): $protobuf.Writer;
+				public static encode(m: rebus.gamm.v1beta1.ISwapAmountOutRoute, w?: $protobuf.Writer): $protobuf.Writer;
 
 				/**
 				 * Decodes a SwapAmountOutRoute message from the specified reader or buffer.
@@ -1856,14 +1856,14 @@ export namespace osmosis {
 				 * @throws {Error} If the payload is not a reader or valid buffer
 				 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 				 */
-				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.gamm.v1beta1.SwapAmountOutRoute;
+				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.gamm.v1beta1.SwapAmountOutRoute;
 
 				/**
 				 * Creates a SwapAmountOutRoute message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns SwapAmountOutRoute
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.SwapAmountOutRoute;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.SwapAmountOutRoute;
 
 				/**
 				 * Creates a plain object from a SwapAmountOutRoute message. Also converts values to other types if specified.
@@ -1872,7 +1872,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.SwapAmountOutRoute,
+					m: rebus.gamm.v1beta1.SwapAmountOutRoute,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -1889,7 +1889,7 @@ export namespace osmosis {
 				sender?: string | null;
 
 				/** MsgSwapExactAmountOut routes */
-				routes?: osmosis.gamm.v1beta1.ISwapAmountOutRoute[] | null;
+				routes?: rebus.gamm.v1beta1.ISwapAmountOutRoute[] | null;
 
 				/** MsgSwapExactAmountOut tokenInMaxAmount */
 				tokenInMaxAmount?: string | null;
@@ -1904,13 +1904,13 @@ export namespace osmosis {
 				 * Constructs a new MsgSwapExactAmountOut.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.IMsgSwapExactAmountOut);
+				constructor(p?: rebus.gamm.v1beta1.IMsgSwapExactAmountOut);
 
 				/** MsgSwapExactAmountOut sender. */
 				public sender: string;
 
 				/** MsgSwapExactAmountOut routes. */
-				public routes: osmosis.gamm.v1beta1.ISwapAmountOutRoute[];
+				public routes: rebus.gamm.v1beta1.ISwapAmountOutRoute[];
 
 				/** MsgSwapExactAmountOut tokenInMaxAmount. */
 				public tokenInMaxAmount: string;
@@ -1924,16 +1924,16 @@ export namespace osmosis {
 				 * @returns MsgSwapExactAmountOut instance
 				 */
 				public static create(
-					properties?: osmosis.gamm.v1beta1.IMsgSwapExactAmountOut
-				): osmosis.gamm.v1beta1.MsgSwapExactAmountOut;
+					properties?: rebus.gamm.v1beta1.IMsgSwapExactAmountOut
+				): rebus.gamm.v1beta1.MsgSwapExactAmountOut;
 
 				/**
-				 * Encodes the specified MsgSwapExactAmountOut message. Does not implicitly {@link osmosis.gamm.v1beta1.MsgSwapExactAmountOut.verify|verify} messages.
+				 * Encodes the specified MsgSwapExactAmountOut message. Does not implicitly {@link rebus.gamm.v1beta1.MsgSwapExactAmountOut.verify|verify} messages.
 				 * @param m MsgSwapExactAmountOut message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
-				public static encode(m: osmosis.gamm.v1beta1.IMsgSwapExactAmountOut, w?: $protobuf.Writer): $protobuf.Writer;
+				public static encode(m: rebus.gamm.v1beta1.IMsgSwapExactAmountOut, w?: $protobuf.Writer): $protobuf.Writer;
 
 				/**
 				 * Decodes a MsgSwapExactAmountOut message from the specified reader or buffer.
@@ -1943,14 +1943,14 @@ export namespace osmosis {
 				 * @throws {Error} If the payload is not a reader or valid buffer
 				 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 				 */
-				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.gamm.v1beta1.MsgSwapExactAmountOut;
+				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.gamm.v1beta1.MsgSwapExactAmountOut;
 
 				/**
 				 * Creates a MsgSwapExactAmountOut message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns MsgSwapExactAmountOut
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.MsgSwapExactAmountOut;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.MsgSwapExactAmountOut;
 
 				/**
 				 * Creates a plain object from a MsgSwapExactAmountOut message. Also converts values to other types if specified.
@@ -1959,7 +1959,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.MsgSwapExactAmountOut,
+					m: rebus.gamm.v1beta1.MsgSwapExactAmountOut,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -1979,7 +1979,7 @@ export namespace osmosis {
 				 * Constructs a new MsgSwapExactAmountOutResponse.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.IMsgSwapExactAmountOutResponse);
+				constructor(p?: rebus.gamm.v1beta1.IMsgSwapExactAmountOutResponse);
 
 				/**
 				 * Creates a new MsgSwapExactAmountOutResponse instance using the specified properties.
@@ -1987,17 +1987,17 @@ export namespace osmosis {
 				 * @returns MsgSwapExactAmountOutResponse instance
 				 */
 				public static create(
-					properties?: osmosis.gamm.v1beta1.IMsgSwapExactAmountOutResponse
-				): osmosis.gamm.v1beta1.MsgSwapExactAmountOutResponse;
+					properties?: rebus.gamm.v1beta1.IMsgSwapExactAmountOutResponse
+				): rebus.gamm.v1beta1.MsgSwapExactAmountOutResponse;
 
 				/**
-				 * Encodes the specified MsgSwapExactAmountOutResponse message. Does not implicitly {@link osmosis.gamm.v1beta1.MsgSwapExactAmountOutResponse.verify|verify} messages.
+				 * Encodes the specified MsgSwapExactAmountOutResponse message. Does not implicitly {@link rebus.gamm.v1beta1.MsgSwapExactAmountOutResponse.verify|verify} messages.
 				 * @param m MsgSwapExactAmountOutResponse message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
 				public static encode(
-					m: osmosis.gamm.v1beta1.IMsgSwapExactAmountOutResponse,
+					m: rebus.gamm.v1beta1.IMsgSwapExactAmountOutResponse,
 					w?: $protobuf.Writer
 				): $protobuf.Writer;
 
@@ -2012,14 +2012,14 @@ export namespace osmosis {
 				public static decode(
 					r: $protobuf.Reader | Uint8Array,
 					l?: number
-				): osmosis.gamm.v1beta1.MsgSwapExactAmountOutResponse;
+				): rebus.gamm.v1beta1.MsgSwapExactAmountOutResponse;
 
 				/**
 				 * Creates a MsgSwapExactAmountOutResponse message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns MsgSwapExactAmountOutResponse
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.MsgSwapExactAmountOutResponse;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.MsgSwapExactAmountOutResponse;
 
 				/**
 				 * Creates a plain object from a MsgSwapExactAmountOutResponse message. Also converts values to other types if specified.
@@ -2028,7 +2028,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.MsgSwapExactAmountOutResponse,
+					m: rebus.gamm.v1beta1.MsgSwapExactAmountOutResponse,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -2060,7 +2060,7 @@ export namespace osmosis {
 				 * Constructs a new MsgJoinSwapExternAmountIn.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.IMsgJoinSwapExternAmountIn);
+				constructor(p?: rebus.gamm.v1beta1.IMsgJoinSwapExternAmountIn);
 
 				/** MsgJoinSwapExternAmountIn sender. */
 				public sender: string;
@@ -2080,17 +2080,17 @@ export namespace osmosis {
 				 * @returns MsgJoinSwapExternAmountIn instance
 				 */
 				public static create(
-					properties?: osmosis.gamm.v1beta1.IMsgJoinSwapExternAmountIn
-				): osmosis.gamm.v1beta1.MsgJoinSwapExternAmountIn;
+					properties?: rebus.gamm.v1beta1.IMsgJoinSwapExternAmountIn
+				): rebus.gamm.v1beta1.MsgJoinSwapExternAmountIn;
 
 				/**
-				 * Encodes the specified MsgJoinSwapExternAmountIn message. Does not implicitly {@link osmosis.gamm.v1beta1.MsgJoinSwapExternAmountIn.verify|verify} messages.
+				 * Encodes the specified MsgJoinSwapExternAmountIn message. Does not implicitly {@link rebus.gamm.v1beta1.MsgJoinSwapExternAmountIn.verify|verify} messages.
 				 * @param m MsgJoinSwapExternAmountIn message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
 				public static encode(
-					m: osmosis.gamm.v1beta1.IMsgJoinSwapExternAmountIn,
+					m: rebus.gamm.v1beta1.IMsgJoinSwapExternAmountIn,
 					w?: $protobuf.Writer
 				): $protobuf.Writer;
 
@@ -2105,14 +2105,14 @@ export namespace osmosis {
 				public static decode(
 					r: $protobuf.Reader | Uint8Array,
 					l?: number
-				): osmosis.gamm.v1beta1.MsgJoinSwapExternAmountIn;
+				): rebus.gamm.v1beta1.MsgJoinSwapExternAmountIn;
 
 				/**
 				 * Creates a MsgJoinSwapExternAmountIn message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns MsgJoinSwapExternAmountIn
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.MsgJoinSwapExternAmountIn;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.MsgJoinSwapExternAmountIn;
 
 				/**
 				 * Creates a plain object from a MsgJoinSwapExternAmountIn message. Also converts values to other types if specified.
@@ -2121,7 +2121,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.MsgJoinSwapExternAmountIn,
+					m: rebus.gamm.v1beta1.MsgJoinSwapExternAmountIn,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -2141,7 +2141,7 @@ export namespace osmosis {
 				 * Constructs a new MsgJoinSwapExternAmountInResponse.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.IMsgJoinSwapExternAmountInResponse);
+				constructor(p?: rebus.gamm.v1beta1.IMsgJoinSwapExternAmountInResponse);
 
 				/**
 				 * Creates a new MsgJoinSwapExternAmountInResponse instance using the specified properties.
@@ -2149,17 +2149,17 @@ export namespace osmosis {
 				 * @returns MsgJoinSwapExternAmountInResponse instance
 				 */
 				public static create(
-					properties?: osmosis.gamm.v1beta1.IMsgJoinSwapExternAmountInResponse
-				): osmosis.gamm.v1beta1.MsgJoinSwapExternAmountInResponse;
+					properties?: rebus.gamm.v1beta1.IMsgJoinSwapExternAmountInResponse
+				): rebus.gamm.v1beta1.MsgJoinSwapExternAmountInResponse;
 
 				/**
-				 * Encodes the specified MsgJoinSwapExternAmountInResponse message. Does not implicitly {@link osmosis.gamm.v1beta1.MsgJoinSwapExternAmountInResponse.verify|verify} messages.
+				 * Encodes the specified MsgJoinSwapExternAmountInResponse message. Does not implicitly {@link rebus.gamm.v1beta1.MsgJoinSwapExternAmountInResponse.verify|verify} messages.
 				 * @param m MsgJoinSwapExternAmountInResponse message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
 				public static encode(
-					m: osmosis.gamm.v1beta1.IMsgJoinSwapExternAmountInResponse,
+					m: rebus.gamm.v1beta1.IMsgJoinSwapExternAmountInResponse,
 					w?: $protobuf.Writer
 				): $protobuf.Writer;
 
@@ -2174,14 +2174,14 @@ export namespace osmosis {
 				public static decode(
 					r: $protobuf.Reader | Uint8Array,
 					l?: number
-				): osmosis.gamm.v1beta1.MsgJoinSwapExternAmountInResponse;
+				): rebus.gamm.v1beta1.MsgJoinSwapExternAmountInResponse;
 
 				/**
 				 * Creates a MsgJoinSwapExternAmountInResponse message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns MsgJoinSwapExternAmountInResponse
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.MsgJoinSwapExternAmountInResponse;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.MsgJoinSwapExternAmountInResponse;
 
 				/**
 				 * Creates a plain object from a MsgJoinSwapExternAmountInResponse message. Also converts values to other types if specified.
@@ -2190,7 +2190,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.MsgJoinSwapExternAmountInResponse,
+					m: rebus.gamm.v1beta1.MsgJoinSwapExternAmountInResponse,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -2225,7 +2225,7 @@ export namespace osmosis {
 				 * Constructs a new MsgJoinSwapShareAmountOut.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.IMsgJoinSwapShareAmountOut);
+				constructor(p?: rebus.gamm.v1beta1.IMsgJoinSwapShareAmountOut);
 
 				/** MsgJoinSwapShareAmountOut sender. */
 				public sender: string;
@@ -2248,17 +2248,17 @@ export namespace osmosis {
 				 * @returns MsgJoinSwapShareAmountOut instance
 				 */
 				public static create(
-					properties?: osmosis.gamm.v1beta1.IMsgJoinSwapShareAmountOut
-				): osmosis.gamm.v1beta1.MsgJoinSwapShareAmountOut;
+					properties?: rebus.gamm.v1beta1.IMsgJoinSwapShareAmountOut
+				): rebus.gamm.v1beta1.MsgJoinSwapShareAmountOut;
 
 				/**
-				 * Encodes the specified MsgJoinSwapShareAmountOut message. Does not implicitly {@link osmosis.gamm.v1beta1.MsgJoinSwapShareAmountOut.verify|verify} messages.
+				 * Encodes the specified MsgJoinSwapShareAmountOut message. Does not implicitly {@link rebus.gamm.v1beta1.MsgJoinSwapShareAmountOut.verify|verify} messages.
 				 * @param m MsgJoinSwapShareAmountOut message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
 				public static encode(
-					m: osmosis.gamm.v1beta1.IMsgJoinSwapShareAmountOut,
+					m: rebus.gamm.v1beta1.IMsgJoinSwapShareAmountOut,
 					w?: $protobuf.Writer
 				): $protobuf.Writer;
 
@@ -2273,14 +2273,14 @@ export namespace osmosis {
 				public static decode(
 					r: $protobuf.Reader | Uint8Array,
 					l?: number
-				): osmosis.gamm.v1beta1.MsgJoinSwapShareAmountOut;
+				): rebus.gamm.v1beta1.MsgJoinSwapShareAmountOut;
 
 				/**
 				 * Creates a MsgJoinSwapShareAmountOut message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns MsgJoinSwapShareAmountOut
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.MsgJoinSwapShareAmountOut;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.MsgJoinSwapShareAmountOut;
 
 				/**
 				 * Creates a plain object from a MsgJoinSwapShareAmountOut message. Also converts values to other types if specified.
@@ -2289,7 +2289,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.MsgJoinSwapShareAmountOut,
+					m: rebus.gamm.v1beta1.MsgJoinSwapShareAmountOut,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -2309,7 +2309,7 @@ export namespace osmosis {
 				 * Constructs a new MsgJoinSwapShareAmountOutResponse.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.IMsgJoinSwapShareAmountOutResponse);
+				constructor(p?: rebus.gamm.v1beta1.IMsgJoinSwapShareAmountOutResponse);
 
 				/**
 				 * Creates a new MsgJoinSwapShareAmountOutResponse instance using the specified properties.
@@ -2317,17 +2317,17 @@ export namespace osmosis {
 				 * @returns MsgJoinSwapShareAmountOutResponse instance
 				 */
 				public static create(
-					properties?: osmosis.gamm.v1beta1.IMsgJoinSwapShareAmountOutResponse
-				): osmosis.gamm.v1beta1.MsgJoinSwapShareAmountOutResponse;
+					properties?: rebus.gamm.v1beta1.IMsgJoinSwapShareAmountOutResponse
+				): rebus.gamm.v1beta1.MsgJoinSwapShareAmountOutResponse;
 
 				/**
-				 * Encodes the specified MsgJoinSwapShareAmountOutResponse message. Does not implicitly {@link osmosis.gamm.v1beta1.MsgJoinSwapShareAmountOutResponse.verify|verify} messages.
+				 * Encodes the specified MsgJoinSwapShareAmountOutResponse message. Does not implicitly {@link rebus.gamm.v1beta1.MsgJoinSwapShareAmountOutResponse.verify|verify} messages.
 				 * @param m MsgJoinSwapShareAmountOutResponse message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
 				public static encode(
-					m: osmosis.gamm.v1beta1.IMsgJoinSwapShareAmountOutResponse,
+					m: rebus.gamm.v1beta1.IMsgJoinSwapShareAmountOutResponse,
 					w?: $protobuf.Writer
 				): $protobuf.Writer;
 
@@ -2342,14 +2342,14 @@ export namespace osmosis {
 				public static decode(
 					r: $protobuf.Reader | Uint8Array,
 					l?: number
-				): osmosis.gamm.v1beta1.MsgJoinSwapShareAmountOutResponse;
+				): rebus.gamm.v1beta1.MsgJoinSwapShareAmountOutResponse;
 
 				/**
 				 * Creates a MsgJoinSwapShareAmountOutResponse message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns MsgJoinSwapShareAmountOutResponse
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.MsgJoinSwapShareAmountOutResponse;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.MsgJoinSwapShareAmountOutResponse;
 
 				/**
 				 * Creates a plain object from a MsgJoinSwapShareAmountOutResponse message. Also converts values to other types if specified.
@@ -2358,7 +2358,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.MsgJoinSwapShareAmountOutResponse,
+					m: rebus.gamm.v1beta1.MsgJoinSwapShareAmountOutResponse,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -2393,7 +2393,7 @@ export namespace osmosis {
 				 * Constructs a new MsgExitSwapShareAmountIn.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.IMsgExitSwapShareAmountIn);
+				constructor(p?: rebus.gamm.v1beta1.IMsgExitSwapShareAmountIn);
 
 				/** MsgExitSwapShareAmountIn sender. */
 				public sender: string;
@@ -2416,16 +2416,16 @@ export namespace osmosis {
 				 * @returns MsgExitSwapShareAmountIn instance
 				 */
 				public static create(
-					properties?: osmosis.gamm.v1beta1.IMsgExitSwapShareAmountIn
-				): osmosis.gamm.v1beta1.MsgExitSwapShareAmountIn;
+					properties?: rebus.gamm.v1beta1.IMsgExitSwapShareAmountIn
+				): rebus.gamm.v1beta1.MsgExitSwapShareAmountIn;
 
 				/**
-				 * Encodes the specified MsgExitSwapShareAmountIn message. Does not implicitly {@link osmosis.gamm.v1beta1.MsgExitSwapShareAmountIn.verify|verify} messages.
+				 * Encodes the specified MsgExitSwapShareAmountIn message. Does not implicitly {@link rebus.gamm.v1beta1.MsgExitSwapShareAmountIn.verify|verify} messages.
 				 * @param m MsgExitSwapShareAmountIn message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
-				public static encode(m: osmosis.gamm.v1beta1.IMsgExitSwapShareAmountIn, w?: $protobuf.Writer): $protobuf.Writer;
+				public static encode(m: rebus.gamm.v1beta1.IMsgExitSwapShareAmountIn, w?: $protobuf.Writer): $protobuf.Writer;
 
 				/**
 				 * Decodes a MsgExitSwapShareAmountIn message from the specified reader or buffer.
@@ -2438,14 +2438,14 @@ export namespace osmosis {
 				public static decode(
 					r: $protobuf.Reader | Uint8Array,
 					l?: number
-				): osmosis.gamm.v1beta1.MsgExitSwapShareAmountIn;
+				): rebus.gamm.v1beta1.MsgExitSwapShareAmountIn;
 
 				/**
 				 * Creates a MsgExitSwapShareAmountIn message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns MsgExitSwapShareAmountIn
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.MsgExitSwapShareAmountIn;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.MsgExitSwapShareAmountIn;
 
 				/**
 				 * Creates a plain object from a MsgExitSwapShareAmountIn message. Also converts values to other types if specified.
@@ -2454,7 +2454,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.MsgExitSwapShareAmountIn,
+					m: rebus.gamm.v1beta1.MsgExitSwapShareAmountIn,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -2474,7 +2474,7 @@ export namespace osmosis {
 				 * Constructs a new MsgExitSwapShareAmountInResponse.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.IMsgExitSwapShareAmountInResponse);
+				constructor(p?: rebus.gamm.v1beta1.IMsgExitSwapShareAmountInResponse);
 
 				/**
 				 * Creates a new MsgExitSwapShareAmountInResponse instance using the specified properties.
@@ -2482,17 +2482,17 @@ export namespace osmosis {
 				 * @returns MsgExitSwapShareAmountInResponse instance
 				 */
 				public static create(
-					properties?: osmosis.gamm.v1beta1.IMsgExitSwapShareAmountInResponse
-				): osmosis.gamm.v1beta1.MsgExitSwapShareAmountInResponse;
+					properties?: rebus.gamm.v1beta1.IMsgExitSwapShareAmountInResponse
+				): rebus.gamm.v1beta1.MsgExitSwapShareAmountInResponse;
 
 				/**
-				 * Encodes the specified MsgExitSwapShareAmountInResponse message. Does not implicitly {@link osmosis.gamm.v1beta1.MsgExitSwapShareAmountInResponse.verify|verify} messages.
+				 * Encodes the specified MsgExitSwapShareAmountInResponse message. Does not implicitly {@link rebus.gamm.v1beta1.MsgExitSwapShareAmountInResponse.verify|verify} messages.
 				 * @param m MsgExitSwapShareAmountInResponse message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
 				public static encode(
-					m: osmosis.gamm.v1beta1.IMsgExitSwapShareAmountInResponse,
+					m: rebus.gamm.v1beta1.IMsgExitSwapShareAmountInResponse,
 					w?: $protobuf.Writer
 				): $protobuf.Writer;
 
@@ -2507,14 +2507,14 @@ export namespace osmosis {
 				public static decode(
 					r: $protobuf.Reader | Uint8Array,
 					l?: number
-				): osmosis.gamm.v1beta1.MsgExitSwapShareAmountInResponse;
+				): rebus.gamm.v1beta1.MsgExitSwapShareAmountInResponse;
 
 				/**
 				 * Creates a MsgExitSwapShareAmountInResponse message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns MsgExitSwapShareAmountInResponse
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.MsgExitSwapShareAmountInResponse;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.MsgExitSwapShareAmountInResponse;
 
 				/**
 				 * Creates a plain object from a MsgExitSwapShareAmountInResponse message. Also converts values to other types if specified.
@@ -2523,7 +2523,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.MsgExitSwapShareAmountInResponse,
+					m: rebus.gamm.v1beta1.MsgExitSwapShareAmountInResponse,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -2555,7 +2555,7 @@ export namespace osmosis {
 				 * Constructs a new MsgExitSwapExternAmountOut.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.IMsgExitSwapExternAmountOut);
+				constructor(p?: rebus.gamm.v1beta1.IMsgExitSwapExternAmountOut);
 
 				/** MsgExitSwapExternAmountOut sender. */
 				public sender: string;
@@ -2575,17 +2575,17 @@ export namespace osmosis {
 				 * @returns MsgExitSwapExternAmountOut instance
 				 */
 				public static create(
-					properties?: osmosis.gamm.v1beta1.IMsgExitSwapExternAmountOut
-				): osmosis.gamm.v1beta1.MsgExitSwapExternAmountOut;
+					properties?: rebus.gamm.v1beta1.IMsgExitSwapExternAmountOut
+				): rebus.gamm.v1beta1.MsgExitSwapExternAmountOut;
 
 				/**
-				 * Encodes the specified MsgExitSwapExternAmountOut message. Does not implicitly {@link osmosis.gamm.v1beta1.MsgExitSwapExternAmountOut.verify|verify} messages.
+				 * Encodes the specified MsgExitSwapExternAmountOut message. Does not implicitly {@link rebus.gamm.v1beta1.MsgExitSwapExternAmountOut.verify|verify} messages.
 				 * @param m MsgExitSwapExternAmountOut message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
 				public static encode(
-					m: osmosis.gamm.v1beta1.IMsgExitSwapExternAmountOut,
+					m: rebus.gamm.v1beta1.IMsgExitSwapExternAmountOut,
 					w?: $protobuf.Writer
 				): $protobuf.Writer;
 
@@ -2600,14 +2600,14 @@ export namespace osmosis {
 				public static decode(
 					r: $protobuf.Reader | Uint8Array,
 					l?: number
-				): osmosis.gamm.v1beta1.MsgExitSwapExternAmountOut;
+				): rebus.gamm.v1beta1.MsgExitSwapExternAmountOut;
 
 				/**
 				 * Creates a MsgExitSwapExternAmountOut message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns MsgExitSwapExternAmountOut
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.MsgExitSwapExternAmountOut;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.MsgExitSwapExternAmountOut;
 
 				/**
 				 * Creates a plain object from a MsgExitSwapExternAmountOut message. Also converts values to other types if specified.
@@ -2616,7 +2616,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.MsgExitSwapExternAmountOut,
+					m: rebus.gamm.v1beta1.MsgExitSwapExternAmountOut,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -2636,7 +2636,7 @@ export namespace osmosis {
 				 * Constructs a new MsgExitSwapExternAmountOutResponse.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.IMsgExitSwapExternAmountOutResponse);
+				constructor(p?: rebus.gamm.v1beta1.IMsgExitSwapExternAmountOutResponse);
 
 				/**
 				 * Creates a new MsgExitSwapExternAmountOutResponse instance using the specified properties.
@@ -2644,17 +2644,17 @@ export namespace osmosis {
 				 * @returns MsgExitSwapExternAmountOutResponse instance
 				 */
 				public static create(
-					properties?: osmosis.gamm.v1beta1.IMsgExitSwapExternAmountOutResponse
-				): osmosis.gamm.v1beta1.MsgExitSwapExternAmountOutResponse;
+					properties?: rebus.gamm.v1beta1.IMsgExitSwapExternAmountOutResponse
+				): rebus.gamm.v1beta1.MsgExitSwapExternAmountOutResponse;
 
 				/**
-				 * Encodes the specified MsgExitSwapExternAmountOutResponse message. Does not implicitly {@link osmosis.gamm.v1beta1.MsgExitSwapExternAmountOutResponse.verify|verify} messages.
+				 * Encodes the specified MsgExitSwapExternAmountOutResponse message. Does not implicitly {@link rebus.gamm.v1beta1.MsgExitSwapExternAmountOutResponse.verify|verify} messages.
 				 * @param m MsgExitSwapExternAmountOutResponse message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
 				public static encode(
-					m: osmosis.gamm.v1beta1.IMsgExitSwapExternAmountOutResponse,
+					m: rebus.gamm.v1beta1.IMsgExitSwapExternAmountOutResponse,
 					w?: $protobuf.Writer
 				): $protobuf.Writer;
 
@@ -2669,14 +2669,14 @@ export namespace osmosis {
 				public static decode(
 					r: $protobuf.Reader | Uint8Array,
 					l?: number
-				): osmosis.gamm.v1beta1.MsgExitSwapExternAmountOutResponse;
+				): rebus.gamm.v1beta1.MsgExitSwapExternAmountOutResponse;
 
 				/**
 				 * Creates a MsgExitSwapExternAmountOutResponse message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns MsgExitSwapExternAmountOutResponse
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.MsgExitSwapExternAmountOutResponse;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.MsgExitSwapExternAmountOutResponse;
 
 				/**
 				 * Creates a plain object from a MsgExitSwapExternAmountOutResponse message. Also converts values to other types if specified.
@@ -2685,7 +2685,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.MsgExitSwapExternAmountOutResponse,
+					m: rebus.gamm.v1beta1.MsgExitSwapExternAmountOutResponse,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -2705,10 +2705,10 @@ export namespace osmosis {
 				duration?: google.protobuf.IDuration | null;
 
 				/** SmoothWeightChangeParams initialPoolWeights */
-				initialPoolWeights?: osmosis.gamm.v1beta1.IPoolAsset[] | null;
+				initialPoolWeights?: rebus.gamm.v1beta1.IPoolAsset[] | null;
 
 				/** SmoothWeightChangeParams targetPoolWeights */
-				targetPoolWeights?: osmosis.gamm.v1beta1.IPoolAsset[] | null;
+				targetPoolWeights?: rebus.gamm.v1beta1.IPoolAsset[] | null;
 			}
 
 			/** Represents a SmoothWeightChangeParams. */
@@ -2717,7 +2717,7 @@ export namespace osmosis {
 				 * Constructs a new SmoothWeightChangeParams.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.ISmoothWeightChangeParams);
+				constructor(p?: rebus.gamm.v1beta1.ISmoothWeightChangeParams);
 
 				/** SmoothWeightChangeParams startTime. */
 				public startTime?: google.protobuf.ITimestamp | null;
@@ -2726,10 +2726,10 @@ export namespace osmosis {
 				public duration?: google.protobuf.IDuration | null;
 
 				/** SmoothWeightChangeParams initialPoolWeights. */
-				public initialPoolWeights: osmosis.gamm.v1beta1.IPoolAsset[];
+				public initialPoolWeights: rebus.gamm.v1beta1.IPoolAsset[];
 
 				/** SmoothWeightChangeParams targetPoolWeights. */
-				public targetPoolWeights: osmosis.gamm.v1beta1.IPoolAsset[];
+				public targetPoolWeights: rebus.gamm.v1beta1.IPoolAsset[];
 
 				/**
 				 * Creates a new SmoothWeightChangeParams instance using the specified properties.
@@ -2737,16 +2737,16 @@ export namespace osmosis {
 				 * @returns SmoothWeightChangeParams instance
 				 */
 				public static create(
-					properties?: osmosis.gamm.v1beta1.ISmoothWeightChangeParams
-				): osmosis.gamm.v1beta1.SmoothWeightChangeParams;
+					properties?: rebus.gamm.v1beta1.ISmoothWeightChangeParams
+				): rebus.gamm.v1beta1.SmoothWeightChangeParams;
 
 				/**
-				 * Encodes the specified SmoothWeightChangeParams message. Does not implicitly {@link osmosis.gamm.v1beta1.SmoothWeightChangeParams.verify|verify} messages.
+				 * Encodes the specified SmoothWeightChangeParams message. Does not implicitly {@link rebus.gamm.v1beta1.SmoothWeightChangeParams.verify|verify} messages.
 				 * @param m SmoothWeightChangeParams message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
-				public static encode(m: osmosis.gamm.v1beta1.ISmoothWeightChangeParams, w?: $protobuf.Writer): $protobuf.Writer;
+				public static encode(m: rebus.gamm.v1beta1.ISmoothWeightChangeParams, w?: $protobuf.Writer): $protobuf.Writer;
 
 				/**
 				 * Decodes a SmoothWeightChangeParams message from the specified reader or buffer.
@@ -2759,14 +2759,14 @@ export namespace osmosis {
 				public static decode(
 					r: $protobuf.Reader | Uint8Array,
 					l?: number
-				): osmosis.gamm.v1beta1.SmoothWeightChangeParams;
+				): rebus.gamm.v1beta1.SmoothWeightChangeParams;
 
 				/**
 				 * Creates a SmoothWeightChangeParams message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns SmoothWeightChangeParams
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.SmoothWeightChangeParams;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.SmoothWeightChangeParams;
 
 				/**
 				 * Creates a plain object from a SmoothWeightChangeParams message. Also converts values to other types if specified.
@@ -2775,7 +2775,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.SmoothWeightChangeParams,
+					m: rebus.gamm.v1beta1.SmoothWeightChangeParams,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -2795,7 +2795,7 @@ export namespace osmosis {
 				exitFee?: string | null;
 
 				/** PoolParams smoothWeightChangeParams */
-				smoothWeightChangeParams?: osmosis.gamm.v1beta1.ISmoothWeightChangeParams | null;
+				smoothWeightChangeParams?: rebus.gamm.v1beta1.ISmoothWeightChangeParams | null;
 			}
 
 			/** Represents a PoolParams. */
@@ -2804,7 +2804,7 @@ export namespace osmosis {
 				 * Constructs a new PoolParams.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.IPoolParams);
+				constructor(p?: rebus.gamm.v1beta1.IPoolParams);
 
 				/** PoolParams swapFee. */
 				public swapFee: string;
@@ -2813,22 +2813,22 @@ export namespace osmosis {
 				public exitFee: string;
 
 				/** PoolParams smoothWeightChangeParams. */
-				public smoothWeightChangeParams?: osmosis.gamm.v1beta1.ISmoothWeightChangeParams | null;
+				public smoothWeightChangeParams?: rebus.gamm.v1beta1.ISmoothWeightChangeParams | null;
 
 				/**
 				 * Creates a new PoolParams instance using the specified properties.
 				 * @param [properties] Properties to set
 				 * @returns PoolParams instance
 				 */
-				public static create(properties?: osmosis.gamm.v1beta1.IPoolParams): osmosis.gamm.v1beta1.PoolParams;
+				public static create(properties?: rebus.gamm.v1beta1.IPoolParams): rebus.gamm.v1beta1.PoolParams;
 
 				/**
-				 * Encodes the specified PoolParams message. Does not implicitly {@link osmosis.gamm.v1beta1.PoolParams.verify|verify} messages.
+				 * Encodes the specified PoolParams message. Does not implicitly {@link rebus.gamm.v1beta1.PoolParams.verify|verify} messages.
 				 * @param m PoolParams message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
-				public static encode(m: osmosis.gamm.v1beta1.IPoolParams, w?: $protobuf.Writer): $protobuf.Writer;
+				public static encode(m: rebus.gamm.v1beta1.IPoolParams, w?: $protobuf.Writer): $protobuf.Writer;
 
 				/**
 				 * Decodes a PoolParams message from the specified reader or buffer.
@@ -2838,14 +2838,14 @@ export namespace osmosis {
 				 * @throws {Error} If the payload is not a reader or valid buffer
 				 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 				 */
-				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.gamm.v1beta1.PoolParams;
+				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.gamm.v1beta1.PoolParams;
 
 				/**
 				 * Creates a PoolParams message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns PoolParams
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.PoolParams;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.PoolParams;
 
 				/**
 				 * Creates a plain object from a PoolParams message. Also converts values to other types if specified.
@@ -2854,7 +2854,7 @@ export namespace osmosis {
 				 * @returns Plain object
 				 */
 				public static toObject(
-					m: osmosis.gamm.v1beta1.PoolParams,
+					m: rebus.gamm.v1beta1.PoolParams,
 					o?: $protobuf.IConversionOptions
 				): { [k: string]: any };
 
@@ -2874,7 +2874,7 @@ export namespace osmosis {
 				id?: Long | null;
 
 				/** Pool poolParams */
-				poolParams?: osmosis.gamm.v1beta1.IPoolParams | null;
+				poolParams?: rebus.gamm.v1beta1.IPoolParams | null;
 
 				/** Pool futurePoolGovernor */
 				futurePoolGovernor?: string | null;
@@ -2883,7 +2883,7 @@ export namespace osmosis {
 				totalShares?: cosmos.base.v1beta1.ICoin | null;
 
 				/** Pool poolAssets */
-				poolAssets?: osmosis.gamm.v1beta1.IPoolAsset[] | null;
+				poolAssets?: rebus.gamm.v1beta1.IPoolAsset[] | null;
 
 				/** Pool totalWeight */
 				totalWeight?: string | null;
@@ -2895,7 +2895,7 @@ export namespace osmosis {
 				 * Constructs a new Pool.
 				 * @param [p] Properties to set
 				 */
-				constructor(p?: osmosis.gamm.v1beta1.IPool);
+				constructor(p?: rebus.gamm.v1beta1.IPool);
 
 				/** Pool address. */
 				public address: string;
@@ -2904,7 +2904,7 @@ export namespace osmosis {
 				public id: Long;
 
 				/** Pool poolParams. */
-				public poolParams?: osmosis.gamm.v1beta1.IPoolParams | null;
+				public poolParams?: rebus.gamm.v1beta1.IPoolParams | null;
 
 				/** Pool futurePoolGovernor. */
 				public futurePoolGovernor: string;
@@ -2913,7 +2913,7 @@ export namespace osmosis {
 				public totalShares?: cosmos.base.v1beta1.ICoin | null;
 
 				/** Pool poolAssets. */
-				public poolAssets: osmosis.gamm.v1beta1.IPoolAsset[];
+				public poolAssets: rebus.gamm.v1beta1.IPoolAsset[];
 
 				/** Pool totalWeight. */
 				public totalWeight: string;
@@ -2923,15 +2923,15 @@ export namespace osmosis {
 				 * @param [properties] Properties to set
 				 * @returns Pool instance
 				 */
-				public static create(properties?: osmosis.gamm.v1beta1.IPool): osmosis.gamm.v1beta1.Pool;
+				public static create(properties?: rebus.gamm.v1beta1.IPool): rebus.gamm.v1beta1.Pool;
 
 				/**
-				 * Encodes the specified Pool message. Does not implicitly {@link osmosis.gamm.v1beta1.Pool.verify|verify} messages.
+				 * Encodes the specified Pool message. Does not implicitly {@link rebus.gamm.v1beta1.Pool.verify|verify} messages.
 				 * @param m Pool message or plain object to encode
 				 * @param [w] Writer to encode to
 				 * @returns Writer
 				 */
-				public static encode(m: osmosis.gamm.v1beta1.IPool, w?: $protobuf.Writer): $protobuf.Writer;
+				public static encode(m: rebus.gamm.v1beta1.IPool, w?: $protobuf.Writer): $protobuf.Writer;
 
 				/**
 				 * Decodes a Pool message from the specified reader or buffer.
@@ -2941,14 +2941,14 @@ export namespace osmosis {
 				 * @throws {Error} If the payload is not a reader or valid buffer
 				 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 				 */
-				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.gamm.v1beta1.Pool;
+				public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.gamm.v1beta1.Pool;
 
 				/**
 				 * Creates a Pool message from a plain object. Also converts values to their respective internal types.
 				 * @param d Plain object
 				 * @returns Pool
 				 */
-				public static fromObject(d: { [k: string]: any }): osmosis.gamm.v1beta1.Pool;
+				public static fromObject(d: { [k: string]: any }): rebus.gamm.v1beta1.Pool;
 
 				/**
 				 * Creates a plain object from a Pool message. Also converts values to other types if specified.
@@ -2956,7 +2956,7 @@ export namespace osmosis {
 				 * @param [o] Conversion options
 				 * @returns Plain object
 				 */
-				public static toObject(m: osmosis.gamm.v1beta1.Pool, o?: $protobuf.IConversionOptions): { [k: string]: any };
+				public static toObject(m: rebus.gamm.v1beta1.Pool, o?: $protobuf.IConversionOptions): { [k: string]: any };
 
 				/**
 				 * Converts this Pool to JSON.
@@ -2993,7 +2993,7 @@ export namespace osmosis {
 			 * Constructs a new PeriodLock.
 			 * @param [p] Properties to set
 			 */
-			constructor(p?: osmosis.lockup.IPeriodLock);
+			constructor(p?: rebus.lockup.IPeriodLock);
 
 			/** PeriodLock ID. */
 			public ID: Long;
@@ -3015,15 +3015,15 @@ export namespace osmosis {
 			 * @param [properties] Properties to set
 			 * @returns PeriodLock instance
 			 */
-			public static create(properties?: osmosis.lockup.IPeriodLock): osmosis.lockup.PeriodLock;
+			public static create(properties?: rebus.lockup.IPeriodLock): rebus.lockup.PeriodLock;
 
 			/**
-			 * Encodes the specified PeriodLock message. Does not implicitly {@link osmosis.lockup.PeriodLock.verify|verify} messages.
+			 * Encodes the specified PeriodLock message. Does not implicitly {@link rebus.lockup.PeriodLock.verify|verify} messages.
 			 * @param m PeriodLock message or plain object to encode
 			 * @param [w] Writer to encode to
 			 * @returns Writer
 			 */
-			public static encode(m: osmosis.lockup.IPeriodLock, w?: $protobuf.Writer): $protobuf.Writer;
+			public static encode(m: rebus.lockup.IPeriodLock, w?: $protobuf.Writer): $protobuf.Writer;
 
 			/**
 			 * Decodes a PeriodLock message from the specified reader or buffer.
@@ -3033,14 +3033,14 @@ export namespace osmosis {
 			 * @throws {Error} If the payload is not a reader or valid buffer
 			 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 			 */
-			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.lockup.PeriodLock;
+			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.lockup.PeriodLock;
 
 			/**
 			 * Creates a PeriodLock message from a plain object. Also converts values to their respective internal types.
 			 * @param d Plain object
 			 * @returns PeriodLock
 			 */
-			public static fromObject(d: { [k: string]: any }): osmosis.lockup.PeriodLock;
+			public static fromObject(d: { [k: string]: any }): rebus.lockup.PeriodLock;
 
 			/**
 			 * Creates a plain object from a PeriodLock message. Also converts values to other types if specified.
@@ -3048,7 +3048,7 @@ export namespace osmosis {
 			 * @param [o] Conversion options
 			 * @returns Plain object
 			 */
-			public static toObject(m: osmosis.lockup.PeriodLock, o?: $protobuf.IConversionOptions): { [k: string]: any };
+			public static toObject(m: rebus.lockup.PeriodLock, o?: $protobuf.IConversionOptions): { [k: string]: any };
 
 			/**
 			 * Converts this PeriodLock to JSON.
@@ -3066,7 +3066,7 @@ export namespace osmosis {
 		/** Properties of a QueryCondition. */
 		interface IQueryCondition {
 			/** QueryCondition lockQueryType */
-			lockQueryType?: osmosis.lockup.LockQueryType | null;
+			lockQueryType?: rebus.lockup.LockQueryType | null;
 
 			/** QueryCondition denom */
 			denom?: string | null;
@@ -3084,10 +3084,10 @@ export namespace osmosis {
 			 * Constructs a new QueryCondition.
 			 * @param [p] Properties to set
 			 */
-			constructor(p?: osmosis.lockup.IQueryCondition);
+			constructor(p?: rebus.lockup.IQueryCondition);
 
 			/** QueryCondition lockQueryType. */
-			public lockQueryType: osmosis.lockup.LockQueryType;
+			public lockQueryType: rebus.lockup.LockQueryType;
 
 			/** QueryCondition denom. */
 			public denom: string;
@@ -3103,15 +3103,15 @@ export namespace osmosis {
 			 * @param [properties] Properties to set
 			 * @returns QueryCondition instance
 			 */
-			public static create(properties?: osmosis.lockup.IQueryCondition): osmosis.lockup.QueryCondition;
+			public static create(properties?: rebus.lockup.IQueryCondition): rebus.lockup.QueryCondition;
 
 			/**
-			 * Encodes the specified QueryCondition message. Does not implicitly {@link osmosis.lockup.QueryCondition.verify|verify} messages.
+			 * Encodes the specified QueryCondition message. Does not implicitly {@link rebus.lockup.QueryCondition.verify|verify} messages.
 			 * @param m QueryCondition message or plain object to encode
 			 * @param [w] Writer to encode to
 			 * @returns Writer
 			 */
-			public static encode(m: osmosis.lockup.IQueryCondition, w?: $protobuf.Writer): $protobuf.Writer;
+			public static encode(m: rebus.lockup.IQueryCondition, w?: $protobuf.Writer): $protobuf.Writer;
 
 			/**
 			 * Decodes a QueryCondition message from the specified reader or buffer.
@@ -3121,14 +3121,14 @@ export namespace osmosis {
 			 * @throws {Error} If the payload is not a reader or valid buffer
 			 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 			 */
-			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.lockup.QueryCondition;
+			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.lockup.QueryCondition;
 
 			/**
 			 * Creates a QueryCondition message from a plain object. Also converts values to their respective internal types.
 			 * @param d Plain object
 			 * @returns QueryCondition
 			 */
-			public static fromObject(d: { [k: string]: any }): osmosis.lockup.QueryCondition;
+			public static fromObject(d: { [k: string]: any }): rebus.lockup.QueryCondition;
 
 			/**
 			 * Creates a plain object from a QueryCondition message. Also converts values to other types if specified.
@@ -3136,7 +3136,7 @@ export namespace osmosis {
 			 * @param [o] Conversion options
 			 * @returns Plain object
 			 */
-			public static toObject(m: osmosis.lockup.QueryCondition, o?: $protobuf.IConversionOptions): { [k: string]: any };
+			public static toObject(m: rebus.lockup.QueryCondition, o?: $protobuf.IConversionOptions): { [k: string]: any };
 
 			/**
 			 * Converts this QueryCondition to JSON.
@@ -3166,7 +3166,7 @@ export namespace osmosis {
 			 * Constructs a new SyntheticLock.
 			 * @param [p] Properties to set
 			 */
-			constructor(p?: osmosis.lockup.ISyntheticLock);
+			constructor(p?: rebus.lockup.ISyntheticLock);
 
 			/** SyntheticLock underlyingLockId. */
 			public underlyingLockId: Long;
@@ -3185,15 +3185,15 @@ export namespace osmosis {
 			 * @param [properties] Properties to set
 			 * @returns SyntheticLock instance
 			 */
-			public static create(properties?: osmosis.lockup.ISyntheticLock): osmosis.lockup.SyntheticLock;
+			public static create(properties?: rebus.lockup.ISyntheticLock): rebus.lockup.SyntheticLock;
 
 			/**
-			 * Encodes the specified SyntheticLock message. Does not implicitly {@link osmosis.lockup.SyntheticLock.verify|verify} messages.
+			 * Encodes the specified SyntheticLock message. Does not implicitly {@link rebus.lockup.SyntheticLock.verify|verify} messages.
 			 * @param m SyntheticLock message or plain object to encode
 			 * @param [w] Writer to encode to
 			 * @returns Writer
 			 */
-			public static encode(m: osmosis.lockup.ISyntheticLock, w?: $protobuf.Writer): $protobuf.Writer;
+			public static encode(m: rebus.lockup.ISyntheticLock, w?: $protobuf.Writer): $protobuf.Writer;
 
 			/**
 			 * Decodes a SyntheticLock message from the specified reader or buffer.
@@ -3203,14 +3203,14 @@ export namespace osmosis {
 			 * @throws {Error} If the payload is not a reader or valid buffer
 			 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 			 */
-			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.lockup.SyntheticLock;
+			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.lockup.SyntheticLock;
 
 			/**
 			 * Creates a SyntheticLock message from a plain object. Also converts values to their respective internal types.
 			 * @param d Plain object
 			 * @returns SyntheticLock
 			 */
-			public static fromObject(d: { [k: string]: any }): osmosis.lockup.SyntheticLock;
+			public static fromObject(d: { [k: string]: any }): rebus.lockup.SyntheticLock;
 
 			/**
 			 * Creates a plain object from a SyntheticLock message. Also converts values to other types if specified.
@@ -3218,7 +3218,7 @@ export namespace osmosis {
 			 * @param [o] Conversion options
 			 * @returns Plain object
 			 */
-			public static toObject(m: osmosis.lockup.SyntheticLock, o?: $protobuf.IConversionOptions): { [k: string]: any };
+			public static toObject(m: rebus.lockup.SyntheticLock, o?: $protobuf.IConversionOptions): { [k: string]: any };
 
 			/**
 			 * Converts this SyntheticLock to JSON.
@@ -3251,14 +3251,14 @@ export namespace osmosis {
 			 * @param request MsgLockTokens message or plain object
 			 * @param callback Node-style callback called with the error, if any, and MsgLockTokensResponse
 			 */
-			public lockTokens(request: osmosis.lockup.IMsgLockTokens, callback: osmosis.lockup.Msg.LockTokensCallback): void;
+			public lockTokens(request: rebus.lockup.IMsgLockTokens, callback: rebus.lockup.Msg.LockTokensCallback): void;
 
 			/**
 			 * Calls LockTokens.
 			 * @param request MsgLockTokens message or plain object
 			 * @returns Promise
 			 */
-			public lockTokens(request: osmosis.lockup.IMsgLockTokens): Promise<osmosis.lockup.MsgLockTokensResponse>;
+			public lockTokens(request: rebus.lockup.IMsgLockTokens): Promise<rebus.lockup.MsgLockTokensResponse>;
 
 			/**
 			 * Calls BeginUnlockingAll.
@@ -3266,8 +3266,8 @@ export namespace osmosis {
 			 * @param callback Node-style callback called with the error, if any, and MsgBeginUnlockingAllResponse
 			 */
 			public beginUnlockingAll(
-				request: osmosis.lockup.IMsgBeginUnlockingAll,
-				callback: osmosis.lockup.Msg.BeginUnlockingAllCallback
+				request: rebus.lockup.IMsgBeginUnlockingAll,
+				callback: rebus.lockup.Msg.BeginUnlockingAllCallback
 			): void;
 
 			/**
@@ -3276,8 +3276,8 @@ export namespace osmosis {
 			 * @returns Promise
 			 */
 			public beginUnlockingAll(
-				request: osmosis.lockup.IMsgBeginUnlockingAll
-			): Promise<osmosis.lockup.MsgBeginUnlockingAllResponse>;
+				request: rebus.lockup.IMsgBeginUnlockingAll
+			): Promise<rebus.lockup.MsgBeginUnlockingAllResponse>;
 
 			/**
 			 * Calls BeginUnlocking.
@@ -3285,8 +3285,8 @@ export namespace osmosis {
 			 * @param callback Node-style callback called with the error, if any, and MsgBeginUnlockingResponse
 			 */
 			public beginUnlocking(
-				request: osmosis.lockup.IMsgBeginUnlocking,
-				callback: osmosis.lockup.Msg.BeginUnlockingCallback
+				request: rebus.lockup.IMsgBeginUnlocking,
+				callback: rebus.lockup.Msg.BeginUnlockingCallback
 			): void;
 
 			/**
@@ -3295,34 +3295,34 @@ export namespace osmosis {
 			 * @returns Promise
 			 */
 			public beginUnlocking(
-				request: osmosis.lockup.IMsgBeginUnlocking
-			): Promise<osmosis.lockup.MsgBeginUnlockingResponse>;
+				request: rebus.lockup.IMsgBeginUnlocking
+			): Promise<rebus.lockup.MsgBeginUnlockingResponse>;
 		}
 
 		namespace Msg {
 			/**
-			 * Callback as used by {@link osmosis.lockup.Msg#lockTokens}.
+			 * Callback as used by {@link rebus.lockup.Msg#lockTokens}.
 			 * @param error Error, if any
 			 * @param [response] MsgLockTokensResponse
 			 */
-			type LockTokensCallback = (error: Error | null, response?: osmosis.lockup.MsgLockTokensResponse) => void;
+			type LockTokensCallback = (error: Error | null, response?: rebus.lockup.MsgLockTokensResponse) => void;
 
 			/**
-			 * Callback as used by {@link osmosis.lockup.Msg#beginUnlockingAll}.
+			 * Callback as used by {@link rebus.lockup.Msg#beginUnlockingAll}.
 			 * @param error Error, if any
 			 * @param [response] MsgBeginUnlockingAllResponse
 			 */
 			type BeginUnlockingAllCallback = (
 				error: Error | null,
-				response?: osmosis.lockup.MsgBeginUnlockingAllResponse
+				response?: rebus.lockup.MsgBeginUnlockingAllResponse
 			) => void;
 
 			/**
-			 * Callback as used by {@link osmosis.lockup.Msg#beginUnlocking}.
+			 * Callback as used by {@link rebus.lockup.Msg#beginUnlocking}.
 			 * @param error Error, if any
 			 * @param [response] MsgBeginUnlockingResponse
 			 */
-			type BeginUnlockingCallback = (error: Error | null, response?: osmosis.lockup.MsgBeginUnlockingResponse) => void;
+			type BeginUnlockingCallback = (error: Error | null, response?: rebus.lockup.MsgBeginUnlockingResponse) => void;
 		}
 
 		/** Properties of a MsgLockTokens. */
@@ -3343,7 +3343,7 @@ export namespace osmosis {
 			 * Constructs a new MsgLockTokens.
 			 * @param [p] Properties to set
 			 */
-			constructor(p?: osmosis.lockup.IMsgLockTokens);
+			constructor(p?: rebus.lockup.IMsgLockTokens);
 
 			/** MsgLockTokens owner. */
 			public owner: string;
@@ -3359,15 +3359,15 @@ export namespace osmosis {
 			 * @param [properties] Properties to set
 			 * @returns MsgLockTokens instance
 			 */
-			public static create(properties?: osmosis.lockup.IMsgLockTokens): osmosis.lockup.MsgLockTokens;
+			public static create(properties?: rebus.lockup.IMsgLockTokens): rebus.lockup.MsgLockTokens;
 
 			/**
-			 * Encodes the specified MsgLockTokens message. Does not implicitly {@link osmosis.lockup.MsgLockTokens.verify|verify} messages.
+			 * Encodes the specified MsgLockTokens message. Does not implicitly {@link rebus.lockup.MsgLockTokens.verify|verify} messages.
 			 * @param m MsgLockTokens message or plain object to encode
 			 * @param [w] Writer to encode to
 			 * @returns Writer
 			 */
-			public static encode(m: osmosis.lockup.IMsgLockTokens, w?: $protobuf.Writer): $protobuf.Writer;
+			public static encode(m: rebus.lockup.IMsgLockTokens, w?: $protobuf.Writer): $protobuf.Writer;
 
 			/**
 			 * Decodes a MsgLockTokens message from the specified reader or buffer.
@@ -3377,14 +3377,14 @@ export namespace osmosis {
 			 * @throws {Error} If the payload is not a reader or valid buffer
 			 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 			 */
-			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.lockup.MsgLockTokens;
+			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.lockup.MsgLockTokens;
 
 			/**
 			 * Creates a MsgLockTokens message from a plain object. Also converts values to their respective internal types.
 			 * @param d Plain object
 			 * @returns MsgLockTokens
 			 */
-			public static fromObject(d: { [k: string]: any }): osmosis.lockup.MsgLockTokens;
+			public static fromObject(d: { [k: string]: any }): rebus.lockup.MsgLockTokens;
 
 			/**
 			 * Creates a plain object from a MsgLockTokens message. Also converts values to other types if specified.
@@ -3392,7 +3392,7 @@ export namespace osmosis {
 			 * @param [o] Conversion options
 			 * @returns Plain object
 			 */
-			public static toObject(m: osmosis.lockup.MsgLockTokens, o?: $protobuf.IConversionOptions): { [k: string]: any };
+			public static toObject(m: rebus.lockup.MsgLockTokens, o?: $protobuf.IConversionOptions): { [k: string]: any };
 
 			/**
 			 * Converts this MsgLockTokens to JSON.
@@ -3413,7 +3413,7 @@ export namespace osmosis {
 			 * Constructs a new MsgLockTokensResponse.
 			 * @param [p] Properties to set
 			 */
-			constructor(p?: osmosis.lockup.IMsgLockTokensResponse);
+			constructor(p?: rebus.lockup.IMsgLockTokensResponse);
 
 			/** MsgLockTokensResponse ID. */
 			public ID: Long;
@@ -3423,15 +3423,15 @@ export namespace osmosis {
 			 * @param [properties] Properties to set
 			 * @returns MsgLockTokensResponse instance
 			 */
-			public static create(properties?: osmosis.lockup.IMsgLockTokensResponse): osmosis.lockup.MsgLockTokensResponse;
+			public static create(properties?: rebus.lockup.IMsgLockTokensResponse): rebus.lockup.MsgLockTokensResponse;
 
 			/**
-			 * Encodes the specified MsgLockTokensResponse message. Does not implicitly {@link osmosis.lockup.MsgLockTokensResponse.verify|verify} messages.
+			 * Encodes the specified MsgLockTokensResponse message. Does not implicitly {@link rebus.lockup.MsgLockTokensResponse.verify|verify} messages.
 			 * @param m MsgLockTokensResponse message or plain object to encode
 			 * @param [w] Writer to encode to
 			 * @returns Writer
 			 */
-			public static encode(m: osmosis.lockup.IMsgLockTokensResponse, w?: $protobuf.Writer): $protobuf.Writer;
+			public static encode(m: rebus.lockup.IMsgLockTokensResponse, w?: $protobuf.Writer): $protobuf.Writer;
 
 			/**
 			 * Decodes a MsgLockTokensResponse message from the specified reader or buffer.
@@ -3441,14 +3441,14 @@ export namespace osmosis {
 			 * @throws {Error} If the payload is not a reader or valid buffer
 			 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 			 */
-			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.lockup.MsgLockTokensResponse;
+			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.lockup.MsgLockTokensResponse;
 
 			/**
 			 * Creates a MsgLockTokensResponse message from a plain object. Also converts values to their respective internal types.
 			 * @param d Plain object
 			 * @returns MsgLockTokensResponse
 			 */
-			public static fromObject(d: { [k: string]: any }): osmosis.lockup.MsgLockTokensResponse;
+			public static fromObject(d: { [k: string]: any }): rebus.lockup.MsgLockTokensResponse;
 
 			/**
 			 * Creates a plain object from a MsgLockTokensResponse message. Also converts values to other types if specified.
@@ -3457,7 +3457,7 @@ export namespace osmosis {
 			 * @returns Plain object
 			 */
 			public static toObject(
-				m: osmosis.lockup.MsgLockTokensResponse,
+				m: rebus.lockup.MsgLockTokensResponse,
 				o?: $protobuf.IConversionOptions
 			): { [k: string]: any };
 
@@ -3480,7 +3480,7 @@ export namespace osmosis {
 			 * Constructs a new MsgBeginUnlockingAll.
 			 * @param [p] Properties to set
 			 */
-			constructor(p?: osmosis.lockup.IMsgBeginUnlockingAll);
+			constructor(p?: rebus.lockup.IMsgBeginUnlockingAll);
 
 			/** MsgBeginUnlockingAll owner. */
 			public owner: string;
@@ -3490,15 +3490,15 @@ export namespace osmosis {
 			 * @param [properties] Properties to set
 			 * @returns MsgBeginUnlockingAll instance
 			 */
-			public static create(properties?: osmosis.lockup.IMsgBeginUnlockingAll): osmosis.lockup.MsgBeginUnlockingAll;
+			public static create(properties?: rebus.lockup.IMsgBeginUnlockingAll): rebus.lockup.MsgBeginUnlockingAll;
 
 			/**
-			 * Encodes the specified MsgBeginUnlockingAll message. Does not implicitly {@link osmosis.lockup.MsgBeginUnlockingAll.verify|verify} messages.
+			 * Encodes the specified MsgBeginUnlockingAll message. Does not implicitly {@link rebus.lockup.MsgBeginUnlockingAll.verify|verify} messages.
 			 * @param m MsgBeginUnlockingAll message or plain object to encode
 			 * @param [w] Writer to encode to
 			 * @returns Writer
 			 */
-			public static encode(m: osmosis.lockup.IMsgBeginUnlockingAll, w?: $protobuf.Writer): $protobuf.Writer;
+			public static encode(m: rebus.lockup.IMsgBeginUnlockingAll, w?: $protobuf.Writer): $protobuf.Writer;
 
 			/**
 			 * Decodes a MsgBeginUnlockingAll message from the specified reader or buffer.
@@ -3508,14 +3508,14 @@ export namespace osmosis {
 			 * @throws {Error} If the payload is not a reader or valid buffer
 			 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 			 */
-			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.lockup.MsgBeginUnlockingAll;
+			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.lockup.MsgBeginUnlockingAll;
 
 			/**
 			 * Creates a MsgBeginUnlockingAll message from a plain object. Also converts values to their respective internal types.
 			 * @param d Plain object
 			 * @returns MsgBeginUnlockingAll
 			 */
-			public static fromObject(d: { [k: string]: any }): osmosis.lockup.MsgBeginUnlockingAll;
+			public static fromObject(d: { [k: string]: any }): rebus.lockup.MsgBeginUnlockingAll;
 
 			/**
 			 * Creates a plain object from a MsgBeginUnlockingAll message. Also converts values to other types if specified.
@@ -3524,7 +3524,7 @@ export namespace osmosis {
 			 * @returns Plain object
 			 */
 			public static toObject(
-				m: osmosis.lockup.MsgBeginUnlockingAll,
+				m: rebus.lockup.MsgBeginUnlockingAll,
 				o?: $protobuf.IConversionOptions
 			): { [k: string]: any };
 
@@ -3538,7 +3538,7 @@ export namespace osmosis {
 		/** Properties of a MsgBeginUnlockingAllResponse. */
 		interface IMsgBeginUnlockingAllResponse {
 			/** MsgBeginUnlockingAllResponse unlocks */
-			unlocks?: osmosis.lockup.IPeriodLock[] | null;
+			unlocks?: rebus.lockup.IPeriodLock[] | null;
 		}
 
 		/** Represents a MsgBeginUnlockingAllResponse. */
@@ -3547,10 +3547,10 @@ export namespace osmosis {
 			 * Constructs a new MsgBeginUnlockingAllResponse.
 			 * @param [p] Properties to set
 			 */
-			constructor(p?: osmosis.lockup.IMsgBeginUnlockingAllResponse);
+			constructor(p?: rebus.lockup.IMsgBeginUnlockingAllResponse);
 
 			/** MsgBeginUnlockingAllResponse unlocks. */
-			public unlocks: osmosis.lockup.IPeriodLock[];
+			public unlocks: rebus.lockup.IPeriodLock[];
 
 			/**
 			 * Creates a new MsgBeginUnlockingAllResponse instance using the specified properties.
@@ -3558,16 +3558,16 @@ export namespace osmosis {
 			 * @returns MsgBeginUnlockingAllResponse instance
 			 */
 			public static create(
-				properties?: osmosis.lockup.IMsgBeginUnlockingAllResponse
-			): osmosis.lockup.MsgBeginUnlockingAllResponse;
+				properties?: rebus.lockup.IMsgBeginUnlockingAllResponse
+			): rebus.lockup.MsgBeginUnlockingAllResponse;
 
 			/**
-			 * Encodes the specified MsgBeginUnlockingAllResponse message. Does not implicitly {@link osmosis.lockup.MsgBeginUnlockingAllResponse.verify|verify} messages.
+			 * Encodes the specified MsgBeginUnlockingAllResponse message. Does not implicitly {@link rebus.lockup.MsgBeginUnlockingAllResponse.verify|verify} messages.
 			 * @param m MsgBeginUnlockingAllResponse message or plain object to encode
 			 * @param [w] Writer to encode to
 			 * @returns Writer
 			 */
-			public static encode(m: osmosis.lockup.IMsgBeginUnlockingAllResponse, w?: $protobuf.Writer): $protobuf.Writer;
+			public static encode(m: rebus.lockup.IMsgBeginUnlockingAllResponse, w?: $protobuf.Writer): $protobuf.Writer;
 
 			/**
 			 * Decodes a MsgBeginUnlockingAllResponse message from the specified reader or buffer.
@@ -3577,14 +3577,14 @@ export namespace osmosis {
 			 * @throws {Error} If the payload is not a reader or valid buffer
 			 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 			 */
-			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.lockup.MsgBeginUnlockingAllResponse;
+			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.lockup.MsgBeginUnlockingAllResponse;
 
 			/**
 			 * Creates a MsgBeginUnlockingAllResponse message from a plain object. Also converts values to their respective internal types.
 			 * @param d Plain object
 			 * @returns MsgBeginUnlockingAllResponse
 			 */
-			public static fromObject(d: { [k: string]: any }): osmosis.lockup.MsgBeginUnlockingAllResponse;
+			public static fromObject(d: { [k: string]: any }): rebus.lockup.MsgBeginUnlockingAllResponse;
 
 			/**
 			 * Creates a plain object from a MsgBeginUnlockingAllResponse message. Also converts values to other types if specified.
@@ -3593,7 +3593,7 @@ export namespace osmosis {
 			 * @returns Plain object
 			 */
 			public static toObject(
-				m: osmosis.lockup.MsgBeginUnlockingAllResponse,
+				m: rebus.lockup.MsgBeginUnlockingAllResponse,
 				o?: $protobuf.IConversionOptions
 			): { [k: string]: any };
 
@@ -3622,7 +3622,7 @@ export namespace osmosis {
 			 * Constructs a new MsgBeginUnlocking.
 			 * @param [p] Properties to set
 			 */
-			constructor(p?: osmosis.lockup.IMsgBeginUnlocking);
+			constructor(p?: rebus.lockup.IMsgBeginUnlocking);
 
 			/** MsgBeginUnlocking owner. */
 			public owner: string;
@@ -3638,15 +3638,15 @@ export namespace osmosis {
 			 * @param [properties] Properties to set
 			 * @returns MsgBeginUnlocking instance
 			 */
-			public static create(properties?: osmosis.lockup.IMsgBeginUnlocking): osmosis.lockup.MsgBeginUnlocking;
+			public static create(properties?: rebus.lockup.IMsgBeginUnlocking): rebus.lockup.MsgBeginUnlocking;
 
 			/**
-			 * Encodes the specified MsgBeginUnlocking message. Does not implicitly {@link osmosis.lockup.MsgBeginUnlocking.verify|verify} messages.
+			 * Encodes the specified MsgBeginUnlocking message. Does not implicitly {@link rebus.lockup.MsgBeginUnlocking.verify|verify} messages.
 			 * @param m MsgBeginUnlocking message or plain object to encode
 			 * @param [w] Writer to encode to
 			 * @returns Writer
 			 */
-			public static encode(m: osmosis.lockup.IMsgBeginUnlocking, w?: $protobuf.Writer): $protobuf.Writer;
+			public static encode(m: rebus.lockup.IMsgBeginUnlocking, w?: $protobuf.Writer): $protobuf.Writer;
 
 			/**
 			 * Decodes a MsgBeginUnlocking message from the specified reader or buffer.
@@ -3656,14 +3656,14 @@ export namespace osmosis {
 			 * @throws {Error} If the payload is not a reader or valid buffer
 			 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 			 */
-			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.lockup.MsgBeginUnlocking;
+			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.lockup.MsgBeginUnlocking;
 
 			/**
 			 * Creates a MsgBeginUnlocking message from a plain object. Also converts values to their respective internal types.
 			 * @param d Plain object
 			 * @returns MsgBeginUnlocking
 			 */
-			public static fromObject(d: { [k: string]: any }): osmosis.lockup.MsgBeginUnlocking;
+			public static fromObject(d: { [k: string]: any }): rebus.lockup.MsgBeginUnlocking;
 
 			/**
 			 * Creates a plain object from a MsgBeginUnlocking message. Also converts values to other types if specified.
@@ -3672,7 +3672,7 @@ export namespace osmosis {
 			 * @returns Plain object
 			 */
 			public static toObject(
-				m: osmosis.lockup.MsgBeginUnlocking,
+				m: rebus.lockup.MsgBeginUnlocking,
 				o?: $protobuf.IConversionOptions
 			): { [k: string]: any };
 
@@ -3695,7 +3695,7 @@ export namespace osmosis {
 			 * Constructs a new MsgBeginUnlockingResponse.
 			 * @param [p] Properties to set
 			 */
-			constructor(p?: osmosis.lockup.IMsgBeginUnlockingResponse);
+			constructor(p?: rebus.lockup.IMsgBeginUnlockingResponse);
 
 			/** MsgBeginUnlockingResponse success. */
 			public success: boolean;
@@ -3706,16 +3706,16 @@ export namespace osmosis {
 			 * @returns MsgBeginUnlockingResponse instance
 			 */
 			public static create(
-				properties?: osmosis.lockup.IMsgBeginUnlockingResponse
-			): osmosis.lockup.MsgBeginUnlockingResponse;
+				properties?: rebus.lockup.IMsgBeginUnlockingResponse
+			): rebus.lockup.MsgBeginUnlockingResponse;
 
 			/**
-			 * Encodes the specified MsgBeginUnlockingResponse message. Does not implicitly {@link osmosis.lockup.MsgBeginUnlockingResponse.verify|verify} messages.
+			 * Encodes the specified MsgBeginUnlockingResponse message. Does not implicitly {@link rebus.lockup.MsgBeginUnlockingResponse.verify|verify} messages.
 			 * @param m MsgBeginUnlockingResponse message or plain object to encode
 			 * @param [w] Writer to encode to
 			 * @returns Writer
 			 */
-			public static encode(m: osmosis.lockup.IMsgBeginUnlockingResponse, w?: $protobuf.Writer): $protobuf.Writer;
+			public static encode(m: rebus.lockup.IMsgBeginUnlockingResponse, w?: $protobuf.Writer): $protobuf.Writer;
 
 			/**
 			 * Decodes a MsgBeginUnlockingResponse message from the specified reader or buffer.
@@ -3725,14 +3725,14 @@ export namespace osmosis {
 			 * @throws {Error} If the payload is not a reader or valid buffer
 			 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 			 */
-			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.lockup.MsgBeginUnlockingResponse;
+			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.lockup.MsgBeginUnlockingResponse;
 
 			/**
 			 * Creates a MsgBeginUnlockingResponse message from a plain object. Also converts values to their respective internal types.
 			 * @param d Plain object
 			 * @returns MsgBeginUnlockingResponse
 			 */
-			public static fromObject(d: { [k: string]: any }): osmosis.lockup.MsgBeginUnlockingResponse;
+			public static fromObject(d: { [k: string]: any }): rebus.lockup.MsgBeginUnlockingResponse;
 
 			/**
 			 * Creates a plain object from a MsgBeginUnlockingResponse message. Also converts values to other types if specified.
@@ -3741,7 +3741,7 @@ export namespace osmosis {
 			 * @returns Plain object
 			 */
 			public static toObject(
-				m: osmosis.lockup.MsgBeginUnlockingResponse,
+				m: rebus.lockup.MsgBeginUnlockingResponse,
 				o?: $protobuf.IConversionOptions
 			): { [k: string]: any };
 
@@ -3780,8 +3780,8 @@ export namespace osmosis {
 			 * @param callback Node-style callback called with the error, if any, and MsgCreateGaugeResponse
 			 */
 			public createGauge(
-				request: osmosis.incentives.IMsgCreateGauge,
-				callback: osmosis.incentives.Msg.CreateGaugeCallback
+				request: rebus.incentives.IMsgCreateGauge,
+				callback: rebus.incentives.Msg.CreateGaugeCallback
 			): void;
 
 			/**
@@ -3790,8 +3790,8 @@ export namespace osmosis {
 			 * @returns Promise
 			 */
 			public createGauge(
-				request: osmosis.incentives.IMsgCreateGauge
-			): Promise<osmosis.incentives.MsgCreateGaugeResponse>;
+				request: rebus.incentives.IMsgCreateGauge
+			): Promise<rebus.incentives.MsgCreateGaugeResponse>;
 
 			/**
 			 * Calls AddToGauge.
@@ -3799,8 +3799,8 @@ export namespace osmosis {
 			 * @param callback Node-style callback called with the error, if any, and MsgAddToGaugeResponse
 			 */
 			public addToGauge(
-				request: osmosis.incentives.IMsgAddToGauge,
-				callback: osmosis.incentives.Msg.AddToGaugeCallback
+				request: rebus.incentives.IMsgAddToGauge,
+				callback: rebus.incentives.Msg.AddToGaugeCallback
 			): void;
 
 			/**
@@ -3808,23 +3808,23 @@ export namespace osmosis {
 			 * @param request MsgAddToGauge message or plain object
 			 * @returns Promise
 			 */
-			public addToGauge(request: osmosis.incentives.IMsgAddToGauge): Promise<osmosis.incentives.MsgAddToGaugeResponse>;
+			public addToGauge(request: rebus.incentives.IMsgAddToGauge): Promise<rebus.incentives.MsgAddToGaugeResponse>;
 		}
 
 		namespace Msg {
 			/**
-			 * Callback as used by {@link osmosis.incentives.Msg#createGauge}.
+			 * Callback as used by {@link rebus.incentives.Msg#createGauge}.
 			 * @param error Error, if any
 			 * @param [response] MsgCreateGaugeResponse
 			 */
-			type CreateGaugeCallback = (error: Error | null, response?: osmosis.incentives.MsgCreateGaugeResponse) => void;
+			type CreateGaugeCallback = (error: Error | null, response?: rebus.incentives.MsgCreateGaugeResponse) => void;
 
 			/**
-			 * Callback as used by {@link osmosis.incentives.Msg#addToGauge}.
+			 * Callback as used by {@link rebus.incentives.Msg#addToGauge}.
 			 * @param error Error, if any
 			 * @param [response] MsgAddToGaugeResponse
 			 */
-			type AddToGaugeCallback = (error: Error | null, response?: osmosis.incentives.MsgAddToGaugeResponse) => void;
+			type AddToGaugeCallback = (error: Error | null, response?: rebus.incentives.MsgAddToGaugeResponse) => void;
 		}
 
 		/** Properties of a MsgCreateGauge. */
@@ -3836,7 +3836,7 @@ export namespace osmosis {
 			owner?: string | null;
 
 			/** MsgCreateGauge distributeTo */
-			distributeTo?: osmosis.lockup.IQueryCondition | null;
+			distributeTo?: rebus.lockup.IQueryCondition | null;
 
 			/** MsgCreateGauge coins */
 			coins?: cosmos.base.v1beta1.ICoin[] | null;
@@ -3854,7 +3854,7 @@ export namespace osmosis {
 			 * Constructs a new MsgCreateGauge.
 			 * @param [p] Properties to set
 			 */
-			constructor(p?: osmosis.incentives.IMsgCreateGauge);
+			constructor(p?: rebus.incentives.IMsgCreateGauge);
 
 			/** MsgCreateGauge isPerpetual. */
 			public isPerpetual: boolean;
@@ -3863,7 +3863,7 @@ export namespace osmosis {
 			public owner: string;
 
 			/** MsgCreateGauge distributeTo. */
-			public distributeTo?: osmosis.lockup.IQueryCondition | null;
+			public distributeTo?: rebus.lockup.IQueryCondition | null;
 
 			/** MsgCreateGauge coins. */
 			public coins: cosmos.base.v1beta1.ICoin[];
@@ -3879,15 +3879,15 @@ export namespace osmosis {
 			 * @param [properties] Properties to set
 			 * @returns MsgCreateGauge instance
 			 */
-			public static create(properties?: osmosis.incentives.IMsgCreateGauge): osmosis.incentives.MsgCreateGauge;
+			public static create(properties?: rebus.incentives.IMsgCreateGauge): rebus.incentives.MsgCreateGauge;
 
 			/**
-			 * Encodes the specified MsgCreateGauge message. Does not implicitly {@link osmosis.incentives.MsgCreateGauge.verify|verify} messages.
+			 * Encodes the specified MsgCreateGauge message. Does not implicitly {@link rebus.incentives.MsgCreateGauge.verify|verify} messages.
 			 * @param m MsgCreateGauge message or plain object to encode
 			 * @param [w] Writer to encode to
 			 * @returns Writer
 			 */
-			public static encode(m: osmosis.incentives.IMsgCreateGauge, w?: $protobuf.Writer): $protobuf.Writer;
+			public static encode(m: rebus.incentives.IMsgCreateGauge, w?: $protobuf.Writer): $protobuf.Writer;
 
 			/**
 			 * Decodes a MsgCreateGauge message from the specified reader or buffer.
@@ -3897,14 +3897,14 @@ export namespace osmosis {
 			 * @throws {Error} If the payload is not a reader or valid buffer
 			 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 			 */
-			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.incentives.MsgCreateGauge;
+			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.incentives.MsgCreateGauge;
 
 			/**
 			 * Creates a MsgCreateGauge message from a plain object. Also converts values to their respective internal types.
 			 * @param d Plain object
 			 * @returns MsgCreateGauge
 			 */
-			public static fromObject(d: { [k: string]: any }): osmosis.incentives.MsgCreateGauge;
+			public static fromObject(d: { [k: string]: any }): rebus.incentives.MsgCreateGauge;
 
 			/**
 			 * Creates a plain object from a MsgCreateGauge message. Also converts values to other types if specified.
@@ -3913,7 +3913,7 @@ export namespace osmosis {
 			 * @returns Plain object
 			 */
 			public static toObject(
-				m: osmosis.incentives.MsgCreateGauge,
+				m: rebus.incentives.MsgCreateGauge,
 				o?: $protobuf.IConversionOptions
 			): { [k: string]: any };
 
@@ -3933,7 +3933,7 @@ export namespace osmosis {
 			 * Constructs a new MsgCreateGaugeResponse.
 			 * @param [p] Properties to set
 			 */
-			constructor(p?: osmosis.incentives.IMsgCreateGaugeResponse);
+			constructor(p?: rebus.incentives.IMsgCreateGaugeResponse);
 
 			/**
 			 * Creates a new MsgCreateGaugeResponse instance using the specified properties.
@@ -3941,16 +3941,16 @@ export namespace osmosis {
 			 * @returns MsgCreateGaugeResponse instance
 			 */
 			public static create(
-				properties?: osmosis.incentives.IMsgCreateGaugeResponse
-			): osmosis.incentives.MsgCreateGaugeResponse;
+				properties?: rebus.incentives.IMsgCreateGaugeResponse
+			): rebus.incentives.MsgCreateGaugeResponse;
 
 			/**
-			 * Encodes the specified MsgCreateGaugeResponse message. Does not implicitly {@link osmosis.incentives.MsgCreateGaugeResponse.verify|verify} messages.
+			 * Encodes the specified MsgCreateGaugeResponse message. Does not implicitly {@link rebus.incentives.MsgCreateGaugeResponse.verify|verify} messages.
 			 * @param m MsgCreateGaugeResponse message or plain object to encode
 			 * @param [w] Writer to encode to
 			 * @returns Writer
 			 */
-			public static encode(m: osmosis.incentives.IMsgCreateGaugeResponse, w?: $protobuf.Writer): $protobuf.Writer;
+			public static encode(m: rebus.incentives.IMsgCreateGaugeResponse, w?: $protobuf.Writer): $protobuf.Writer;
 
 			/**
 			 * Decodes a MsgCreateGaugeResponse message from the specified reader or buffer.
@@ -3960,14 +3960,14 @@ export namespace osmosis {
 			 * @throws {Error} If the payload is not a reader or valid buffer
 			 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 			 */
-			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.incentives.MsgCreateGaugeResponse;
+			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.incentives.MsgCreateGaugeResponse;
 
 			/**
 			 * Creates a MsgCreateGaugeResponse message from a plain object. Also converts values to their respective internal types.
 			 * @param d Plain object
 			 * @returns MsgCreateGaugeResponse
 			 */
-			public static fromObject(d: { [k: string]: any }): osmosis.incentives.MsgCreateGaugeResponse;
+			public static fromObject(d: { [k: string]: any }): rebus.incentives.MsgCreateGaugeResponse;
 
 			/**
 			 * Creates a plain object from a MsgCreateGaugeResponse message. Also converts values to other types if specified.
@@ -3976,7 +3976,7 @@ export namespace osmosis {
 			 * @returns Plain object
 			 */
 			public static toObject(
-				m: osmosis.incentives.MsgCreateGaugeResponse,
+				m: rebus.incentives.MsgCreateGaugeResponse,
 				o?: $protobuf.IConversionOptions
 			): { [k: string]: any };
 
@@ -4005,7 +4005,7 @@ export namespace osmosis {
 			 * Constructs a new MsgAddToGauge.
 			 * @param [p] Properties to set
 			 */
-			constructor(p?: osmosis.incentives.IMsgAddToGauge);
+			constructor(p?: rebus.incentives.IMsgAddToGauge);
 
 			/** MsgAddToGauge owner. */
 			public owner: string;
@@ -4021,15 +4021,15 @@ export namespace osmosis {
 			 * @param [properties] Properties to set
 			 * @returns MsgAddToGauge instance
 			 */
-			public static create(properties?: osmosis.incentives.IMsgAddToGauge): osmosis.incentives.MsgAddToGauge;
+			public static create(properties?: rebus.incentives.IMsgAddToGauge): rebus.incentives.MsgAddToGauge;
 
 			/**
-			 * Encodes the specified MsgAddToGauge message. Does not implicitly {@link osmosis.incentives.MsgAddToGauge.verify|verify} messages.
+			 * Encodes the specified MsgAddToGauge message. Does not implicitly {@link rebus.incentives.MsgAddToGauge.verify|verify} messages.
 			 * @param m MsgAddToGauge message or plain object to encode
 			 * @param [w] Writer to encode to
 			 * @returns Writer
 			 */
-			public static encode(m: osmosis.incentives.IMsgAddToGauge, w?: $protobuf.Writer): $protobuf.Writer;
+			public static encode(m: rebus.incentives.IMsgAddToGauge, w?: $protobuf.Writer): $protobuf.Writer;
 
 			/**
 			 * Decodes a MsgAddToGauge message from the specified reader or buffer.
@@ -4039,14 +4039,14 @@ export namespace osmosis {
 			 * @throws {Error} If the payload is not a reader or valid buffer
 			 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 			 */
-			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.incentives.MsgAddToGauge;
+			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.incentives.MsgAddToGauge;
 
 			/**
 			 * Creates a MsgAddToGauge message from a plain object. Also converts values to their respective internal types.
 			 * @param d Plain object
 			 * @returns MsgAddToGauge
 			 */
-			public static fromObject(d: { [k: string]: any }): osmosis.incentives.MsgAddToGauge;
+			public static fromObject(d: { [k: string]: any }): rebus.incentives.MsgAddToGauge;
 
 			/**
 			 * Creates a plain object from a MsgAddToGauge message. Also converts values to other types if specified.
@@ -4055,7 +4055,7 @@ export namespace osmosis {
 			 * @returns Plain object
 			 */
 			public static toObject(
-				m: osmosis.incentives.MsgAddToGauge,
+				m: rebus.incentives.MsgAddToGauge,
 				o?: $protobuf.IConversionOptions
 			): { [k: string]: any };
 
@@ -4075,7 +4075,7 @@ export namespace osmosis {
 			 * Constructs a new MsgAddToGaugeResponse.
 			 * @param [p] Properties to set
 			 */
-			constructor(p?: osmosis.incentives.IMsgAddToGaugeResponse);
+			constructor(p?: rebus.incentives.IMsgAddToGaugeResponse);
 
 			/**
 			 * Creates a new MsgAddToGaugeResponse instance using the specified properties.
@@ -4083,16 +4083,16 @@ export namespace osmosis {
 			 * @returns MsgAddToGaugeResponse instance
 			 */
 			public static create(
-				properties?: osmosis.incentives.IMsgAddToGaugeResponse
-			): osmosis.incentives.MsgAddToGaugeResponse;
+				properties?: rebus.incentives.IMsgAddToGaugeResponse
+			): rebus.incentives.MsgAddToGaugeResponse;
 
 			/**
-			 * Encodes the specified MsgAddToGaugeResponse message. Does not implicitly {@link osmosis.incentives.MsgAddToGaugeResponse.verify|verify} messages.
+			 * Encodes the specified MsgAddToGaugeResponse message. Does not implicitly {@link rebus.incentives.MsgAddToGaugeResponse.verify|verify} messages.
 			 * @param m MsgAddToGaugeResponse message or plain object to encode
 			 * @param [w] Writer to encode to
 			 * @returns Writer
 			 */
-			public static encode(m: osmosis.incentives.IMsgAddToGaugeResponse, w?: $protobuf.Writer): $protobuf.Writer;
+			public static encode(m: rebus.incentives.IMsgAddToGaugeResponse, w?: $protobuf.Writer): $protobuf.Writer;
 
 			/**
 			 * Decodes a MsgAddToGaugeResponse message from the specified reader or buffer.
@@ -4102,14 +4102,14 @@ export namespace osmosis {
 			 * @throws {Error} If the payload is not a reader or valid buffer
 			 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 			 */
-			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.incentives.MsgAddToGaugeResponse;
+			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.incentives.MsgAddToGaugeResponse;
 
 			/**
 			 * Creates a MsgAddToGaugeResponse message from a plain object. Also converts values to their respective internal types.
 			 * @param d Plain object
 			 * @returns MsgAddToGaugeResponse
 			 */
-			public static fromObject(d: { [k: string]: any }): osmosis.incentives.MsgAddToGaugeResponse;
+			public static fromObject(d: { [k: string]: any }): rebus.incentives.MsgAddToGaugeResponse;
 
 			/**
 			 * Creates a plain object from a MsgAddToGaugeResponse message. Also converts values to other types if specified.
@@ -4118,7 +4118,7 @@ export namespace osmosis {
 			 * @returns Plain object
 			 */
 			public static toObject(
-				m: osmosis.incentives.MsgAddToGaugeResponse,
+				m: rebus.incentives.MsgAddToGaugeResponse,
 				o?: $protobuf.IConversionOptions
 			): { [k: string]: any };
 
@@ -4157,8 +4157,8 @@ export namespace osmosis {
 			 * @param callback Node-style callback called with the error, if any, and MsgSuperfluidDelegateResponse
 			 */
 			public superfluidDelegate(
-				request: osmosis.superfluid.IMsgSuperfluidDelegate,
-				callback: osmosis.superfluid.Msg.SuperfluidDelegateCallback
+				request: rebus.superfluid.IMsgSuperfluidDelegate,
+				callback: rebus.superfluid.Msg.SuperfluidDelegateCallback
 			): void;
 
 			/**
@@ -4167,8 +4167,8 @@ export namespace osmosis {
 			 * @returns Promise
 			 */
 			public superfluidDelegate(
-				request: osmosis.superfluid.IMsgSuperfluidDelegate
-			): Promise<osmosis.superfluid.MsgSuperfluidDelegateResponse>;
+				request: rebus.superfluid.IMsgSuperfluidDelegate
+			): Promise<rebus.superfluid.MsgSuperfluidDelegateResponse>;
 
 			/**
 			 * Calls SuperfluidUndelegate.
@@ -4176,8 +4176,8 @@ export namespace osmosis {
 			 * @param callback Node-style callback called with the error, if any, and MsgSuperfluidUndelegateResponse
 			 */
 			public superfluidUndelegate(
-				request: osmosis.superfluid.IMsgSuperfluidUndelegate,
-				callback: osmosis.superfluid.Msg.SuperfluidUndelegateCallback
+				request: rebus.superfluid.IMsgSuperfluidUndelegate,
+				callback: rebus.superfluid.Msg.SuperfluidUndelegateCallback
 			): void;
 
 			/**
@@ -4186,8 +4186,8 @@ export namespace osmosis {
 			 * @returns Promise
 			 */
 			public superfluidUndelegate(
-				request: osmosis.superfluid.IMsgSuperfluidUndelegate
-			): Promise<osmosis.superfluid.MsgSuperfluidUndelegateResponse>;
+				request: rebus.superfluid.IMsgSuperfluidUndelegate
+			): Promise<rebus.superfluid.MsgSuperfluidUndelegateResponse>;
 
 			/**
 			 * Calls SuperfluidUnbondLock.
@@ -4195,8 +4195,8 @@ export namespace osmosis {
 			 * @param callback Node-style callback called with the error, if any, and MsgSuperfluidUnbondLockResponse
 			 */
 			public superfluidUnbondLock(
-				request: osmosis.superfluid.IMsgSuperfluidUnbondLock,
-				callback: osmosis.superfluid.Msg.SuperfluidUnbondLockCallback
+				request: rebus.superfluid.IMsgSuperfluidUnbondLock,
+				callback: rebus.superfluid.Msg.SuperfluidUnbondLockCallback
 			): void;
 
 			/**
@@ -4205,8 +4205,8 @@ export namespace osmosis {
 			 * @returns Promise
 			 */
 			public superfluidUnbondLock(
-				request: osmosis.superfluid.IMsgSuperfluidUnbondLock
-			): Promise<osmosis.superfluid.MsgSuperfluidUnbondLockResponse>;
+				request: rebus.superfluid.IMsgSuperfluidUnbondLock
+			): Promise<rebus.superfluid.MsgSuperfluidUnbondLockResponse>;
 
 			/**
 			 * Calls LockAndSuperfluidDelegate.
@@ -4214,8 +4214,8 @@ export namespace osmosis {
 			 * @param callback Node-style callback called with the error, if any, and MsgLockAndSuperfluidDelegateResponse
 			 */
 			public lockAndSuperfluidDelegate(
-				request: osmosis.superfluid.IMsgLockAndSuperfluidDelegate,
-				callback: osmosis.superfluid.Msg.LockAndSuperfluidDelegateCallback
+				request: rebus.superfluid.IMsgLockAndSuperfluidDelegate,
+				callback: rebus.superfluid.Msg.LockAndSuperfluidDelegateCallback
 			): void;
 
 			/**
@@ -4224,49 +4224,49 @@ export namespace osmosis {
 			 * @returns Promise
 			 */
 			public lockAndSuperfluidDelegate(
-				request: osmosis.superfluid.IMsgLockAndSuperfluidDelegate
-			): Promise<osmosis.superfluid.MsgLockAndSuperfluidDelegateResponse>;
+				request: rebus.superfluid.IMsgLockAndSuperfluidDelegate
+			): Promise<rebus.superfluid.MsgLockAndSuperfluidDelegateResponse>;
 		}
 
 		namespace Msg {
 			/**
-			 * Callback as used by {@link osmosis.superfluid.Msg#superfluidDelegate}.
+			 * Callback as used by {@link rebus.superfluid.Msg#superfluidDelegate}.
 			 * @param error Error, if any
 			 * @param [response] MsgSuperfluidDelegateResponse
 			 */
 			type SuperfluidDelegateCallback = (
 				error: Error | null,
-				response?: osmosis.superfluid.MsgSuperfluidDelegateResponse
+				response?: rebus.superfluid.MsgSuperfluidDelegateResponse
 			) => void;
 
 			/**
-			 * Callback as used by {@link osmosis.superfluid.Msg#superfluidUndelegate}.
+			 * Callback as used by {@link rebus.superfluid.Msg#superfluidUndelegate}.
 			 * @param error Error, if any
 			 * @param [response] MsgSuperfluidUndelegateResponse
 			 */
 			type SuperfluidUndelegateCallback = (
 				error: Error | null,
-				response?: osmosis.superfluid.MsgSuperfluidUndelegateResponse
+				response?: rebus.superfluid.MsgSuperfluidUndelegateResponse
 			) => void;
 
 			/**
-			 * Callback as used by {@link osmosis.superfluid.Msg#superfluidUnbondLock}.
+			 * Callback as used by {@link rebus.superfluid.Msg#superfluidUnbondLock}.
 			 * @param error Error, if any
 			 * @param [response] MsgSuperfluidUnbondLockResponse
 			 */
 			type SuperfluidUnbondLockCallback = (
 				error: Error | null,
-				response?: osmosis.superfluid.MsgSuperfluidUnbondLockResponse
+				response?: rebus.superfluid.MsgSuperfluidUnbondLockResponse
 			) => void;
 
 			/**
-			 * Callback as used by {@link osmosis.superfluid.Msg#lockAndSuperfluidDelegate}.
+			 * Callback as used by {@link rebus.superfluid.Msg#lockAndSuperfluidDelegate}.
 			 * @param error Error, if any
 			 * @param [response] MsgLockAndSuperfluidDelegateResponse
 			 */
 			type LockAndSuperfluidDelegateCallback = (
 				error: Error | null,
-				response?: osmosis.superfluid.MsgLockAndSuperfluidDelegateResponse
+				response?: rebus.superfluid.MsgLockAndSuperfluidDelegateResponse
 			) => void;
 		}
 
@@ -4288,7 +4288,7 @@ export namespace osmosis {
 			 * Constructs a new MsgSuperfluidDelegate.
 			 * @param [p] Properties to set
 			 */
-			constructor(p?: osmosis.superfluid.IMsgSuperfluidDelegate);
+			constructor(p?: rebus.superfluid.IMsgSuperfluidDelegate);
 
 			/** MsgSuperfluidDelegate sender. */
 			public sender: string;
@@ -4305,16 +4305,16 @@ export namespace osmosis {
 			 * @returns MsgSuperfluidDelegate instance
 			 */
 			public static create(
-				properties?: osmosis.superfluid.IMsgSuperfluidDelegate
-			): osmosis.superfluid.MsgSuperfluidDelegate;
+				properties?: rebus.superfluid.IMsgSuperfluidDelegate
+			): rebus.superfluid.MsgSuperfluidDelegate;
 
 			/**
-			 * Encodes the specified MsgSuperfluidDelegate message. Does not implicitly {@link osmosis.superfluid.MsgSuperfluidDelegate.verify|verify} messages.
+			 * Encodes the specified MsgSuperfluidDelegate message. Does not implicitly {@link rebus.superfluid.MsgSuperfluidDelegate.verify|verify} messages.
 			 * @param m MsgSuperfluidDelegate message or plain object to encode
 			 * @param [w] Writer to encode to
 			 * @returns Writer
 			 */
-			public static encode(m: osmosis.superfluid.IMsgSuperfluidDelegate, w?: $protobuf.Writer): $protobuf.Writer;
+			public static encode(m: rebus.superfluid.IMsgSuperfluidDelegate, w?: $protobuf.Writer): $protobuf.Writer;
 
 			/**
 			 * Decodes a MsgSuperfluidDelegate message from the specified reader or buffer.
@@ -4324,14 +4324,14 @@ export namespace osmosis {
 			 * @throws {Error} If the payload is not a reader or valid buffer
 			 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 			 */
-			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.superfluid.MsgSuperfluidDelegate;
+			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.superfluid.MsgSuperfluidDelegate;
 
 			/**
 			 * Creates a MsgSuperfluidDelegate message from a plain object. Also converts values to their respective internal types.
 			 * @param d Plain object
 			 * @returns MsgSuperfluidDelegate
 			 */
-			public static fromObject(d: { [k: string]: any }): osmosis.superfluid.MsgSuperfluidDelegate;
+			public static fromObject(d: { [k: string]: any }): rebus.superfluid.MsgSuperfluidDelegate;
 
 			/**
 			 * Creates a plain object from a MsgSuperfluidDelegate message. Also converts values to other types if specified.
@@ -4340,7 +4340,7 @@ export namespace osmosis {
 			 * @returns Plain object
 			 */
 			public static toObject(
-				m: osmosis.superfluid.MsgSuperfluidDelegate,
+				m: rebus.superfluid.MsgSuperfluidDelegate,
 				o?: $protobuf.IConversionOptions
 			): { [k: string]: any };
 
@@ -4360,7 +4360,7 @@ export namespace osmosis {
 			 * Constructs a new MsgSuperfluidDelegateResponse.
 			 * @param [p] Properties to set
 			 */
-			constructor(p?: osmosis.superfluid.IMsgSuperfluidDelegateResponse);
+			constructor(p?: rebus.superfluid.IMsgSuperfluidDelegateResponse);
 
 			/**
 			 * Creates a new MsgSuperfluidDelegateResponse instance using the specified properties.
@@ -4368,17 +4368,17 @@ export namespace osmosis {
 			 * @returns MsgSuperfluidDelegateResponse instance
 			 */
 			public static create(
-				properties?: osmosis.superfluid.IMsgSuperfluidDelegateResponse
-			): osmosis.superfluid.MsgSuperfluidDelegateResponse;
+				properties?: rebus.superfluid.IMsgSuperfluidDelegateResponse
+			): rebus.superfluid.MsgSuperfluidDelegateResponse;
 
 			/**
-			 * Encodes the specified MsgSuperfluidDelegateResponse message. Does not implicitly {@link osmosis.superfluid.MsgSuperfluidDelegateResponse.verify|verify} messages.
+			 * Encodes the specified MsgSuperfluidDelegateResponse message. Does not implicitly {@link rebus.superfluid.MsgSuperfluidDelegateResponse.verify|verify} messages.
 			 * @param m MsgSuperfluidDelegateResponse message or plain object to encode
 			 * @param [w] Writer to encode to
 			 * @returns Writer
 			 */
 			public static encode(
-				m: osmosis.superfluid.IMsgSuperfluidDelegateResponse,
+				m: rebus.superfluid.IMsgSuperfluidDelegateResponse,
 				w?: $protobuf.Writer
 			): $protobuf.Writer;
 
@@ -4393,14 +4393,14 @@ export namespace osmosis {
 			public static decode(
 				r: $protobuf.Reader | Uint8Array,
 				l?: number
-			): osmosis.superfluid.MsgSuperfluidDelegateResponse;
+			): rebus.superfluid.MsgSuperfluidDelegateResponse;
 
 			/**
 			 * Creates a MsgSuperfluidDelegateResponse message from a plain object. Also converts values to their respective internal types.
 			 * @param d Plain object
 			 * @returns MsgSuperfluidDelegateResponse
 			 */
-			public static fromObject(d: { [k: string]: any }): osmosis.superfluid.MsgSuperfluidDelegateResponse;
+			public static fromObject(d: { [k: string]: any }): rebus.superfluid.MsgSuperfluidDelegateResponse;
 
 			/**
 			 * Creates a plain object from a MsgSuperfluidDelegateResponse message. Also converts values to other types if specified.
@@ -4409,7 +4409,7 @@ export namespace osmosis {
 			 * @returns Plain object
 			 */
 			public static toObject(
-				m: osmosis.superfluid.MsgSuperfluidDelegateResponse,
+				m: rebus.superfluid.MsgSuperfluidDelegateResponse,
 				o?: $protobuf.IConversionOptions
 			): { [k: string]: any };
 
@@ -4435,7 +4435,7 @@ export namespace osmosis {
 			 * Constructs a new MsgSuperfluidUndelegate.
 			 * @param [p] Properties to set
 			 */
-			constructor(p?: osmosis.superfluid.IMsgSuperfluidUndelegate);
+			constructor(p?: rebus.superfluid.IMsgSuperfluidUndelegate);
 
 			/** MsgSuperfluidUndelegate sender. */
 			public sender: string;
@@ -4449,16 +4449,16 @@ export namespace osmosis {
 			 * @returns MsgSuperfluidUndelegate instance
 			 */
 			public static create(
-				properties?: osmosis.superfluid.IMsgSuperfluidUndelegate
-			): osmosis.superfluid.MsgSuperfluidUndelegate;
+				properties?: rebus.superfluid.IMsgSuperfluidUndelegate
+			): rebus.superfluid.MsgSuperfluidUndelegate;
 
 			/**
-			 * Encodes the specified MsgSuperfluidUndelegate message. Does not implicitly {@link osmosis.superfluid.MsgSuperfluidUndelegate.verify|verify} messages.
+			 * Encodes the specified MsgSuperfluidUndelegate message. Does not implicitly {@link rebus.superfluid.MsgSuperfluidUndelegate.verify|verify} messages.
 			 * @param m MsgSuperfluidUndelegate message or plain object to encode
 			 * @param [w] Writer to encode to
 			 * @returns Writer
 			 */
-			public static encode(m: osmosis.superfluid.IMsgSuperfluidUndelegate, w?: $protobuf.Writer): $protobuf.Writer;
+			public static encode(m: rebus.superfluid.IMsgSuperfluidUndelegate, w?: $protobuf.Writer): $protobuf.Writer;
 
 			/**
 			 * Decodes a MsgSuperfluidUndelegate message from the specified reader or buffer.
@@ -4468,14 +4468,14 @@ export namespace osmosis {
 			 * @throws {Error} If the payload is not a reader or valid buffer
 			 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 			 */
-			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.superfluid.MsgSuperfluidUndelegate;
+			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.superfluid.MsgSuperfluidUndelegate;
 
 			/**
 			 * Creates a MsgSuperfluidUndelegate message from a plain object. Also converts values to their respective internal types.
 			 * @param d Plain object
 			 * @returns MsgSuperfluidUndelegate
 			 */
-			public static fromObject(d: { [k: string]: any }): osmosis.superfluid.MsgSuperfluidUndelegate;
+			public static fromObject(d: { [k: string]: any }): rebus.superfluid.MsgSuperfluidUndelegate;
 
 			/**
 			 * Creates a plain object from a MsgSuperfluidUndelegate message. Also converts values to other types if specified.
@@ -4484,7 +4484,7 @@ export namespace osmosis {
 			 * @returns Plain object
 			 */
 			public static toObject(
-				m: osmosis.superfluid.MsgSuperfluidUndelegate,
+				m: rebus.superfluid.MsgSuperfluidUndelegate,
 				o?: $protobuf.IConversionOptions
 			): { [k: string]: any };
 
@@ -4504,7 +4504,7 @@ export namespace osmosis {
 			 * Constructs a new MsgSuperfluidUndelegateResponse.
 			 * @param [p] Properties to set
 			 */
-			constructor(p?: osmosis.superfluid.IMsgSuperfluidUndelegateResponse);
+			constructor(p?: rebus.superfluid.IMsgSuperfluidUndelegateResponse);
 
 			/**
 			 * Creates a new MsgSuperfluidUndelegateResponse instance using the specified properties.
@@ -4512,17 +4512,17 @@ export namespace osmosis {
 			 * @returns MsgSuperfluidUndelegateResponse instance
 			 */
 			public static create(
-				properties?: osmosis.superfluid.IMsgSuperfluidUndelegateResponse
-			): osmosis.superfluid.MsgSuperfluidUndelegateResponse;
+				properties?: rebus.superfluid.IMsgSuperfluidUndelegateResponse
+			): rebus.superfluid.MsgSuperfluidUndelegateResponse;
 
 			/**
-			 * Encodes the specified MsgSuperfluidUndelegateResponse message. Does not implicitly {@link osmosis.superfluid.MsgSuperfluidUndelegateResponse.verify|verify} messages.
+			 * Encodes the specified MsgSuperfluidUndelegateResponse message. Does not implicitly {@link rebus.superfluid.MsgSuperfluidUndelegateResponse.verify|verify} messages.
 			 * @param m MsgSuperfluidUndelegateResponse message or plain object to encode
 			 * @param [w] Writer to encode to
 			 * @returns Writer
 			 */
 			public static encode(
-				m: osmosis.superfluid.IMsgSuperfluidUndelegateResponse,
+				m: rebus.superfluid.IMsgSuperfluidUndelegateResponse,
 				w?: $protobuf.Writer
 			): $protobuf.Writer;
 
@@ -4537,14 +4537,14 @@ export namespace osmosis {
 			public static decode(
 				r: $protobuf.Reader | Uint8Array,
 				l?: number
-			): osmosis.superfluid.MsgSuperfluidUndelegateResponse;
+			): rebus.superfluid.MsgSuperfluidUndelegateResponse;
 
 			/**
 			 * Creates a MsgSuperfluidUndelegateResponse message from a plain object. Also converts values to their respective internal types.
 			 * @param d Plain object
 			 * @returns MsgSuperfluidUndelegateResponse
 			 */
-			public static fromObject(d: { [k: string]: any }): osmosis.superfluid.MsgSuperfluidUndelegateResponse;
+			public static fromObject(d: { [k: string]: any }): rebus.superfluid.MsgSuperfluidUndelegateResponse;
 
 			/**
 			 * Creates a plain object from a MsgSuperfluidUndelegateResponse message. Also converts values to other types if specified.
@@ -4553,7 +4553,7 @@ export namespace osmosis {
 			 * @returns Plain object
 			 */
 			public static toObject(
-				m: osmosis.superfluid.MsgSuperfluidUndelegateResponse,
+				m: rebus.superfluid.MsgSuperfluidUndelegateResponse,
 				o?: $protobuf.IConversionOptions
 			): { [k: string]: any };
 
@@ -4579,7 +4579,7 @@ export namespace osmosis {
 			 * Constructs a new MsgSuperfluidUnbondLock.
 			 * @param [p] Properties to set
 			 */
-			constructor(p?: osmosis.superfluid.IMsgSuperfluidUnbondLock);
+			constructor(p?: rebus.superfluid.IMsgSuperfluidUnbondLock);
 
 			/** MsgSuperfluidUnbondLock sender. */
 			public sender: string;
@@ -4593,16 +4593,16 @@ export namespace osmosis {
 			 * @returns MsgSuperfluidUnbondLock instance
 			 */
 			public static create(
-				properties?: osmosis.superfluid.IMsgSuperfluidUnbondLock
-			): osmosis.superfluid.MsgSuperfluidUnbondLock;
+				properties?: rebus.superfluid.IMsgSuperfluidUnbondLock
+			): rebus.superfluid.MsgSuperfluidUnbondLock;
 
 			/**
-			 * Encodes the specified MsgSuperfluidUnbondLock message. Does not implicitly {@link osmosis.superfluid.MsgSuperfluidUnbondLock.verify|verify} messages.
+			 * Encodes the specified MsgSuperfluidUnbondLock message. Does not implicitly {@link rebus.superfluid.MsgSuperfluidUnbondLock.verify|verify} messages.
 			 * @param m MsgSuperfluidUnbondLock message or plain object to encode
 			 * @param [w] Writer to encode to
 			 * @returns Writer
 			 */
-			public static encode(m: osmosis.superfluid.IMsgSuperfluidUnbondLock, w?: $protobuf.Writer): $protobuf.Writer;
+			public static encode(m: rebus.superfluid.IMsgSuperfluidUnbondLock, w?: $protobuf.Writer): $protobuf.Writer;
 
 			/**
 			 * Decodes a MsgSuperfluidUnbondLock message from the specified reader or buffer.
@@ -4612,14 +4612,14 @@ export namespace osmosis {
 			 * @throws {Error} If the payload is not a reader or valid buffer
 			 * @throws {$protobuf.util.ProtocolError} If required fields are missing
 			 */
-			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): osmosis.superfluid.MsgSuperfluidUnbondLock;
+			public static decode(r: $protobuf.Reader | Uint8Array, l?: number): rebus.superfluid.MsgSuperfluidUnbondLock;
 
 			/**
 			 * Creates a MsgSuperfluidUnbondLock message from a plain object. Also converts values to their respective internal types.
 			 * @param d Plain object
 			 * @returns MsgSuperfluidUnbondLock
 			 */
-			public static fromObject(d: { [k: string]: any }): osmosis.superfluid.MsgSuperfluidUnbondLock;
+			public static fromObject(d: { [k: string]: any }): rebus.superfluid.MsgSuperfluidUnbondLock;
 
 			/**
 			 * Creates a plain object from a MsgSuperfluidUnbondLock message. Also converts values to other types if specified.
@@ -4628,7 +4628,7 @@ export namespace osmosis {
 			 * @returns Plain object
 			 */
 			public static toObject(
-				m: osmosis.superfluid.MsgSuperfluidUnbondLock,
+				m: rebus.superfluid.MsgSuperfluidUnbondLock,
 				o?: $protobuf.IConversionOptions
 			): { [k: string]: any };
 
@@ -4648,7 +4648,7 @@ export namespace osmosis {
 			 * Constructs a new MsgSuperfluidUnbondLockResponse.
 			 * @param [p] Properties to set
 			 */
-			constructor(p?: osmosis.superfluid.IMsgSuperfluidUnbondLockResponse);
+			constructor(p?: rebus.superfluid.IMsgSuperfluidUnbondLockResponse);
 
 			/**
 			 * Creates a new MsgSuperfluidUnbondLockResponse instance using the specified properties.
@@ -4656,17 +4656,17 @@ export namespace osmosis {
 			 * @returns MsgSuperfluidUnbondLockResponse instance
 			 */
 			public static create(
-				properties?: osmosis.superfluid.IMsgSuperfluidUnbondLockResponse
-			): osmosis.superfluid.MsgSuperfluidUnbondLockResponse;
+				properties?: rebus.superfluid.IMsgSuperfluidUnbondLockResponse
+			): rebus.superfluid.MsgSuperfluidUnbondLockResponse;
 
 			/**
-			 * Encodes the specified MsgSuperfluidUnbondLockResponse message. Does not implicitly {@link osmosis.superfluid.MsgSuperfluidUnbondLockResponse.verify|verify} messages.
+			 * Encodes the specified MsgSuperfluidUnbondLockResponse message. Does not implicitly {@link rebus.superfluid.MsgSuperfluidUnbondLockResponse.verify|verify} messages.
 			 * @param m MsgSuperfluidUnbondLockResponse message or plain object to encode
 			 * @param [w] Writer to encode to
 			 * @returns Writer
 			 */
 			public static encode(
-				m: osmosis.superfluid.IMsgSuperfluidUnbondLockResponse,
+				m: rebus.superfluid.IMsgSuperfluidUnbondLockResponse,
 				w?: $protobuf.Writer
 			): $protobuf.Writer;
 
@@ -4681,14 +4681,14 @@ export namespace osmosis {
 			public static decode(
 				r: $protobuf.Reader | Uint8Array,
 				l?: number
-			): osmosis.superfluid.MsgSuperfluidUnbondLockResponse;
+			): rebus.superfluid.MsgSuperfluidUnbondLockResponse;
 
 			/**
 			 * Creates a MsgSuperfluidUnbondLockResponse message from a plain object. Also converts values to their respective internal types.
 			 * @param d Plain object
 			 * @returns MsgSuperfluidUnbondLockResponse
 			 */
-			public static fromObject(d: { [k: string]: any }): osmosis.superfluid.MsgSuperfluidUnbondLockResponse;
+			public static fromObject(d: { [k: string]: any }): rebus.superfluid.MsgSuperfluidUnbondLockResponse;
 
 			/**
 			 * Creates a plain object from a MsgSuperfluidUnbondLockResponse message. Also converts values to other types if specified.
@@ -4697,7 +4697,7 @@ export namespace osmosis {
 			 * @returns Plain object
 			 */
 			public static toObject(
-				m: osmosis.superfluid.MsgSuperfluidUnbondLockResponse,
+				m: rebus.superfluid.MsgSuperfluidUnbondLockResponse,
 				o?: $protobuf.IConversionOptions
 			): { [k: string]: any };
 
@@ -4726,7 +4726,7 @@ export namespace osmosis {
 			 * Constructs a new MsgLockAndSuperfluidDelegate.
 			 * @param [p] Properties to set
 			 */
-			constructor(p?: osmosis.superfluid.IMsgLockAndSuperfluidDelegate);
+			constructor(p?: rebus.superfluid.IMsgLockAndSuperfluidDelegate);
 
 			/** MsgLockAndSuperfluidDelegate sender. */
 			public sender: string;
@@ -4743,16 +4743,16 @@ export namespace osmosis {
 			 * @returns MsgLockAndSuperfluidDelegate instance
 			 */
 			public static create(
-				properties?: osmosis.superfluid.IMsgLockAndSuperfluidDelegate
-			): osmosis.superfluid.MsgLockAndSuperfluidDelegate;
+				properties?: rebus.superfluid.IMsgLockAndSuperfluidDelegate
+			): rebus.superfluid.MsgLockAndSuperfluidDelegate;
 
 			/**
-			 * Encodes the specified MsgLockAndSuperfluidDelegate message. Does not implicitly {@link osmosis.superfluid.MsgLockAndSuperfluidDelegate.verify|verify} messages.
+			 * Encodes the specified MsgLockAndSuperfluidDelegate message. Does not implicitly {@link rebus.superfluid.MsgLockAndSuperfluidDelegate.verify|verify} messages.
 			 * @param m MsgLockAndSuperfluidDelegate message or plain object to encode
 			 * @param [w] Writer to encode to
 			 * @returns Writer
 			 */
-			public static encode(m: osmosis.superfluid.IMsgLockAndSuperfluidDelegate, w?: $protobuf.Writer): $protobuf.Writer;
+			public static encode(m: rebus.superfluid.IMsgLockAndSuperfluidDelegate, w?: $protobuf.Writer): $protobuf.Writer;
 
 			/**
 			 * Decodes a MsgLockAndSuperfluidDelegate message from the specified reader or buffer.
@@ -4765,14 +4765,14 @@ export namespace osmosis {
 			public static decode(
 				r: $protobuf.Reader | Uint8Array,
 				l?: number
-			): osmosis.superfluid.MsgLockAndSuperfluidDelegate;
+			): rebus.superfluid.MsgLockAndSuperfluidDelegate;
 
 			/**
 			 * Creates a MsgLockAndSuperfluidDelegate message from a plain object. Also converts values to their respective internal types.
 			 * @param d Plain object
 			 * @returns MsgLockAndSuperfluidDelegate
 			 */
-			public static fromObject(d: { [k: string]: any }): osmosis.superfluid.MsgLockAndSuperfluidDelegate;
+			public static fromObject(d: { [k: string]: any }): rebus.superfluid.MsgLockAndSuperfluidDelegate;
 
 			/**
 			 * Creates a plain object from a MsgLockAndSuperfluidDelegate message. Also converts values to other types if specified.
@@ -4781,7 +4781,7 @@ export namespace osmosis {
 			 * @returns Plain object
 			 */
 			public static toObject(
-				m: osmosis.superfluid.MsgLockAndSuperfluidDelegate,
+				m: rebus.superfluid.MsgLockAndSuperfluidDelegate,
 				o?: $protobuf.IConversionOptions
 			): { [k: string]: any };
 
@@ -4804,7 +4804,7 @@ export namespace osmosis {
 			 * Constructs a new MsgLockAndSuperfluidDelegateResponse.
 			 * @param [p] Properties to set
 			 */
-			constructor(p?: osmosis.superfluid.IMsgLockAndSuperfluidDelegateResponse);
+			constructor(p?: rebus.superfluid.IMsgLockAndSuperfluidDelegateResponse);
 
 			/** MsgLockAndSuperfluidDelegateResponse ID. */
 			public ID: Long;
@@ -4815,17 +4815,17 @@ export namespace osmosis {
 			 * @returns MsgLockAndSuperfluidDelegateResponse instance
 			 */
 			public static create(
-				properties?: osmosis.superfluid.IMsgLockAndSuperfluidDelegateResponse
-			): osmosis.superfluid.MsgLockAndSuperfluidDelegateResponse;
+				properties?: rebus.superfluid.IMsgLockAndSuperfluidDelegateResponse
+			): rebus.superfluid.MsgLockAndSuperfluidDelegateResponse;
 
 			/**
-			 * Encodes the specified MsgLockAndSuperfluidDelegateResponse message. Does not implicitly {@link osmosis.superfluid.MsgLockAndSuperfluidDelegateResponse.verify|verify} messages.
+			 * Encodes the specified MsgLockAndSuperfluidDelegateResponse message. Does not implicitly {@link rebus.superfluid.MsgLockAndSuperfluidDelegateResponse.verify|verify} messages.
 			 * @param m MsgLockAndSuperfluidDelegateResponse message or plain object to encode
 			 * @param [w] Writer to encode to
 			 * @returns Writer
 			 */
 			public static encode(
-				m: osmosis.superfluid.IMsgLockAndSuperfluidDelegateResponse,
+				m: rebus.superfluid.IMsgLockAndSuperfluidDelegateResponse,
 				w?: $protobuf.Writer
 			): $protobuf.Writer;
 
@@ -4840,14 +4840,14 @@ export namespace osmosis {
 			public static decode(
 				r: $protobuf.Reader | Uint8Array,
 				l?: number
-			): osmosis.superfluid.MsgLockAndSuperfluidDelegateResponse;
+			): rebus.superfluid.MsgLockAndSuperfluidDelegateResponse;
 
 			/**
 			 * Creates a MsgLockAndSuperfluidDelegateResponse message from a plain object. Also converts values to their respective internal types.
 			 * @param d Plain object
 			 * @returns MsgLockAndSuperfluidDelegateResponse
 			 */
-			public static fromObject(d: { [k: string]: any }): osmosis.superfluid.MsgLockAndSuperfluidDelegateResponse;
+			public static fromObject(d: { [k: string]: any }): rebus.superfluid.MsgLockAndSuperfluidDelegateResponse;
 
 			/**
 			 * Creates a plain object from a MsgLockAndSuperfluidDelegateResponse message. Also converts values to other types if specified.
@@ -4856,7 +4856,7 @@ export namespace osmosis {
 			 * @returns Plain object
 			 */
 			public static toObject(
-				m: osmosis.superfluid.MsgLockAndSuperfluidDelegateResponse,
+				m: rebus.superfluid.MsgLockAndSuperfluidDelegateResponse,
 				o?: $protobuf.IConversionOptions
 			): { [k: string]: any };
 

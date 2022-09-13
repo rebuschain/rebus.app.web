@@ -11,7 +11,7 @@ export const RewardPayoutCountdown = observer(function RewardPayoutCountdown() {
 
 	const queryEpoch = queriesStore
 		.get(chainStore.currentOsmosis.chainId)
-		.osmosis.queryEpochs.getEpoch(RewardEpochIdentifier);
+		.rebus.queryEpochs.getEpoch(RewardEpochIdentifier);
 
 	const [, setRerender] = React.useState(true);
 

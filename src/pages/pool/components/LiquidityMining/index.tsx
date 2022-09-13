@@ -32,13 +32,13 @@ export const LiquidityMining = observer(function LiquidityMining({ poolId, isSup
 	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 
 	const poolTotalValueLocked =
-		queries.osmosis.queryGammPools
+		queries.rebus.queryGammPools
 			.getPool(poolId)
 			?.computeTotalValueLocked(priceStore, priceStore.getFiatCurrency('usd')!) ??
 		new PricePretty(priceStore.getFiatCurrency('usd')!, new Dec(0));
-	const totalPoolShare = queries.osmosis.queryGammPools.getPool(poolId)?.totalShare ?? new IntPretty(new Dec(0));
-	const myPoolShare = queries.osmosis.queryGammPoolShare.getAvailableGammShare(account.bech32Address, poolId);
-	const lockableDurations = queries.osmosis.queryLockableDurations.lockableDurations;
+	const totalPoolShare = queries.rebus.queryGammPools.getPool(poolId)?.totalShare ?? new IntPretty(new Dec(0));
+	const myPoolShare = queries.rebus.queryGammPoolShare.getAvailableGammShare(account.bech32Address, poolId);
+	const lockableDurations = queries.rebus.queryLockableDurations.lockableDurations;
 
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const closeDialog = () => setIsDialogOpen(false);
@@ -131,7 +131,7 @@ export const LiquidityMining = observer(function LiquidityMining({ poolId, isSup
 						return (
 							<LockupBox
 								key={i.toString()}
-								apy={`${queries.osmosis.queryIncentivizedPools
+								apy={`${queries.rebus.queryIncentivizedPools
 									.computeAPY(poolId, lockableDuration, priceStore, priceStore.getFiatCurrency('usd')!)
 									.toString()}%`}
 								duration={lockableDuration.humanize()}
@@ -167,7 +167,7 @@ const LockupBox: FunctionComponent<{
 	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 	const superfluidAPY = isSuperfluidEnabled
 		? queries.cosmos.queryInflation.inflation.mul(
-				queries.osmosis.querySuperfluidOsmoEquivalent.estimatePoolAPROsmoEquivalentMultiplier(poolId)
+				queries.rebus.querySuperfluidOsmoEquivalent.estimatePoolAPROsmoEquivalentMultiplier(poolId)
 		  )
 		: new IntPretty(0);
 

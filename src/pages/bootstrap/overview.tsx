@@ -10,7 +10,7 @@ export const LBPOverview: FunctionComponent<{ title: string; poolIds: string[] }
 
 	const queries = queriesStore.get(chainStore.current.chainId);
 	const pools = poolIds.map(poolId => {
-		return queries.osmosis.queryGammPools.getPool(poolId);
+		return queries.rebus.queryGammPools.getPool(poolId);
 	});
 
 	const activePools = pools.filter(pool => pool?.smoothWeightChangeParams != null);

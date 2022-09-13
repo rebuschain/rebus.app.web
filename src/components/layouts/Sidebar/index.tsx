@@ -9,8 +9,10 @@ import { useHistory, withRouter } from 'react-router-dom';
 import { SidebarBottom } from './SidebarBottom';
 import isArray from 'lodash-es/isArray';
 import useWindowSize from 'src/hooks/useWindowSize';
+import { observer } from 'mobx-react-lite';
+import { useStore } from 'src/stores';
 
-const SideBar: FunctionComponent = () => {
+const SideBar: FunctionComponent = observer(function SideBar() {
 	const history = useHistory();
 	const pathname = history?.location?.pathname;
 
@@ -19,6 +21,10 @@ const SideBar: FunctionComponent = () => {
 	const [isOnTop, setIsOnTop] = React.useState<boolean>(true);
 
 	const { isMobileView } = useWindowSize();
+
+	const { chainStore, queriesStore } = useStore();
+	const queries = queriesStore.get(chainStore.current.chainId);
+	const { claimEnabled } = queries.rebus.queryClaimParams;
 
 	const closeSidebar = () => setIsOpenSidebar(false);
 
@@ -63,6 +69,13 @@ const SideBar: FunctionComponent = () => {
 								</section>
 								<section>
 									{mapKeyValues(LAYOUT.SIDEBAR, (_: string, sidebarItem: TSIDEBAR_ITEM) => sidebarItem)
+										.filter(sidebarItem => {
+											if (sidebarItem.TEXT === 'Airdrop') {
+												return claimEnabled;
+											}
+
+											return true;
+										})
 										/*.filter(sidebarItem => {
 											if (isMobileView && (sidebarItem.TEXT === 'Stake' || sidebarItem.TEXT === 'Vote')) {
 												return false;
@@ -105,7 +118,7 @@ const SideBar: FunctionComponent = () => {
 			</div>
 		</React.Fragment>
 	);
-};
+});
 
 const pathnameCheck = (str: string, routes: TSIDEBAR_SELECTED_CHECK) => {
 	if (isArray(routes)) {

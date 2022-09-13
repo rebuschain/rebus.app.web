@@ -13,17 +13,17 @@ export const SuperfluidStaking: FunctionComponent<{ poolId: string }> = observer
 
 	const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
 	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
-	const poolShareCurrency = queries.osmosis.queryGammPoolShare.getShareCurrency(poolId);
+	const poolShareCurrency = queries.rebus.queryGammPoolShare.getShareCurrency(poolId);
 
-	const lockableDurations = queries.osmosis.queryLockableDurations.lockableDurations;
+	const lockableDurations = queries.rebus.queryLockableDurations.lockableDurations;
 
 	const superfluidAPYWithPoolAPY = useMemo(() => {
 		const superfluidAPY = queries.cosmos.queryInflation.inflation.mul(
-			queries.osmosis.querySuperfluidOsmoEquivalent.estimatePoolAPROsmoEquivalentMultiplier(poolId)
+			queries.rebus.querySuperfluidOsmoEquivalent.estimatePoolAPROsmoEquivalentMultiplier(poolId)
 		);
 
 		if (lockableDurations.length > 0) {
-			const poolAPY = queries.osmosis.queryIncentivizedPools.computeAPY(
+			const poolAPY = queries.rebus.queryIncentivizedPools.computeAPY(
 				poolId,
 				lockableDurations[lockableDurations.length - 1],
 				priceStore,
@@ -39,11 +39,11 @@ export const SuperfluidStaking: FunctionComponent<{ poolId: string }> = observer
 		poolId,
 		priceStore,
 		queries.cosmos.queryInflation.inflation,
-		queries.osmosis.queryIncentivizedPools,
-		queries.osmosis.querySuperfluidOsmoEquivalent,
+		queries.rebus.queryIncentivizedPools,
+		queries.rebus.querySuperfluidOsmoEquivalent,
 	]);
 
-	const superfluidDelegations = queries.osmosis.querySuperfluidDelegations
+	const superfluidDelegations = queries.rebus.querySuperfluidDelegations
 		.getQuerySuperfluidDelegations(account.bech32Address)
 		.getDelegations(poolShareCurrency);
 	const queryActiveValidators = queries.cosmos.queryValidators.getQueryStatus(Staking.BondStatus.Bonded);
@@ -69,7 +69,7 @@ export const SuperfluidStaking: FunctionComponent<{ poolId: string }> = observer
 		  }
 		| undefined = (() => {
 		if (lockableDurations.length > 0) {
-			return queries.osmosis.queryAccountLocked
+			return queries.rebus.queryAccountLocked
 				.get(account.bech32Address)
 				.getLockedCoinWithDuration(poolShareCurrency, lockableDurations[lockableDurations.length - 1]);
 		} else {
@@ -115,7 +115,7 @@ export const SuperfluidStaking: FunctionComponent<{ poolId: string }> = observer
 									<div className="ml-4 md:ml-5 w-full">
 										<div className="flex items-center justify-between text-sm md:text-lg font-semibold leading-6">
 											<span>{validator.description.moniker}</span>
-											<span>{`~${queries.osmosis.querySuperfluidOsmoEquivalent
+											<span>{`~${queries.rebus.querySuperfluidOsmoEquivalent
 												.calculateOsmoEquivalent(totalDelegations)
 												.trim(true)
 												.maxDecimals(3)

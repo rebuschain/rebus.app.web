@@ -36,7 +36,7 @@ const SynthesisItem: FunctionComponent<{
 
 	const queries = queriesStore.get(chainStore.current.chainId);
 
-	const pool = queries.osmosis.queryGammPools.getPool(poolId);
+	const pool = queries.rebus.queryGammPools.getPool(poolId);
 
 	const history = useHistory();
 

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Dec } from '@keplr-wallet/unit';
 import { observer } from 'mobx-react-lite';
-import React, { HTMLAttributes } from 'react';
+import React, { HTMLAttributes, useEffect } from 'react';
 import { SubTitleText, Text, TitleText } from 'src/components/Texts';
 import { colorPrimaryDark, colorWhiteFaint } from 'src/emotionStyles/colors';
 import { useStore } from 'src/stores';
@@ -20,14 +20,17 @@ export const AirdropMissions = observer(function AirdropMissions(props: HTMLAttr
 
 	const queries = queriesStore.get(chainStore.current.chainId);
 	const account = accountStore.getAccount(chainStore.current.chainId);
+	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 
-	const claimRecord = queries.osmosis.queryClaimRecord.get(
-		walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address
-	);
+	const claimRecord = queries.rebus.queryClaimRecord.get(address);
 	const isIneligible = claimRecord
 		.initialClaimableAmountOf(chainStore.current.stakeCurrency.coinMinimalDenom)
 		.toDec()
 		.equals(new Dec(0));
+
+	useEffect(() => {
+		claimRecord.fetch();
+	}, [address, claimRecord]);
 
 	return (
 		<AirdropMissionsContainer {...props}>

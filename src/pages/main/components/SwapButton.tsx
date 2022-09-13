@@ -46,23 +46,23 @@ export const SwapButton = observer(function SwapButton({ config }: Props) {
 
 	const isSwapPoolsFetching =
 		currentSwapPools.find(poolId => {
-			return queries.osmosis.queryGammPools.getObservableQueryPool(poolId).isFetching;
+			return queries.rebus.queryGammPools.getObservableQueryPool(poolId).isFetching;
 		}) != null;
 
 	const { isMobileView } = useWindowSize();
 
 	useEffect(() => {
 		currentSwapPools.forEach(poolId => {
-			const pool = queries.osmosis.queryGammPools.getObservableQueryPool(poolId);
+			const pool = queries.rebus.queryGammPools.getObservableQueryPool(poolId);
 			if (!pool.isFetching) {
 				pool.fetch();
 			}
 		});
-	}, [currentSwapPools, queries.osmosis.queryGammPools]);
+	}, [currentSwapPools, queries.rebus.queryGammPools]);
 
 	useVisibilitychangeVisible(() => {
 		currentSwapPools.forEach(poolId => {
-			const pool = queries.osmosis.queryGammPools.getObservableQueryPool(poolId);
+			const pool = queries.rebus.queryGammPools.getObservableQueryPool(poolId);
 			if (!pool.isFetching) {
 				pool.fetch();
 			}
@@ -92,7 +92,7 @@ export const SwapButton = observer(function SwapButton({ config }: Props) {
 
 			try {
 				if (optimizedRoutes.multihop) {
-					await account.osmosis.sendMultihopSwapExactAmountInMsg(
+					await account.rebus.sendMultihopSwapExactAmountInMsg(
 						optimizedRoutes.swaps.map(route => {
 							return {
 								poolId: route.poolId,
@@ -125,7 +125,7 @@ export const SwapButton = observer(function SwapButton({ config }: Props) {
 				} else {
 					// Currently, optimized routes not supported.
 					// Only return one pool that has lowest spot price.
-					await account.osmosis.sendSwapExactAmountInMsg(
+					await account.rebus.sendSwapExactAmountInMsg(
 						optimizedRoutes.swaps[0].poolId,
 						{
 							currency: config.sendCurrency,

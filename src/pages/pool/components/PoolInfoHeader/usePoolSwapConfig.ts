@@ -5,7 +5,7 @@ import { AppCurrency } from '@keplr-wallet/types';
 import { CoinPretty, Dec, Int, IntPretty } from '@keplr-wallet/unit';
 import { action, computed, makeObservable, observable, override } from 'mobx';
 import { useState } from 'react';
-import { ObservableQueryPools } from 'src/stores/osmosis/query/pools';
+import { ObservableQueryPools } from 'src/stores/rebus/query/pools';
 
 export class PoolSwapConfig extends AmountConfig {
 	@observable.ref

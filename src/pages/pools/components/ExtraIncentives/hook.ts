@@ -16,13 +16,13 @@ export const useFilteredExtraIncentivePools = () => {
 				return false;
 			}
 
-			const pool = queries.osmosis.queryGammPools.getPoolFromPagination(poolId);
+			const pool = queries.rebus.queryGammPools.getPoolFromPagination(poolId);
 			if (!pool) {
 				return false;
 			}
 
 			const gaugeIds = data.map(d => d.gaugeId);
-			const gauges = gaugeIds.map(gaugeId => queries.osmosis.queryGauge.get(gaugeId));
+			const gauges = gaugeIds.map(gaugeId => queries.rebus.queryGauge.get(gaugeId));
 
 			let maxRemainingEpoch = 0;
 			for (const gauge of gauges) {
@@ -37,7 +37,7 @@ export const useFilteredExtraIncentivePools = () => {
 			const inner = ExtraGaugeInPool[poolId];
 			const data = Array.isArray(inner) ? inner : [inner];
 
-			const pool = queries.osmosis.queryGammPools.getPoolFromPagination(poolId);
+			const pool = queries.rebus.queryGammPools.getPoolFromPagination(poolId);
 
 			return {
 				poolId,

@@ -24,7 +24,7 @@ export const ExtraGauge = observer(function ExtraGauge({ gaugeIds, currency, ext
 	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 
 	const gauges = useMemo(() => {
-		let gauges = gaugeIds.map(gaugeId => queries.osmosis.queryGauge.get(gaugeId));
+		let gauges = gaugeIds.map(gaugeId => queries.rebus.queryGauge.get(gaugeId));
 
 		if (gauges.length > 0) {
 			const main = gauges[0];
@@ -38,7 +38,7 @@ export const ExtraGauge = observer(function ExtraGauge({ gaugeIds, currency, ext
 		}
 
 		return gauges;
-	}, [gaugeIds, queries.osmosis.queryGauge]);
+	}, [gaugeIds, queries.rebus.queryGauge]);
 
 	const reward = gauges.reduce<CoinPretty>((prev, gauge) => {
 		return prev.add(gauge.getCoin(currency));

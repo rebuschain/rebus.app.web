@@ -35,7 +35,7 @@ export const SwapButton = observer(function SwapButton({ config, close }: SwapBu
 			}
 
 			try {
-				await account.osmosis.sendSwapExactAmountInMsg(
+				await account.rebus.sendSwapExactAmountInMsg(
 					poolId,
 					{
 						currency: config.sendCurrency,

@@ -22,15 +22,15 @@ export const MySuperfluidUnbondingTable = observer(function MySuperfluidUnbondin
 	const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
 	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 
-	const poolShareCurrency = queries.osmosis.queryGammPoolShare.getShareCurrency(poolId);
+	const poolShareCurrency = queries.rebus.queryGammPoolShare.getShareCurrency(poolId);
 
-	const superfluidUndelegations = queries.osmosis.querySuperfluidUndelegations
+	const superfluidUndelegations = queries.rebus.querySuperfluidUndelegations
 		.getQuerySuperfluidDelegations(account.bech32Address)
 		.getUndelegations(poolShareCurrency);
 	const queryActiveValidators = queries.cosmos.queryValidators.getQueryStatus(Staking.BondStatus.Bonded);
 	const activeValidators = queryActiveValidators.validators;
 
-	const lockableDurations = queries.osmosis.queryLockableDurations.lockableDurations;
+	const lockableDurations = queries.rebus.queryLockableDurations.lockableDurations;
 
 	if (!superfluidUndelegations || (Array.isArray(superfluidUndelegations) && superfluidUndelegations.length === 0)) {
 		return null;

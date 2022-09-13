@@ -30,7 +30,7 @@ const stores = createTestStore();
 		});
 
 		await new Promise(resolve => {
-			account.osmosis.sendCreatePoolMsg(Math.random().toString(), assets, '', resolve);
+			account.rebus.sendCreatePoolMsg(Math.random().toString(), assets, '', resolve);
 		});
 	}
 })();

@@ -56,7 +56,7 @@ export const PoolCardItem = observer(
 		const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 
 		const gauges = gaugeIds.map(gaugeId => {
-			return queries.osmosis.queryGauge.get(gaugeId);
+			return queries.rebus.queryGauge.get(gaugeId);
 		});
 
 		const currency = chainStore.getChain(chainStore.currentOsmosis.chainId).forceFindCurrency(incentiveDenom);

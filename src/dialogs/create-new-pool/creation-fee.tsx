@@ -6,7 +6,7 @@ export const PoolCreationFeeView: FunctionComponent = observer(() => {
 	const { chainStore, queriesStore } = useStore();
 
 	const queries = queriesStore.get(chainStore.current.chainId);
-	const queryPoolCreationFee = queries.osmosis.queryPoolCreationFee;
+	const queryPoolCreationFee = queries.rebus.queryPoolCreationFee;
 
 	return (
 		<div className="mt-5 px-4.5 py-3.5 border rounded-2xl border-enabledGold">
