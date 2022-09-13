@@ -266,7 +266,7 @@ const NewPoolButton: FunctionComponent<{
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);
 
-	const queryPoolCreationFee = queries.osmosis.queryPoolCreationFee;
+	const queryPoolCreationFee = queries.rebus.queryPoolCreationFee;
 
 	const [isPoolCreationFeeChecked, setIsPoolCreationFeeChecked] = useState(false);
 
@@ -287,7 +287,7 @@ const NewPoolButton: FunctionComponent<{
 			}
 
 			try {
-				await account.osmosis.sendCreatePoolMsg(
+				await account.rebus.sendCreatePoolMsg(
 					config.swapFee,
 					config.assets.map(asset => {
 						return {

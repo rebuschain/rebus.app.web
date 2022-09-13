@@ -19,26 +19,21 @@ export const LockLpTokenDialog = wrapBaseDialog(
 
 			const account = accountStore.getAccount(chainStore.current.chainId);
 			const queries = queriesStore.get(chainStore.current.chainId);
-			const lockableDurations = queries.osmosis.queryLockableDurations.lockableDurations;
+			const lockableDurations = queries.rebus.queryLockableDurations.lockableDurations;
 
 			const hasNotExistSuperfluidLock = useMemo(() => {
-				const superfluidDelegations = queries.osmosis.querySuperfluidDelegations
+				const superfluidDelegations = queries.rebus.querySuperfluidDelegations
 					.getQuerySuperfluidDelegations(account.bech32Address)
-					.getDelegations(queries.osmosis.queryGammPoolShare.getShareCurrency(poolId));
+					.getDelegations(queries.rebus.queryGammPoolShare.getShareCurrency(poolId));
 
 				return !superfluidDelegations || superfluidDelegations.length === 0;
-			}, [
-				account.bech32Address,
-				poolId,
-				queries.osmosis.queryGammPoolShare,
-				queries.osmosis.querySuperfluidDelegations,
-			]);
+			}, [account.bech32Address, poolId, queries.rebus.queryGammPoolShare, queries.rebus.querySuperfluidDelegations]);
 
 			const amountConfig = useBasicAmountConfig(
 				chainStore,
 				chainStore.current.chainId,
 				account.bech32Address,
-				queries.osmosis.queryGammPoolShare.getShareCurrency(poolId),
+				queries.rebus.queryGammPoolShare.getShareCurrency(poolId),
 				queries.queryBalances
 			);
 
@@ -66,13 +61,13 @@ export const LockLpTokenDialog = wrapBaseDialog(
 							</div>
 							<ul className="flex flex-col gap-2.5 mb-5 md:flex-row md:gap-6 md:mb-6">
 								{lockableDurations.map((duration, i) => {
-									let apy = `${queries.osmosis.queryIncentivizedPools
+									let apy = `${queries.rebus.queryIncentivizedPools
 										.computeAPY(poolId, duration, priceStore, priceStore.getFiatCurrency('usd')!)
 										.toString()}%`;
 
 									if (lockableDurations.length - 1 === i && isSuperfluidEnabled) {
 										const superfluidAPY = queries.cosmos.queryInflation.inflation.mul(
-											queries.osmosis.querySuperfluidOsmoEquivalent.estimatePoolAPROsmoEquivalentMultiplier(poolId)
+											queries.rebus.querySuperfluidOsmoEquivalent.estimatePoolAPROsmoEquivalentMultiplier(poolId)
 										);
 
 										apy += ` + ${superfluidAPY
@@ -162,7 +157,7 @@ export const LockLpTokenDialog = wrapBaseDialog(
 											} else {
 												const duration = lockableDurations[selectedDurationIndex];
 												try {
-													await account.osmosis.sendLockTokensMsg(
+													await account.rebus.sendLockTokensMsg(
 														duration.asSeconds(),
 														[
 															{
@@ -221,7 +216,7 @@ export const LockLpTokenDialog = wrapBaseDialog(
 							amountConfig={amountConfig}
 							onSumbit={async (selectedValidatorAddress: string) => {
 								try {
-									await account.osmosis.sendLockAndSuperfluidDelegateMsg(
+									await account.rebus.sendLockAndSuperfluidDelegateMsg(
 										[
 											{
 												currency: amountConfig.sendCurrency,
@@ -294,7 +289,7 @@ export const UpgradeLockedLPToSuperfluidDialog = wrapBaseDialog(
 					}}
 					onSumbit={async (selectedValidatorAddress: string) => {
 						try {
-							await account.osmosis.sendSuperfluidDelegate(lockIds, selectedValidatorAddress, '', () => {
+							await account.rebus.sendSuperfluidDelegate(lockIds, selectedValidatorAddress, '', () => {
 								close();
 							});
 						} catch (e) {
@@ -477,7 +472,7 @@ export const LockLpTokenValidatorSelectStageViewInDialog: FunctionComponent<{
 					</div>
 					<div className="mt-4 flex justify-between">
 						<div className="font-body text-sm md:text-base">Estimated Superfluid Delegation</div>
-						<div className="font-body text-sm md:text-base text-white-mid">{`~${queries.osmosis.querySuperfluidOsmoEquivalent
+						<div className="font-body text-sm md:text-base text-white-mid">{`~${queries.rebus.querySuperfluidOsmoEquivalent
 							.calculateOsmoEquivalent(
 								new CoinPretty(amountConfig.sendCurrency, amountConfig.getAmountPrimitive().amount)
 							)

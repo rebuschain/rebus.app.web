@@ -4,11 +4,11 @@ import { DenomHelper, IndexedDBKVStore, LocalKVStore } from '@keplr-wallet/commo
 import { ChainInfoWithExplorer, ChainStore } from './chain';
 import { AppCurrency, ChainInfo, Keplr } from '@keplr-wallet/types';
 import { EmbedChainInfos, IBCAssetInfos } from '../config';
-import { QueriesWithCosmosAndOsmosis } from './osmosis/query';
-import { AccountWithCosmosAndOsmosis } from './osmosis/account';
+import { QueriesWithCosmosAndRebus } from './rebus/query';
+import { AccountWithCosmosAndRebus } from './rebus/account';
 import { LayoutStore } from './layout';
-import { GammSwapManager } from './osmosis/swap';
-import { LPCurrencyRegistrar } from './osmosis/currency-registrar';
+import { GammSwapManager } from './rebus/swap';
+import { LPCurrencyRegistrar } from './rebus/currency-registrar';
 import { ChainInfoInner } from '@keplr-wallet/stores';
 import { PoolIntermediatePriceStore } from './price';
 import { IBCTransferHistoryStore } from './ibc-history';
@@ -21,8 +21,8 @@ import { ConnectWalletManager } from 'src/dialogs/connect-wallet';
 
 export class RootStore {
 	public readonly chainStore: ChainStore;
-	public readonly accountStore: AccountStore<AccountWithCosmosAndOsmosis>;
-	public readonly queriesStore: QueriesStore<QueriesWithCosmosAndOsmosis>;
+	public readonly accountStore: AccountStore<AccountWithCosmosAndRebus>;
+	public readonly queriesStore: QueriesStore<QueriesWithCosmosAndRebus>;
 	public readonly priceStore: PoolIntermediatePriceStore;
 	public readonly walletStore: WalletStore;
 
@@ -44,12 +44,12 @@ export class RootStore {
 			new IndexedDBKVStore('store_web_queries'),
 			this.chainStore,
 			this.connectWalletManager.getKeplr,
-			QueriesWithCosmosAndOsmosis
+			QueriesWithCosmosAndRebus
 		);
 
-		this.accountStore = new AccountStore<AccountWithCosmosAndOsmosis>(
+		this.accountStore = new AccountStore<AccountWithCosmosAndRebus>(
 			window,
-			AccountWithCosmosAndOsmosis,
+			AccountWithCosmosAndRebus,
 			this.chainStore,
 			this.queriesStore,
 			{
@@ -166,7 +166,7 @@ export class RootStore {
 				},
 			},
 			'usd',
-			this.queriesStore.get(EmbedChainInfos[0].chainId).osmosis.queryGammPools,
+			this.queriesStore.get(EmbedChainInfos[0].chainId).rebus.queryGammPools,
 			[]
 		);
 

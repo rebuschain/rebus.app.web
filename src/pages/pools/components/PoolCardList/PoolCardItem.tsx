@@ -20,7 +20,7 @@ export const PoolCardItem = observer(function PoolCardItem(
 
 	const { chainStore, queriesStore } = useStore();
 	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
-	const isSuperfluidEnabled = queries.osmosis.querySuperfluidPools.isSuperfluidPool(poolId);
+	const isSuperfluidEnabled = queries.rebus.querySuperfluidPools.isSuperfluidPool(poolId);
 
 	return (
 		<div

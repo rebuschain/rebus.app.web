@@ -24,12 +24,12 @@ export const MyBondingsTable = observer(function MyBondingsTable({ poolId, isSup
 
 	const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
 	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
-	const poolShareCurrency = queries.osmosis.queryGammPoolShare.getShareCurrency(poolId);
-	const superfluidDelegations = queries.osmosis.querySuperfluidDelegations
+	const poolShareCurrency = queries.rebus.queryGammPoolShare.getShareCurrency(poolId);
+	const superfluidDelegations = queries.rebus.querySuperfluidDelegations
 		.getQuerySuperfluidDelegations(account.bech32Address)
 		.getDelegations(poolShareCurrency);
 
-	const lockableDurations = queries.osmosis.queryLockableDurations.lockableDurations;
+	const lockableDurations = queries.rebus.queryLockableDurations.lockableDurations;
 
 	return (
 		<div className="mt-10">
@@ -40,7 +40,7 @@ export const MyBondingsTable = observer(function MyBondingsTable({ poolId, isSup
 				<LockupTableHeader isMobileView={isMobileView} />
 				<tbody className="w-full">
 					{lockableDurations.map((lockableDuration, index) => {
-						const lockedCoin = queries.osmosis.queryAccountLocked
+						const lockedCoin = queries.rebus.queryAccountLocked
 							.get(account.bech32Address)
 							.getLockedCoinWithDuration(poolShareCurrency, lockableDuration);
 						return (
@@ -48,7 +48,7 @@ export const MyBondingsTable = observer(function MyBondingsTable({ poolId, isSup
 								key={lockableDuration.humanize()}
 								duration={lockableDuration.humanize()}
 								lockup={lockedCoin}
-								apy={`${queries.osmosis.queryIncentivizedPools
+								apy={`${queries.rebus.queryIncentivizedPools
 									.computeAPY(poolId, lockableDuration, priceStore, priceStore.getFiatCurrency('usd')!)
 									.toString()}%`}
 								isMobileView={isMobileView}
@@ -160,7 +160,7 @@ const LockupTableRow = observer(function LockupTableRow({
 
 								if (!isSuperfluidEnabled) {
 									// XXX: Due to the block gas limit, restrict the number of lock id to included in the one tx.
-									await account.osmosis.sendBeginUnlockingMsg(lockup.lockIds.slice(0, 10), '', () => {
+									await account.rebus.sendBeginUnlockingMsg(lockup.lockIds.slice(0, 10), '', () => {
 										setIsUnlocking(false);
 									});
 								} else {
@@ -168,14 +168,14 @@ const LockupTableRow = observer(function LockupTableRow({
 									const lockIds = lockup.lockIds.slice(0, 4);
 
 									for (const lockId of lockIds) {
-										await queries.osmosis.querySyntheticLockupsByLockId.get(lockId).waitFreshResponse();
+										await queries.rebus.querySyntheticLockupsByLockId.get(lockId).waitFreshResponse();
 									}
 
-									await account.osmosis.sendBeginUnlockingMsgOrSuperfluidUnbondLockMsgIfSyntheticLock(
+									await account.rebus.sendBeginUnlockingMsgOrSuperfluidUnbondLockMsgIfSyntheticLock(
 										lockup.lockIds.map(lockId => {
 											return {
 												lockId,
-												isSyntheticLock: queries.osmosis.querySyntheticLockupsByLockId.get(lockId).isSyntheticLock,
+												isSyntheticLock: queries.rebus.querySyntheticLockupsByLockId.get(lockId).isSyntheticLock,
 											};
 										}),
 										'',

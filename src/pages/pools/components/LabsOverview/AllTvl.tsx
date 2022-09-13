@@ -11,7 +11,7 @@ export const AllTvl = observer(function AllTvl() {
 	return (
 		<OverviewLabelValue label="Total Liquidity">
 			<h4>
-				{queries.osmosis.queryGammPools
+				{queries.rebus.queryGammPools
 					.computeAllTotalValueLocked(priceStore, priceStore.getFiatCurrency('usd')!)
 					.toString()}
 			</h4>

@@ -2,7 +2,7 @@ import { ChainGetter, CoinGeckoPriceStore } from '@keplr-wallet/stores';
 import { KVStore } from '@keplr-wallet/common';
 import { FiatCurrency } from '@keplr-wallet/types';
 import { computed, makeObservable, observable } from 'mobx';
-import { ObservableQueryPools } from '../osmosis/query/pools';
+import { ObservableQueryPools } from '../rebus/query/pools';
 import { CoinPretty, Dec } from '@keplr-wallet/unit';
 
 export interface IntermidiateRoute {
@@ -93,7 +93,7 @@ export class PoolIntermediatePriceStore extends CoinGeckoPriceStore {
 
 			return super.getPrice(coinId, vsCurrency);
 		} catch (e) {
-			console.log(`Failed to calculate price of (${coinId}, ${vsCurrency}): ${e?.message}`);
+			console.log(`Failed to calculate price of (${coinId}, ${vsCurrency}): ${(<any>e)?.message}`);
 			return undefined;
 		}
 	}

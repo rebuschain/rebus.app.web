@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import React, { useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { CenterV } from 'src/components/layouts/Containers';
-import { QueriedPoolBase } from 'src/stores/osmosis/query/pool';
+import { QueriedPoolBase } from 'src/stores/rebus/query/pool';
 
 interface Props {
 	id: string;

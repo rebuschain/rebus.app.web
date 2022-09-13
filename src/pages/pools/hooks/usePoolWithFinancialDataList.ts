@@ -8,10 +8,7 @@ export function usePoolWithFinancialDataList() {
 	const { chainStore, queriesStore, priceStore } = useStore();
 	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 
-	const pools = queries.osmosis.queryGammPools.getPoolsDescendingOrderTVL(
-		priceStore,
-		priceStore.getFiatCurrency('usd')!
-	);
+	const pools = queries.rebus.queryGammPools.getPoolsDescendingOrderTVL(priceStore, priceStore.getFiatCurrency('usd')!);
 	const poolFinancialDataByPoolId = usePoolFinancialData();
 
 	return useMemo(() => {

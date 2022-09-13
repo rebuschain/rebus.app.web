@@ -1,7 +1,7 @@
 import { ChainGetter, ObservableQueryBalances } from '@keplr-wallet/stores';
 import { useState } from 'react';
-import { ObservableQueryPools } from '../../../stores/osmosis/query/pools';
-import { GammSwapManager } from '../../../stores/osmosis/swap';
+import { ObservableQueryPools } from '../../../stores/rebus/query/pools';
+import { GammSwapManager } from '../../../stores/rebus/swap';
 import { TradeConfig } from '../stores/trade/config';
 
 export const useTradeConfig = (

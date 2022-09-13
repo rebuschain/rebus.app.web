@@ -14,8 +14,8 @@ import { MISC } from '../constants';
 import { OSMO_MEDIUM_TX_FEE } from '../constants/fee';
 import { BasicAmountConfig } from '../hooks/tx/basic-amount-config';
 import { useStore } from '../stores';
-import { ObservableQueryGammPoolShare } from '../stores/osmosis/query/pool-share';
-import { ObservableQueryPools } from '../stores/osmosis/query/pools';
+import { ObservableQueryGammPoolShare } from '../stores/rebus/query/pool-share';
+import { ObservableQueryPools } from '../stores/rebus/query/pools';
 import { wrapBaseDialog } from './base';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { TokenSelect } from 'src/components/SwapToken/TokenSelect';
@@ -587,15 +587,15 @@ export const ManageLiquidityDialog = wrapBaseDialog(
 					chainStore.current.chainId,
 					poolId,
 					account.bech32Address,
-					queries.osmosis.queryGammPoolShare,
-					queries.osmosis.queryGammPools,
+					queries.rebus.queryGammPoolShare,
+					queries.rebus.queryGammPools,
 					queries.queryBalances
 				)
 		);
 		addLiquidityConfig.setChain(chainStore.current.chainId);
 		addLiquidityConfig.setPoolId(poolId);
-		addLiquidityConfig.setQueryPoolShare(queries.osmosis.queryGammPoolShare);
-		addLiquidityConfig.setQueryPools(queries.osmosis.queryGammPools);
+		addLiquidityConfig.setQueryPoolShare(queries.rebus.queryGammPoolShare);
+		addLiquidityConfig.setQueryPools(queries.rebus.queryGammPools);
 		addLiquidityConfig.setQueryBalances(queries.queryBalances);
 		addLiquidityConfig.setSender(account.bech32Address);
 
@@ -606,13 +606,13 @@ export const ManageLiquidityDialog = wrapBaseDialog(
 					chainStore.current.chainId,
 					poolId,
 					account.bech32Address,
-					queries.osmosis.queryGammPoolShare,
+					queries.rebus.queryGammPoolShare,
 					'35'
 				)
 		);
 		removeLiquidityConfig.setChain(chainStore.current.chainId);
 		removeLiquidityConfig.setPoolId(poolId);
-		removeLiquidityConfig.setQueryPoolShare(queries.osmosis.queryGammPoolShare);
+		removeLiquidityConfig.setQueryPoolShare(queries.rebus.queryGammPoolShare);
 		removeLiquidityConfig.setSender(account.bech32Address);
 
 		return (
@@ -1012,7 +1012,7 @@ const BottomButton: FunctionComponent<{
 								if (addLiquidityConfig.isSingleAmountIn && addLiquidityConfig.singleAmountInConfig) {
 									try {
 										// XXX: 일단 이 경우 슬리피지를 2.5%로만 설정한다.
-										await account.osmosis.sendJoinSwapExternAmountInMsg(
+										await account.rebus.sendJoinSwapExternAmountInMsg(
 											addLiquidityConfig.poolId,
 											{
 												amount: addLiquidityConfig.singleAmountInConfig.amount,
@@ -1035,7 +1035,7 @@ const BottomButton: FunctionComponent<{
 
 									try {
 										// XXX: 일단 이 경우 슬리피지를 2.5%로만 설정한다.
-										await account.osmosis.sendJoinPoolMsg(
+										await account.rebus.sendJoinPoolMsg(
 											addLiquidityConfig.poolId,
 											shareOutAmount.toDec().toString(),
 											'2.5',
@@ -1056,7 +1056,7 @@ const BottomButton: FunctionComponent<{
 
 								// XXX: 일단 이 경우 슬리피지를 2.5%로만 설정한다.
 								try {
-									await account.osmosis.sendExitPoolMsg(
+									await account.rebus.sendExitPoolMsg(
 										removeLiquidityConfig.poolId,
 										shareIn.toDec().toString(),
 										'2.5',

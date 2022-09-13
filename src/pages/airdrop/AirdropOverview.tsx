@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Dec, IntPretty } from '@keplr-wallet/unit';
 import dayjs from 'dayjs';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
@@ -15,11 +14,14 @@ export const AirdropOverview = observer(function AirdropOverview() {
 
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);
-	const rebusAddress = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
+	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 
-	const unclaimed = queries.osmosis.queryTotalClaimable
-		.get(rebusAddress)
-		.amountOf(chainStore.current.stakeCurrency.coinMinimalDenom);
+	const totalClaimableQuery = queries.rebus.queryTotalClaimable.get(address);
+	const unclaimed = totalClaimableQuery.amountOf(chainStore.current.stakeCurrency.coinMinimalDenom);
+
+	useEffect(() => {
+		totalClaimableQuery.fetch();
+	}, [address, totalClaimableQuery]);
 
 	return (
 		<AirdropOverviewContainer>
@@ -65,7 +67,6 @@ const OverviewList = styled.div`
 
 const DisplayCliff = observer(function DisplayCliff() {
 	const { chainStore, queriesStore } = useStore();
-	const { isMobileView } = useWindowSize();
 
 	const queries = queriesStore.get(chainStore.current.chainId);
 
@@ -77,56 +78,20 @@ const DisplayCliff = observer(function DisplayCliff() {
 		return () => clearInterval(interval);
 	}, []);
 
-	const timeUntilDecay = queries.osmosis.queryClaimParams.timeUntilDecay;
-	const timeUntilDecayEnd = queries.osmosis.queryClaimParams.timeUntilDecayEnd;
-	const durationOfDecay = queries.osmosis.queryClaimParams.durationOfDecay;
+	const timeUntilClaim = queries.rebus.queryClaimParams.timeUntilClaim;
+	const timeUntilEnd = queries.rebus.queryClaimParams.timeUntilEnd;
 
-	const decayStarted = dayjs(timeUntilDecay).isBefore(Date.now());
+	const claimStarted = dayjs(timeUntilClaim).isBefore(Date.now());
 
-	const untilDecay = formatTimeUntil(timeUntilDecay);
-	const untilDecayEnd = formatTimeUntil(timeUntilDecayEnd);
+	const untilClaim = formatTimeUntil(timeUntilClaim);
+	const untilEnd = formatTimeUntil(timeUntilEnd);
 
-	const [day, hour, minute] = decayStarted ? untilDecayEnd.split('-') : untilDecay.split('-');
-
-	const decayingFactor = (() => {
-		const elapsedFromDecay = dayjs.duration({
-			seconds: dayjs(Date.now()).unix() - dayjs(timeUntilDecay).unix(),
-		});
-
-		if (elapsedFromDecay.asSeconds() <= 0) {
-			return new IntPretty(new Dec('100'));
-		}
-
-		if (durationOfDecay.asSeconds() === 0) {
-			return new IntPretty(new Dec('100'));
-		}
-
-		const percentile = (elapsedFromDecay.asSeconds() / durationOfDecay.asSeconds()) * 100;
-		return new IntPretty(new Dec('100').sub(new Dec(percentile.toFixed(4))));
-	})();
+	const [day, hour, minute] = claimStarted ? untilEnd.split('-') : untilClaim.split('-');
 
 	return (
-		<>
-			{decayStarted ? (
-				<OverviewLabelValue label="Current Decay Factor">
-					<span>
-						<TitleText size="2xl" isMobileView={isMobileView} style={{ display: 'inline' }}>
-							{decayingFactor
-								.maxDecimals(1)
-								.trim(true)
-								.toString()}
-						</TitleText>
-						<SubTitleText isMobileView={isMobileView} style={{ display: 'inline' }}>
-							{' '}
-							{' %'}
-						</SubTitleText>
-					</span>
-				</OverviewLabelValue>
-			) : null}
-			<OverviewLabelValue label={decayStarted ? 'Time to Airdrop Decay Completion' : 'Time to Airdrop Decay'}>
-				<DisplayLeftTime day={day} hour={hour} minute={minute} />
-			</OverviewLabelValue>
-		</>
+		<OverviewLabelValue label={claimStarted ? 'Time until Claim Ends' : 'Time to Start Claim'}>
+			<DisplayLeftTime day={day} hour={hour} minute={minute} />
+		</OverviewLabelValue>
 	);
 });
 

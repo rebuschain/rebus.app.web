@@ -9,7 +9,7 @@ import { colorPrimaryDark } from 'src/emotionStyles/colors';
 import { PoolCatalyst } from 'src/pages/pool/components/PoolCatalyst';
 import { PoolInfoHeader } from 'src/pages/pool/components/PoolInfoHeader';
 import { useStore } from 'src/stores';
-import { QueriedPoolBase } from 'src/stores/osmosis/query/pool';
+import { QueriedPoolBase } from 'src/stores/rebus/query/pool';
 import { LbpCatalyst } from './components/LbpCatalyst';
 import { LiquidityMining } from './components/LiquidityMining';
 import { usePoolSwapConfig } from 'src/pages/pool/components/PoolInfoHeader/usePoolSwapConfig';
@@ -31,7 +31,7 @@ const PoolPage: FunctionComponent = observer(() => {
 	const { chainStore, queriesStore } = useStore();
 
 	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
-	const observablePool = queries.osmosis.queryGammPools.getObservableQueryPool(match.params.id);
+	const observablePool = queries.rebus.queryGammPools.getObservableQueryPool(match.params.id);
 	const pool = observablePool.pool;
 
 	useEffect(() => {
@@ -49,7 +49,7 @@ const PoolPage: FunctionComponent = observer(() => {
 		);
 	}
 
-	const isSuperfluidEnabled = queries.osmosis.querySuperfluidPools.isSuperfluidPool(match.params.id);
+	const isSuperfluidEnabled = queries.rebus.querySuperfluidPools.isSuperfluidPool(match.params.id);
 
 	return (
 		<FullScreenContainer>
@@ -71,7 +71,7 @@ const PoolPage: FunctionComponent = observer(() => {
 
 			<LiquidityMiningSection>
 				{/* 인센티브를 받을 수 있는 풀 또는 config에서 설정된 풀의 경우만 Synthesis를 표시한다. */}
-				{(queries.osmosis.queryIncentivizedPools.isIncentivized(pool.id) || LockupAbledPoolIds[pool.id]) && (
+				{(queries.rebus.queryIncentivizedPools.isIncentivized(pool.id) || LockupAbledPoolIds[pool.id]) && (
 					<CenterSelf>
 						<LiquidityMining poolId={pool.id} isSuperfluidEnabled={isSuperfluidEnabled} />
 					</CenterSelf>
@@ -102,7 +102,7 @@ export const LBPInPageSwapClipboard: FunctionComponent<{
 		account.bech32Address,
 		queries.queryBalances,
 		poolId,
-		queries.osmosis.queryGammPools
+		queries.rebus.queryGammPools
 	);
 	const feeConfig = useFakeFeeConfig(
 		chainStore,

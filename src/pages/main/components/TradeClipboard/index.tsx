@@ -36,7 +36,7 @@ export const TradeClipboard: FunctionComponent = observer(() => {
 		account.bech32Address,
 		queries.queryBalances,
 		swapManager,
-		queries.osmosis.queryGammPools
+		queries.rebus.queryGammPools
 	);
 	const feeConfig = useFakeFeeConfig(
 		chainStore,

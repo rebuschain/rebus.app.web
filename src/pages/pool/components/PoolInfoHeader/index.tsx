@@ -23,7 +23,7 @@ export const PoolInfoHeader = observer(function PoolInfoHeader({ poolId, isLBP }
 	const { isMobileView } = useWindowSize();
 	const { chainStore, queriesStore } = useStore();
 	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
-	const pool = queries.osmosis.queryGammPools.getPool(poolId);
+	const pool = queries.rebus.queryGammPools.getPool(poolId);
 
 	const composition = pool?.poolAssets.reduce((str, poolAsset, i) => {
 		let denom = poolAsset.amount.currency.coinDenom;

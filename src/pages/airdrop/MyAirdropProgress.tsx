@@ -14,10 +14,9 @@ export const MyAirdropProgress = observer(function MyAirdropProgress() {
 
 	const queries = queriesStore.get(chainStore.current.chainId);
 	const account = accountStore.getAccount(chainStore.current.chainId);
+	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 
-	const claimRecord = queries.osmosis.queryClaimRecord.get(
-		walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address
-	);
+	const claimRecord = queries.rebus.queryClaimRecord.get(address);
 
 	const totalClaimable = claimRecord.initialClaimableAmountOf(chainStore.current.stakeCurrency.coinMinimalDenom);
 

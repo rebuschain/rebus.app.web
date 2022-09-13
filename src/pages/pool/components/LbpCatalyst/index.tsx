@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import React, { ReactNode } from 'react';
 import { CenterSelf, WellContainer } from 'src/components/layouts/Containers';
 import { TitleText, Text } from 'src/components/Texts';
-import { QueriedPoolBase } from 'src/stores/osmosis/query/pool';
+import { QueriedPoolBase } from 'src/stores/rebus/query/pool';
 import useWindowSize from 'src/hooks/useWindowSize';
 
 interface Props {

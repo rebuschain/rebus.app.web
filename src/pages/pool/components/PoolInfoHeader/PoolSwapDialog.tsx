@@ -33,7 +33,7 @@ export const PoolSwapDialog = wrapBaseDialog(
 			account.bech32Address,
 			queries.queryBalances,
 			poolId,
-			queries.osmosis.queryGammPools
+			queries.rebus.queryGammPools
 		);
 		const feeConfig = useFakeFeeConfig(
 			chainStore,

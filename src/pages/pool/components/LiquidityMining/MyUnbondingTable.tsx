@@ -25,8 +25,8 @@ export const MyUnBondingTable = observer(function MyUnBondingTable({ poolId }: P
 	const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
 	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 
-	const poolShareCurrency = queries.osmosis.queryGammPoolShare.getShareCurrency(poolId);
-	const lockableDurations = queries.osmosis.queryLockableDurations.lockableDurations;
+	const poolShareCurrency = queries.rebus.queryGammPoolShare.getShareCurrency(poolId);
+	const lockableDurations = queries.rebus.queryLockableDurations.lockableDurations;
 
 	let unlockingDatas: {
 		duration: Duration;
@@ -36,7 +36,7 @@ export const MyUnBondingTable = observer(function MyUnBondingTable({ poolId }: P
 	}[] = [];
 
 	for (const lockableDuration of lockableDurations) {
-		const unlockings = queries.osmosis.queryAccountLocked
+		const unlockings = queries.rebus.queryAccountLocked
 			.get(account.bech32Address)
 			.getUnlockingCoinWithDuration(poolShareCurrency, lockableDuration);
 
@@ -154,7 +154,7 @@ const UnlockingTableRow = observer(function UnlockingTableRow({
 
 								try {
 									// XXX: Due to the block gas limit, restrict the number of lock id to included in the one tx.
-									await account.osmosis.sendUnlockPeriodLockMsg(lockIds.slice(0, 3), '', () => {
+									await account.rebus.sendUnlockPeriodLockMsg(lockIds.slice(0, 3), '', () => {
 										setIsWithdrawing(false);
 									});
 								} catch (e) {

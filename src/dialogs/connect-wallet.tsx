@@ -22,7 +22,7 @@ import { Buffer } from 'buffer/';
 import { wrapBaseDialog } from './base';
 import { AccountStore, getKeplrFromWindow, WalletStatus } from '@keplr-wallet/stores';
 import { ChainStore } from 'src/stores/chain';
-import { AccountWithCosmosAndOsmosis } from 'src/stores/osmosis/account';
+import { AccountWithCosmosAndRebus } from 'src/stores/rebus/account';
 import { useStore } from 'src/stores';
 import { IJsonRpcRequest } from '@walletconnect/types';
 import { WalletStore } from 'src/stores/wallet';
@@ -118,7 +118,7 @@ export class ConnectWalletManager {
 
 	constructor(
 		protected readonly chainStore: ChainStore,
-		protected accountStore?: AccountStore<AccountWithCosmosAndOsmosis>,
+		protected accountStore?: AccountStore<AccountWithCosmosAndRebus>,
 		protected walletStore?: WalletStore
 	) {
 		this.autoConnectingWalletType = localStorage?.getItem(KeyAutoConnectingWalletType) as WalletType;
@@ -129,7 +129,7 @@ export class ConnectWalletManager {
 	// The account store needs to reference the `getKeplr()` method this on the constructor.
 	// But, this store also needs to reference the account store.
 	// To solve this problem, just set the account store field lazily.
-	setAccountStore(accountStore: AccountStore<AccountWithCosmosAndOsmosis>) {
+	setAccountStore(accountStore: AccountStore<AccountWithCosmosAndRebus>) {
 		this.accountStore = accountStore;
 	}
 

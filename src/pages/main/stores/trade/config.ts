@@ -4,11 +4,11 @@ import { AppCurrency } from '@keplr-wallet/types';
 import { CoinPretty, Dec, DecUtils, Int, IntPretty } from '@keplr-wallet/unit';
 import { action, computed, makeObservable, observable, override } from 'mobx';
 import { computedFn, keepAlive } from 'mobx-utils';
-import { ObservableQueryPools } from '../../../../stores/osmosis/query/pools';
-import { GammSwapManager } from '../../../../stores/osmosis/swap';
+import { ObservableQueryPools } from '../../../../stores/rebus/query/pools';
+import { GammSwapManager } from '../../../../stores/rebus/swap';
 import { SlippageStep } from '../../models/tradeModels';
 import { slippageStepToPercentage } from '../../utils/slippageStepToPercentage';
-import { QueriedPoolBase } from '../../../../stores/osmosis/query/pool';
+import { QueriedPoolBase } from '../../../../stores/rebus/query/pool';
 
 // CONTRACT: Use with `observer`
 export class TradeConfig extends AmountConfig {

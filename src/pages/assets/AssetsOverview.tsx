@@ -21,7 +21,7 @@ export const AssetsOverview: FunctionComponent<{ title: string }> = observer(({ 
 		.balances.map(bal => bal.balance);
 	const availableBalancePrice = calcTotalFiatValue(availableBalanceList);
 
-	const lockedCoins = queries.osmosis.queryLockedCoins.get(account.bech32Address).lockedCoins;
+	const lockedCoins = queries.rebus.queryLockedCoins.get(account.bech32Address).lockedCoins;
 	const lockedBalancePrice = calcTotalFiatValue(lockedCoins);
 
 	const delegatedBalance = queries.cosmos.queryDelegations.getQueryBech32Address(account.bech32Address).total;
@@ -33,7 +33,7 @@ export const AssetsOverview: FunctionComponent<{ title: string }> = observer(({ 
 		for (const balance of balanceList) {
 			if (balance.currency.coinMinimalDenom.startsWith('gamm/pool/')) {
 				const poolId = balance.currency.coinMinimalDenom.replace('gamm/pool/', '');
-				const pool = queries.osmosis.queryGammPools.getPool(poolId);
+				const pool = queries.rebus.queryGammPools.getPool(poolId);
 				if (pool) {
 					const tvl = pool.computeTotalValueLocked(priceStore, priceStore.getFiatCurrency('usd')!);
 					const totalShare = pool.totalShare;

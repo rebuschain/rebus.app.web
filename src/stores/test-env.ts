@@ -2,8 +2,8 @@ import { ChainInfoWithExplorer, ChainStore } from './chain';
 import { AccountSetBase, AccountStore, QueriesStore } from '@keplr-wallet/stores';
 import { MemoryKVStore } from '@keplr-wallet/common';
 import { autorun } from 'mobx';
-import { AccountWithCosmosAndOsmosis } from './osmosis/account';
-import { QueriesWithCosmosAndOsmosis } from './osmosis/query';
+import { AccountWithCosmosAndRebus } from './rebus/account';
+import { QueriesWithCosmosAndRebus } from './rebus/query';
 import { MockKeplr } from '@keplr-wallet/provider-mock';
 import { StdTx } from '@cosmjs/launchpad';
 import Axios from 'axios';
@@ -64,8 +64,8 @@ export const TestChainInfos: ChainInfoWithExplorer[] = [
 
 export class RootStore {
 	public readonly chainStore: ChainStore;
-	public readonly accountStore: AccountStore<AccountWithCosmosAndOsmosis>;
-	public readonly queriesStore: QueriesStore<QueriesWithCosmosAndOsmosis>;
+	public readonly accountStore: AccountStore<AccountWithCosmosAndRebus>;
+	public readonly queriesStore: QueriesStore<QueriesWithCosmosAndRebus>;
 
 	constructor() {
 		const mockKeplr = new MockKeplr(
@@ -124,7 +124,7 @@ export class RootStore {
 			async () => {
 				return mockKeplr;
 			},
-			QueriesWithCosmosAndOsmosis
+			QueriesWithCosmosAndRebus
 		);
 		this.accountStore = new AccountStore(
 			{
@@ -132,7 +132,7 @@ export class RootStore {
 				addEventListener: () => {},
 				removeEventListener: () => {},
 			},
-			AccountWithCosmosAndOsmosis,
+			AccountWithCosmosAndRebus,
 			this.chainStore,
 			this.queriesStore,
 			{
