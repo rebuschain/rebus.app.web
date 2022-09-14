@@ -1,4 +1,12 @@
-export type WalletTypes = 'metamask' | 'crypto' | 'cosmostation' | 'falcon' | undefined;
+export type WalletTypes =
+	| 'keplr'
+	| 'keplr-evmos'
+	| 'keplr-mobile'
+	| 'metamask'
+	| 'crypto'
+	| 'cosmostation'
+	| 'falcon'
+	| undefined;
 
 (window as any).enableFalcon = (isEnabled = true) => {
 	localStorage.setItem('falcon_enabled', isEnabled ? 'true' : 'false');
@@ -30,6 +38,15 @@ export const WALLET_LIST: WalletConfig[] = [
 		description: 'Keplr Browser Extension',
 		logoUrl: '/public/assets/other-logos/keplr.png',
 		type: 'extension',
+		walletType: 'keplr',
+	},
+	isExtensionEnvironment && {
+		name: 'Keplr Wallet (EVMOS)',
+		description:
+			'Keplr Browser Extension (Only select this option if you were using the EVMOS chain with Keplr, you will able to connect to the Rebus chain with the Rebus address derived from the EVMOS address to redeem the airdrop, and if you already connected to the Keplr wallet normally, you might have to remove the rebus network in the Keplr wallet and try connecting again)',
+		logoUrl: '/public/assets/other-logos/keplr.png',
+		type: 'extension',
+		walletType: 'keplr-evmos',
 	},
 	// Disable mobile app for now since it is not working at all with rebus
 	localStorage.getItem('keplr_mobile_enabled') === 'true' && {
@@ -37,6 +54,7 @@ export const WALLET_LIST: WalletConfig[] = [
 		description: 'Keplr Mobile',
 		logoUrl: '/public/assets/other-logos/wallet-connect.png',
 		type: 'wallet-connect',
+		walletType: 'keplr-mobile',
 	},
 	isExtensionEnvironment && {
 		name: 'Metamask',

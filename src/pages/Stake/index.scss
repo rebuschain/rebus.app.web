@@ -73,13 +73,15 @@
 /*    cursor: pointer;*/
 /*}*/
 
-.stake .table .voting_power {
+.stake .table .voting_power,
+.stake .table .voting_percentage {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
-.table .voting_power > span {
+.table .voting_power > span,
+.table .voting_percentage > span {
 	border: 1px solid #dcdcdc;
 	height: 20px;
 	margin: 0 10px;
@@ -184,7 +186,8 @@ table td p {
 		margin-right: unset;
 	}
 
-	.stake .table .voting_power {
+	.stake .table .voting_power,
+	.stake .table .voting_percentage {
 		justify-content: flex-end;
 	}
 

@@ -62,7 +62,7 @@ export class WalletStore {
 
 	private _isEtherumListenerAttached = false;
 
-	constructor(protected readonly chain: ChainInfoWithExplorer) {
+	constructor() {
 		makeObservable(this);
 	}
 
@@ -87,10 +87,6 @@ export class WalletStore {
 			chainId: ethChainId,
 			cosmosChainId: chainId,
 		};
-	}
-
-	get currency() {
-		return this.chain.stakeCurrency as AppCurrency;
 	}
 
 	public async init(walletType: WalletTypes, shouldOpenLinkIfProviderNotFound = false, shouldSwitchNetwork = true) {
