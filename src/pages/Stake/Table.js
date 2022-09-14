@@ -1,9 +1,11 @@
 import React, { useMemo } from 'react';
+import { observer } from 'mobx-react-lite';
 import DataTable from 'src/components/insync/DataTable';
 import './index.scss';
 import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CircularProgress from 'src/components/insync/CircularProgress';
+import { useStore } from '../../stores';
 import UnDelegateButton from '../Home/TokenDetails/UnDelegateButton';
 import ReDelegateButton from '../Home/TokenDetails/ReDelegateButton';
 import DelegateButton from './DelegateButton';
@@ -31,6 +33,12 @@ const StatusCell = value => (
 const VotingPowerCell = value => (
 	<div className="voting_power">
 		<p>{formatCount(value, true)}</p>
+	</div>
+);
+
+const VotingPercentageCell = value => (
+	<div className="voting_percentage">
+		<p>{value}%</p>
 	</div>
 );
 
@@ -86,6 +94,14 @@ const columns = [
 		},
 	},
 	{
+		name: 'voting_percentage',
+		label: 'Voting Percentage',
+		options: {
+			sort: true,
+			customBodyRender: VotingPercentageCell,
+		},
+	},
+	{
 		name: 'commission',
 		label: 'Commission',
 		options: {
@@ -112,6 +128,10 @@ const columns = [
 ];
 
 const Table = ({ active, delegations, delegatedValidatorList, inProgress, validatorList }) => {
+	const { chainStore, queriesStore } = useStore();
+	const bondedTokens = queriesStore.get(chainStore.current.chainId).cosmos.queryPool.response?.data.result
+		.bonded_tokens;
+
 	const tableData = useMemo(() => {
 		let dataToMap = active === 2 ? delegatedValidatorList : validatorList;
 
@@ -127,10 +147,13 @@ const Table = ({ active, delegations, delegatedValidatorList, inProgress, valida
 			? dataToMap.map(item => {
 					item.delegations = delegations;
 
+					const votingPercentage = ((Number(item.tokens) || 0) / bondedTokens) * 100;
+
 					return [
 						item.description && item.description.moniker,
 						item,
 						parseFloat((Number(item.tokens) / 10 ** config.COIN_DECIMALS).toFixed(1)),
+						parseFloat(votingPercentage.toFixed(2)),
 						item.commission && item.commission.commission_rates && item.commission.commission_rates.rate
 							? parseFloat((Number(item.commission.commission_rates.rate) * 100).toFixed(2))
 							: null,
@@ -139,7 +162,7 @@ const Table = ({ active, delegations, delegatedValidatorList, inProgress, valida
 					];
 			  })
 			: [];
-	}, [active, delegations, delegatedValidatorList, validatorList]);
+	}, [active, bondedTokens, delegations, delegatedValidatorList, validatorList]);
 
 	const options = useMemo(
 		() => ({
@@ -236,4 +259,6 @@ const stateToProps = state => {
 	};
 };
 
-export default connect(stateToProps)(Table);
+const ObservedTable = observer(Table);
+
+export default connect(stateToProps)(ObservedTable);
