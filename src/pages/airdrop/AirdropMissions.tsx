@@ -2,10 +2,25 @@ import styled from '@emotion/styled';
 import { Dec } from '@keplr-wallet/unit';
 import { observer } from 'mobx-react-lite';
 import React, { HTMLAttributes, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { SubTitleText, Text, TitleText } from 'src/components/Texts';
 import { colorPrimaryDark, colorWhiteFaint } from 'src/emotionStyles/colors';
 import { useStore } from 'src/stores';
 import useWindowSize from 'src/hooks/useWindowSize';
+
+export const ActionToLink: { [action: string]: string } = {
+	stake: '/staking',
+	vote: '/proposals',
+	mint: '',
+	vault: '',
+};
+
+export const ActionsDisabled: { [action: string]: boolean } = {
+	stake: false,
+	vote: false,
+	mint: true,
+	vault: true,
+};
 
 export const ActionToDescription: { [action: string]: string } = {
 	stake: 'Stake $REBUS',
@@ -54,6 +69,8 @@ export const AirdropMissions = observer(function AirdropMissions(props: HTMLAttr
 							ineligible={isIneligible}
 							description={ActionToDescription[action] ?? 'Oops'}
 							isMobileView={isMobileView}
+							link={ActionToLink[action]}
+							disabled={ActionsDisabled[action]}
 						/>
 					);
 				})}
@@ -83,17 +100,29 @@ interface MissionCardProps {
 	complete: boolean;
 	ineligible: boolean;
 	isMobileView: boolean;
+	link?: string;
+	disabled?: boolean;
 }
 
-function MissionCard({ num, description, complete, ineligible, isMobileView }: MissionCardProps) {
+function MissionCard({ num, description, complete, ineligible, isMobileView, link, disabled }: MissionCardProps) {
+	const splitDescription = description.split(' ');
+	const linkText = splitDescription[0];
+	const restOfDescription = link ? ` ${splitDescription.slice(1).join(' ')}` : description;
+
 	return (
 		<MissionCardContainer>
 			<div>
 				<Text emphasis="high" pb={8} isMobileView={isMobileView}>
 					Mission #{num}
+					{disabled ? ' (COMING SOON)' : ''}
 				</Text>
 				<SubTitleText pb={0} isMobileView={isMobileView}>
-					{description}
+					{link && (
+						<Link className="inline hover:opacity-75 cursor-pointer" style={{ textDecoration: 'underline' }} to={link}>
+							{linkText}
+						</Link>
+					)}
+					{restOfDescription}
 				</SubTitleText>
 			</div>
 			<SubTitleText color={complete ? 'green' : 'red'} isMobileView={isMobileView}>
