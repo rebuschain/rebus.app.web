@@ -162,6 +162,8 @@ export class AccountWithCosmosAndRebus
 }
 
 export class RebusAccount {
+	isEvmos = false;
+
 	constructor(
 		protected readonly base: AccountSetBase<RebusMsgOpts, HasRebusQueries>,
 		protected readonly chainGetter: ChainGetter,

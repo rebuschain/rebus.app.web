@@ -231,7 +231,7 @@ export class ConnectWalletManager {
 					})
 				);
 			}
-		} else if (!connectingWalletName) {
+		} else if (!connectingWalletName || connectingWalletName.includes('keplr')) {
 			localStorage?.removeItem(KeyConnectingWalletType);
 			localStorage?.setItem(KeyAutoConnectingWalletType, 'extension');
 			this.autoConnectingWalletType = 'extension';
@@ -286,9 +286,10 @@ export class ConnectWalletManager {
 
 export const ConnectWalletDialog = wrapBaseDialog(
 	observer(({ initialFocus, close }: { initialFocus: React.RefObject<HTMLDivElement>; close: () => void }) => {
-		const { connectWalletManager, chainStore, accountStore, walletStore } = useStore();
+		const { connectWalletManager, chainStore, accountStore, walletStore, setIsEvmos } = useStore();
 		const [isMobile] = useState(() => checkIsMobile());
 		const [showMessage] = useActions([snackbar.showMessage]);
+		const account = accountStore.getAccount(chainStore.current.chainId);
 
 		useEffect(() => {
 			// Skip the selection of wallet type if mobile
@@ -298,10 +299,11 @@ export const ConnectWalletDialog = wrapBaseDialog(
 				localStorage.setItem(KeyConnectingWalletType, wallet.type);
 				localStorage.removeItem(KeyConnectingWalletName);
 				connectWalletManager.setWalletName('');
-				accountStore.getAccount(chainStore.current.chainId).init();
+				setIsEvmos(chainStore.current.chainId, false);
+				account.init();
 				close();
 			}
-		}, [accountStore, chainStore, close, connectWalletManager, isMobile]);
+		}, [account, accountStore, chainStore, close, connectWalletManager, isMobile, setIsEvmos]);
 
 		if (!WALLET_LIST.length) {
 			return (
@@ -331,7 +333,7 @@ export const ConnectWalletDialog = wrapBaseDialog(
 							localStorage.setItem(KeyConnectingWalletName, wallet.walletType || '');
 							connectWalletManager.setWalletName(wallet.walletType || '');
 
-							if (wallet.walletType) {
+							if (!wallet.walletType?.includes('keplr')) {
 								try {
 									const success = await walletStore.init(wallet.walletType, true);
 									localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
@@ -339,7 +341,8 @@ export const ConnectWalletDialog = wrapBaseDialog(
 									showMessage((err as any)?.message || err);
 								}
 							} else {
-								accountStore.getAccount(chainStore.current.chainId).init();
+								setIsEvmos(chainStore.current.chainId, wallet.walletType === 'keplr-evmos');
+								account.init();
 							}
 							close();
 						}}>

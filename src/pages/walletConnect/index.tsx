@@ -54,14 +54,13 @@ const WalletConnect: FunctionComponent = observer(() => {
 
 	const [disconnectSet, showMessage] = useActions([accounts.disconnectSet, snackbar.showMessage]);
 
-	const { connectWalletManager, chainStore, accountStore, walletStore } = useStore();
+	const { connectWalletManager, chainStore, accountStore, walletStore, setIsEvmos } = useStore();
 	const [isMobile] = useState(() => checkIsMobile());
 	const { isAccountConnected, disconnectAccount, isMobileWeb } = useAccountConnection();
 	const isConnected = isAccountConnected || walletStore.isLoaded;
+	const account = accountStore.getAccount(chainStore.current.chainId);
 
-	const address = walletStore.isLoaded
-		? walletStore.address
-		: accountStore.getAccount(chainStore.current.chainId).bech32Address;
+	const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
 
 	useEffect(() => {
 		if (!serverId || !userId) {
@@ -77,9 +76,10 @@ const WalletConnect: FunctionComponent = observer(() => {
 			localStorage.setItem(KeyConnectingWalletType, wallet.type);
 			localStorage.removeItem(KeyConnectingWalletName);
 			connectWalletManager.setWalletName('');
-			accountStore.getAccount(chainStore.current.chainId).init();
+			setIsEvmos(chainStore.current.chainId, false);
+			account.init();
 		}
-	}, [accountStore, chainStore, connectWalletManager, isConnected, isMobile]);
+	}, [account, accountStore, chainStore, connectWalletManager, isConnected, isMobile, setIsEvmos]);
 
 	const onConfirm = useCallback(async () => {
 		setLoading(true);
@@ -240,7 +240,7 @@ const WalletConnect: FunctionComponent = observer(() => {
 							localStorage.setItem(KeyConnectingWalletName, wallet.walletType || '');
 							connectWalletManager.setWalletName(wallet.walletType || '');
 
-							if (wallet.walletType) {
+							if (!wallet.walletType?.includes('keplr')) {
 								try {
 									const success = await walletStore.init(wallet.walletType, true);
 									localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
@@ -248,7 +248,8 @@ const WalletConnect: FunctionComponent = observer(() => {
 									showMessage((err as any)?.message || err);
 								}
 							} else {
-								accountStore.getAccount(chainStore.current.chainId).init();
+								setIsEvmos(chainStore.current.chainId, wallet.walletType === 'keplr-evmos');
+								account.init();
 							}
 						}}>
 						<img src={wallet.logoUrl} className="w-12 mr-3 md:w-16 md:mr-5" />

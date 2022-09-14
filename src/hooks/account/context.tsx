@@ -14,7 +14,7 @@ export interface AccountConnection {
 export const AccountConnectionContext = React.createContext<AccountConnection | null>(null);
 
 export const AccountConnectionProvider: FunctionComponent = observer(({ children }) => {
-	const { chainStore, accountStore, walletStore, connectWalletManager } = useStore();
+	const { chainStore, accountStore, walletStore, connectWalletManager, setIsEvmos } = useStore();
 	const [isOpenDialog, setIsOpenDialog] = useState(false);
 
 	const account = accountStore.getAccount(chainStore.current.chainId);
@@ -60,7 +60,10 @@ export const AccountConnectionProvider: FunctionComponent = observer(({ children
 	useEffect(() => {
 		// SetTimeout is used to make sure the extensions have been loaded into the window object before we call the init code
 		setTimeout(async () => {
-			if (connectWalletManager.autoConnectingWalletType === 'extension' && connectWalletManager.connectingWalletName) {
+			if (
+				connectWalletManager.autoConnectingWalletType === 'extension' &&
+				!connectWalletManager.connectingWalletName?.includes('keplr')
+			) {
 				try {
 					const success = await walletStore.init(connectWalletManager.connectingWalletName as any, false, false);
 					localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
@@ -71,14 +74,17 @@ export const AccountConnectionProvider: FunctionComponent = observer(({ children
 					connectWalletManager.disableAutoConnect();
 				}
 			} else if (!!connectWalletManager.autoConnectingWalletType && account.walletStatus === WalletStatus.NotInit) {
+				setIsEvmos(chainStore.current.chainId, connectWalletManager.connectingWalletName === 'keplr-evmos');
 				account.init();
 			}
 		});
 	}, [
 		account,
+		chainStore,
 		connectWalletManager,
 		connectWalletManager.autoConnectingWalletType,
 		connectWalletManager.connectingWalletName,
+		setIsEvmos,
 		walletStore,
 	]);
 

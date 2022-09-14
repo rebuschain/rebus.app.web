@@ -96,6 +96,24 @@ export class RootStore {
 							}
 						}
 
+						if (this.accountStore.getAccount(chainInfo.chainId).rebus.isEvmos) {
+							// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+							// @ts-ignore
+							copied.bip44.coinType = 60;
+							// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+							// @ts-ignore
+							copied.coinType = 60;
+							copied.currencies.push({
+								coinDenom: 'LUDUS',
+								coinMinimalDenom: 'uludus',
+								coinDecimals: 6,
+								coinGeckoId: 'ludus',
+							});
+							// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+							// @ts-ignore
+							copied.features = ['eth-address-gen', 'eth-key-sign'];
+						}
+
 						await keplr.experimentalSuggestChain(copied);
 					},
 				},
@@ -175,7 +193,7 @@ export class RootStore {
 			this.chainStore
 		);
 
-		this.walletStore = new WalletStore(EmbedChainInfos[0]);
+		this.walletStore = new WalletStore();
 		this.connectWalletManager.setWalletStore(this.walletStore);
 
 		// TODO: Add pools
@@ -236,6 +254,10 @@ export class RootStore {
 
 		this.layoutStore = new LayoutStore();
 	}
+
+	setIsEvmos = (chainId: string, isEvmos: boolean) => {
+		this.accountStore.getAccount(chainId).rebus.isEvmos = isEvmos;
+	};
 }
 
 export function createRootStore() {
