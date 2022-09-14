@@ -15,7 +15,8 @@ import { fetchVestingBalance, getBalance } from 'src/actions/accounts';
 import { useStore } from 'src/stores';
 
 const Voting = observer(props => {
-	const { walletStore } = useStore();
+	const { chainStore, queriesStore, walletStore } = useStore();
+	const queries = queriesStore.get(chainStore.current.chainId);
 
 	const [value, setValue] = React.useState('');
 	const [inProgress, setInProgress] = React.useState(false);
@@ -101,6 +102,12 @@ const Voting = observer(props => {
 			props.fetchProposalTally(props.proposalId);
 			props.getBalance(props.address);
 			props.fetchVestingBalance(props.address);
+			queries.queryBalances.getQueryBech32Address(props.address).fetch();
+
+			// Refetch the balance after 3 seconds in case claiming airdrop might take a couple seconds
+			setTimeout(() => {
+				queries.queryBalances.getQueryBech32Address(props.address).fetch();
+			}, 3000);
 		}
 	};
 

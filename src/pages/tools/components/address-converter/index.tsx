@@ -42,7 +42,7 @@ const AddressConverterView: FunctionComponent<PropsFromRedux> = ({ showMessage }
 				<input
 					className="text-white-high rounded-lg bg-background text-left font-title p-2"
 					onChange={e => setAddress(e.currentTarget.value)}
-					placeholder="0x... / cosmos1..."
+					placeholder="0x... / rebus1..."
 					value={address}
 				/>
 

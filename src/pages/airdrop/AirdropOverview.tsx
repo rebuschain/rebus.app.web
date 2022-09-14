@@ -19,9 +19,13 @@ export const AirdropOverview = observer(function AirdropOverview() {
 	const totalClaimableQuery = queries.rebus.queryTotalClaimable.get(address);
 	const unclaimed = totalClaimableQuery.amountOf(chainStore.current.stakeCurrency.coinMinimalDenom);
 
+	const claimRecord = queries.rebus.queryClaimRecord.get(address);
+	const totalClaimable = claimRecord.initialClaimableAmountOf(chainStore.current.stakeCurrency.coinMinimalDenom);
+
 	useEffect(() => {
+		claimRecord.fetch();
 		totalClaimableQuery.fetch();
-	}, [address, totalClaimableQuery]);
+	}, [address, claimRecord, totalClaimableQuery]);
 
 	return (
 		<AirdropOverviewContainer>
@@ -33,6 +37,22 @@ export const AirdropOverview = observer(function AirdropOverview() {
 					<span>
 						<TitleText size="2xl" isMobileView={isMobileView} style={{ display: 'inline' }}>
 							{unclaimed
+								.trim(true)
+								.shrink(true)
+								.hideDenom(true)
+								.toString()}
+						</TitleText>
+						<SubTitleText isMobileView={isMobileView} style={{ display: 'inline' }}>
+							{' '}
+							{unclaimed.currency.coinDenom}
+						</SubTitleText>
+					</span>
+				</OverviewLabelValue>
+				<OverviewLabelValue label="Claimed Airdrop">
+					<span>
+						<TitleText size="2xl" isMobileView={isMobileView} style={{ display: 'inline' }}>
+							{totalClaimable
+								.sub(unclaimed)
 								.trim(true)
 								.shrink(true)
 								.hideDenom(true)
