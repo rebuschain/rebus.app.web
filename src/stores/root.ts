@@ -103,12 +103,6 @@ export class RootStore {
 							// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 							// @ts-ignore
 							copied.coinType = 60;
-							copied.currencies.push({
-								coinDenom: 'LUDUS',
-								coinMinimalDenom: 'uludus',
-								coinDecimals: 6,
-								coinGeckoId: 'ludus',
-							});
 							// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 							// @ts-ignore
 							copied.features = ['eth-address-gen', 'eth-key-sign'];
