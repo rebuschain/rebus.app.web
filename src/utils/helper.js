@@ -120,7 +120,7 @@ export const aminoSignTxAndBroadcast = (tx, address, cb) => {
 	})();
 };
 
-export const aminoSignTx = async (tx, address, offlineSigner) => {
+export const aminoSignTx = async (tx, address, offlineSigner, isEvmos) => {
 	if (!offlineSigner) {
 		(await window.keplr) && window.keplr.enable(chainId);
 		offlineSigner = window.getOfflineSignerOnlyAmino && window.getOfflineSignerOnlyAmino(chainId);
@@ -142,7 +142,7 @@ export const aminoSignTx = async (tx, address, offlineSigner) => {
 		chainId: chainId,
 	};
 
-	const result = await client.signAmino(address, tx.msgs ? tx.msgs : [tx.msg], tx.fee, tx.memo, signerData);
+	const result = await client.signAmino(address, tx.msgs ? tx.msgs : [tx.msg], tx.fee, tx.memo, signerData, isEvmos);
 
 	const txBytes = TxRaw.encode(result).finish();
 

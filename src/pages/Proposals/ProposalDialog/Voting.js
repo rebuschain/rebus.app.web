@@ -15,8 +15,9 @@ import { fetchVestingBalance, getBalance } from 'src/actions/accounts';
 import { useStore } from 'src/stores';
 
 const Voting = observer(props => {
-	const { chainStore, queriesStore, walletStore } = useStore();
+	const { accountStore, chainStore, queriesStore, walletStore } = useStore();
 	const queries = queriesStore.get(chainStore.current.chainId);
+	const { isEvmos } = accountStore.getAccount(chainStore.current.chainId).rebus;
 
 	const [value, setValue] = React.useState('');
 	const [inProgress, setInProgress] = React.useState(false);
@@ -83,7 +84,7 @@ const Voting = observer(props => {
 			if (walletStore.isLoaded) {
 				result = await walletStore.vote(ethTx, tx);
 			} else {
-				result = await aminoSignTx(tx, props.address);
+				result = await aminoSignTx(tx, props.address, null, isEvmos);
 			}
 		} catch (err) {
 			const message = err?.message || '';

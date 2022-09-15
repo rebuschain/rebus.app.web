@@ -32,7 +32,8 @@ import { useStore } from '../../../stores';
 
 const COIN_DECI_VALUE = 1000000000000000000;
 const DelegateDialog = observer(props => {
-	const { chainStore, queriesStore, walletStore } = useStore();
+	const { accountStore, chainStore, queriesStore, walletStore } = useStore();
+	const { isEvmos } = accountStore.getAccount(chainStore.current.chainId).rebus;
 	const queries = queriesStore.get(chainStore.current.chainId);
 
 	const [inProgress, setInProgress] = useState(false);
@@ -98,7 +99,7 @@ const DelegateDialog = observer(props => {
 					throw new Error(variables[props.lang]['error_too_many_delegations']);
 				}
 			} else {
-				const tx = await aminoSignTx(updatedTx, props.address);
+				const tx = await aminoSignTx(updatedTx, props.address, null, isEvmos);
 				txHash = tx?.transactionHash;
 
 				if (tx?.rawLog?.includes('too many unbonding delegation entries')) {
