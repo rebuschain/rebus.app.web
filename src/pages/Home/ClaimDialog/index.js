@@ -24,8 +24,9 @@ import CircularProgress from 'src/components/insync/CircularProgress';
 const ClaimDialog = observer(props => {
 	const [inProgress, setInProgress] = useState(false);
 
-	const { chainStore, queriesStore, walletStore } = useStore();
+	const { accountStore, chainStore, queriesStore, walletStore } = useStore();
 	const queries = queriesStore.get(chainStore.current.chainId);
+	const { isEvmos } = accountStore.getAccount(chainStore.current.chainId).rebus;
 
 	const handleClaimAll = async () => {
 		setInProgress(true);
@@ -78,7 +79,7 @@ const ClaimDialog = observer(props => {
 				const tx = await walletStore.claimRewards(ethTx, updatedTx);
 				props.successDialog(tx?.tx_response?.txhash);
 			} else {
-				const result = await aminoSignTx(updatedTx, props.address);
+				const result = await aminoSignTx(updatedTx, props.address, null, isEvmos);
 				props.successDialog(result?.transactionHash);
 			}
 		} catch (error) {
@@ -144,7 +145,7 @@ const ClaimDialog = observer(props => {
 				const tx = await walletStore.claimRewards(ethTx, updatedTx);
 				props.successDialog(tx?.tx_response?.txhash);
 			} else {
-				const result = await aminoSignTx(updatedTx, props.address);
+				const result = await aminoSignTx(updatedTx, props.address, null, isEvmos);
 				props.successDialog(result?.transactionHash);
 			}
 		} catch (error) {

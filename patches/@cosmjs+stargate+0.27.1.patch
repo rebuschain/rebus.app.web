@@ -1,0 +1,24 @@
+diff --git a/node_modules/@cosmjs/stargate/build/signingstargateclient.js b/node_modules/@cosmjs/stargate/build/signingstargateclient.js
+index 7595431..aa17383 100644
+--- a/node_modules/@cosmjs/stargate/build/signingstargateclient.js
++++ b/node_modules/@cosmjs/stargate/build/signingstargateclient.js
+@@ -206,13 +206,18 @@ class SigningStargateClient extends stargateclient_1.StargateClient {
+             ? this.signDirect(signerAddress, messages, fee, memo, signerData)
+             : this.signAmino(signerAddress, messages, fee, memo, signerData);
+     }
+-    async signAmino(signerAddress, messages, fee, memo, { accountNumber, sequence, chainId }) {
++    async signAmino(signerAddress, messages, fee, memo, { accountNumber, sequence, chainId }, isEvmos) {
+         (0, utils_1.assert)(!(0, proto_signing_1.isOfflineDirectSigner)(this.signer));
+         const accountFromSigner = (await this.signer.getAccounts()).find((account) => account.address === signerAddress);
+         if (!accountFromSigner) {
+             throw new Error("Failed to retrieve account from signer");
+         }
+         const pubkey = (0, proto_signing_1.encodePubkey)((0, amino_1.encodeSecp256k1Pubkey)(accountFromSigner.pubkey));
++
++        if (isEvmos) {
++            pubkey.typeUrl = '/ethermint.crypto.v1.ethsecp256k1.PubKey';
++        }
++
+         const signMode = signing_1.SignMode.SIGN_MODE_LEGACY_AMINO_JSON;
+         const msgs = messages.map((msg) => this.aminoTypes.toAmino(msg));
+         const signDoc = (0, amino_1.makeSignDoc)(msgs, fee, chainId, memo, accountNumber, sequence);
