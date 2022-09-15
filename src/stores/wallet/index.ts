@@ -311,12 +311,12 @@ export class WalletStore {
 		return this.provider.send('wallet_addEthereumChain', [
 			{
 				chainId: `0x${ethChainId.toString(16)}`,
-				rpcUrls: [env('RPC_URL')],
+				rpcUrls: [env('RPC_URL').replace('26657', '8545')],
 				chainName: env('CHAIN_NAME') as string,
 				nativeCurrency: {
 					name: env('COIN_DENOM'),
 					symbol: env('COIN_DENOM'),
-					decimals: env('COIN_DECIMALS'),
+					decimals: parseInt(env('COIN_DECIMALS'), 10),
 				},
 				blockExplorerUrls: [env('EXPLORER_URL')],
 			},
