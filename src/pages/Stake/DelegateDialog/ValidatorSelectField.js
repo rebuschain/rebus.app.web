@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SelectField from 'src/components/insync/SelectField/WithChildren';
@@ -17,16 +17,23 @@ const ValidatorSelectField = props => {
 		props.onChange(value);
 	};
 
-	let validatorList = props.validatorList;
+	const items = useMemo(() => {
+		let validatorList = props.validatorList;
 
-	if (props.name === 'Undelegate' || props.name === 'Redelegate') {
-		validatorList = props.delegatedValidatorList;
-	}
+		if (props.name === 'Undelegate' || props.name === 'Redelegate') {
+			validatorList = props.delegatedValidatorList;
+		} else {
+			// Filter active validators
+			validatorList = validatorList.filter(item => item.status === 3).sort((a, b) => b.tokens - a.tokens);
+		}
+
+		return validatorList;
+	}, [props.delegatedValidatorList, props.name, props.validatorList]);
 
 	return (
 		<SelectField
 			id="validator_select_field"
-			items={props.validatorList}
+			items={items}
 			name="validators"
 			placeholder={variables[props.lang]['select_validator']}
 			value={props.dialogValidatorAddress || props.value}
@@ -34,9 +41,9 @@ const ValidatorSelectField = props => {
 			<MenuItem disabled value="none">
 				{variables[props.lang]['select_validator']}
 			</MenuItem>
-			{validatorList &&
-				validatorList.length > 0 &&
-				validatorList.map((item, index) => {
+			{items &&
+				items.length > 0 &&
+				items.map((item, index) => {
 					const image =
 						item &&
 						item.description &&
