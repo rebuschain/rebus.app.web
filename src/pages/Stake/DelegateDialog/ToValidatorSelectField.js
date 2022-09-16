@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SelectField from 'src/components/insync/SelectField/WithChildren';
@@ -16,16 +16,21 @@ const ToValidatorSelectField = props => {
 		props.onChange(value);
 	};
 
+	const items = useMemo(() => {
+		// Filter active validators
+		return props.validatorList.filter(item => item.status === 3).sort((a, b) => b.tokens - a.tokens);
+	}, [props.validatorList]);
+
 	return (
 		<SelectField
 			id="validator_select_field"
-			items={props.validatorList}
+			items={items}
 			name="validators"
 			value={props.value}
 			onChange={handleChange}>
-			{props.validatorList &&
-				props.validatorList.length &&
-				props.validatorList.map((item, index) => {
+			{items &&
+				items.length &&
+				items.map((item, index) => {
 					const image =
 						item &&
 						item.description &&
