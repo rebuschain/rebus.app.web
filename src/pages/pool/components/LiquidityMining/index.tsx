@@ -24,12 +24,13 @@ interface Props {
 }
 
 export const LiquidityMining = observer(function LiquidityMining({ poolId, isSuperfluidEnabled }: Props) {
-	const { chainStore, queriesStore, accountStore, priceStore } = useStore();
+	const { chainStore, queriesStore, accountStore, priceStore, walletStore } = useStore();
 
 	const { isMobileView } = useWindowSize();
 
 	const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
 	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
+	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 
 	const poolTotalValueLocked =
 		queries.rebus.queryGammPools
@@ -37,7 +38,7 @@ export const LiquidityMining = observer(function LiquidityMining({ poolId, isSup
 			?.computeTotalValueLocked(priceStore, priceStore.getFiatCurrency('usd')!) ??
 		new PricePretty(priceStore.getFiatCurrency('usd')!, new Dec(0));
 	const totalPoolShare = queries.rebus.queryGammPools.getPool(poolId)?.totalShare ?? new IntPretty(new Dec(0));
-	const myPoolShare = queries.rebus.queryGammPoolShare.getAvailableGammShare(account.bech32Address, poolId);
+	const myPoolShare = queries.rebus.queryGammPoolShare.getAvailableGammShare(address, poolId);
 	const lockableDurations = queries.rebus.queryLockableDurations.lockableDurations;
 
 	const [isDialogOpen, setIsDialogOpen] = useState(false);

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IMPERATOR_API_DOMAIN } from '../../constants/urls';
+import env from '@beam-australia/react-env';
 
 interface PoolFinancialDataRes {
 	/** coinDenom */
@@ -20,7 +20,7 @@ interface PoolFinancialDataRes {
 
 export async function getPoolFinancialData() {
 	const res = await axios.get<{ [poolId: string]: [PoolFinancialDataRes, PoolFinancialDataRes] }>(
-		`${IMPERATOR_API_DOMAIN}/pools/v2/all?low_liquidity=true`
+		`${env('IMPERATOR_URL')}/pools/v2/all?low_liquidity=true`
 	);
 	return res.data;
 }

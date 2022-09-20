@@ -9,11 +9,12 @@ import { UpgradeLockedLPToSuperfluidDialog } from 'src/dialogs';
 
 export const SuperfluidStaking: FunctionComponent<{ poolId: string }> = observer(({ poolId }) => {
 	const { isMobileView } = useWindowSize();
-	const { accountStore, queriesStore, chainStore, priceStore } = useStore();
+	const { accountStore, queriesStore, chainStore, priceStore, walletStore } = useStore();
 
 	const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
 	const queries = queriesStore.get(chainStore.currentOsmosis.chainId);
 	const poolShareCurrency = queries.rebus.queryGammPoolShare.getShareCurrency(poolId);
+	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 
 	const lockableDurations = queries.rebus.queryLockableDurations.lockableDurations;
 
@@ -44,7 +45,7 @@ export const SuperfluidStaking: FunctionComponent<{ poolId: string }> = observer
 	]);
 
 	const superfluidDelegations = queries.rebus.querySuperfluidDelegations
-		.getQuerySuperfluidDelegations(account.bech32Address)
+		.getQuerySuperfluidDelegations(address)
 		.getDelegations(poolShareCurrency);
 	const queryActiveValidators = queries.cosmos.queryValidators.getQueryStatus(Staking.BondStatus.Bonded);
 	const activeValidators = queryActiveValidators.validators;
@@ -70,7 +71,7 @@ export const SuperfluidStaking: FunctionComponent<{ poolId: string }> = observer
 		| undefined = (() => {
 		if (lockableDurations.length > 0) {
 			return queries.rebus.queryAccountLocked
-				.get(account.bech32Address)
+				.get(address)
 				.getLockedCoinWithDuration(poolShareCurrency, lockableDurations[lockableDurations.length - 1]);
 		} else {
 			return;

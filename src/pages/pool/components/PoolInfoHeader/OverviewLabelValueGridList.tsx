@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const OverviewLabelValueGridList = observer(function OverviewLabelGridList({ poolId }: Props) {
-	const { chainStore, queriesStore, priceStore, accountStore } = useStore();
+	const { chainStore, queriesStore, priceStore, accountStore, walletStore } = useStore();
 
 	const { isMobileView } = useWindowSize();
 
@@ -22,9 +22,10 @@ export const OverviewLabelValueGridList = observer(function OverviewLabelGridLis
 	const pool = queries.rebus.queryGammPools.getPool(poolId);
 
 	const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
-	const shareRatio = queries.rebus.queryGammPoolShare.getAllGammShareRatio(account.bech32Address, poolId);
+	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
+	const shareRatio = queries.rebus.queryGammPoolShare.getAllGammShareRatio(address, poolId);
 
-	const locked = queries.rebus.queryGammPoolShare.getLockedGammShare(account.bech32Address, poolId);
+	const locked = queries.rebus.queryGammPoolShare.getLockedGammShare(address, poolId);
 	const actualLockedRatio = pool ? locked.quo(pool.totalShare) : new Dec(0);
 
 	// `shareRatio`가 백분률로 오기 때문에 10^2를 나눠줘야한다.

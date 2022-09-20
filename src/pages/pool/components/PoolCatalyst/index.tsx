@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const PoolCatalyst = observer(function PoolCatalyst({ poolId }: Props) {
-	const { chainStore, queriesStore, accountStore } = useStore();
+	const { chainStore, queriesStore, accountStore, walletStore } = useStore();
 
 	const { isMobileView } = useWindowSize();
 
@@ -20,8 +20,9 @@ export const PoolCatalyst = observer(function PoolCatalyst({ poolId }: Props) {
 	const pool = queries.rebus.queryGammPools.getPool(poolId);
 
 	const account = accountStore.getAccount(chainStore.currentOsmosis.chainId);
+	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 	// ShareRatio가 백분률로 온다는 것을 주의하자.
-	const shareRatio = queries.rebus.queryGammPoolShare.getAllGammShareRatio(account.bech32Address, poolId);
+	const shareRatio = queries.rebus.queryGammPoolShare.getAllGammShareRatio(address, poolId);
 
 	if (!pool) {
 		return null;

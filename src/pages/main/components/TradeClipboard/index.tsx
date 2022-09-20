@@ -18,10 +18,11 @@ import queryString from 'querystring';
 import { SwapDirectionButton } from 'src/components/SwapToken/SwapDirectionButton';
 
 export const TradeClipboard: FunctionComponent = observer(() => {
-	const { chainStore, queriesStore, accountStore, swapManager } = useStore();
+	const { chainStore, queriesStore, accountStore, swapManager, walletStore } = useStore();
 
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);
+	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 
 	const history = useHistory();
 
@@ -33,7 +34,7 @@ export const TradeClipboard: FunctionComponent = observer(() => {
 	const config = useTradeConfig(
 		chainStore,
 		chainStore.current.chainId,
-		account.bech32Address,
+		address,
 		queries.queryBalances,
 		swapManager,
 		queries.rebus.queryGammPools

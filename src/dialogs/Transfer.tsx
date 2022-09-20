@@ -39,9 +39,10 @@ export const TransferDialog = wrapBaseDialog(
 
 			ics20ContractAddress?: string;
 		}) => {
-			const { chainStore, accountStore, queriesStore, ibcTransferHistoryStore } = useStore();
+			const { chainStore, accountStore, queriesStore, ibcTransferHistoryStore, walletStore } = useStore();
 
 			const account = accountStore.getAccount(chainStore.current.chainId);
+			const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
 			const counterpartyAccount = accountStore.getAccount(counterpartyChainId);
 			const counterpartyBech32Prefix = chainStore.getChain(counterpartyChainId).bech32Config.bech32PrefixAccAddr;
 
@@ -53,7 +54,7 @@ export const TransferDialog = wrapBaseDialog(
 
 			const bal = queriesStore
 				.get(chainStore.current.chainId)
-				.queryBalances.getQueryBech32Address(account.bech32Address)
+				.queryBalances.getQueryBech32Address(address)
 				.getBalanceFromCurrency(currency);
 			const counterpartyBal = queriesStore
 				.get(counterpartyChainId)
@@ -68,16 +69,12 @@ export const TransferDialog = wrapBaseDialog(
 					counterpartyAccount.disconnect();
 					setIsEditingWithdrawAddr(true);
 					setCustomWithdrawAddr(counterpartyAccount.bech32Address, counterpartyBech32Prefix);
-				} else if (
-					account.bech32Address &&
-					counterpartyAccount.walletStatus === WalletStatus.NotInit &&
-					!counterpartyInitAttempted
-				) {
+				} else if (address && counterpartyAccount.walletStatus === WalletStatus.NotInit && !counterpartyInitAttempted) {
 					counterpartyAccount.init();
 					setCounterpartyInitAttempted(true);
 				}
 			}, [
-				account.bech32Address,
+				address,
 				counterpartyAccount.walletStatus,
 				counterpartyAccount,
 				counterpartyBech32Prefix,
@@ -90,7 +87,7 @@ export const TransferDialog = wrapBaseDialog(
 			const amountConfig = useBasicAmountConfig(
 				chainStore,
 				chainStore.current.chainId,
-				pickOne(account.bech32Address, counterpartyAccount.bech32Address, isWithdraw),
+				pickOne(address, counterpartyAccount.bech32Address, isWithdraw),
 				pickOne(currency, currency.originCurrency!, isWithdraw),
 				pickOne(
 					queriesStore.get(chainStore.current.chainId).queryBalances,
@@ -139,7 +136,7 @@ export const TransferDialog = wrapBaseDialog(
 							<p className="text-white-high">From</p>
 							<p className="text-white-disabled truncate overflow-ellipsis">
 								{pickOne(
-									Bech32Address.shortenAddress(account.bech32Address, 100),
+									Bech32Address.shortenAddress(address, 100),
 									Bech32Address.shortenAddress(counterpartyAccount.bech32Address, 25),
 									isWithdraw
 								)}
@@ -216,7 +213,7 @@ export const TransferDialog = wrapBaseDialog(
 											didConfirmWithdrawAddr ? customWithdrawAddr : counterpartyAccount.bech32Address,
 											100
 										),
-										Bech32Address.shortenAddress(account.bech32Address, 25),
+										Bech32Address.shortenAddress(address, 25),
 										isWithdraw
 									)}
 									{isWithdraw && !isEditingWithdrawAddr && counterpartyAccount.walletStatus === WalletStatus.Loaded && (
@@ -309,7 +306,7 @@ export const TransferDialog = wrapBaseDialog(
 												account.isReadyToSendMsgs &&
 												(counterpartyAccount.bech32Address || (customWithdrawAddr && isValidCustomWithdrawAddr))
 											) {
-												const sender = account.bech32Address;
+												const sender = address;
 												const recipient = didConfirmWithdrawAddr
 													? customWithdrawAddr
 													: counterpartyAccount.bech32Address;
@@ -402,9 +399,9 @@ export const TransferDialog = wrapBaseDialog(
 												);
 											}
 										} else {
-											if (counterpartyAccount.isReadyToSendMsgs && account.bech32Address) {
+											if (counterpartyAccount.isReadyToSendMsgs && address) {
 												const sender = counterpartyAccount.bech32Address;
-												const recipient = account.bech32Address;
+												const recipient = address;
 
 												const txEvents = {
 													onBroadcasted: (txHash: Uint8Array) =>

@@ -15,13 +15,13 @@ import useWindowSize from 'src/hooks/useWindowSize';
 
 const tableWidths = ['20%', '15%', '15%', '30%', '20%'];
 export const IbcTransferHistoryList = observer(function IbcTransferHistoryList() {
-	const { ibcTransferHistoryStore, chainStore, accountStore } = useStore();
+	const { ibcTransferHistoryStore, chainStore, accountStore, walletStore } = useStore();
+	const account = accountStore.getAccount(chainStore.current.chainId);
+	const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
 
 	const { isMobileView } = useWindowSize();
 
-	const histories = ibcTransferHistoryStore.getHistoriesAndUncommitedHistoriesByAccount(
-		accountStore.getAccount(chainStore.current.chainId).bech32Address
-	);
+	const histories = ibcTransferHistoryStore.getHistoriesAndUncommitedHistoriesByAccount(address);
 
 	const itemsPerPage = 10;
 	const [page, setPage] = useState(1);
