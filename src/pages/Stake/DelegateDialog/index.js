@@ -89,22 +89,25 @@ const DelegateDialog = observer(props => {
 			},
 			memo: '',
 		};
+		let txLog = '';
 
 		try {
 			if (walletStore.isLoaded) {
 				const tx = await walletStore[method](ethTx, updatedTx);
 				txHash = tx?.tx_response?.txhash;
-
-				if (tx?.tx_response?.raw_log?.includes('too many unbonding delegation entries')) {
-					throw new Error(variables[props.lang]['error_too_many_delegations']);
-				}
+				txLog = tx?.tx_response?.raw_log;
 			} else {
 				const tx = await aminoSignTx(updatedTx, props.address, null, isEvmos);
 				txHash = tx?.transactionHash;
+				txLog = tx?.rawLog;
+			}
 
-				if (tx?.rawLog?.includes('too many unbonding delegation entries')) {
-					throw new Error(variables[props.lang]['error_too_many_delegations']);
-				}
+			if (txLog?.includes('too many unbonding delegation entries')) {
+				throw new Error(variables[props.lang]['error_too_many_delegations']);
+			}
+
+			if (txLog?.includes('redelegation to this validator already in progress')) {
+				throw new Error(variables[props.lang]['error_redelegation_in_progress']);
 			}
 
 			updateBalance();
