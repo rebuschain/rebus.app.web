@@ -133,7 +133,7 @@ const webConfig = () => {
 		},
 		output: {
 			path: path.resolve(__dirname, isEnvDevelopment ? 'dist' : 'prod'),
-			filename: '[name].bundle.js',
+			filename: '[name].[contenthash].bundle.js',
 			publicPath: ASSET_PATH,
 		},
 		resolve: commonResolve('src/assets'),

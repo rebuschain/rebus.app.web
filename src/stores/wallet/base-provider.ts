@@ -47,7 +47,7 @@ export class BaseProvider<T extends AminoProviderBase> {
 	}
 
 	public async signAndBroadcastAmino<T>(address: string, aminoTx: T): Promise<TransactionResponse> {
-		const res = await aminoSignTx(aminoTx, address, this.getOfflineAminoSigner());
+		const res = await aminoSignTx(aminoTx, address, this.getOfflineAminoSigner(), false);
 
 		const txResponse: TxResponse = {
 			code: res?.code,

@@ -1002,6 +1002,12 @@ export const EmbedChainInfos: ChainInfoWithExplorer[] = [
 				coinGeckoId: prefix,
 				coinImageUrl,
 			},
+			{
+				coinDenom: 'LUDUS',
+				coinMinimalDenom: 'uludus',
+				coinDecimals: 6,
+				coinGeckoId: 'ludus',
+			},
 		],
 		feeCurrencies: [
 			{

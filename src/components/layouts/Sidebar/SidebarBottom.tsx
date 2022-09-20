@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent } from 'react';
 import { Button } from 'src/components/common/button';
 import { useActions } from 'src/hooks/useActions';
+import { LINKS } from 'src/constants/links';
 import * as accounts from '../../../actions/accounts';
 import { MISC } from '../../../constants';
 import { useAccountConnection } from '../../../hooks/account/useAccountConnection';
@@ -73,51 +74,48 @@ export const SidebarBottom: FunctionComponent = observer(() => {
 			</p>
 			{/* <div className={'flex items-center transition-all w-full'}> */}
 			{/*<Img className="w-9 h-9" src={`${MISC.ASSETS_BASE}/Icons/${openSidebar ? 'Menu-in' : 'Menu'}.svg`} />*/}
-			{/* <div
-					className="flex items-center transition-all overflow-x-hidden w-full"
-					style={{ justifyContent: 'space-around' }}>
-					<button
-						onClick={() => window.open(LINKS.TWITTER)}
-						className="opacity-75 hover:opacity-100 cursor-pointer mb-0.5 mr-1">
-						<img
-							alt="twitter"
-							style={{ minWidth: '32px' }}
-							className="w-8 h-8"
-							src={`${MISC.ASSETS_BASE}/Icons/Twitter.svg`}
-						/>
-					</button>
-					<button
-						onClick={() => window.open(LINKS.MEDIUM)}
-						className="opacity-75 hover:opacity-100 cursor-pointer mr-1">
-						<img
-							alt="medium"
-							style={{ minWidth: '36px' }}
-							className="w-9 h-9"
-							src={`${MISC.ASSETS_BASE}/Icons/Medium.svg`}
-						/>
-					</button>
-					<button
-						onClick={() => window.open(LINKS.DISCORD)}
-						className="opacity-75 hover:opacity-100 cursor-pointer mb-0.5">
-						<img
-							alt="discord"
-							style={{ minWidth: '36px' }}
-							className="w-9 h-9"
-							src={`${MISC.ASSETS_BASE}/Icons/Discord.svg`}
-						/>
-					</button>
-					<button
-						onClick={() => window.open(LINKS.TELEGRAM)}
-						className="opacity-75 hover:opacity-100 cursor-pointer mb-0.5">
-						<img
-							alt="telegram"
-							style={{ minWidth: '36px' }}
-							className="w-9 h-9"
-							src={`${MISC.ASSETS_BASE}/Icons/Telegram.svg`}
-						/>
-					</button>
-				</div>
-			</div> */}
+			<div
+				className="flex items-center transition-all overflow-x-hidden w-full"
+				style={{ justifyContent: 'space-around' }}>
+				<button
+					onClick={() => window.open(LINKS.TWITTER)}
+					className="opacity-75 hover:opacity-100 cursor-pointer mb-0.5 mr-1">
+					<img
+						alt="twitter"
+						style={{ minWidth: '32px' }}
+						className="w-8 h-8"
+						src={`${MISC.ASSETS_BASE}/Icons/Twitter.svg`}
+					/>
+				</button>
+				<button onClick={() => window.open(LINKS.MEDIUM)} className="opacity-75 hover:opacity-100 cursor-pointer mr-1">
+					<img
+						alt="medium"
+						style={{ minWidth: '36px' }}
+						className="w-9 h-9"
+						src={`${MISC.ASSETS_BASE}/Icons/Medium.svg`}
+					/>
+				</button>
+				<button
+					onClick={() => window.open(LINKS.DISCORD)}
+					className="opacity-75 hover:opacity-100 cursor-pointer mb-0.5">
+					<img
+						alt="discord"
+						style={{ minWidth: '36px' }}
+						className="w-9 h-9"
+						src={`${MISC.ASSETS_BASE}/Icons/Discord.svg`}
+					/>
+				</button>
+				<button
+					onClick={() => window.open(LINKS.TELEGRAM)}
+					className="opacity-75 hover:opacity-100 cursor-pointer mb-0.5">
+					<img
+						alt="telegram"
+						style={{ minWidth: '36px' }}
+						className="w-9 h-9"
+						src={`${MISC.ASSETS_BASE}/Icons/Telegram.svg`}
+					/>
+				</button>
+			</div>
 		</div>
 	);
 });

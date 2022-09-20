@@ -1,8 +1,9 @@
 export const LINKS = {
-	FACEBOOK: 'https://www.facebook.com/rebuschain',
 	TWITTER: 'https://twitter.com/RebusChain',
-	INSTAGRAM: 'https://www.instagram.com/rebuschain/',
 	MEDIUM: 'https://medium.com/@RebusChain',
-	DISCORD: 'https://discord.gg/tqfSntHxvv',
+	DISCORD: 'https://t.me/RebusChain',
 	TELEGRAM: 'https://t.me/RebusChain',
+	INSTAGRAM: 'https://www.instagram.com/rebuschain/',
+	FACEBOOK: 'https://www.facebook.com/rebuschain',
+	LINKEDIN: 'https://linkedin.com/company/rebuschain/',
 };
