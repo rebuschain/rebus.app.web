@@ -7,6 +7,7 @@ import { OverviewLabelValue } from 'src/components/common/OverviewLabelValue';
 import { SubTitleText, TitleText } from 'src/components/Texts';
 import { useStore } from 'src/stores';
 import useWindowSize from 'src/hooks/useWindowSize';
+import { LINKS } from 'src/constants/links';
 
 export const AirdropOverview = observer(function AirdropOverview() {
 	const { chainStore, accountStore, queriesStore, walletStore } = useStore();
@@ -66,6 +67,25 @@ export const AirdropOverview = observer(function AirdropOverview() {
 				</OverviewLabelValue>
 				<DisplayCliff />
 			</OverviewList>
+			<TitleText className="mt-10" size="lg" isMobileView={isMobileView}>
+				If you have any issues with the Airdrop please fill out&nbsp;
+				<a
+					href="https://docs.google.com/forms/d/e/1FAIpQLSdG-qnmcYS80rXSvkAXHf5KzOx6JoQQ4PfO-SRNX2hqHgF4iQ/viewform"
+					target="_blank"
+					rel="noreferrer"
+					style={{ textDecoration: 'underline' }}>
+					this form
+				</a>
+				&nbsp;or join our&nbsp;
+				<a href={LINKS.TELEGRAM} target="_blank" rel="noreferrer" style={{ textDecoration: 'underline' }}>
+					telegram
+				</a>
+				&nbsp;or&nbsp;
+				<a href={LINKS.DISCORD} target="_blank" rel="noreferrer" style={{ textDecoration: 'underline' }}>
+					discord
+				</a>
+				&nbsp;communities
+			</TitleText>
 		</AirdropOverviewContainer>
 	);
 });
