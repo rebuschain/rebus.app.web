@@ -311,7 +311,7 @@ export class WalletStore {
 		return this.provider.send('wallet_addEthereumChain', [
 			{
 				chainId: `0x${ethChainId.toString(16)}`,
-				rpcUrls: [env('RPC_URL').replace('26657', '8545')],
+				rpcUrls: [env('METAMASK_URL')],
 				chainName: env('CHAIN_NAME') as string,
 				nativeCurrency: {
 					name: env('COIN_DENOM'),
