@@ -64,6 +64,7 @@ jobs:
 
           yarn build:css && yarn build
 
+          sed -i -r "s/public\/__ENV.js/public\/__ENV.js?q=$(date +%s)/g" ./prod/index.html
           cp ./prod/index.html ./prod/index.testnet.html
           cp ./prod/index.html ./prod/index.mainnet.html
           sed -i -r "/manifest\.json/! s/(src|href)=\"[^h]([^\"]*)\"/\1=\"${DEV_PUBLIC_URL//\//\\/}\2\"/g" ./prod/index.html
