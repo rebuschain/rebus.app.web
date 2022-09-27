@@ -24,11 +24,13 @@ const ValidatorSelectField = props => {
 			validatorList = props.delegatedValidatorList;
 		} else {
 			// Filter active validators
-			validatorList = validatorList.filter(item => item.status === 3).sort((a, b) => b.tokens - a.tokens);
+			validatorList = props.canDelegateToInactive
+				? validatorList.sort((a, b) => b.tokens - a.tokens)
+				: validatorList.filter(item => item.status === 3).sort((a, b) => b.tokens - a.tokens);
 		}
 
 		return validatorList;
-	}, [props.delegatedValidatorList, props.name, props.validatorList]);
+	}, [props.canDelegateToInactive, props.delegatedValidatorList, props.name, props.validatorList]);
 
 	return (
 		<SelectField
@@ -86,6 +88,7 @@ const ValidatorSelectField = props => {
 };
 
 ValidatorSelectField.propTypes = {
+	canDelegateToInactive: PropTypes.bool.isRequired,
 	items: PropTypes.array.isRequired,
 	lang: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,

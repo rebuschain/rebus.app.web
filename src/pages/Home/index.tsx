@@ -30,6 +30,9 @@ type HomeState = {
 	active: number;
 };
 
+// TODO Remove when component refactored to typescript
+const DelegateDialogWrapper = DelegateDialog as any;
+
 class Home extends Component<HomeProps, HomeState> {
 	constructor(props: HomeProps) {
 		super(props);
@@ -134,7 +137,7 @@ class Home extends Component<HomeProps, HomeState> {
 						<ProposalDialog />
 					)}
 					</div>*/}
-				<DelegateDialog />
+				<DelegateDialogWrapper canDelegateToInactive={active === 3} />
 				<SuccessDialog />
 				<UnSuccessDialog />
 				<PendingDialog />

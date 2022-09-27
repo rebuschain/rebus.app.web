@@ -230,14 +230,14 @@ const DelegateDialog = observer(props => {
 				{props.name === 'Redelegate' ? (
 					<>
 						<p>From validator</p>
-						<ValidatorSelectField />
+						<ValidatorSelectField canDelegateToInactive={props.canDelegateToInactive} />
 						<p>To validator</p>
-						<ToValidatorSelectField />
+						<ToValidatorSelectField canDelegateToInactive={props.canDelegateToInactive} />
 					</>
 				) : (
 					<>
 						<p>Choose the validator</p>
-						<ValidatorSelectField />
+						<ValidatorSelectField canDelegateToInactive={props.canDelegateToInactive} />
 					</>
 				)}
 				<p>Enter tokens to {props.name || 'Delegate'}</p>
@@ -253,6 +253,7 @@ const DelegateDialog = observer(props => {
 });
 
 DelegateDialog.propTypes = {
+	canDelegateToInactive: PropTypes.bool.isRequired,
 	failedDialog: PropTypes.func.isRequired,
 	fetchRewards: PropTypes.func.isRequired,
 	fetchVestingBalance: PropTypes.func.isRequired,

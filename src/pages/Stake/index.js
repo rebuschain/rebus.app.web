@@ -42,7 +42,7 @@ const Stake = props => {
 					</div>
 					<Table active={active} />
 				</div>
-				<DelegateDialog />
+				<DelegateDialog canDelegateToInactive={active === 3} />
 				<SuccessDialog />
 				<UnSuccessDialog />
 				<PendingDialog />
