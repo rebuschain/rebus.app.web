@@ -19,9 +19,9 @@ const ToValidatorSelectField = props => {
 	const items = useMemo(() => {
 		// Filter active validators
 		return props.canDelegateToInactive
-			? validatorList.sort((a, b) => b.tokens - a.tokens)
-			: validatorList.filter(item => item.status === 3).sort((a, b) => b.tokens - a.tokens);
-	}, [props.canDelegateToInactive]);
+			? props.validatorList.sort((a, b) => b.tokens - a.tokens)
+			: props.validatorList.filter(item => item.status === 3).sort((a, b) => b.tokens - a.tokens);
+	}, [props.canDelegateToInactive, props.validatorList]);
 
 	return (
 		<SelectField
