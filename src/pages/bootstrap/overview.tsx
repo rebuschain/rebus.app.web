@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '../../stores';
 import { PricePretty } from '@keplr-wallet/unit/build/price-pretty';
 import { Dec } from '@keplr-wallet/unit';
-import { OverviewLabelValue } from '../../components/common/OverviewLabelValue';
+import { OverviewLabelValue } from '../../components/common/overview-label-value';
 
 export const LBPOverview: FunctionComponent<{ title: string; poolIds: string[] }> = observer(({ title, poolIds }) => {
 	const { chainStore, queriesStore, priceStore } = useStore();

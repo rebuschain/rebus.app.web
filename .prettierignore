@@ -12,4 +12,4 @@ src/styles/index.scss
 
 src/proto/generated/*
 
-src/hooks/useShallowEqualSelector.ts
+src/hooks/use-shallow-equal-selector.ts

@@ -3,7 +3,7 @@ import { copyTextToClipboard } from 'src/utils/copy-to-clipboard';
 import { ethToRebus, rebusToEth } from 'src/utils/rebus-converter';
 import classNames from 'classnames';
 import { snackbarActions } from 'src/reducers/slices';
-import { useActions } from 'src/hooks/useActions';
+import { useActions } from 'src/hooks/use-actions';
 
 const AddressConverter: FunctionComponent = () => {
 	const [address, setAddress] = useState('');

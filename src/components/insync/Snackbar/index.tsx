@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Slide, SlideProps, Snackbar as MaterialSnackbar } from '@material-ui/core';
-import icon from 'src/assets/userDetails/warning.svg';
+import icon from 'src/assets/user-details/warning.svg';
 import './index.scss';
 
 const TransitionUp: FunctionComponent<SlideProps> = props => <Slide direction="up" {...props} />;

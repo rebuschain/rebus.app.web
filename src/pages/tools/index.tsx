@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React, { FunctionComponent } from 'react';
-import { FullScreenContainer } from 'src/components/layouts/Containers';
-import SnackbarMessage from '../../components/insync/SnackbarMessage';
+import { FullScreenContainer } from 'src/components/layouts/containers';
+import SnackbarMessage from '../../components/insync/snackbar-message';
 import { AddressConverter } from './components/address-converter';
 
 const ToolsPage: FunctionComponent = () => {

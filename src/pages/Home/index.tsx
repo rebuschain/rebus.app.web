@@ -1,18 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { observer } from 'mobx-react-lite';
-import { useAppSelector } from 'src/hooks/useAppSelect';
+import { useAppSelector } from 'src/hooks/use-app-select';
 import { RootState } from 'src/reducers/store';
-import { useAddress } from 'src/hooks/useAddress';
+import { useAddress } from 'src/hooks/use-address';
 import variables from '../../utils/variables';
-import DelegateDialog from '../Stake/DelegateDialog';
-import SuccessDialog from '../Stake/DelegateDialog/SuccessDialog';
-import UnSuccessDialog from '../Stake/DelegateDialog/UnSuccessDialog';
-import Table from '../Stake/Table';
-import PendingDialog from '../Stake/DelegateDialog/PendingDialog';
-import { InsyncWrapper } from '../../components/insync/InsyncWrapper';
-import ClaimDialog from './ClaimDialog';
-import TokenDetails from './TokenDetails';
+import DelegateDialog from '../stake/delegate-dialog';
+import SuccessDialog from '../stake/delegate-dialog/success-dialog';
+import UnSuccessDialog from '../stake/delegate-dialog/un-success-dialog';
+import Table from '../stake/table';
+import PendingDialog from '../stake/delegate-dialog/pending-dialog';
+import { InsyncWrapper } from '../../components/insync/insync-wrapper';
+import ClaimDialog from './claim-dialog';
+import TokenDetails from './token-details';
 import './index.scss';
 
 type HomeProps = RouteComponentProps<any>;

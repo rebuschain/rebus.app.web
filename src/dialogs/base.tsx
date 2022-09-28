@@ -38,7 +38,7 @@ export const BaseDialog: FunctionComponent<BaseDialogProps> = ({
 								<img
 									onClick={() => close()}
 									className="absolute cursor-pointer top-3 md:top-5 right-3 md:right-5 w-8 md:w-10"
-									src="/public/assets/Icons/Close.svg"
+									src="/public/assets/icons/close.svg"
 								/>
 							)}
 						</div>

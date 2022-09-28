@@ -9,7 +9,7 @@ import { observer } from 'mobx-react-lite';
 import { computedFn } from 'mobx-utils';
 import React, { Dispatch, FunctionComponent, SetStateAction, useState } from 'react';
 import InputSlider from 'react-input-slider';
-import { AmountInput } from '../components/form/Inputs';
+import { AmountInput } from '../components/form/inputs';
 import { MISC } from '../constants';
 import { OSMO_MEDIUM_TX_FEE } from '../constants/fee';
 import { BasicAmountConfig } from '../hooks/tx/basic-amount-config';
@@ -17,9 +17,9 @@ import { useStore } from '../stores';
 import { ObservableQueryGammPoolShare } from '../stores/rebus/query/pool-share';
 import { ObservableQueryPools } from '../stores/rebus/query/pools';
 import { wrapBaseDialog } from './base';
-import useWindowSize from 'src/hooks/useWindowSize';
-import { TokenSelect } from 'src/components/SwapToken/TokenSelect';
-import { useBooleanStateWithWindowEvent } from 'src/hooks/useBooleanStateWithWindowEvent';
+import useWindowSize from 'src/hooks/use-window-size';
+import { TokenSelect } from 'src/components/swap-token/token-select';
+import { useBooleanStateWithWindowEvent } from 'src/hooks/use-boolean-state-with-window-event';
 import { IconExternalLink, IconCheckBox } from 'src/icons';
 
 //	TODO : edit how the circle renders the border to make gradients work
@@ -731,7 +731,7 @@ const AddLiquidity: FunctionComponent<{
 				</label>
 				<img
 					className="h-5 w-5 cursor-pointer"
-					src="/public/assets/Icons/Information.svg"
+					src="/public/assets/icons/information.svg"
 					onMouseEnter={() => setIsMouseOverInfoIcon(true)}
 					onMouseLeave={() => {
 						const timeoutId = window.setTimeout(() => {
@@ -996,7 +996,7 @@ const BottomButton: FunctionComponent<{
 			{error && (
 				<div className="mt-4 md:mt-6 w-full flex justify-center items-center">
 					<div className="py-1.5 px-2.5 md:px-3.5 rounded-lg bg-missionError flex justify-center items-center">
-						<img className="h-5 w-5 mr-2.5" src="/public/assets/Icons/Info-Circle.svg" />
+						<img className="h-5 w-5 mr-2.5" src="/public/assets/icons/info-circle.svg" />
 						<p>{error.message}</p>
 					</div>
 				</div>

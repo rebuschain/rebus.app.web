@@ -11,7 +11,7 @@ const CloseButton: FunctionComponent<{ closeToast: () => void }> = ({ closeToast
 		onClick={closeToast}
 		style={{ left: '-8px', top: '-8px' }}
 		className="hover:opacity-75 absolute z-100 h-6 w-6">
-		<img alt="x" className="w-full h-full" src="/public/assets/Icons/ToastClose.png" />
+		<img alt="x" className="w-full h-full" src="/public/assets/icons/toast-close.png" />
 	</button>
 );
 
@@ -38,7 +38,7 @@ export const ToastIBCTransferComplete: FunctionComponent<{
 
 	return (
 		<div className="grid gap-3.75" style={{ gridTemplateColumns: '32px 1fr' }}>
-			<img alt="b" style={{ width: '32px', height: '32px' }} src="/public/assets/Icons/ToastSuccess.png" />
+			<img alt="b" style={{ width: '32px', height: '32px' }} src="/public/assets/icons/toast-success.png" />
 			<section className="text-white-high">
 				<h6 className="mb-2">IBC Transfer Successful</h6>
 				{ChainIdHelper.parse(chainStore.current.chainId).identifier ===
@@ -67,7 +67,7 @@ export const ToastIBCTransferTimeout: FunctionComponent<{
 
 	return (
 		<div className="grid gap-3" style={{ gridTemplateColumns: '32px 1fr' }}>
-			<img alt="x" style={{ width: '32px', height: '32px' }} src="/public/assets/Icons/FailedTx.png" />
+			<img alt="x" style={{ width: '32px', height: '32px' }} src="/public/assets/icons/failed-tx.png" />
 			<section className="text-white-high">
 				<h6 className="mb-2">IBC Transfer Timeout</h6>
 				{ChainIdHelper.parse(chainStore.current.chainId).identifier ===
@@ -94,7 +94,7 @@ export const ToastIBCTransferRefunded: FunctionComponent<{
 
 	return (
 		<div className="grid gap-3.75" style={{ gridTemplateColumns: '32px 1fr' }}>
-			<img alt="b" style={{ width: '32px', height: '32px' }} src="/public/assets/Icons/ToastSuccess.png" />
+			<img alt="b" style={{ width: '32px', height: '32px' }} src="/public/assets/icons/toast-success.png" />
 			<section className="text-white-high">
 				<h6 className="mb-2">IBC Transfer Successful</h6>
 				{`${amount

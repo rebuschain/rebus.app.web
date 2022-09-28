@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { colorPrimary, colorWhiteRegular } from 'src/emotionStyles/colors';
+import { colorPrimary, colorWhiteRegular } from 'src/emotion-styles/colors';
 
 export const TableHeaderRow = styled.tr`
 	display: flex;

@@ -4,11 +4,11 @@ import { Container } from '../../containers';
 import { TCardTypes } from '../../../interfaces';
 import { LAYOUT, TSIDEBAR_ITEM, TSIDEBAR_SELECTED_CHECK } from '../../../constants';
 import { mapKeyValues } from '../../../utils/scripts';
-import { SidebarItem } from './SidebarItem';
+import { SidebarItem } from './sidebar-item';
 import { useHistory, withRouter } from 'react-router-dom';
-import { SidebarBottom } from './SidebarBottom';
+import { SidebarBottom } from './sidebar-bottom';
 import isArray from 'lodash-es/isArray';
-import useWindowSize from 'src/hooks/useWindowSize';
+import useWindowSize from 'src/hooks/use-window-size';
 import { observer } from 'mobx-react-lite';
 import { useStore } from 'src/stores';
 
@@ -111,7 +111,7 @@ const SideBar: FunctionComponent = observer(function SideBar() {
 				/>
 				<img
 					className="h-10 -mr-2.5"
-					src={`/public/assets/Icons/${isOpenSidebar ? 'Close' : 'Menu'}.svg`}
+					src={`/public/assets/icons/${isOpenSidebar ? 'Close' : 'Menu'}.svg`}
 					alt="hamburger menu"
 					onClick={() => setIsOpenSidebar(!isOpenSidebar)}
 				/>

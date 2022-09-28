@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import { colorPrimary200, colorWhiteFaint, colorGold } from 'src/emotionStyles/colors';
-import { cssRaiseButtonShadow } from 'src/emotionStyles/forms';
+import { colorPrimary200, colorWhiteFaint, colorGold } from 'src/emotion-styles/colors';
+import { cssRaiseButtonShadow } from 'src/emotion-styles/forms';
 
 const PaddingBySize = {
 	large: `12px 28px`,

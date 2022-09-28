@@ -1,15 +1,14 @@
 import React, { FunctionComponent, useState } from 'react';
-import { connect } from 'react-redux';
 import { Button } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 import ClassNames from 'classnames';
 import moment from 'moment';
-import Icon from 'src/components/insync/Icon';
+import Icon from 'src/components/insync/icon';
 import { dialogActions } from 'src/reducers/slices';
-import { tally } from 'src/utils/numberFormats';
-import DotsLoading from 'src/components/insync/DotsLoading';
-import { useActions } from 'src/hooks/useActions';
-import { useAppSelector } from 'src/hooks/useAppSelect';
+import { tally } from 'src/utils/number-formats';
+import DotsLoading from 'src/components/insync/dots-loading';
+import { useActions } from 'src/hooks/use-actions';
+import { useAppSelector } from 'src/hooks/use-app-select';
 import { RootState } from 'src/reducers/store';
 
 type CardsProps = {

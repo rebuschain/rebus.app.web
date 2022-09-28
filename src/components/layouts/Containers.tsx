@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import { colorPrimary } from 'src/emotionStyles/colors';
-import { onLgWidth, on2XlWidth } from 'src/emotionStyles/mediaQueries';
+import { colorPrimary } from 'src/emotion-styles/colors';
+import { onLgWidth, on2XlWidth } from 'src/emotion-styles/media-queries';
 
 export const FullScreenContainer = styled.div`
 	width: 100%;

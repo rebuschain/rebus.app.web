@@ -1,16 +1,16 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import variables from 'src/utils/variables';
 import { itemsActions, proposalDetailsActions, tallyDetailsActions } from 'src/reducers/slices';
-import { InsyncWrapper } from 'src/components/insync/InsyncWrapper';
-import UnSuccessDialog from '../Stake/DelegateDialog/UnSuccessDialog';
-import PendingDialog from '../Stake/DelegateDialog/PendingDialog';
-import SuccessDialog from '../Stake/DelegateDialog/SuccessDialog';
-import Cards from './Cards';
-import ProposalDialog from './ProposalDialog';
-import './index.scss';
-import { useActions } from 'src/hooks/useActions';
+import { InsyncWrapper } from 'src/components/insync/insync-wrapper';
+import { useActions } from 'src/hooks/use-actions';
 import { RootState } from 'src/reducers/store';
-import { useAppSelector } from 'src/hooks/useAppSelect';
+import { useAppSelector } from 'src/hooks/use-app-select';
+import UnSuccessDialog from '../stake/delegate-dialog/un-success-dialog';
+import PendingDialog from '../stake/delegate-dialog/pending-dialog';
+import SuccessDialog from '../stake/delegate-dialog/success-dialog';
+import Cards from './cards';
+import ProposalDialog from './proposal-dialog';
+import './index.scss';
 
 const selector = (state: RootState) => {
 	return {

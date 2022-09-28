@@ -4,10 +4,10 @@ import cn from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../stores';
 import { useBasicAmountConfig } from '../hooks/tx/basic-amount-config';
-import { Img } from 'src/components/common/Img';
+import { Img } from 'src/components/common/img';
 import { IconCheckBox } from 'src/icons';
-import { TableBodyRow, TableData, TableHeadRow } from 'src/components/Tables';
-import { Text } from 'src/components/Texts';
+import { TableBodyRow, TableData, TableHeadRow } from 'src/components/tables';
+import { Text } from 'src/components/texts';
 import { Staking } from '@keplr-wallet/stores';
 import { CoinPretty, Dec, DecUtils } from '@keplr-wallet/unit';
 import { IAmountConfig, InsufficientAmountError, useAmountConfig } from '@keplr-wallet/hooks';
@@ -106,7 +106,7 @@ export const LockLpTokenDialog = wrapBaseDialog(
 										)}
 										<span className="mr-2">Superfluid Stake</span>
 										<div className="w-6 h-6">
-											<Img src={'/public/assets/Icons/superfluid-osmo.svg'} />
+											<Img src={'/public/assets/icons/superfluid-osmo.svg'} />
 										</div>
 									</label>
 								</div>
@@ -205,7 +205,7 @@ export const LockLpTokenDialog = wrapBaseDialog(
 							header={
 								<React.Fragment>
 									<img
-										src="/public/assets/Icons/Left.svg"
+										src="/public/assets/icons/left.svg"
 										className="w-7 h-7 mr-0 cursor-pointer"
 										onClick={() => setIsValidatorSelectStage(false)}
 									/>
@@ -376,7 +376,7 @@ export const LockLpTokenValidatorSelectStageViewInDialog: FunctionComponent<{
 				<div className="w-full mb-2.5 md:mb-4 text-sm md:text-base flex flex-col md:flex-row md:items-center md:justify-between">
 					<p>Choose your superfluid validator</p>
 					<div className="mt-4.5 md:mt-0 border border-secondary-200 py-2 px-3.5 w-full md:w-[180px] rounded-xl flex items-center">
-						<img src="/public/assets/Icons/search-outline.svg" />
+						<img src="/public/assets/icons/search-outline.svg" />
 						<input
 							className="ml-3 text-xs w-full"
 							value={searchingValidatorValue}
@@ -431,7 +431,7 @@ export const LockLpTokenValidatorSelectStageViewInDialog: FunctionComponent<{
 												}`}>
 												<div className="rounded-full border border-enabledGold mr-3 w-9 h-9 p-0.75 flex justify-center items-center">
 													<img
-														src={validatorThumbnail || '/public/assets/Icons/Profile.svg'}
+														src={validatorThumbnail || '/public/assets/icons/profile.svg'}
 														alt="validator thumbnail"
 														className="rounded-full"
 													/>
@@ -549,7 +549,7 @@ const LockupItem: FunctionComponent<{
 						<h5 className="text-base md:text-xl">{duration}</h5>
 						{isSuperfluidEnabled && (
 							<div className="w-6 h-6">
-								<Img src={'/public/assets/Icons/superfluid-osmo.svg'} />
+								<Img src={'/public/assets/icons/superfluid-osmo.svg'} />
 							</div>
 						)}
 					</div>

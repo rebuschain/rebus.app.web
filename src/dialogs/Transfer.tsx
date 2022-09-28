@@ -2,18 +2,18 @@ import cn from 'clsx';
 import React, { useState, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { IBCCurrency } from '@keplr-wallet/types';
-import { AmountInput } from '../components/form/Inputs';
-import { ButtonPrimary } from '../components/layouts/Buttons';
-import { colorWhiteEmphasis } from '../emotionStyles/colors';
+import { AmountInput } from '../components/form/inputs';
+import { ButtonPrimary } from '../components/layouts/buttons';
+import { colorWhiteEmphasis } from '../emotion-styles/colors';
 import { useStore } from '../stores';
 import { Bech32Address } from '@keplr-wallet/cosmos';
 import { getKeplrFromWindow, WalletStatus } from '@keplr-wallet/stores';
 import { useFakeFeeConfig } from '../hooks/tx';
 import { useBasicAmountConfig } from '../hooks/tx/basic-amount-config';
 import { wrapBaseDialog } from './base';
-import { useAccountConnection } from '../hooks/account/useAccountConnection';
-import { useCustomBech32Address } from '../hooks/account/useCustomBech32Address';
-import { ConnectAccountButton } from '../components/ConnectAccountButton';
+import { useAccountConnection } from '../hooks/account/use-account-connection';
+import { useCustomBech32Address } from '../hooks/account/use-custom-bech32-address';
+import { ConnectAccountButton } from '../components/connect-account-button';
 import { Buffer } from 'buffer/';
 
 export const TransferDialog = wrapBaseDialog(
@@ -143,7 +143,7 @@ export const TransferDialog = wrapBaseDialog(
 							</p>
 						</div>
 						<div className="flex justify-center items-center w-10 my-2 md:my-0">
-							<img src={`/public/assets/Icons/Arrow-${isMobileView || isWithdraw ? 'Down' : 'Right'}.svg`} />
+							<img src={`/public/assets/icons/arrow-${isMobileView || isWithdraw ? 'down' : 'right'}.svg`} />
 						</div>
 						<div
 							className={`w-full flex-1 p-3 md:p-4 border ${
@@ -159,7 +159,7 @@ export const TransferDialog = wrapBaseDialog(
 								<>
 									{isEditingWithdrawAddr && (
 										<div className="flex gap-3 w-full border border-secondary-200 rounded-xl p-1 my-2">
-											<img className="ml-2 h-3 my-auto" src="/public/assets/Icons/Warning.svg" />
+											<img className="ml-2 h-3 my-auto" src="/public/assets/icons/warning.svg" />
 											<p className="text-xs">
 												Warning: Withdrawal to central exchange address could result in loss of funds.
 											</p>

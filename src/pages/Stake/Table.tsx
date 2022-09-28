@@ -2,17 +2,17 @@ import React, { useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
 import { MUIDataTableColumnDef, MUIDataTableMeta } from 'mui-datatables';
 import classNames from 'classnames';
-import DataTable from 'src/components/insync/DataTable';
-import CircularProgress from 'src/components/insync/CircularProgress';
+import DataTable from 'src/components/insync/data-table';
+import CircularProgress from 'src/components/insync/circular-progress';
 import { useStore } from 'src/stores';
-import { formatCount } from 'src/utils/numberFormats';
+import { formatCount } from 'src/utils/number-formats';
 import { config } from 'src/config-insync';
-import { useAppSelector } from 'src/hooks/useAppSelect';
-import { useAddress } from 'src/hooks/useAddress';
-import UnDelegateButton from '../Home/TokenDetails/UnDelegateButton';
-import ReDelegateButton from '../Home/TokenDetails/ReDelegateButton';
-import DelegateButton from './DelegateButton';
-import ValidatorName from './ValidatorName';
+import { useAppSelector } from 'src/hooks/use-app-select';
+import { useAddress } from 'src/hooks/use-address';
+import UnDelegateButton from '../home/token-details/un-delegate-button';
+import ReDelegateButton from '../home/token-details/re-delegate-button';
+import DelegateButton from './delegate-button';
+import ValidatorName from './validator-name';
 import './index.scss';
 
 const ValidatorCell = (value: any, tableMeta: MUIDataTableMeta) => (

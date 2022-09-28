@@ -27,7 +27,7 @@ import { useStore } from 'src/stores';
 import { IJsonRpcRequest } from '@walletconnect/types';
 import { WalletStore } from 'src/stores/wallet';
 import { WALLET_LIST } from 'src/constants/wallet';
-import { useActions } from 'src/hooks/useActions';
+import { useActions } from 'src/hooks/use-actions';
 import { actions } from 'src/reducers/slices/snackbar';
 
 async function sendTx(chainId: string, tx: StdTx | Uint8Array, mode: BroadcastMode): Promise<Uint8Array> {
@@ -472,7 +472,7 @@ export const WalletConnectQRCodeModal: FunctionComponent<{
 								e.preventDefault();
 								e.stopPropagation();
 							}}>
-							<img alt="ldg" className="s-spin w-7 h-7" src="/public/assets/Icons/Loading.png" />
+							<img alt="ldg" className="s-spin w-7 h-7" src="/public/assets/icons/loading.png" />
 						</div>
 					</div>
 				</div>
@@ -507,7 +507,7 @@ export const WalletConnectQRCodeModal: FunctionComponent<{
 					<img
 						onClick={() => close()}
 						className="absolute cursor-pointer top-3 md:top-5 right-3 md:right-5 w-8 md:w-10"
-						src="/public/assets/Icons/Close.svg"
+						src="/public/assets/icons/close.svg"
 					/>
 				</div>
 			</div>

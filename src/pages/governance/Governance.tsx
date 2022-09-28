@@ -5,14 +5,14 @@ import map from 'lodash-es/map';
 import keys from 'lodash-es/keys';
 import each from 'lodash-es/each';
 import capitalize from 'lodash-es/capitalize';
-import { Img } from '../../components/common/Img';
+import { Img } from '../../components/common/img';
 import { formatNumber, applyOptionalDecimal } from '../../utils/format';
-import { divide, multiply } from '../../utils/Big';
+import { divide, multiply } from '../../utils/big';
 import { PointOptionsObject, SeriesPieOptions, TooltipOptions } from 'highcharts';
 import cloneDeep from 'lodash-es/cloneDeep';
-import { HIGHCHART_GRADIENTS, HIGHCHART_LEGEND_GRADIENTS, PieChart } from '../../components/common/PieChart';
+import { HIGHCHART_GRADIENTS, HIGHCHART_LEGEND_GRADIENTS, PieChart } from '../../components/common/pie-chart';
 import { useHistory } from 'react-router-dom';
-import { VoteDialog } from '../../dialogs/Vote';
+import { VoteDialog } from '../../dialogs/vote';
 
 const ROW_HEIGHT = 180;
 export const GovernanceTab: FunctionComponent = () => {
@@ -143,7 +143,7 @@ const GovernanceRow: FunctionComponent<{ data: IProposalState; height: number; o
 						onClick={() => history.push(`/governance/${data.index}`)}
 						className="mt-4 flex items-center hover:opacity-75 cursor-pointer">
 						<p className="text-secondary-200">Details</p>
-						<Img src={'/public/assets/Icons/Right.svg'} />
+						<Img src={'/public/assets/icons/right.svg'} />
 					</button>
 				</div>
 			</td>

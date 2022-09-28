@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React, { SVGAttributes } from 'react';
-import { cssAnimateSpin } from 'src/emotionStyles/animations';
-import { colorWhiteHigh } from 'src/emotionStyles/colors';
+import { cssAnimateSpin } from 'src/emotion-styles/animations';
+import { colorWhiteHigh } from 'src/emotion-styles/colors';
 
 interface Props extends SVGAttributes<SVGSVGElement> {
 	size?: number;

@@ -2,12 +2,12 @@ import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent, useEffect } from 'react';
 import { useHistory } from 'react-router';
-import { Loader } from 'src/components/common/Loader';
-import { CenterSelf } from 'src/components/layouts/Containers';
+import { Loader } from 'src/components/common/loader';
+import { CenterSelf } from 'src/components/layouts/containers';
 import { useStore } from 'src/stores';
-import { AirdropMissions } from './AirdropMissions';
-import { AirdropOverview } from './AirdropOverview';
-import { MyAirdropProgress } from './MyAirdropProgress';
+import { AirdropMissions } from './airdrop-missions';
+import { AirdropOverview } from './airdrop-overview';
+import { MyAirdropProgress } from './my-airdrop-progress';
 
 const LoaderStyled = styled(Loader)`
 	width: 6rem;

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { InsyncWrapper } from 'src/components/insync/InsyncWrapper';
+import { InsyncWrapper } from 'src/components/insync/insync-wrapper';
 import { RootState } from 'src/reducers/store';
-import { useAppSelector } from 'src/hooks/useAppSelect';
+import { useAppSelector } from 'src/hooks/use-app-select';
 import variables from 'src/utils/variables';
-import Table from './Table';
-import DelegateDialog from './DelegateDialog';
-import SuccessDialog from './DelegateDialog/SuccessDialog';
-import UnSuccessDialog from './DelegateDialog/UnSuccessDialog';
-import PendingDialog from './DelegateDialog/PendingDialog';
+import Table from './table';
+import DelegateDialog from './delegate-dialog';
+import SuccessDialog from './delegate-dialog/success-dialog';
+import UnSuccessDialog from './delegate-dialog/un-success-dialog';
+import PendingDialog from './delegate-dialog/pending-dialog';
 import './index.scss';
 
 const selector = (state: RootState) => {

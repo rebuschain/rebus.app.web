@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import cn from 'clsx';
-import { ContainerWrapper } from './ContainerWrapper';
+import { ContainerWrapper } from './container-wrapper';
 import { IContainerSettings, IContainerState, TCardTypes } from '../../interfaces';
 
 export const Container: FunctionComponent<TCardContainerProps> = ({
