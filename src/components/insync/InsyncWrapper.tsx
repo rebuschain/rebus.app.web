@@ -2,57 +2,34 @@ import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect, useRef, FunctionComponent } from 'react';
 import { useStore } from 'src/stores';
 import { useActions } from 'src/hooks/useActions';
-import * as accounts from '../../actions/accounts';
-import * as stake from '../../actions/stake';
 import { config } from '../../config-insync';
 import SnackbarMessage from './SnackbarMessage';
 import { useShallowEqualSelector } from 'src/hooks/useShallowEqualSelector';
+import { delegatedValidatorsActions, validatorsActions } from 'src/reducers/slices/stake/slices';
+import { RootState } from 'src/reducers/store';
 import 'src/styles/insync.scss';
+
+const selector = (state: RootState) => ({
+	delegatedValidatorList: state.stake.delegatedValidators.list,
+	delegatedValidatorListInProgress: state.stake.delegatedValidators.inProgress,
+	validatorImages: state.stake.validators.images,
+	validatorList: state.stake.validators.list,
+	validatorListInProgress: state.stake.validators.inProgress,
+});
 
 export const InsyncWrapper: FunctionComponent = observer(({ children }) => {
 	const { chainStore, accountStore, walletStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
 
-	const props = useShallowEqualSelector(state => ({
-		balance: state.accounts.balance.result,
-		balanceInProgress: state.accounts.balance.inProgress,
-		delegations: state.accounts.delegations.result,
-		delegationsInProgress: state.accounts.delegations.inProgress,
-		delegatedValidatorList: state.stake.delegatedValidators.list,
-		delegatedValidatorListInProgress: state.stake.delegatedValidators.inProgress,
-		unBondingDelegations: state.accounts.unBondingDelegations.result,
-		unBondingDelegationsInProgress: state.accounts.unBondingDelegations.inProgress,
-		validatorImages: (state.stake.validators as any).images,
-		validatorList: (state.stake.validators as any).list,
-		validatorListInProgress: (state.stake.validators as any).inProgress,
-		vestingBalance: state.accounts.vestingBalance.result,
-		vestingBalanceInProgress: state.accounts.vestingBalance.inProgress,
-	}));
+	const props = useShallowEqualSelector(selector);
 	const propsRef = useRef(props);
 	propsRef.current = props;
 
-	const [
-		setAccountAddress,
-		getDelegations,
-		getBalance,
-		getUnBondingDelegations,
-		fetchRewards,
-		fetchVestingBalance,
-		getDelegatedValidatorsDetails,
-		getValidators,
-		fetchValidatorImage,
-		fetchValidatorImageSuccess,
-	] = useActions([
-		accounts.setAccountAddress,
-		accounts.getDelegations,
-		accounts.getBalance,
-		accounts.getUnBondingDelegations,
-		accounts.fetchRewards,
-		accounts.fetchVestingBalance,
-		stake.getDelegatedValidatorsDetails,
-		stake.getValidators,
-		stake.fetchValidatorImage,
-		stake.fetchValidatorImageSuccess,
+	const [getDelegatedValidatorsDetails, getValidators, fetchValidatorImage, fetchValidatorImageSuccess] = useActions([
+		delegatedValidatorsActions.getDelegatedValidatorsDetails,
+		validatorsActions.getValidators,
+		validatorsActions.getValidatorImage,
+		validatorsActions.setValidatorImageFetchSuccess,
 	]);
 
 	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
@@ -108,29 +85,11 @@ export const InsyncWrapper: FunctionComponent = observer(({ children }) => {
 			}
 
 			if (!propsRef.current.proposalTab) {
-				getBalance(address);
-				fetchVestingBalance(address);
-				fetchRewards(address);
-				getUnBondingDelegations(address);
-				getDelegations(address);
 				getDelegatedValidatorsDetails(address);
 			}
 		},
-		[
-			fetchRewards,
-			fetchVestingBalance,
-			getBalance,
-			getDelegatedValidatorsDetails,
-			getDelegations,
-			getUnBondingDelegations,
-			getValidatorImage,
-			getValidators,
-		]
+		[getDelegatedValidatorsDetails, getValidatorImage, getValidators]
 	);
-
-	useEffect(() => {
-		setAccountAddress(address);
-	}, [setAccountAddress, address]);
 
 	useEffect(() => {
 		document.body.classList.add('insync');

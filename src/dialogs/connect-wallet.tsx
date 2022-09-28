@@ -28,7 +28,7 @@ import { IJsonRpcRequest } from '@walletconnect/types';
 import { WalletStore } from 'src/stores/wallet';
 import { WALLET_LIST } from 'src/constants/wallet';
 import { useActions } from 'src/hooks/useActions';
-import * as snackbar from '../actions/snackbar';
+import { actions } from 'src/reducers/slices/snackbar';
 
 async function sendTx(chainId: string, tx: StdTx | Uint8Array, mode: BroadcastMode): Promise<Uint8Array> {
 	const restInstance = Axios.create({
@@ -288,7 +288,7 @@ export const ConnectWalletDialog = wrapBaseDialog(
 	observer(({ initialFocus, close }: { initialFocus: React.RefObject<HTMLDivElement>; close: () => void }) => {
 		const { connectWalletManager, chainStore, accountStore, walletStore, setIsEvmos } = useStore();
 		const [isMobile] = useState(() => checkIsMobile());
-		const [showMessage] = useActions([snackbar.showMessage]);
+		const [showSnackbar] = useActions([actions.showSnackbar]);
 		const account = accountStore.getAccount(chainStore.current.chainId);
 
 		useEffect(() => {
@@ -338,7 +338,7 @@ export const ConnectWalletDialog = wrapBaseDialog(
 									const success = await walletStore.init(wallet.walletType, true);
 									localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
 								} catch (err) {
-									showMessage((err as any)?.message || err);
+									showSnackbar((err as any)?.message || err);
 								}
 							} else {
 								setIsEvmos(chainStore.current.chainId, wallet.walletType === 'keplr-evmos');

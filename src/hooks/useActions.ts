@@ -1,11 +1,11 @@
-import { bindActionCreators, ActionCreator } from 'redux';
-import { useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { useMemo } from 'react';
+import { useAppDispatch } from './useAppDispatch';
 
 export function useActions<T>(actions: T, deps: Array<any> = []) {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 
-	return useMemo(() => {
+	return useMemo<T>(() => {
 		if (Array.isArray(actions)) {
 			return actions.map(a => bindActionCreators(a, dispatch));
 		}

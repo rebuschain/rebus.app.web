@@ -12,9 +12,9 @@ import { Button } from 'src/components/common/button';
 import { Text } from 'src/components/Texts';
 import { useActions } from 'src/hooks/useActions';
 import { useAccountConnection } from 'src/hooks/account/useAccountConnection';
+import { snackbarActions } from 'src/reducers/slices';
+import { disconnect } from 'src/reducers/extra-actions';
 import SnackbarMessage from '../../components/insync/SnackbarMessage';
-import * as accounts from '../../actions/accounts';
-import * as snackbar from '../../actions/snackbar';
 import { config } from '../../config-insync';
 
 const chainId = config.CHAIN_ID;
@@ -52,7 +52,7 @@ const WalletConnect: FunctionComponent = observer(() => {
 
 	const [success, setSuccess] = useState(false);
 
-	const [disconnectSet, showMessage] = useActions([accounts.disconnectSet, snackbar.showMessage]);
+	const [disconnectSet, showMessage] = useActions([disconnect, snackbarActions.showSnackbar]);
 
 	const { connectWalletManager, chainStore, accountStore, walletStore, setIsEvmos } = useStore();
 	const [isMobile] = useState(() => checkIsMobile());

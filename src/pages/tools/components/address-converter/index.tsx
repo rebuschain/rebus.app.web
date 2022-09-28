@@ -1,14 +1,16 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
 import { copyTextToClipboard } from 'src/utils/copy-to-clipboard';
 import { ethToRebus, rebusToEth } from 'src/utils/rebus-converter';
 import classNames from 'classnames';
-import * as snackbarActions from '../../../../actions/snackbar';
+import { snackbarActions } from 'src/reducers/slices';
+import { useActions } from 'src/hooks/useActions';
 
-const AddressConverterView: FunctionComponent<PropsFromRedux> = ({ showMessage }) => {
+const AddressConverter: FunctionComponent = () => {
 	const [address, setAddress] = useState('');
 	const [convertedAddress, setConvertedAddress] = useState('');
 	const [error, setError] = useState('');
+
+	const [showMessage] = useActions([snackbarActions.showSnackbar]);
 
 	useEffect(() => {
 		if (address) {
@@ -73,11 +75,4 @@ const AddressConverterView: FunctionComponent<PropsFromRedux> = ({ showMessage }
 	);
 };
 
-const actionToProps = {
-	showMessage: snackbarActions.showMessage,
-};
-const connector = connect(null, actionToProps);
-
-export const AddressConverter = connector(AddressConverterView);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
+export { AddressConverter };

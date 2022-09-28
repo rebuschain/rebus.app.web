@@ -14,10 +14,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
 import React, { FunctionComponent, Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom';
-import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { applyMiddleware, createStore } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { Bounce, ToastContainer } from 'react-toastify';
@@ -36,8 +33,7 @@ import { IBCHistoryNotifier } from './provider';
 import { AccountConnectionProvider } from 'src/hooks/account/context';
 import styled from '@emotion/styled';
 
-/* Insync Code */
-import reducer from './reducers';
+import { store } from './reducers/store';
 import { RouteWrapper } from './components/layouts/RouteWrapper';
 
 const LoaderStyled = styled(Loader)`
@@ -48,16 +44,6 @@ const LoaderStyled = styled(Loader)`
 		height: 12.5rem;
 	}
 `;
-
-const store = createStore(
-	reducer,
-	composeWithDevTools({
-		trace: true,
-	})(applyMiddleware(thunk))
-);
-
-export type RootState = ReturnType<typeof store.getState>;
-/* End Insync Code */
 
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
