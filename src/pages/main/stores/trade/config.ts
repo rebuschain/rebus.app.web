@@ -6,8 +6,8 @@ import { action, computed, makeObservable, observable, override } from 'mobx';
 import { computedFn, keepAlive } from 'mobx-utils';
 import { ObservableQueryPools } from '../../../../stores/rebus/query/pools';
 import { GammSwapManager } from '../../../../stores/rebus/swap';
-import { SlippageStep } from '../../models/tradeModels';
-import { slippageStepToPercentage } from '../../utils/slippageStepToPercentage';
+import { SlippageStep } from '../../models/trade-models';
+import { slippageStepToPercentage } from '../../utils/slippage-step-to-percentage';
 import { QueriedPoolBase } from '../../../../stores/rebus/query/pool';
 
 // CONTRACT: Use with `observer`

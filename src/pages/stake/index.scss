@@ -1,0 +1,244 @@
+[class^='MUIDataTable-liveAnnounce'] {
+	display: none;
+}
+
+.stake {
+	padding: 20px;
+
+	@media (min-width: 768px) {
+		padding: 40px 60px;
+	}
+}
+
+.stake .heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 30px;
+}
+
+.stake .heading .tabs {
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.stake .tabs > p {
+	cursor: pointer;
+	font-family: Poppin, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 24px;
+	color: #ffffff80;
+}
+
+.stake .tabs > p.active {
+	color: #ffffff;
+}
+
+.stake .tabs > span {
+	border: 1px solid #ffffff;
+	height: 20px;
+	margin: 0 20px;
+}
+
+.stake .heading .text_field {
+	margin: unset;
+	width: 400px;
+}
+
+.stake .table {
+	display: inherit;
+}
+
+.stake .table .validator {
+	display: flex;
+	align-items: center;
+	width: 200px;
+}
+
+.table .validator .image {
+	background: #ededed;
+	color: #ffffff;
+	width: 40px;
+	height: 40px;
+	border-radius: 50px;
+	margin-right: 20px;
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/*.stake .table tbody tr td {*/
+/*    cursor: pointer;*/
+/*}*/
+
+.stake .table .voting_power,
+.stake .table .voting_percentage {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.table .voting_power > span,
+.table .voting_percentage > span {
+	border: 1px solid #dcdcdc;
+	height: 20px;
+	margin: 0 10px;
+}
+
+.stake .table .actions {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.table .actions > span {
+	border: 1px solid #d2d2d2;
+	margin: 0 10px;
+	height: 20px;
+}
+
+.table .no_tokens {
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 130%;
+	color: rgba(255, 255, 255, 0.6);
+}
+
+.table td .tokens {
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 130%;
+	text-align: center;
+	color: #5084e9;
+}
+
+table td p {
+	color: #ffffff;
+	font-size: 14px;
+	text-align: left;
+}
+
+.table td .status {
+	background: linear-gradient(104.04deg, #50e996 0%, #b8e950 100%);
+	box-sizing: border-box;
+	border-radius: 4px;
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-size: 14px;
+	color: green;
+	padding: 6px 10px;
+}
+
+.table td .status.red_status {
+	background: linear-gradient(104.04deg, #e95062 0%, #e950d0 100%);
+	color: white;
+}
+
+.table td .status.unbonded {
+	background: linear-gradient(104.04deg, #dddbe9 0%, #c2c0d1 100%);
+	color: black;
+}
+
+.table tfoot td {
+	border-bottom: unset;
+}
+
+.table .MuiTableRow-footer {
+	border-bottom: none;
+
+	.MuiTableCell-footer {
+		background-color: #2d2755;
+		border-bottom-left-radius: 1rem;
+		border-bottom-right-radius: 1rem;
+
+		p,
+		.MuiSelect-select,
+		svg {
+			color: rgba(255, 255, 255, 0.6);
+		}
+	}
+}
+
+@media (max-width: 1025px) {
+	.stake .table {
+		padding: 20px 30px;
+	}
+
+	.table td .status {
+		width: max-content;
+		margin: auto;
+	}
+}
+
+@media (max-width: 958px) {
+	.stake .heading {
+		margin-top: unset;
+	}
+
+	.stake .table .validator {
+		width: 100%;
+	}
+
+	.table td .status {
+		margin-right: unset;
+	}
+
+	.stake .table .voting_power,
+	.stake .table .voting_percentage {
+		justify-content: flex-end;
+	}
+
+	.table td .tokens {
+		text-align: right;
+	}
+}
+
+@media (max-width: 769px) {
+	.stake .table {
+		background: unset;
+		padding: 0;
+		backdrop-filter: unset;
+		border-radius: unset;
+	}
+
+	.stake .tabs > p {
+		font-size: 18px;
+	}
+}
+
+@media (max-width: 426px) {
+	.stake .heading {
+		overflow: auto;
+	}
+
+	.stake .tabs > p {
+		width: max-content;
+	}
+
+	.table .actions > span {
+		display: none;
+	}
+
+	.stake .table .actions {
+		justify-content: space-around;
+		flex-wrap: wrap;
+	}
+
+	.table .actions > button {
+		padding: 5px 10px;
+	}
+}
+
+@media (max-width: 375px) {
+	.stake .table .actions {
+		flex-direction: column;
+	}
+
+	.table .actions > button {
+		width: 100%;
+		margin: 4px 0;
+	}
+}

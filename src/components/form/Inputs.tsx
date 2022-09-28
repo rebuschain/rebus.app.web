@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { colorWhiteHigh } from 'src/emotionStyles/colors';
+import { colorWhiteHigh } from 'src/emotion-styles/colors';
 
 export const AmountInput = styled.input`
 	font-size: 16px;

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { Button as MaterialButton, ButtonProps } from '@material-ui/core';
 import styled from '@emotion/styled';
-import { colorWhite, colorBlackLow } from 'src/emotionStyles/colors';
+import { colorWhite, colorBlackLow } from 'src/emotion-styles/colors';
 
 export const Button: FunctionComponent<ButtonProps & {
 	backgroundStyle?: 'gradient-pink-blue' | 'gradient-pink' | 'gradient-blue' | 'gradient-green' | null;

@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent } from 'react';
-import { CenterSelf } from 'src/components/layouts/Containers';
+import { CenterSelf } from 'src/components/layouts/containers';
 import { useStore } from 'src/stores';
-import { AssetBalancesList } from './AssetBalancesList';
-import { AssetsOverview } from './AssetsOverview';
-import { IbcTransferHistoryList } from './IbcTransferHistoryList';
+import { AssetBalancesList } from './asset-balances-list';
+import { AssetsOverview } from './assets-overview';
+import { IbcTransferHistoryList } from './ibc-transfer-history-list';
 
 const AssetsPage: FunctionComponent = observer(() => {
 	const { ibcTransferHistoryStore, chainStore, accountStore, walletStore } = useStore();

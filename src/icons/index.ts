@@ -1,2 +1,2 @@
-export * from './externalLink';
-export * from './checkBox';
+export * from './external-link';
+export * from './check-box';

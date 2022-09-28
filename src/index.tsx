@@ -18,13 +18,13 @@ import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { Bounce, ToastContainer } from 'react-toastify';
-import { Loader } from 'src/components/common/Loader';
+import { Loader } from 'src/components/common/loader';
 import { ROUTES } from './constants/routes';
 import 'react-toastify/dist/ReactToastify.css';
 
 import 'tippy.js/dist/tippy.css';
 import { ToastProvider } from './components/common/toasts';
-import { NotFoundPage } from './pages/NotFound';
+import { NotFoundPage } from './pages/not-found';
 import { StoreProvider } from './stores';
 import './styles/globals.scss';
 import './styles/index.scss';
@@ -34,7 +34,7 @@ import { AccountConnectionProvider } from 'src/hooks/account/context';
 import styled from '@emotion/styled';
 
 import { store } from './reducers/store';
-import { RouteWrapper } from './components/layouts/RouteWrapper';
+import { RouteWrapper } from './components/layouts/route-wrapper';
 
 const LoaderStyled = styled(Loader)`
 	width: 6rem;
@@ -72,16 +72,16 @@ const Router: FunctionComponent = () => {
 												{/*<Route exact path={ROUTES.POOLS} component={lazy(() => import('./pages/pools'))} />
 												<Route path="/pool/:id" component={lazy(() => import('./pages/pool'))} />
 												<Route exact path="/governance" component={lazy(() => import('./pages/governance'))} />
-												<Route exact path="/governance/:id" component={lazy(() => import('./pages/governance/[id]/GovernanceDetailsPage'))} />
+												<Route exact path="/governance/:id" component={lazy(() => import('./pages/governance/[id]/governance-details-page'))} />
 												<Route exact path={ROUTES.ASSETS} component={lazy(() => import('./pages/assets'))} /> */}
 												<Route exact path={ROUTES.AIRDROP} component={lazy(() => import('./pages/airdrop'))} />
 												{/* <Route exact path={'/bootstrap'} component={lazy(() => import('./pages/bootstrap'))} /> */}
-												<Route exact path={ROUTES.STAKE} component={lazy(() => import('./pages/Home'))} />
-												<Route exact path={ROUTES.VOTE} component={lazy(() => import('./pages/Proposals'))} />
+												<Route exact path={ROUTES.STAKE} component={lazy(() => import('./pages/home'))} />
+												<Route exact path={ROUTES.VOTE} component={lazy(() => import('./pages/proposals'))} />
 												<Route
 													exact
 													path={ROUTES.WALLET_CONNECT}
-													component={lazy(() => import('./pages/walletConnect'))}
+													component={lazy(() => import('./pages/wallet-connect'))}
 												/>
 												<Route>
 													<NotFoundPage />

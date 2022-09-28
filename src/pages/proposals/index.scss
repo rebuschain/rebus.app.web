@@ -1,0 +1,380 @@
+.proposals {
+	padding: 0;
+
+	@media (max-width: 768px) {
+		padding: 80px 10px 10px;
+	}
+}
+
+.proposals .proposals_content {
+	margin-top: 30px;
+}
+
+.proposals .heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.proposals .heading .tabs {
+	display: flex;
+	align-items: center;
+	margin-left: 40px;
+}
+
+.proposals .tabs > p {
+	cursor: pointer;
+	font-family: Poppins, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 24px;
+	color: rgba(255, 255, 255, 0.6);
+
+	@media (max-width: 768px) {
+		font-size: 20px;
+	}
+}
+
+.proposals .tabs > p.active {
+	color: #ffffff;
+}
+
+.proposals .tabs > span {
+	border: 1px solid #ffffff;
+	height: 22px;
+	margin: 0 20px;
+
+	@media (max-width: 768px) {
+		margin: 0 14px;
+	}
+}
+
+.proposals .heading .text_field {
+	margin: unset;
+	width: 400px;
+}
+
+.proposals .cards_content {
+	border-radius: 10px;
+	margin-top: 16px;
+	padding: 38px;
+}
+
+.proposals .cards {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.proposals .card {
+	background: rgba(45, 39, 85, 1);
+	border-radius: 20px;
+	color: #fff;
+	padding: 18px 28px;
+	width: 31%;
+	text-align: left;
+	position: relative;
+	margin-bottom: 20px;
+	margin-right: 40px;
+	cursor: pointer;
+}
+
+.proposals .card:nth-child(3n) {
+	margin-right: unset;
+}
+
+.proposals .card .number {
+	/*position: absolute;
+	background: #ffffff;
+	box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
+	width: 40px;
+	height: 40px;
+	border-radius: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	left: -20px;
+	top: 16px;
+	line-height: 130%;*/
+	font-family: Poppins, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 24px;
+	background-image: linear-gradient(104.04deg, #e9d050 0%, #e99a50 100%);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.proposals .card_heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 14px;
+}
+
+.proposals .card_heading > h2 {
+	font-family: Poppins, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 24px;
+	line-height: 130%;
+	color: #fff;
+	margin: unset;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 80%;
+}
+
+.proposals .card_heading .icon {
+	width: 32px;
+}
+
+.proposals .card_heading .details {
+	display: flex;
+	align-items: center;
+	width: 100%;
+}
+
+.proposals .card_heading .details > p {
+	font-family: Poppins, ui-sans-serif, system-ui;
+	font-size: 14px;
+	text-align: right;
+	color: rgba(255, 255, 255, 0.6);
+	width: 100%;
+	margin-left: 10px;
+}
+
+.proposals .card_heading .details > button {
+	background: #eaeaea;
+	border: 1px solid #cfcfcf;
+	box-sizing: border-box;
+	border-radius: 0.5em;
+	box-shadow: unset;
+	font-family: Poppins, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 14px;
+	text-align: right;
+	color: #000000;
+	margin-left: 10px;
+	padding: 6px 20px;
+}
+
+.proposals .card_heading .vote_button {
+	background: linear-gradient(135deg, #e95062, #e950d0 50%, #5084e9);
+	border-radius: 0.5em;
+	font-family: Poppins, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 16px;
+	color: #fff;
+	text-transform: unset;
+	padding: 10px 20px;
+	line-height: 1;
+}
+
+.proposals .description {
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-size: 14px;
+	color: rgba(255, 255, 255, 0.6);
+	margin-bottom: 26px;
+	display: -webkit-box;
+	-webkit-line-clamp: 5;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	height: 120px;
+}
+
+.proposals .card > .row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 16px;
+	flex-wrap: wrap;
+}
+
+.proposals .card .key_text {
+	flex-shrink: 0;
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 14px;
+	color: rgba(255, 255, 255, 0.6);
+	display: flex;
+}
+
+.proposals .card .key_text .hash_text {
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 14px;
+	color: rgba(255, 255, 255, 0.6);
+	max-width: 110px;
+}
+
+.proposals .card .icon_info {
+	display: flex;
+	align-items: center;
+	margin-bottom: 4px;
+}
+
+.proposals .card .icon_info .icon {
+	flex-shrink: 0;
+	width: 18px;
+	margin-right: 10px;
+}
+
+.proposals .card .value_text {
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 14px;
+	color: #0085ff;
+	margin-left: 10px;
+}
+
+.proposals .card .status {
+	display: flex;
+	justify-content: center;
+	margin: 20px 0;
+}
+
+.proposals .card .status > p {
+	background: linear-gradient(104.04deg, #50e996 0%, #b8e950 100%);
+	box-sizing: border-box;
+	border-radius: 0.5em;
+	width: 100%;
+	font-family: Poppins, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 18px;
+	color: rgba(255, 255, 255, 0.8);
+	padding: 8px 20px;
+	text-align: center;
+}
+
+.proposals .card .status.voting_period > p {
+	background: linear-gradient(104.04deg, #5084e9 0%, #6f50e9 100%);
+}
+
+.proposals .card .status.rejected > p {
+	background: linear-gradient(104.04deg, #e95062 0%, #e950d0 100%);
+	color: #ffffff;
+}
+
+.proposals .card .vote_details {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.proposals .vote_details > div {
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.proposals .vote_details > div > span {
+	width: 16px;
+	height: 16px;
+	background: #02d70a;
+	border-radius: 50px;
+	flex-shrink: 0;
+	margin-right: 10px;
+}
+
+.proposals .vote_details > div.no > span {
+	background: #c0c0c0;
+}
+
+.proposals .vote_details > div.option3 > span {
+	background: #ff6767;
+}
+
+.proposals .vote_details > div.option4 > span {
+	background: #827ce6;
+}
+
+.proposals .vote_details > div > p {
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-size: 14px;
+	color: rgba(255, 255, 255, 0.6);
+	display: flex;
+}
+.proposals .pagination {
+	padding: 10px 20px;
+}
+
+.proposals .pagination > nav {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.proposals .pagination li > button {
+	font-family: Poppins, ui-sans-serif, system-ui;
+	font-size: 14px;
+	color: #ffffff;
+	border-radius: 4px;
+}
+
+.proposals .pagination li > button[aria-current='true'] {
+	background: #e1e1e1;
+	box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
+	color: #393939;
+}
+
+.proposals .pagination li:first-child > button svg,
+.proposals .pagination li:last-child > button svg {
+	display: none;
+}
+
+.proposals .pagination li:first-child > button:before {
+	content: 'Back';
+	text-decoration: underline;
+}
+
+.proposals .pagination li:last-child > button:before {
+	content: 'Next';
+	text-decoration: underline;
+}
+
+@media (max-width: 1350px) {
+	.proposals .card {
+		width: 46%;
+	}
+
+	.proposals .card:nth-child(3n) {
+		margin-right: 40px;
+	}
+
+	.proposals .card:nth-child(2n) {
+		margin-right: unset;
+	}
+}
+
+@media (max-width: 958px) {
+	.proposals .proposals_content {
+		margin-top: unset;
+	}
+}
+
+@media (max-width: 769px) {
+	.proposals .card {
+		width: 100%;
+		margin-right: unset;
+	}
+
+	.proposals .card:nth-child(3n) {
+		margin-right: unset;
+	}
+
+	.proposals .cards_content {
+		background: unset;
+		padding: 0;
+		backdrop-filter: unset;
+		border-radius: unset;
+	}
+}
+
+@media (max-width: 426px) {
+	.proposals .heading {
+		overflow: auto;
+	}
+
+	.proposals .card .icon_info {
+		flex-wrap: wrap;
+	}
+}

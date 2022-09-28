@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { observer } from 'mobx-react-lite';
-import { SynthesisList } from './SynthesisList';
+import { SynthesisList } from './synthesis-list';
 import { LBPOverview } from './overview';
 import { PromotedLBPPoolIds } from '../../config';
 
