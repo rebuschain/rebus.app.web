@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { actions as successDialogActions } from './success-dialog';
 
 const initialState = {
-	open: false,
+	open: true,
 	validator: 'all',
 };
 
@@ -17,10 +18,18 @@ export const claimDialogSlice = createSlice({
 		showClaimDialog: state => ({
 			...state,
 			open: true,
+			validator: 'all',
+			tokens: null,
 		}),
 		setClaimDialogValidator: (state, action: PayloadAction<string>) => ({
 			...state,
 			validator: action.payload,
+		}),
+	},
+	extraReducers: {
+		[successDialogActions.hideSuccessDialog as any]: state => ({
+			...state,
+			open: false,
 		}),
 	},
 });

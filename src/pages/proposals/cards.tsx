@@ -1,6 +1,7 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Button } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
+import styled from '@emotion/styled';
 import ClassNames from 'classnames';
 import moment from 'moment';
 import Icon from 'src/components/insync/icon';
@@ -81,8 +82,8 @@ const Cards: FunctionComponent<CardsProps> = ({ home, proposals }) => {
 	};
 
 	return (
-		<div className="cards_content">
-			<div className="cards">
+		<>
+			<div className="flex flex-wrap">
 				{reversedItems.length &&
 					reversedItems.map((proposal, index) => {
 						if (index < page * rowsPerPage && index >= (page - 1) * rowsPerPage) {
@@ -120,19 +121,19 @@ const Cards: FunctionComponent<CardsProps> = ({ home, proposals }) => {
 							inProgress = !inProgress && proposalDetailsInProgress;
 
 							return (
-								<div key={index} className="card" onClick={() => handleShow(proposal)}>
-									<div className="card_heading">
-										<span className="number">{proposal.id}</span>
-										<h2 onClick={() => handleShow(proposal)}>
+								<Card key={index} onClick={() => handleShow(proposal)}>
+									<div className="flex items-center justify-between mb-3.5">
+										<Number>{proposal.id}</Number>
+										<CardHeader onClick={() => handleShow(proposal)}>
 											{' '}
 											{proposal.content && proposal.content.value && proposal.content.value.title}
-										</h2>
+										</CardHeader>
 										{proposal.status === 3 ? (
 											<Icon className="success" icon="success" />
 										) : proposal.status === 2 && votedOption ? (
-											<div className="details">
-												<p>
-													your vote is taken:{' '}
+											<div className="flex items-center w-full">
+												<DetailsText>
+													Your vote is taken:{' '}
 													<b>
 														{votedOption && votedOption.option === 1
 															? 'Yes'
@@ -144,47 +145,47 @@ const Cards: FunctionComponent<CardsProps> = ({ home, proposals }) => {
 															? 'NoWithVeto'
 															: votedOption && votedOption.option}
 													</b>
-												</p>
-												<Button variant="contained" onClick={() => handleShow(proposal)}>
+												</DetailsText>
+												<DetailsButton variant="contained" onClick={() => handleShow(proposal)}>
 													Details
-												</Button>
+												</DetailsButton>
 											</div>
 										) : proposal.status === 2 ? (
-											<Button className="vote_button" variant="contained" onClick={() => handleShow(proposal)}>
+											<VoteButton variant="contained" onClick={() => handleShow(proposal)}>
 												Vote
-											</Button>
+											</VoteButton>
 										) : null}
 									</div>
-									<p className="description">
+									<ProposalContent>
 										{proposal.content && proposal.content.value && proposal.content.value.description}
-									</p>
-									<div className="row">
-										<div className="icon_info">
-											<Icon className="person" icon="person" />
-											<span className="key_text">
+									</ProposalContent>
+									<div className="flex items-center justify-between mb-4 flex-wrap">
+										<IconInfo>
+											<SmallIcon className="person" icon="person" />
+											<KeyText>
 												Proposer &nbsp;/&nbsp;
 												{inProgress ? (
 													<DotsLoading />
 												) : (
 													proposer && (
-														<div className="hash_text" title={proposer}>
+														<HashText title={proposer}>
 															<p className="name">{proposer}</p>
 															{proposer && proposer.slice(proposer.length - 6, proposer.length)}
-														</div>
+														</HashText>
 													)
 												)}
-											</span>
-										</div>
-										<p className="key_text">
+											</KeyText>
+										</IconInfo>
+										<KeyText>
 											Submitted on &nbsp;/&nbsp;{' '}
 											{proposal.submit_time ? moment(proposal.submit_time).format('DD-MMM-YYYY HH:mm:ss') : ''}
-										</p>
+										</KeyText>
 									</div>
-									<div className="row">
-										<div className="icon_info">
-											<Icon className="time" icon="time" />
-											<p className="key_text">Voting Period</p>
-											<p className="value_text">
+									<div className="flex items-center justify-between mb-4 flex-wrap">
+										<IconInfo>
+											<SmallIcon className="time" icon="time" />
+											<KeyText>Voting Period</KeyText>
+											<ValueText>
 												{`${
 													proposal && proposal.voting_start_time
 														? moment(proposal.voting_start_time).format('DD-MMM-YYYY HH:mm:ss')
@@ -195,10 +196,10 @@ const Cards: FunctionComponent<CardsProps> = ({ home, proposals }) => {
 																										? moment(proposal.voting_end_time).format('DD-MMM-YYYY HH:mm:ss')
 																										: ''
 																								}`}
-											</p>
-										</div>
+											</ValueText>
+										</IconInfo>
 									</div>
-									<div
+									<VotingStatus
 										className={ClassNames(
 											'status',
 											proposal.status === 2 ? 'voting_period' : proposal.status === 4 ? 'rejected' : null
@@ -219,8 +220,8 @@ const Cards: FunctionComponent<CardsProps> = ({ home, proposals }) => {
 												? 'Failed'
 												: ''}
 										</p>
-									</div>
-									<div className="vote_details">
+									</VotingStatus>
+									<VoteDetails>
 										<div className="yes">
 											<span />
 											<p>YES ({VoteCalculation(proposal, 'yes')})</p>
@@ -237,8 +238,8 @@ const Cards: FunctionComponent<CardsProps> = ({ home, proposals }) => {
 											<span />
 											<p>Abstain ({VoteCalculation(proposal, 'abstain')})</p>
 										</div>
-									</div>
-								</div>
+									</VoteDetails>
+								</Card>
 							);
 						}
 
@@ -246,12 +247,278 @@ const Cards: FunctionComponent<CardsProps> = ({ home, proposals }) => {
 					})}
 			</div>
 			{!home && (
-				<div className="pagination">
+				<PaginationContainer>
 					<Pagination count={count} page={page} onChange={handleChangePage} />
-				</div>
+				</PaginationContainer>
 			)}
-		</div>
+		</>
 	);
 };
+
+const Card = styled.div`
+	background: rgba(45, 39, 85, 1);
+	border-radius: 20px;
+	color: #fff;
+	cursor: pointer;
+	margin-bottom: 20px;
+	margin-right: 40px;
+	padding: 18px 28px;
+	position: relative;
+	text-align: left;
+	width: 31%;
+
+	.icon-success {
+		width: 32px;
+	}
+
+	&:nth-child(3n) {
+		margin-right: unset;
+	}
+
+	@media (max-width: 1350px) {
+		width: 46%;
+
+		&:nth-child(3n) {
+			margin-right: 40px;
+		}
+
+		&:nth-child(2n) {
+			margin-right: unset;
+		}
+	}
+
+	@media (max-width: 769px) {
+		width: 100%;
+		margin-right: unset;
+
+		&:nth-child(3n) {
+			margin-right: unset;
+		}
+	}
+`;
+
+const Number = styled.span`
+	font-family: Poppins, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 24px;
+	background-image: linear-gradient(104.04deg, #e9d050 0%, #e99a50 100%);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+`;
+
+const CardHeader = styled.h2`
+	font-family: Poppins, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 24px;
+	line-height: 130%;
+	color: #fff;
+	margin: unset;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 80%;
+`;
+
+const DetailsText = styled.p`
+	font-family: Poppins, ui-sans-serif, system-ui;
+	font-size: 14px;
+	text-align: right;
+	color: rgba(255, 255, 255, 0.6);
+	width: 100%;
+	margin-left: 10px;
+`;
+
+const DetailsButton = styled(Button)`
+	background: #eaeaea;
+	border: 1px solid #cfcfcf;
+	box-sizing: border-box;
+	border-radius: 0.5em;
+	box-shadow: unset;
+	font-family: Poppins, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 14px;
+	text-align: right;
+	color: #000000;
+	margin-left: 10px;
+	padding: 6px 20px;
+`;
+
+const VoteButton = styled(Button)`
+	background: linear-gradient(135deg, #e95062, #e950d0 50%, #5084e9);
+	border-radius: 0.5em;
+	font-family: Poppins, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 16px;
+	color: #fff;
+	text-transform: unset;
+	padding: 10px 20px;
+	line-height: 1;
+`;
+
+const ProposalContent = styled.p`
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-size: 14px;
+	color: rgba(255, 255, 255, 0.6);
+	margin-bottom: 26px;
+	display: -webkit-box;
+	-webkit-line-clamp: 5;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	height: 120px;
+
+	@media (max-width: 958px) {
+		margin-top: unset;
+	}
+`;
+
+const KeyText = styled.p`
+	flex-shrink: 0;
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 14px;
+	color: rgba(255, 255, 255, 0.6);
+	display: flex;
+`;
+
+const HashText = styled.p`
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 14px;
+	color: rgba(255, 255, 255, 0.6);
+	max-width: 110px;
+`;
+
+const IconInfo = styled.div`
+	display: flex;
+	align-items: center;
+	margin-bottom: 4px;
+
+	@media (max-width: 426px) {
+		flex-wrap: wrap;
+	}
+`;
+
+const SmallIcon = styled(Icon)`
+	flex-shrink: 0;
+	width: 18px;
+	margin-right: 10px;
+`;
+
+const ValueText = styled.p`
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 14px;
+	color: #0085ff;
+	margin-left: 10px;
+`;
+
+const VotingStatus = styled.div`
+	display: flex;
+	justify-content: center;
+	margin: 20px 0;
+
+	& > p {
+		background: linear-gradient(104.04deg, #50e996 0%, #b8e950 100%);
+		box-sizing: border-box;
+		border-radius: 0.5em;
+		width: 100%;
+		font-family: Poppins, ui-sans-serif, system-ui;
+		font-weight: 600;
+		font-size: 18px;
+		color: rgba(255, 255, 255, 0.8);
+		padding: 8px 20px;
+		text-align: center;
+	}
+
+	&.voting_period > p {
+		background: linear-gradient(104.04deg, #5084e9 0%, #6f50e9 100%);
+	}
+
+	&.rejected > p {
+		background: linear-gradient(104.04deg, #e95062 0%, #e950d0 100%);
+		color: #ffffff;
+	}
+`;
+
+const VoteDetails = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+
+	& > div {
+		display: flex;
+		align-items: center;
+		margin-bottom: 10px;
+
+		& > span {
+			width: 16px;
+			height: 16px;
+			background: #02d70a;
+			border-radius: 50px;
+			flex-shrink: 0;
+			margin-right: 10px;
+		}
+
+		& > p {
+			font-family: Inter, ui-sans-serif, system-ui;
+			font-size: 14px;
+			color: rgba(255, 255, 255, 0.6);
+			display: flex;
+		}
+	}
+
+	& > .no > span {
+		background: #c0c0c0;
+	}
+
+	& > .option3 > span {
+		background: #ff6767;
+	}
+
+	& > .option4 > span {
+		background: #827ce6;
+	}
+`;
+
+const PaginationContainer = styled.div`
+	padding: 10px 20px;
+
+	& > nav {
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	li {
+		& > button {
+			font-family: Poppins, ui-sans-serif, system-ui;
+			font-size: 14px;
+			color: #ffffff;
+			border-radius: 4px;
+		}
+
+		& > button[aria-current='true'] {
+			background: #e1e1e1;
+			box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
+			color: #393939;
+		}
+
+		&:first-child > button svg,
+		&:last-child > button svg {
+			display: none;
+		}
+
+		&:first-child > button:before {
+			content: 'Back';
+			text-decoration: underline;
+		}
+
+		&:last-child > button:before {
+			content: 'Next';
+			text-decoration: underline;
+		}
+	}
+`;
 
 export default Cards;

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styled from '@emotion/styled';
 import { InsyncWrapper } from 'src/components/insync/insync-wrapper';
 import { RootState } from 'src/reducers/store';
 import { useAppSelector } from 'src/hooks/use-app-select';
@@ -8,7 +9,6 @@ import DelegateDialog from './delegate-dialog';
 import SuccessDialog from './delegate-dialog/success-dialog';
 import UnSuccessDialog from './delegate-dialog/un-success-dialog';
 import PendingDialog from './delegate-dialog/pending-dialog';
-import './index.scss';
 
 const selector = (state: RootState) => {
 	return {
@@ -31,23 +31,23 @@ const Stake = () => {
 
 	return (
 		<InsyncWrapper>
-			<div className="stake">
-				<div className="stake_content padding">
-					<div className="heading">
-						<div className="tabs">
-							<p className={active === 1 ? 'active' : ''} onClick={() => handleChange(1)}>
+			<div className="p-5 md:py-10 md:px-15">
+				<div>
+					<Heading>
+						<div className="flex items-start mb-3">
+							<TabText className={active === 1 ? 'active' : ''} onClick={() => handleChange(1)}>
 								{variables[lang]['all_validators']}
-							</p>
-							<span />
-							<p className={active === 3 ? 'active' : ''} onClick={() => handleChange(3)}>
+							</TabText>
+							<Divider />
+							<TabText className={active === 3 ? 'active' : ''} onClick={() => handleChange(3)}>
 								{variables[lang]['inactive_validators']}
-							</p>
-							<span />
-							<p className={active === 2 ? 'active' : ''} onClick={() => handleChange(2)}>
+							</TabText>
+							<Divider />
+							<TabText className={active === 2 ? 'active' : ''} onClick={() => handleChange(2)}>
 								{variables[lang]['staked_validators']}
-							</p>
+							</TabText>
 						</div>
-					</div>
+					</Heading>
 					<Table active={active} />
 				</div>
 				<DelegateDialog canDelegateToInactive={active === 3} />
@@ -58,5 +58,46 @@ const Stake = () => {
 		</InsyncWrapper>
 	);
 };
+
+const TabText = styled.p`
+	cursor: pointer;
+	font-family: Poppin, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 24px;
+	color: #ffffff80;
+
+	&.actife {
+		color: #ffffff;
+	}
+
+	@media (max-width: 769px) {
+		font-size: 18px;
+	}
+
+	@media (max-width: 426px) {
+		width: max-content;
+	}
+`;
+
+const Divider = styled.span`
+	border: 1px solid #ffffff;
+	height: 20px;
+	margin: 0 20px;
+`;
+
+const Heading = styled.div`
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	margin-top: 30px;
+
+	@media (max-width: 958px) {
+		margin-top: unset;
+	}
+
+	@media (max-width: 426px) {
+		overflow: auto;
+	}
+`;
 
 export default Stake;

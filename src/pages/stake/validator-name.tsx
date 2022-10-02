@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from 'react';
+import styled from '@emotion/styled';
 import { useAppSelector } from 'src/hooks/use-app-select';
 
 const colors = ['#0023DA', '#C9387E', '#EC2C00', '#80E3F2', '#E86FC5', '#1F3278', '#FFE761', '#7041B9'];
@@ -27,7 +28,7 @@ const ValidatorName: FunctionComponent<ValidatorNameProps> = ({ index, name, val
 		validatorImages.filter((img: any) => img._id === value.description.identity.toString());
 
 	return (
-		<div className="validator">
+		<Container>
 			{image &&
 			image.length &&
 			image[0] &&
@@ -37,21 +38,40 @@ const ValidatorName: FunctionComponent<ValidatorNameProps> = ({ index, name, val
 			image[0].them[0].pictures &&
 			image[0].them[0].pictures.primary &&
 			image[0].them[0].pictures.primary.url ? (
-				<img
-					alt={value.description && value.description.moniker}
-					className="image"
-					src={image[0].them[0].pictures.primary.url}
-				/>
+				<Image alt={value.description && value.description.moniker} src={image[0].them[0].pictures.primary.url} />
 			) : value.description && value.description.moniker ? (
-				<div className="image" style={{ background: colors[index % 6] }}>
+				<Image as="div" className="image" style={{ background: colors[index % 6] }}>
 					{value.description.moniker[0]}
-				</div>
+				</Image>
 			) : (
-				<div className="image" style={{ background: colors[index % 6] }} />
+				<Image as="div" className="image" style={{ background: colors[index % 6] }} />
 			)}
 			<p className="heading_text1">{name}</p>
-		</div>
+		</Container>
 	);
 };
+
+const Container = styled.div`
+	align-items: center;
+	display: flex;
+	width: 200px;
+
+	@media (max-width: 958px) {
+		width: 100%;
+	}
+`;
+
+const Image = styled.img`
+	background: #ededed;
+	color: #ffffff;
+	width: 40px;
+	height: 40px;
+	border-radius: 50px;
+	margin-right: 20px;
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+`;
 
 export default ValidatorName;

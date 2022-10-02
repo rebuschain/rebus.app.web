@@ -23,7 +23,6 @@ export const dialogSlice = createSlice({
 		[disconnect as any]: hide,
 	},
 });
-//DELEGATE_SUCCESS_DIALOG_HIDE
 
 export const actions = dialogSlice.actions;
 export default dialogSlice.reducer;

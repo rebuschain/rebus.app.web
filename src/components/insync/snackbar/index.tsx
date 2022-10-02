@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
+import styled from '@emotion/styled';
 import { Slide, SlideProps, Snackbar as MaterialSnackbar } from '@material-ui/core';
 import icon from 'src/assets/user-details/warning.svg';
-import './index.scss';
 
 const TransitionUp: FunctionComponent<SlideProps> = props => <Slide direction="up" {...props} />;
 
@@ -13,7 +13,7 @@ type SnackbarProps = {
 
 const Snackbar: FunctionComponent<SnackbarProps> = props => {
 	return (
-		<MaterialSnackbar
+		<MaterialSnackbarStyled
 			ContentProps={{
 				'aria-describedby': 'message-id',
 			}}
@@ -25,9 +25,9 @@ const Snackbar: FunctionComponent<SnackbarProps> = props => {
 			autoHideDuration={5000}
 			className="snackbar"
 			message={
-				<span className="message" id="message-id">
+				<span className="flex items-center" id="message-id">
 					{props.message === 'Account not connected. Please connect to wallet' ? (
-						<img alt="snackImage" src={icon} />
+						<img alt="snackImage" className="w-8 mr-2.5" src={icon} />
 					) : null}
 					{props.message}
 				</span>
@@ -37,5 +37,14 @@ const Snackbar: FunctionComponent<SnackbarProps> = props => {
 		/>
 	);
 };
+
+const MaterialSnackbarStyled = styled(MaterialSnackbar)`
+	left: 10px;
+	transform: translatex(10px);
+
+	& > div {
+		background: #282525;
+	}
+`;
 
 export default Snackbar;

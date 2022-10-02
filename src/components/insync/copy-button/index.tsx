@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { IconButton, Tooltip } from '@material-ui/core';
+import styled from '@emotion/styled';
 import copy from 'src/assets/user-details/copy.png';
-import './index.scss';
 
 type CopyButtonProps = {
 	data: string;
@@ -24,11 +24,22 @@ const CopyButton: FunctionComponent<CopyButtonProps> = props => {
 
 	return (
 		<Tooltip arrow open={open} title="Copied!">
-			<IconButton className="copy_button" component="button" onClick={handleCopy}>
+			<IconButtonStyled onClick={handleCopy}>
 				<img alt="copy" src={copy} />
-			</IconButton>
+			</IconButtonStyled>
 		</Tooltip>
 	);
 };
+
+const IconButtonStyled = styled(IconButton)`
+	margin-left: 20px;
+	width: 50px;
+	height: 50px;
+	padding: 0;
+
+	.icon {
+		width: 20px;
+	}
+`;
 
 export default CopyButton;

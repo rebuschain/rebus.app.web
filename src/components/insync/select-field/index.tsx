@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import { makeStyles, MenuItem, TextField } from '@material-ui/core';
+import { makeStyles, MenuItem } from '@material-ui/core';
 import classNames from 'classnames';
-import './index.scss';
+import { TextFieldStyled } from './components';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -34,7 +34,7 @@ const SelectField: FunctionComponent<SelectFieldProps> = props => {
 	const onChange = (e: any) => props.onChange(e.target.value);
 
 	return (
-		<TextField
+		<TextFieldStyled
 			select
 			className={classNames(useStyles().root, 'text_field select_field ' + (props.className ? props.className : ''))}
 			id={props.id}
@@ -53,7 +53,7 @@ const SelectField: FunctionComponent<SelectFieldProps> = props => {
 					{item.name ? item.name : item.type}
 				</MenuItem>
 			))}
-		</TextField>
+		</TextFieldStyled>
 	);
 };
 

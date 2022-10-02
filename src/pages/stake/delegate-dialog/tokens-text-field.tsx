@@ -2,16 +2,13 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import TextField from 'src/components/insync/text-field';
 import { delegateDialogActions } from 'src/reducers/slices';
-import { config } from 'src/config-insync';
-import variables, { Lang } from 'src/utils/variables';
+import variables from 'src/utils/variables';
 import { useActions } from 'src/hooks/use-actions';
 import { useAppSelector } from 'src/hooks/use-app-select';
 import { RootState } from 'src/reducers/store';
 import { useStore } from 'src/stores';
 import { CoinPretty, Dec } from '@keplr-wallet/unit';
-
-const COIN_DECIMALS_EXPANDED = 10 ** config.COIN_DECIMALS;
-const coinDecimalsDec = new Dec(COIN_DECIMALS_EXPANDED);
+import styled from '@emotion/styled';
 
 const selector = (state: RootState) => {
 	return {
@@ -96,28 +93,45 @@ const TokensTextField = observer(() => {
 				value={tokens === null ? '' : tokens.toString()}
 				onChange={onChange}
 			/>
-			<div className="available_tokens">
-				<p className="heading">Max Available tokens:</p>
+			<div className="flex items-center mt-5">
+				<Heading>Max Available tokens:</Heading>
 				{name === 'Delegate' || name === 'Stake' ? (
-					<p className="value" onClick={() => onChange(balancePretty.replace(/,/g, ''))}>
+					<Value className="value" onClick={() => onChange(balancePretty.replace(/,/g, ''))}>
 						{balancePretty}
-					</p>
+					</Value>
 				) : (name === 'Undelegate' || name === 'Redelegate') && selectedValidator ? (
-					<p className="value" onClick={() => onChange(stakedTokensPretty.replace(/,/g, ''))}>
+					<Value className="value" onClick={() => onChange(stakedTokensPretty.replace(/,/g, ''))}>
 						{stakedTokensPretty}
-					</p>
+					</Value>
 				) : null}
 			</div>
 			{vestingTokens.toDec().gt(new Dec(0)) && (name === 'Delegate' || name === 'Stake') ? (
-				<div className="available_tokens">
-					<p className="heading">{variables[lang]['vesting_tokens']}:</p>
-					<p className="value" onClick={() => onChange(vestingTokensPretty.replace(/,/g, ''))}>
+				<div className="flex items-center mt-5">
+					<Heading>{variables[lang]['vesting_tokens']}:</Heading>
+					<Value className="value" onClick={() => onChange(vestingTokensPretty.replace(/,/g, ''))}>
 						{vestingTokensPretty}
-					</p>
+					</Value>
 				</div>
 			) : null}
 		</>
 	);
 });
+
+const Heading = styled.p`
+	font-family: 'Blinker', sans-serif;
+	font-size: 14px;
+	line-height: 17px;
+	text-align: center;
+	color: #696969;
+	margin-right: 20px;
+`;
+
+const Value = styled.p`
+	font-family: 'Blinker', sans-serif;
+	font-size: 14px;
+	line-height: 17px;
+	color: #0085ff;
+	cursor: pointer;
+`;
 
 export default TokensTextField;

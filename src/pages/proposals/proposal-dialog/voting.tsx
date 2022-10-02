@@ -1,6 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { Button, FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
+import styled from '@emotion/styled';
 import CircularProgress from 'src/components/insync/circular-progress';
 import { aminoSignTx } from 'src/utils/helper';
 import { config } from 'src/config-insync';
@@ -150,12 +151,11 @@ const Voting = observer<VotingProps>(({ proposalId }) => {
 	const disable = value === '';
 
 	return (
-		<div className="proposal_dialog_section3_right">
-			<p className="pds3r_heading">Please choose your vote</p>
-			<form
+		<div className="w-6/12 text-left w-full lg:ml-5 lg:w-auto">
+			<Header className="pds3r_heading">Please choose your vote</Header>
+			<VotingCard
 				noValidate
 				autoComplete="off"
-				className="voting_card"
 				onKeyPress={handleKeyPress}
 				onSubmit={e => {
 					e.preventDefault();
@@ -166,17 +166,107 @@ const Voting = observer<VotingProps>(({ proposalId }) => {
 					<FormControlLabel control={<Radio />} label="NoWithVeto" value="NoWithVeto" />
 					<FormControlLabel control={<Radio />} label="Abstain" value="Abstain" />
 				</RadioGroup>
-				<div className="buttons_div">
-					<Button className="cancel_button" variant="outlined" onClick={handleClose}>
+				<Buttons>
+					<CancelButton variant="outlined" onClick={handleClose}>
 						Cancel
-					</Button>
-					<Button className="confirm_button" disabled={disable} variant="contained" onClick={handleVote}>
-						{inProgress ? <CircularProgress /> : 'Confirm'}
-					</Button>
-				</div>
-			</form>
+					</CancelButton>
+					<ConfirmButton disabled={disable} variant="contained" onClick={handleVote}>
+						{inProgress ? <Loader /> : 'Confirm'}
+					</ConfirmButton>
+				</Buttons>
+			</VotingCard>
 		</div>
 	);
 });
+
+const Loader = styled(CircularProgress)`
+	height: 31px;
+`;
+
+const Header = styled.p`
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-weight: bold;
+	font-size: 14px;
+	color: #ffffff;
+	margin-left: 10px;
+`;
+
+const VotingCard = styled.form`
+	background: rgb(45, 39, 85);
+	border-radius: 0.5em;
+	width: 100%;
+	margin-top: 8px;
+	padding: 20px 30px;
+
+	label {
+		margin-bottom: 10px;
+
+		& > span:first-child {
+			margin-right: 20px;
+		}
+
+		& > span:last-child {
+			font-family: Inter, ui-sans-serif, system-ui;
+			font-weight: 600;
+			font-size: 14px;
+			text-align: center;
+			color: #ffffff;
+		}
+
+		svg {
+			fill: #ffffff;
+		}
+	}
+
+	@media (max-width: 769px) {
+		padding: 30px;
+	}
+`;
+
+const Buttons = styled.div`
+	text-align: center;
+
+	@media (max-width: 426px) {
+		margin-top: 30px;
+
+		& > button {
+			width: 100%;
+		}
+	}
+`;
+
+const CancelButton = styled(Button)`
+	border: 2px solid #ffffff;
+	box-sizing: border-box;
+	border-radius: 0.5em;
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 14px;
+	text-align: center;
+	color: #ffffff;
+	margin-right: 20px;
+	padding: 10px 20px;
+	line-height: 1;
+
+	@media (max-width: 426px) {
+		margin: unset;
+	}
+`;
+
+const ConfirmButton = styled(Button)`
+	background: linear-gradient(135deg, #e95062, #e950d0 50%, #5084e9);
+	border-radius: 0.5em;
+	font-family: Poppin, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 14px;
+	text-align: center;
+	color: #ffffff;
+	padding: 10px 20px;
+	line-height: 1;
+
+	@media (max-width: 426px) {
+		margin-top: 10px;
+	}
+`;
 
 export default Voting;

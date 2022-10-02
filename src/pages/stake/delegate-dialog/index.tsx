@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Button, Dialog, DialogActions, DialogContent } from '@material-ui/core';
 import { CoinPretty, Dec } from '@keplr-wallet/unit';
+import styled from '@emotion/styled';
 import variables from 'src/utils/variables';
 import { aminoSignTx } from 'src/utils/helper';
 import {
@@ -23,7 +24,6 @@ import { RootState } from 'src/reducers/store';
 import ValidatorSelectField from './validator-select-field';
 import TokensTextField from './tokens-text-field';
 import ToValidatorSelectField from './to-validator-select-field';
-import './index.scss';
 
 const COIN_DECI_VALUE = 10 ** config.COIN_DECIMALS;
 
@@ -156,7 +156,10 @@ const DelegateDialog = observer<DelegateDialogProps>(({ canDelegateToInactive })
 			setInProgress(false);
 			successDialog({
 				hash: txHash,
-				tokens: new CoinPretty(chainStore.current.stakeCurrency, amountDec).hideDenom(true).toString(),
+				tokens: new CoinPretty(chainStore.current.stakeCurrency, amountDec.mul(new Dec(COIN_DECI_VALUE)))
+					.trim(true)
+					.hideDenom(true)
+					.toString(),
 			});
 		} catch (error) {
 			setInProgress(false);
@@ -170,6 +173,8 @@ const DelegateDialog = observer<DelegateDialogProps>(({ canDelegateToInactive })
 				showMessage(message);
 			}
 		}
+
+		handleClose();
 	};
 
 	const updateBalance = () => {
@@ -243,35 +248,108 @@ const DelegateDialog = observer<DelegateDialogProps>(({ canDelegateToInactive })
 		<Dialog
 			aria-describedby="delegate-dialog-description"
 			aria-labelledby="delegate-dialog-title"
-			className="dialog delegate_dialog"
+			className="dialog"
 			open={open}
 			onClose={handleClose}>
 			{inProgress && <CircularProgress className="full_screen" />}
-			<DialogContent className="content">
-				<h1>{name + ' ' + variables[lang].tokens}</h1>
+			<DialogContentStyled className="content">
+				<Header>{name + ' ' + variables[lang].tokens}</Header>
 				{name === 'Redelegate' ? (
 					<>
-						<p>From validator</p>
+						<Content>From validator</Content>
 						<ValidatorSelectField canDelegateToInactive={canDelegateToInactive} />
-						<p>To validator</p>
+						<Content>To validator</Content>
 						<ToValidatorSelectField canDelegateToInactive={canDelegateToInactive} />
 					</>
 				) : (
 					<>
-						<p>Choose the validator</p>
+						<Content>Choose the validator</Content>
 						<ValidatorSelectField canDelegateToInactive={canDelegateToInactive} />
 					</>
 				)}
-				<p>Enter tokens to {name || 'Delegate'}</p>
+				<Content>Enter tokens to {name || 'Delegate'}</Content>
 				<TokensTextField />
-			</DialogContent>
+			</DialogContentStyled>
 			<DialogActions className="footer">
-				<Button disabled={disable} variant="contained" onClick={handleDelegateType}>
+				<ButtonStyled disabled={disable} variant="contained" onClick={handleDelegateType}>
 					{inProgress ? variables[lang]['approval_pending'] : name}
-				</Button>
+				</ButtonStyled>
 			</DialogActions>
 		</Dialog>
 	);
 });
+
+const DialogContentStyled = styled(DialogContent)`
+	text-align: left;
+
+	.text_field {
+		margin: unset;
+	}
+
+	.select_field {
+		margin: unset !important;
+		margin-bottom: 30px !important;
+		width: 100%;
+	}
+
+	.select_field > div > div {
+		border: 1px solid #696969;
+		box-sizing: border-box;
+		border-radius: 5px;
+		font-family: 'Blinker', sans-serif;
+		font-weight: 600;
+		font-size: 18px;
+		line-height: 22px;
+		color: #696969;
+		display: flex;
+		align-items: center;
+	}
+
+	.select_field svg {
+		fill: #696969;
+		right: 20px;
+	}
+
+	.select_field .image {
+		background: #696969;
+		width: 30px;
+		height: 30px;
+		border-radius: 50px;
+		margin-right: 10px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #fff;
+	}
+
+	.text_field > div {
+		height: 50px;
+	}
+`;
+
+const Header = styled.h1`
+	font-family: 'Blinker', sans-serif;
+	font-weight: bold;
+	font-size: 24px;
+	line-height: 29px;
+	text-align: center;
+	color: #ffffff;
+	margin: unset;
+	margin-bottom: 65px;
+`;
+
+const Content = styled.p`
+	font-family: 'Blinker', sans-serif;
+	font-size: 18px;
+	line-height: 22px;
+	color: #696969;
+	margin-bottom: 6px;
+`;
+
+const ButtonStyled = styled(Button)`
+	&:disabled {
+		opacity: 0.5;
+	}
+`;
 
 export default DelegateDialog;
