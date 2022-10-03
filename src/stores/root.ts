@@ -1,16 +1,13 @@
-import { IBCCurrencyRegsitrar, QueriesStore } from '@keplr-wallet/stores';
+import { QueriesStore } from '@keplr-wallet/stores';
 import { AccountStore } from '@keplr-wallet/stores';
-import { DenomHelper, IndexedDBKVStore, LocalKVStore } from '@keplr-wallet/common';
-import { ChainInfoWithExplorer, ChainStore } from './chain';
-import { AppCurrency, ChainInfo, Keplr } from '@keplr-wallet/types';
-import { EmbedChainInfos, IBCAssetInfos } from '../config';
+import { IndexedDBKVStore } from '@keplr-wallet/common';
+import { ChainStore } from './chain';
+import { ChainInfo } from '@keplr-wallet/types';
+import { EmbedChainInfos } from '../config';
 import { QueriesWithCosmosAndRebus } from './rebus/query';
 import { AccountWithCosmosAndRebus } from './rebus/account';
 import { LayoutStore } from './layout';
-import { GammSwapManager } from './rebus/swap';
-import { LPCurrencyRegistrar } from './rebus/currency-registrar';
-import { ChainInfoInner } from '@keplr-wallet/stores';
-import { PoolIntermediatePriceStore } from './price';
+import { IntermediatePriceStore } from './price';
 import { IBCTransferHistoryStore } from './ibc-history';
 import { WalletStore } from './wallet';
 import { displayToast, TToastType } from '../components/common/toasts';
@@ -23,16 +20,12 @@ export class RootStore {
 	public readonly chainStore: ChainStore;
 	public readonly accountStore: AccountStore<AccountWithCosmosAndRebus>;
 	public readonly queriesStore: QueriesStore<QueriesWithCosmosAndRebus>;
-	public readonly priceStore: PoolIntermediatePriceStore;
+	public readonly priceStore: IntermediatePriceStore;
 	public readonly walletStore: WalletStore;
 
 	public readonly ibcTransferHistoryStore: IBCTransferHistoryStore;
 
-	public readonly swapManager: GammSwapManager;
 	public readonly connectWalletManager: ConnectWalletManager;
-
-	protected readonly lpCurrencyRegistrar: LPCurrencyRegistrar<ChainInfoWithExplorer>;
-	protected readonly ibcCurrencyRegistrar: IBCCurrencyRegsitrar<ChainInfoWithExplorer>;
 
 	public readonly layoutStore: LayoutStore;
 
@@ -165,7 +158,7 @@ export class RootStore {
 		);
 		this.connectWalletManager.setAccountStore(this.accountStore);
 
-		this.priceStore = new PoolIntermediatePriceStore(
+		this.priceStore = new IntermediatePriceStore(
 			EmbedChainInfos[0].chainId,
 			this.chainStore,
 			new IndexedDBKVStore('store_web_prices'),
@@ -177,9 +170,7 @@ export class RootStore {
 					locale: 'en-US',
 				},
 			},
-			'usd',
-			this.queriesStore.get(EmbedChainInfos[0].chainId).rebus.queryGammPools,
-			[]
+			'usd'
 		);
 
 		this.ibcTransferHistoryStore = new IBCTransferHistoryStore(
@@ -189,62 +180,6 @@ export class RootStore {
 
 		this.walletStore = new WalletStore();
 		this.connectWalletManager.setWalletStore(this.walletStore);
-
-		// TODO: Add pools
-		this.swapManager = new GammSwapManager([
-			{
-				poolId: '1',
-				currencies: [
-					{
-						coinMinimalDenom: 'areba',
-						coinDenom: 'REBUS',
-						coinDecimals: 18,
-					},
-					{
-						coinMinimalDenom: 'uosmo',
-						coinDenom: 'OSMO',
-						coinDecimals: 6,
-					},
-				],
-			},
-		]);
-
-		this.lpCurrencyRegistrar = new LPCurrencyRegistrar(this.chainStore);
-		this.ibcCurrencyRegistrar = new IBCCurrencyRegsitrar<ChainInfoWithExplorer>(
-			new LocalKVStore('store_ibc_currency_registrar'),
-			3 * 24 * 3600 * 1000, // 3 days
-			this.chainStore,
-			this.accountStore,
-			this.queriesStore,
-			this.queriesStore,
-			(
-				denomTrace: {
-					denom: string;
-					paths: {
-						portId: string;
-						channelId: string;
-					}[];
-				},
-				originChainInfo: ChainInfoInner | undefined,
-				counterpartyChainInfo: ChainInfoInner | undefined,
-				originCurrency: AppCurrency | undefined
-			) => {
-				const firstPath = denomTrace.paths[0];
-
-				// If the IBC Currency's channel is known,
-				// Don't show the channel info on the coin denom.
-				const knownAssetInfo = IBCAssetInfos.filter(info => info.sourceChannelId === firstPath.channelId).find(
-					info => info.coinMinimalDenom === denomTrace.denom
-				);
-				if (knownAssetInfo) {
-					return originCurrency ? originCurrency.coinDenom : denomTrace.denom;
-				}
-
-				return `${originCurrency ? originCurrency.coinDenom : denomTrace.denom} (${
-					denomTrace.paths.length > 0 ? denomTrace.paths[0].channelId : 'Unknown'
-				})`;
-			}
-		);
 
 		this.layoutStore = new LayoutStore();
 	}

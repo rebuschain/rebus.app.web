@@ -10,6 +10,7 @@ import { formatCount } from 'src/utils/number-formats';
 import { config } from 'src/config-insync';
 import { useAppSelector } from 'src/hooks/use-app-select';
 import { useAddress } from 'src/hooks/use-address';
+import { RootState } from 'src/reducers/store';
 import UnDelegateButton from '../home/token-details/un-delegate-button';
 import ReDelegateButton from '../home/token-details/re-delegate-button';
 import DelegateButton from './delegate-button';
@@ -132,7 +133,7 @@ type TableProps = {
 	active: number;
 };
 
-const selector = (state: any) => {
+const selector = (state: RootState) => {
 	return {
 		lang: state.language,
 		validatorList: state.stake.validators.list,

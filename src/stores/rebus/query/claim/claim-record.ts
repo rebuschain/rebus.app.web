@@ -12,6 +12,10 @@ export class ObservableQueryClaimRecordInner extends ObservableChainQuery<ClaimR
 		makeObservable(this);
 	}
 
+	protected canFetch(): boolean {
+		return !!this.bech32Address;
+	}
+
 	// Key: denom, Value: amount
 	@computed
 	protected get initialClaimableAmountMap(): Map<string, string> {

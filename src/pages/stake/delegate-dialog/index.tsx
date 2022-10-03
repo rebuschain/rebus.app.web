@@ -182,7 +182,7 @@ const DelegateDialog = observer<DelegateDialogProps>(({ canDelegateToInactive })
 		getDelegatedValidatorsDetails(address);
 
 		accountQuery.fetch();
-		queries.rebus.querySuperfluidDelegations.getQuerySuperfluidDelegations(address).fetch();
+		queries.rebus.queryDelegations.get(address).fetch();
 		queries.queryBalances.getQueryBech32Address(address).fetch();
 		queries.cosmos.queryRewards.getQueryBech32Address(address).fetch();
 		queries.cosmos.queryDelegations.getQueryBech32Address(address).fetch();
@@ -239,8 +239,10 @@ const DelegateDialog = observer<DelegateDialogProps>(({ canDelegateToInactive })
 			disable = amountDec.gt(balance.add(vestingTokens).toDec());
 		} else if (name === 'Delegate' || name === 'Stake') {
 			disable = amountDec.gt(balance.toDec());
-		} else if (name === 'Undelegate' || name === 'Redelegate') {
+		} else if (name === 'Undelegate') {
 			disable = amountDec.gt(stakedTokens.toDec());
+		} else if (name === 'Redelegate') {
+			disable = !toValidator || amountDec.gt(stakedTokens.toDec());
 		}
 	}
 

@@ -41,22 +41,6 @@ export const CenterSelf = styled.div`
 	margin-right: auto;
 `;
 
-export const PoolCardListGridContainer = styled.ul`
-	display: grid;
-	width: 100%;
-	height: 100%;
-	gap: 16px;
-	grid-template-columns: repeat(1, minmax(0, 1fr));
-	${onLgWidth} {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 35px;
-	}
-	${on2XlWidth} {
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 35px;
-	}
-`;
-
 export const WellContainer = styled.div`
 	width: 100%;
 	border-radius: 0.75rem;

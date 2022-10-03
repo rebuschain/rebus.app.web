@@ -2,36 +2,13 @@ import { ROUTES } from './routes';
 
 export const LAYOUT = {
 	SIDEBAR: {
-		/*TRADE: {
-			ICON: '/public/assets/icons/trade.svg',
-			ICON_SELECTED: '/public/assets/icons/trade-selected.svg',
-			TEXT: 'Trade',
-			ROUTE: '/',
-			SELECTED_CHECK: '/',
-		},
-		POOLS: {
-			ICON: '/public/assets/icons/pool.svg',
-			ICON_SELECTED: '/public/assets/icons/pool-selected.svg',
-			TEXT: 'Pools',
-			SELECTED_CHECK: [ROUTES.POOLS, /\/pool\/[0-9]+/],
-			ROUTE: ROUTES.POOLS,
-		},*/
-		/*
-		LBP: {
-			ICON: '/public/assets/icons/lbp.svg',
-			ICON_SELECTED: '/public/assets/icons/lbp-selected.svg',
-			TEXT: 'LBP',
-			ROUTE: '/bootstrap',
-			SELECTED_CHECK: '/bootstrap',
-		},
-		ASSETS: {
-			ICON: '/public/assets/icons/assets.svg',
-			ICON_SELECTED: '/public/assets/icons/assets-selected.svg',
-			TEXT: 'Assets',
-			ROUTE: '/assets',
-			SELECTED_CHECK: '/assets',
-		},
-		 */
+		// ASSETS: {
+		// 	ICON: '/public/assets/icons/assets.svg',
+		// 	ICON_SELECTED: '/public/assets/icons/assets-selected.svg',
+		// 	TEXT: 'Assets',
+		// 	ROUTE: '/assets',
+		// 	SELECTED_CHECK: '/assets',
+		// },
 		STAKE: {
 			ICON: '/public/assets/icons/stake.svg',
 			ICON_SELECTED: '/public/assets/icons/stake-selected.svg',

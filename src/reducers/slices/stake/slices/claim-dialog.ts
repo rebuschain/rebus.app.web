@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { actions as successDialogActions } from './success-dialog';
 
 const initialState = {
-	open: true,
+	open: false,
 	validator: 'all',
 };
 

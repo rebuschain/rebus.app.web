@@ -19,10 +19,6 @@ export class ObservableQueryEpochsInner {
 			return;
 		}
 
-		// Golang Protobuf의 duration은 초단위로만 반환된다.
-		// XXX: commonjs일때 밑의 라인이 오류가 발생해서 test:rand-pools 스크립트가 실행이 안됨...
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore
 		return dayjs.duration(parseInt(this.epoch.duration.replace('s', '')) * 1000);
 	}
 

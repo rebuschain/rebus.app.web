@@ -62,6 +62,7 @@ export const delegatedValidatorsSlice = createSlice({
 	extraReducers: {
 		[disconnect as any]: state => ({
 			...state,
+			list: [],
 			inProgress: false,
 		}),
 	},
