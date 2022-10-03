@@ -1,13 +1,13 @@
 import React, { FunctionComponent } from 'react';
 import { Dialog, DialogContent } from '@material-ui/core';
-import variables, { Lang } from 'src/utils/variables';
+import variables from 'src/utils/variables';
 import { failedDialogActions } from 'src/reducers/slices';
 import failed from 'src/assets/stake/failed.svg';
 import { config } from 'src/config-insync';
 import { useActions } from 'src/hooks/use-actions';
 import { useAppSelector } from 'src/hooks/use-app-select';
 import { RootState } from 'src/reducers/store';
-import './index.scss';
+import { ResultDialogHeader, ResultDialogText } from './components';
 
 const selector = (state: RootState) => {
 	return {
@@ -35,17 +35,17 @@ const UnSuccessDialog: FunctionComponent = () => {
 			open={open}
 			onClose={handleClose}>
 			<DialogContent className="content">
-				<div className="heading">
+				<div className="text-center">
 					<img alt="failed" src={failed} />
-					{<h1>{variables[lang]['transaction_failed']}</h1>}
-					<p>{message}</p>
+					{<ResultDialogHeader>{variables[lang]['transaction_failed']}</ResultDialogHeader>}
+					<ResultDialogText>{message}</ResultDialogText>
 				</div>
 
 				{hash && (
-					<div className="row mt-9">
-						<p>{variables[lang]['transaction_hash']}</p>
-						<div className="hash_text link" title={hash} onClick={handleRedirect}>
-							<p className="name">{hash}</p>
+					<div className="flex justify-between mt-9 mb-4">
+						<ResultDialogText>{variables[lang]['transaction_hash']}</ResultDialogText>
+						<div className="w-36 cursor-pointer hover:underline" title={hash} onClick={handleRedirect}>
+							<ResultDialogText className="name">{hash}</ResultDialogText>
 							{hash && hash.slice(hash.length - 6, hash.length)}
 						</div>
 					</div>

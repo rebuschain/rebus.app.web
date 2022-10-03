@@ -19,7 +19,7 @@ import { useActions } from 'src/hooks/use-actions';
 import { useAppSelector } from 'src/hooks/use-app-select';
 import { RootState } from 'src/reducers/store';
 import ValidatorsSelectField from './validators-select-field';
-import '../../stake/delegate-dialog/index.scss';
+import styled from '@emotion/styled';
 
 const selector = (state: RootState) => ({
 	lang: state.language,
@@ -213,7 +213,7 @@ const ClaimDialog = observer(() => {
 	const disable = value === 'none' || inProgress;
 
 	return (
-		<Dialog
+		<DialogStyled
 			aria-describedby="claim-dialog-description"
 			aria-labelledby="claim-dialog-title"
 			className="dialog delegate_dialog claim_dialog"
@@ -221,18 +221,73 @@ const ClaimDialog = observer(() => {
 			onClose={handleClose}>
 			{inProgress && <CircularProgress className="full_screen" />}
 			<DialogContent className="content">
-				<h1>Claim Rewards</h1>
-				<p>Select validator</p>
+				<Header>Claim Rewards</Header>
+				<Text>Select validator</Text>
 				<ValidatorsSelectField />
-				{tokens.toDec().gt(new Dec(0)) ? <p>Rewards: {tokensPretty}</p> : null}
+				{tokens.toDec().gt(new Dec(0)) ? <Text className="mt-7.5">Rewards: {tokensPretty}</Text> : null}
 			</DialogContent>
 			<DialogActions className="footer">
-				<Button disabled={disable} variant="contained" onClick={value === 'all' ? handleClaimAll : handleClaim}>
+				<ButtonStyled disabled={disable} variant="contained" onClick={value === 'all' ? handleClaimAll : handleClaim}>
 					{inProgress ? variables[lang]['approval_pending'] : variables[lang].claim}
-				</Button>
+				</ButtonStyled>
 			</DialogActions>
-		</Dialog>
+		</DialogStyled>
 	);
 });
+
+const DialogStyled = styled(Dialog)`
+	.text_field {
+		margin: unset;
+	}
+
+	.select_field {
+		margin: unset;
+		margin-bottom: 30px;
+		width: 100%;
+
+		& > div > div {
+			border: 1px solid #696969;
+			box-sizing: border-box;
+			border-radius: 5px;
+			font-family: 'Blinker', sans-serif;
+			font-weight: 600;
+			font-size: 18px;
+			line-height: 22px;
+			color: #696969;
+			display: flex;
+			align-items: center;
+		}
+
+		svg {
+			fill: #696969;
+			right: 20px;
+		}
+	}
+`;
+
+const Header = styled.h1`
+	font-family: 'Blinker', sans-serif;
+	font-weight: bold;
+	font-size: 24px;
+	line-height: 29px;
+	text-align: center;
+	color: #ffffff;
+	margin: unset;
+	margin-bottom: 65px;
+`;
+
+const Text = styled.p`
+	font-family: 'Blinker', sans-serif;
+	font-size: 18px;
+	line-height: 22px;
+	color: #696969;
+	margin-bottom: 6px;
+`;
+
+const ButtonStyled = styled(Button)`
+	&:disabled {
+		opacity: 0.5;
+	}
+`;
 
 export default ClaimDialog;

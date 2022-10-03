@@ -2,7 +2,6 @@ import React, { FunctionComponent } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { IconButton } from '@material-ui/core';
 import backIcon from 'src/assets/back.png';
-import './index.scss';
 
 interface BackButtonProps extends RouteComponentProps<any> {
 	onClick: () => void;
@@ -20,8 +19,8 @@ const BackButton: FunctionComponent<BackButtonProps> = props => {
 	};
 
 	return (
-		<IconButton className="back_button" onClick={onClick}>
-			<img alt="back" src={backIcon} />
+		<IconButton className="fixed top-2.5 left-2.5" onClick={onClick}>
+			<img alt="back" src={backIcon} style={{ width: 'unset' }} />
 		</IconButton>
 	);
 };

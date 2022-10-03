@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
+import styled from '@emotion/styled';
 import variables from 'src/utils/variables';
 import { itemsActions, proposalDetailsActions, tallyDetailsActions } from 'src/reducers/slices';
 import { InsyncWrapper } from 'src/components/insync/insync-wrapper';
@@ -10,7 +11,6 @@ import PendingDialog from '../stake/delegate-dialog/pending-dialog';
 import SuccessDialog from '../stake/delegate-dialog/success-dialog';
 import Cards from './cards';
 import ProposalDialog from './proposal-dialog';
-import './index.scss';
 
 const selector = (state: RootState) => {
 	return {
@@ -98,36 +98,38 @@ const Proposals: FunctionComponent = () => {
 
 	return (
 		<InsyncWrapper>
-			<div className="proposals">
+			<div className="p-2.5 pt-20 md:p-0 md:pt-0">
 				{!open ? (
-					<div className="proposals_content padding">
-						<div className="heading">
-							<div className="tabs">
-								<p className={active === 1 ? 'active' : ''} onClick={() => handleChange(1)}>
+					<ProposalContent>
+						<div className="flex items-center justify-between">
+							<div className="flex items-center ml-10">
+								<TabLabel className={active === 1 ? 'active' : ''} onClick={() => handleChange(1)}>
 									{variables[lang].all}
-								</p>
-								<span />
-								<p className={active === 2 ? 'active' : ''} onClick={() => handleChange(2)}>
+								</TabLabel>
+								<Divider />
+								<TabLabel className={active === 2 ? 'active' : ''} onClick={() => handleChange(2)}>
 									{variables[lang].active}
-								</p>
-								<span />
-								<p className={active === 3 ? 'active' : ''} onClick={() => handleChange(3)}>
+								</TabLabel>
+								<Divider />
+								<TabLabel className={active === 3 ? 'active' : ''} onClick={() => handleChange(3)}>
 									{variables[lang].pending}
-								</p>
-								<span />
-								<p className={active === 4 ? 'active' : ''} onClick={() => handleChange(4)}>
+								</TabLabel>
+								<Divider />
+								<TabLabel className={active === 4 ? 'active' : ''} onClick={() => handleChange(4)}>
 									{variables[lang].closed}
-								</p>
+								</TabLabel>
 							</div>
 						</div>
-						{proposalsInProgress || voteDetailsInProgress ? (
-							<div className="cards_content">Loading...</div>
-						) : filteredProposals && filteredProposals.length ? (
-							<Cards proposals={filteredProposals} />
-						) : (
-							<div className="cards_content">No data found</div>
-						)}
-					</div>
+						<CardsContent>
+							{proposalsInProgress || voteDetailsInProgress ? (
+								'Loading...'
+							) : filteredProposals && filteredProposals.length ? (
+								<Cards proposals={filteredProposals} />
+							) : (
+								'No data found'
+							)}
+						</CardsContent>
+					</ProposalContent>
 				) : (
 					<ProposalDialog />
 				)}
@@ -138,5 +140,52 @@ const Proposals: FunctionComponent = () => {
 		</InsyncWrapper>
 	);
 };
+
+const ProposalContent = styled.div`
+	margin-top: 30px;
+
+	@media (max-width: 958px) {
+		margin-top: unset;
+	}
+`;
+
+const CardsContent = styled.div`
+	border-radius: 10px;
+	margin-top: 16px;
+	padding: 38px;
+
+	@media (max-width: 769px) {
+		background: unset;
+		padding: 0;
+		backdrop-filter: unset;
+		border-radius: unset;
+	}
+`;
+
+const TabLabel = styled.p`
+	cursor: pointer;
+	font-family: Poppins, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 24px;
+	color: rgba(255, 255, 255, 0.6);
+
+	&.active {
+		color: #ffffff;
+	}
+
+	@media (max-width: 768px) {
+		font-size: 20px;
+	}
+`;
+
+const Divider = styled.span`
+	border: 1px solid #ffffff;
+	height: 22px;
+	margin: 0 20px;
+
+	@media (max-width: 768px) {
+		margin: 0 14px;
+	}
+`;
 
 export default Proposals;

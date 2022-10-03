@@ -2,6 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { CoinPretty } from '@keplr-wallet/unit';
 import { useAmountConfig } from '@keplr-wallet/hooks';
+import styled from '@emotion/styled';
 import { useStore } from 'src/stores';
 import variables from 'src/utils/variables';
 import totalTokens from 'src/assets/user-details/available-tokens.svg';
@@ -13,7 +14,6 @@ import StakeTokensButton from './stake-tokens-button';
 import UnDelegateButton from './un-delegate-button';
 import ReDelegateButton from './re-delegate-button';
 import ClaimButton from './claim-button';
-import './index.scss';
 
 type TokenDetailsProps = {
 	lang: string;
@@ -59,46 +59,93 @@ const TokenDetails = observer<TokenDetailsProps>(props => {
 	const unstakedInProgress = unBondingDelegationsQuery.isFetching;
 
 	return (
-		<div className="token_details">
-			<div className="chip_info">
-				<p>{langVariables['available_tokens']}</p>
-				<div className="chip">
-					<img alt="available tokens" src={totalTokens} />
-					{balanceInProgress ? <DotsLoading /> : <p>{available}</p>}
-				</div>
+		<div className="flex flex-1 flex-col items-center justify-center md:flex-row md:items-start md:justify-start">
+			<ChipInfo>
+				<Label>{langVariables['available_tokens']}</Label>
+				<Chip>
+					<Icon alt="available tokens" src={totalTokens} />
+					{balanceInProgress ? <DotsLoading /> : <Value>{available}</Value>}
+				</Chip>
 				<StakeTokensButton />
-			</div>
-			<div className="chip_info">
-				<p>{langVariables['staked_tokens']}</p>
-				<div className="chip">
-					<img alt="total tokens" src={stakedTokens} />
-					{stakedInProgress ? <DotsLoading /> : <p>{staked}</p>}
-				</div>
-				<div className="buttons_div">
+			</ChipInfo>
+			<ChipInfo>
+				<Label>{langVariables['staked_tokens']}</Label>
+				<Chip>
+					<Icon alt="total tokens" src={stakedTokens} />
+					{stakedInProgress ? <DotsLoading /> : <Value>{staked}</Value>}
+				</Chip>
+				<div className="flex items-center justify-center">
 					<UnDelegateButton />
-					<span />
+					<Divider />
 					<ReDelegateButton />
 				</div>
-			</div>
-			<div className="chip_info">
-				<p>{langVariables.rewards}</p>
-				<div className="chip">
-					<img alt="total tokens" src={rewardsIcon} />
-					{rewardsInProgress ? <DotsLoading /> : <p>{rewards}</p>}
-				</div>
-				<div className="buttons_div">
+			</ChipInfo>
+			<ChipInfo>
+				<Label>{langVariables.rewards}</Label>
+				<Chip>
+					<Icon alt="total tokens" src={rewardsIcon} />
+					{rewardsInProgress ? <DotsLoading /> : <Value>{rewards}</Value>}
+				</Chip>
+				<div className="flex items-center justify-center">
 					<ClaimButton disable={parseFloat(rewards) <= 0} />
 				</div>
-			</div>
-			<div className="chip_info">
-				<p>{langVariables['un_staked_tokens']}</p>
-				<div className="chip">
-					<img alt="unstaked tokens" src={unStake} />
-					{unstakedInProgress ? <DotsLoading /> : <p>{unstaked}</p>}
-				</div>
-			</div>
+			</ChipInfo>
+			<ChipInfo>
+				<Label>{langVariables['un_staked_tokens']}</Label>
+				<Chip>
+					<Icon alt="unstaked tokens" src={unStake} />
+					{unstakedInProgress ? <DotsLoading /> : <Value>{unstaked}</Value>}
+				</Chip>
+			</ChipInfo>
 		</div>
 	);
 });
+
+const Chip = styled.div`
+	border-radius: 50px;
+	display: flex;
+	align-items: center;
+	padding: 10px 0;
+	margin: 10px 0;
+`;
+
+const ChipInfo = styled.div`
+	margin-right: 40px;
+	text-align: center;
+
+	@media (max-width: 769px) {
+		margin: 0 0 20px;
+		width: 100%;
+	}
+`;
+
+const Icon = styled.img`
+	background: linear-gradient(104.04deg, #f1f0f6 0%, #dddbe9 100%);
+	border-radius: 30px;
+	height: 50px;
+	padding: 1px;
+	margin-right: 20px;
+	max-width: 50px;
+`;
+
+const Label = styled.p`
+	color: rgba(255, 255, 255, 0.6);
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-size: 16px;
+	width: max-content;
+`;
+
+const Value = styled.p`
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-size: 30px;
+	color: #fff;
+	width: max-content;
+`;
+
+const Divider = styled.div`
+	height: 20px;
+	border: 0.5px solid #ffffff;
+	margin: 0 10px;
+`;
 
 export default TokenDetails;

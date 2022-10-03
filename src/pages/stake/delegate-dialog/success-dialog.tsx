@@ -9,7 +9,7 @@ import { useActions } from 'src/hooks/use-actions';
 import { useAppSelector } from 'src/hooks/use-app-select';
 import { RootState } from 'src/reducers/store';
 import { useAddress } from 'src/hooks/use-address';
-import './index.scss';
+import { ResultDialogHeader, ResultDialogText } from './components';
 
 const selector = (state: RootState) => {
 	return {
@@ -60,108 +60,114 @@ const SuccessDialog = observer(() => {
 			open={open}
 			onClose={handleClose}>
 			<DialogContent className="content">
-				<div className="heading">
-					<img alt="success" src={success} />
+				<div className="flex items-center text-center mb-7.5">
+					<img alt="success" className="mr-2" src={success} />
 					{name ? (
-						<h1>{name + 'd Successfully'}</h1>
+						<ResultDialogHeader>{name + 'd Successfully'}</ResultDialogHeader>
 					) : claimValidator && claimValidator !== 'none' ? (
-						<h1>{variables[lang].claimed_success}</h1>
+						<ResultDialogHeader>{variables[lang].claimed_success}</ResultDialogHeader>
 					) : proposalOpen ? (
-						<h1>{variables[lang].vote_success}</h1>
+						<ResultDialogHeader>{variables[lang].vote_success}</ResultDialogHeader>
 					) : (
-						<h1>{variables[lang].success}</h1>
+						<ResultDialogHeader>{variables[lang].success}</ResultDialogHeader>
 					)}
 				</div>
 				{proposalOpen && hash ? (
-					<div className="row">
-						<p>{variables[lang]['transaction_hash']}</p>
-						<div className="hash_text link" title={hash} onClick={handleRedirect}>
-							<p className="name">{hash}</p>
+					<div className="flex justify-between mb-4">
+						<ResultDialogText>{variables[lang]['transaction_hash']}</ResultDialogText>
+						<div className="hash_text cursor-pointer hover:underline" title={hash} onClick={handleRedirect}>
+							<ResultDialogText className="name">{hash}</ResultDialogText>
 							{hash && hash.slice(hash.length - 6, hash.length)}
 						</div>
 					</div>
 				) : !name ? (
 					claimValidator && claimValidator !== 'none' ? (
 						<>
-							<div className="row">
-								<p>{variables[lang]['transaction_hash']}</p>
-								<div className="hash_text link" title={hash} onClick={handleRedirect}>
-									<p className="name">{hash}</p>
+							<div className="flex justify-between mb-4">
+								<ResultDialogText>{variables[lang]['transaction_hash']}</ResultDialogText>
+								<div className="hash_text cursor-pointer hover:underline" title={hash} onClick={handleRedirect}>
+									<ResultDialogText className="name">{hash}</ResultDialogText>
 									{hash && hash.slice(hash.length - 6, hash.length)}
 								</div>
 							</div>
-							<div className="row">
-								<p>{variables[lang].tokens}</p>
-								<p>{tokens ? Number(tokens).toFixed(4) + ' ' + config.COIN_DENOM : null}</p>
+							<div className="flex justify-between mb-4">
+								<ResultDialogText>{variables[lang].tokens}</ResultDialogText>
+								<ResultDialogText>{tokens ? tokens + ' ' + config.COIN_DENOM : null}</ResultDialogText>
 							</div>
 						</>
 					) : null
 				) : (
 					<>
-						<div className="row">
-							<p>{variables[lang]['transaction_hash']}</p>
-							<div className="hash_text link" title={hash} onClick={handleRedirect}>
-								<p className="name">{hash}</p>
-								{hash && hash.slice(hash.length - 6, hash.length)}
+						<div className="flex justify-between mb-4">
+							<ResultDialogText>{variables[lang]['transaction_hash']}</ResultDialogText>
+							<div className="hash_text cursor-pointer hover:underline" title={hash} onClick={handleRedirect}>
+								<ResultDialogText className="name">{hash}</ResultDialogText>
+								<ResultDialogText>{hash && hash.slice(hash.length - 6, hash.length)}</ResultDialogText>
 							</div>
 						</div>
-						<div className="row">
-							<p>{variables[lang]['delegator_address']}</p>
+						<div className="flex justify-between mb-4">
+							<ResultDialogText>{variables[lang]['delegator_address']}</ResultDialogText>
 							<div className="hash_text" title={address}>
-								<p className="name">{address}</p>
-								{address && address.slice(address.length - 6, address.length)}
+								<ResultDialogText className="name">{address}</ResultDialogText>
+								<ResultDialogText>{address && address.slice(address.length - 6, address.length)}</ResultDialogText>
 							</div>
 						</div>
 						{name === 'Redelegate' ? (
 							<>
-								<div className="row">
-									<p>From {variables[lang]['validator_address']}</p>
-									<div className="validator">
+								<div className="flex justify-between mb-4">
+									<ResultDialogText>From {variables[lang]['validator_address']}</ResultDialogText>
+									<div className="text-right">
 										<div className="hash_text" title={validator}>
-											<p className="name">{validator}</p>
-											{validator && validator.slice(validator.length - 6, validator.length)}
+											<ResultDialogText className="name">{validator}</ResultDialogText>
+											<ResultDialogText>
+												{validator && validator.slice(validator.length - 6, validator.length)}
+											</ResultDialogText>
 										</div>
-										<p>
+										<ResultDialogText>
 											{validatorDetails && validatorDetails.description && validatorDetails.description.moniker
 												? `(${validatorDetails.description.moniker})`
 												: null}
-										</p>
+										</ResultDialogText>
 									</div>
 								</div>
-								<div className="row">
-									<p>To {variables[lang]['validator_address']}</p>
-									<div className="validator">
+								<div className="flex justify-between mb-4">
+									<ResultDialogText>To {variables[lang]['validator_address']}</ResultDialogText>
+									<div className="text-right">
 										<div className="hash_text" title={toValidator}>
-											<p className="name">{toValidator}</p>
-											{toValidator && toValidator.slice(toValidator.length - 6, toValidator.length)}
+											<ResultDialogText className="name">{toValidator}</ResultDialogText>
+											<ResultDialogText>
+												{toValidator && toValidator.slice(toValidator.length - 6, toValidator.length)}
+											</ResultDialogText>
 										</div>
-										<p>
+										<ResultDialogText>
 											{toValidatorDetails && toValidatorDetails.description && toValidatorDetails.description.moniker
 												? `(${toValidatorDetails.description.moniker})`
 												: null}
-										</p>
+										</ResultDialogText>
 									</div>
 								</div>
 							</>
 						) : (
-							<div className="row">
-								<p>{variables[lang]['validator_address']}</p>
-								<div className="validator">
+							<div className="flex justify-between mb-4">
+								<ResultDialogText>{variables[lang]['validator_address']}</ResultDialogText>
+								<div className="text-right">
 									<div className="hash_text" title={validator}>
-										<p className="name">{validator}</p>
-										{validator && validator.slice(validator.length - 6, validator.length)}
+										<ResultDialogText className="name">{validator}</ResultDialogText>
+										<ResultDialogText>
+											{validator && validator.slice(validator.length - 6, validator.length)}
+										</ResultDialogText>
 									</div>
-									<p>
+									<ResultDialogText>
 										{validatorDetails && validatorDetails.description && validatorDetails.description.moniker
 											? `(${validatorDetails.description.moniker})`
 											: null}
-									</p>
+									</ResultDialogText>
 								</div>
 							</div>
 						)}
-						<div className="row">
-							<p>{variables[lang].tokens}</p>
-							<p>{tokens ? Number(tokens).toFixed(4) + ' ' + config.COIN_DENOM : null}</p>
+						<div className="flex justify-between mb-4">
+							<ResultDialogText>{variables[lang].tokens}</ResultDialogText>
+							<ResultDialogText>{tokens ? tokens + ' ' + config.COIN_DENOM : null}</ResultDialogText>
 						</div>
 					</>
 				)}

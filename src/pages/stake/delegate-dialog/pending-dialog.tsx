@@ -6,7 +6,7 @@ import processing from 'src/assets/stake/processing.svg';
 import { useActions } from 'src/hooks/use-actions';
 import { useAppSelector } from 'src/hooks/use-app-select';
 import { RootState } from 'src/reducers/store';
-import './index.scss';
+import { ResultDialogHeader } from './components';
 
 const selector = (state: RootState) => {
 	return {
@@ -27,9 +27,9 @@ const PendingDialog: FunctionComponent = () => {
 			open={open}
 			onClose={handleClose}>
 			<DialogContent className="content">
-				<div className="heading">
-					<img alt="processing" src={processing} />
-					{<h1>{variables[lang]['transaction_processing']}</h1>}
+				<div className="text-center">
+					<img alt="processing" className="w-24" src={processing} />
+					{<ResultDialogHeader>{variables[lang]['transaction_processing']}</ResultDialogHeader>}
 				</div>
 			</DialogContent>
 		</Dialog>

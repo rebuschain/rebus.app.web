@@ -19,18 +19,16 @@ export const delegateDialogSlice = createSlice({
 	name: 'delegateDialog',
 	initialState,
 	reducers: {
-		hideDelegateDialog: () => ({
+		hideDelegateDialog: state => ({
+			...state,
 			open: false,
-			name: '' as NameType,
-			validatorAddress: '',
-			toValidatorAddress: '',
-			tokens: null,
 		}),
 		showDelegateDialog: (state, action: PayloadAction<ShowDelegateDialog>) => ({
-			...state,
 			open: true,
 			name: action.payload.name,
 			validatorAddress: action.payload.validatorAddress || '',
+			toValidatorAddress: '',
+			tokens: null,
 		}),
 		setTokens: (state, action: PayloadAction<string>) => ({
 			...state,

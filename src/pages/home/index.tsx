@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { observer } from 'mobx-react-lite';
+import styled from '@emotion/styled';
 import { useAppSelector } from 'src/hooks/use-app-select';
 import { RootState } from 'src/reducers/store';
 import { useAddress } from 'src/hooks/use-address';
@@ -13,27 +14,21 @@ import PendingDialog from '../stake/delegate-dialog/pending-dialog';
 import { InsyncWrapper } from '../../components/insync/insync-wrapper';
 import ClaimDialog from './claim-dialog';
 import TokenDetails from './token-details';
-import './index.scss';
 
 type HomeProps = RouteComponentProps<any>;
 
 const selector = (state: RootState) => {
 	return {
 		lang: state.language,
-		open: state.proposals.dialog.open,
-		proposals: state.proposals.items.list,
-		proposalsInProgress: state.proposals.items.inProgress,
-		voteDetailsInProgress: state.proposals.voteDetails.inProgress,
 	};
 };
 
-const Home = observer<HomeProps>(({ history }) => {
-	const { lang, open, proposals, proposalsInProgress, voteDetailsInProgress } = useAppSelector(selector);
+const Home = observer<HomeProps>(() => {
+	const { lang } = useAppSelector(selector);
 	const address = useAddress();
 	const addressConnected = useRef(false);
 
 	const [active, setActive] = useState(1);
-	const filteredProposals = proposals && proposals.filter(item => item.status === 2);
 	const langVariables = (variables as any)[lang] as { [key: string]: string };
 
 	useEffect(() => {
@@ -50,56 +45,32 @@ const Home = observer<HomeProps>(({ history }) => {
 
 	return (
 		<InsyncWrapper>
-			<div className="home">
-				<h4>{langVariables.welcome}</h4>
-				<div className="card">
-					{/*<p className="info">{langVariables.participate}</p>*/}
+			<Container>
+				<Title>{langVariables.welcome}</Title>
+				<Card>
 					<TokenDetails lang={lang} />
-				</div>
-			</div>
-			<div className="stake">
-				<div className="stake_content padding">
-					<div className="heading">
-						<div className="tabs">
-							<p className={active === 2 ? 'active' : ''} onClick={() => setActive(2)}>
-								{langVariables['staked_validators']}
-							</p>
-							<span />
-							<p className={active === 1 ? 'active' : ''} onClick={() => setActive(1)}>
-								{langVariables['all_validators']}
-							</p>
-							<span />
-							<p className={active === 3 ? 'active' : ''} onClick={() => setActive(3)}>
-								{langVariables['inactive_validators']}
-							</p>
+				</Card>
+			</Container>
+			<div className="md:px-15 md:mb-10">
+				<div>
+					<Heading>
+						<div className="flex items-center mb-3">
+							<TabText className={active === 2 ? 'active' : ''} onClick={() => setActive(2)}>
+								{variables[lang]['staked_validators']}
+							</TabText>
+							<Divider />
+							<TabText className={active === 1 ? 'active' : ''} onClick={() => setActive(1)}>
+								{variables[lang]['all_validators']}
+							</TabText>
+							<Divider />
+							<TabText className={active === 3 ? 'active' : ''} onClick={() => setActive(3)}>
+								{variables[lang]['inactive_validators']}
+							</TabText>
 						</div>
-					</div>
+					</Heading>
 					<Table active={active} />
 				</div>
 			</div>
-			{/*<div className="proposals">
-				{!open ? (
-					<div className="proposals_content padding">
-						<div className="heading">
-							<div className="tabs">
-								<p className="active">{langVariables['top_active_proposals']}</p>
-							</div>
-							<Button className="view_all" onClick={() => history.push('/proposals')}>
-								{langVariables['view_all']}
-							</Button>
-						</div>
-						{proposalsInProgress || voteDetailsInProgress ? (
-							<div className="cards_content">Loading...</div>
-						) : filteredProposals && filteredProposals.length ? (
-							<Cards home={true} proposals={filteredProposals} />
-						) : (
-							<div className="cards_content">{langVariables['no_data_found']}</div>
-						)}
-					</div>
-				) : (
-					<ProposalDialog />
-				)}
-				</div>*/}
 			<DelegateDialog canDelegateToInactive={active === 3} />
 			<SuccessDialog />
 			<UnSuccessDialog />
@@ -108,5 +79,76 @@ const Home = observer<HomeProps>(({ history }) => {
 		</InsyncWrapper>
 	);
 });
+
+const Container = styled.div`
+	padding: 84px 20px 20px;
+
+	@media (min-width: 768px) {
+		padding: 40px 60px;
+	}
+`;
+
+const Title = styled.h4`
+	font-family: Poppin, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 36px;
+	line-height: 130%;
+	margin: 0 0 10px;
+`;
+
+const Card = styled.div`
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+	text-align: left;
+
+	@media (max-width: 769px) {
+		padding: 50px 0 0;
+	}
+`;
+
+const TabText = styled.p`
+	cursor: pointer;
+	font-family: Poppin, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 24px;
+	color: #ffffff80;
+
+	&.active {
+		color: #ffffff;
+	}
+
+	@media (max-width: 769px) {
+		font-size: 18px;
+	}
+
+	@media (max-width: 426px) {
+		width: max-content;
+	}
+`;
+
+const Divider = styled.span`
+	border: 1px solid #ffffff;
+	height: 20px;
+	margin: 0 20px;
+`;
+
+const Heading = styled.div`
+	align-items: center;
+	display: flex;
+	margin-top: 30px;
+
+	@media (max-width: 958px) {
+		margin-top: unset;
+	}
+
+	@media (max-width: 729px) {
+		justify-content: center;
+	}
+
+	@media (max-width: 426px) {
+		overflow: auto;
+	}
+`;
 
 export default withRouter(Home);

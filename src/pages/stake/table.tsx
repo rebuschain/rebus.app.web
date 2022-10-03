@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import { MUIDataTableColumnDef, MUIDataTableMeta } from 'mui-datatables';
 import classNames from 'classnames';
@@ -13,7 +14,6 @@ import UnDelegateButton from '../home/token-details/un-delegate-button';
 import ReDelegateButton from '../home/token-details/re-delegate-button';
 import DelegateButton from './delegate-button';
 import ValidatorName from './validator-name';
-import './index.scss';
 
 const ValidatorCell = (value: any, tableMeta: MUIDataTableMeta) => (
 	<ValidatorName
@@ -24,23 +24,23 @@ const ValidatorCell = (value: any, tableMeta: MUIDataTableMeta) => (
 );
 
 const StatusCell = (value: any) => (
-	<div
+	<StatusCellWrapper
 		className={classNames('status', value.jailed ? 'red_status' : '', value.status !== 3 ? 'unbonded' : '')}
 		title={value.status === 1 ? 'Unbonded' : value.status === 2 ? 'Unbonding' : value.status === 3 ? 'Active' : ''}>
 		{value.status === 1 ? 'Unbonded' : value.status === 2 ? 'Unbonding' : value.status === 3 ? 'Active' : ''}
-	</div>
+	</StatusCellWrapper>
 );
 
 const VotingPowerCell = (value: any) => (
-	<div className="voting_power">
+	<VotingCellWrapper>
 		<p>{formatCount(value, true)}</p>
-	</div>
+	</VotingCellWrapper>
 );
 
 const VotingPercentageCell = (value: any) => (
-	<div className="voting_percentage">
+	<VotingCellWrapper>
 		<p>{value}%</p>
-	</div>
+	</VotingCellWrapper>
 );
 
 const CommissionCell = (value: any) => (value ? value + '%' : '0%');
@@ -51,22 +51,22 @@ const TokensStakedCell = (item: any) => {
 	);
 	value = value ? value.balance && value.balance.amount && value.balance.amount / 10 ** config.COIN_DECIMALS : null;
 
-	return <div className={value ? 'tokens' : 'no_tokens'}>{value || 'no tokens'}</div>;
+	return <TokensCellWrapper className={value ? 'tokens' : 'no_tokens'}>{value || 'no tokens'}</TokensCellWrapper>;
 };
 
 const ActionCell = ({ delegations, operator_address: validatorAddress }: any) =>
 	delegations.find((item: any) => (item.delegation && item.delegation.validator_address) === validatorAddress) ? (
-		<div className="actions">
+		<ActionCellWrapper>
 			<ReDelegateButton valAddress={validatorAddress} />
-			<span />
+			<Divider />
 			<UnDelegateButton valAddress={validatorAddress} />
-			<span />
+			<Divider />
 			<DelegateButton valAddress={validatorAddress} />
-		</div>
+		</ActionCellWrapper>
 	) : (
-		<div className="actions">
+		<ActionCellWrapper>
 			<DelegateButton valAddress={validatorAddress} />
-		</div>
+		</ActionCellWrapper>
 	);
 
 const columns: MUIDataTableColumnDef[] = [
@@ -216,10 +216,148 @@ const Table = observer<TableProps>(({ active }) => {
 	);
 
 	return (
-		<div className="table">
+		<TableContainer>
 			<DataTable columns={columns} data={tableData} name="stake" options={options} />
-		</div>
+		</TableContainer>
 	);
 });
+
+const TableContainer = styled.div`
+	display: inherit;
+
+	.circular_progress > div {
+		color: #3f51b5;
+	}
+
+	[class^='MUIDataTable-liveAnnounce'] {
+		display: none;
+	}
+
+	td p {
+		color: #ffffff;
+		font-size: 14px;
+		text-align: left;
+	}
+
+	tfoot td {
+		border-bottom: unset;
+	}
+
+	.MuiTableRow-footer {
+		border-bottom: none;
+
+		.MuiTableCell-footer {
+			background-color: #2d2755;
+			border-bottom-left-radius: 1rem;
+			border-bottom-right-radius: 1rem;
+
+			p,
+			.MuiSelect-select,
+			svg {
+				color: rgba(255, 255, 255, 0.6);
+			}
+		}
+	}
+
+	@media (max-width: 769px) {
+		background: unset;
+		padding: 0;
+		backdrop-filter: unset;
+		border-radius: unset;
+	}
+`;
+
+const Divider = styled.span`
+	border: 1px solid #d2d2d2;
+	margin: 0 10px;
+	height: 20px;
+
+	@media (max-width: 426px) {
+		display: none;
+	}
+`;
+
+const TokensCellWrapper = styled.div`
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 130%;
+
+	&.no_tokens {
+		color: rgba(255, 255, 255, 0.6);
+	}
+
+	&.tokens {
+		text-align: center;
+		color: #5084e9;
+	}
+
+	@media (max-width: 958px) {
+		text-align: right !important;
+	}
+`;
+
+const StatusCellWrapper = styled.div`
+	background: linear-gradient(104.04deg, #50e996 0%, #b8e950 100%);
+	box-sizing: border-box;
+	border-radius: 4px;
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-size: 14px;
+	color: green;
+	padding: 6px 10px;
+
+	&.red_status {
+		background: linear-gradient(104.04deg, #e95062 0%, #e950d0 100%);
+		color: white;
+	}
+
+	&.unbonded {
+		background: linear-gradient(104.04deg, #dddbe9 0%, #c2c0d1 100%);
+		color: black;
+	}
+
+	@media (max-width: 1025px) {
+		width: max-content;
+		margin: auto;
+	}
+
+	@media (max-width: 958px) {
+		margin-right: unset;
+	}
+`;
+
+const VotingCellWrapper = styled.div`
+	align-items: center;
+	display: flex;
+	justify-content: center;
+
+	@media (max-width: 958px) {
+		justify-content: flex-end;
+	}
+`;
+
+const ActionCellWrapper = styled.div`
+	align-items: center;
+	display: flex;
+	justify-content: flex-end;
+
+	@media (max-width: 426px) {
+		justify-content: space-around;
+		flex-wrap: wrap;
+
+		& > button {
+			padding: 5px 10px;
+		}
+	}
+
+	@media (max-width: 375px) {
+		flex-direction: column;
+
+		& > button {
+			width: 100%;
+			margin: 4px 0;
+		}
+	}
+`;
 
 export default Table;
