@@ -3,9 +3,9 @@ import cn from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../../stores';
 import moment from 'dayjs';
-import { GovernanceOverview } from './GovernanceOverview';
-import { StakingTab } from './Staking';
-import { GovernanceTab } from './Governance';
+import { GovernanceOverview } from './governance-overview';
+import { StakingTab } from './staking';
+import { GovernanceTab } from './governance';
 
 export interface IGovernanceState {
 	activeValidators: number;

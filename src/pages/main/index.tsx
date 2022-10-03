@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import React, { FunctionComponent, ReactNode, useEffect, useRef, useState } from 'react';
-import { colorPrimaryDarker } from 'src/emotionStyles/colors';
-import { TradeClipboard } from './components/TradeClipboard';
-import useWindowSize from 'src/hooks/useWindowSize';
+import { colorPrimaryDarker } from 'src/emotion-styles/colors';
+import { TradeClipboard } from './components/trade-clipboard';
+import useWindowSize from 'src/hooks/use-window-size';
 
 const MainPage: FunctionComponent = () => {
 	return (

@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { CenterSection } from 'src/components/layouts/Containers';
-import { IncentivizedPools } from 'src/pages/pools/components/IncentivizedPools';
-import { MyPools } from 'src/pages/pools/components/MyPools';
-import { AllPools } from './components/AllPools';
-import { LabsOverview } from './components/LabsOverview';
-import { ExtraIncentivizedPools } from 'src/pages/pools/components/ExtraIncentives';
-import { useFilteredExtraIncentivePools } from 'src/pages/pools/components/ExtraIncentives/hook';
+import { CenterSection } from 'src/components/layouts/containers';
+import { IncentivizedPools } from 'src/pages/pools/components/incentivized-pools';
+import { MyPools } from 'src/pages/pools/components/my-pools';
+import { AllPools } from './components/all-pools';
+import { LabsOverview } from './components/labs-overview';
+import { ExtraIncentivizedPools } from 'src/pages/pools/components/extra-incentives';
+import { useFilteredExtraIncentivePools } from 'src/pages/pools/components/extra-incentives/hook';
 
 const PoolsPage = observer(function PoolsPage() {
 	const extraIncentivePools = useFilteredExtraIncentivePools();

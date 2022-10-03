@@ -7,7 +7,7 @@ import isString from 'lodash-es/isString';
 import lowerCase from 'lodash-es/lowerCase';
 import isNil from 'lodash-es/isNil';
 
-import { TBigInput, fixed, multiply } from './Big';
+import { TBigInput, fixed, multiply } from './big';
 import { isNumber } from './scripts';
 import duration from 'dayjs/plugin/duration';
 
