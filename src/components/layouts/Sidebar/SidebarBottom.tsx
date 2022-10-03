@@ -3,14 +3,14 @@ import React, { FunctionComponent } from 'react';
 import { Button } from 'src/components/common/button';
 import { useActions } from 'src/hooks/useActions';
 import { LINKS } from 'src/constants/links';
-import * as accounts from '../../../actions/accounts';
-import { MISC } from '../../../constants';
-import { useAccountConnection } from '../../../hooks/account/useAccountConnection';
-import { useStore } from '../../../stores';
+import { MISC } from 'src/constants';
+import { useAccountConnection } from 'src/hooks/account/useAccountConnection';
+import { useStore } from 'src/stores';
+import * as extraActions from 'src/reducers/extra-actions';
 import { ConnectAccountButton } from '../../ConnectAccountButton';
 
 export const SidebarBottom: FunctionComponent = observer(() => {
-	const [disconnectSet] = useActions([accounts.disconnectSet]);
+	const [disconnect] = useActions([extraActions.disconnect]);
 
 	const { chainStore, accountStore, queriesStore, walletStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
@@ -47,7 +47,7 @@ export const SidebarBottom: FunctionComponent = observer(() => {
 							onClick={e => {
 								e.preventDefault();
 								disconnectAccount();
-								disconnectSet();
+								disconnect();
 							}}
 							className="w-full mb-8">
 							<img alt="sign-out" className="w-5 h-5" src={`${MISC.ASSETS_BASE}/Icons/SignOutSecondary.svg`} />

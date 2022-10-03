@@ -1,14 +1,14 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
+import { observer } from 'mobx-react-lite';
 import { CoinPretty } from '@keplr-wallet/unit';
 import { useAmountConfig } from '@keplr-wallet/hooks';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '../../../stores';
-import variables from '../../../utils/variables';
-import totalTokens from '../../../assets/userDetails/available-tokens.svg';
-import stakedTokens from '../../../assets/userDetails/staked-tokens.svg';
-import unStake from '../../../assets/userDetails/unstaked-tokens.svg';
-import rewardsIcon from '../../../assets/userDetails/rewards.svg';
-import DotsLoading from '../../../components/insync/DotsLoading';
+import { useStore } from 'src/stores';
+import variables from 'src/utils/variables';
+import totalTokens from 'src/assets/userDetails/available-tokens.svg';
+import stakedTokens from 'src/assets/userDetails/staked-tokens.svg';
+import unStake from 'src/assets/userDetails/unstaked-tokens.svg';
+import rewardsIcon from 'src/assets/userDetails/rewards.svg';
+import DotsLoading from 'src/components/insync/DotsLoading';
 import StakeTokensButton from './StakeTokensButton';
 import UnDelegateButton from './UnDelegateButton';
 import ReDelegateButton from './ReDelegateButton';
@@ -19,7 +19,7 @@ type TokenDetailsProps = {
 	lang: string;
 };
 
-const TokenDetails: FunctionComponent<TokenDetailsProps> = observer(props => {
+const TokenDetails = observer<TokenDetailsProps>(props => {
 	const { chainStore, accountStore, queriesStore, walletStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);

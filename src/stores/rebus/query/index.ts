@@ -1,3 +1,5 @@
+import { ObservableQueryAccount } from './account';
+import { ObservableQueryDelegations, ObservableQueryUnbondingDelegations } from './delegations';
 import { ObservableQueryPools, ObservableQueryNumPools } from './pools';
 import {
 	ChainGetter,
@@ -49,6 +51,10 @@ export class QueriesWithCosmosAndRebus extends QueriesWithCosmos implements HasR
 }
 
 export class RebusQueries {
+	public readonly queryAccount: DeepReadonly<ObservableQueryAccount>;
+	public readonly queryDelegations: DeepReadonly<ObservableQueryDelegations>;
+	public readonly queryUnbondingDelegations: DeepReadonly<ObservableQueryUnbondingDelegations>;
+
 	public readonly queryGammPools: DeepReadonly<ObservableQueryPools>;
 	public readonly queryGammNumPools: DeepReadonly<ObservableQueryNumPools>;
 	public readonly queryGammPoolShare: DeepReadonly<ObservableQueryGammPoolShare>;
@@ -88,6 +94,10 @@ export class RebusQueries {
 		this.queryUnlockingCoins = new ObservableQueryAccountUnlockingCoins(kvStore, chainId, chainGetter);
 		this.queryAccountLocked = new ObservableQueryAccountLocked(kvStore, chainId, chainGetter);
 		this.querySyntheticLockupsByLockId = new ObservableSyntheticLockupsByLockId(kvStore, chainId, chainGetter);
+
+		this.queryAccount = new ObservableQueryAccount(kvStore, chainId, chainGetter);
+		this.queryDelegations = new ObservableQueryDelegations(kvStore, chainId, chainGetter);
+		this.queryUnbondingDelegations = new ObservableQueryUnbondingDelegations(kvStore, chainId, chainGetter);
 
 		this.queryGammPools = new ObservableQueryPools(kvStore, chainId, chainGetter, queryGammPool);
 		this.queryGammNumPools = new ObservableQueryNumPools(kvStore, chainId, chainGetter);
