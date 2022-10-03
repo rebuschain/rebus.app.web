@@ -9,15 +9,12 @@ import { AppCurrency } from '@keplr-wallet/types';
 
 export class ObservableQueryAccountLockedInner extends ObservableChainQuery<AccountLockedLongerDuration> {
 	constructor(kvStore: KVStore, chainId: string, chainGetter: ChainGetter, protected readonly bech32Address: string) {
-		// 좀 트윅한 방식으로 밑의 rest를 duration 설정 없이 이용해서 계정의 모든 lock들을 받아온다.
 		super(kvStore, chainId, chainGetter, `/rebus/lockup/v1beta1/account_locked_longer_duration/${bech32Address}`);
 
 		makeObservable(this);
 	}
 
 	protected canFetch(): boolean {
-		// 위의 쿼리는 주소가 비어있을 경우 모든 계정의 해당 결과를 리턴한다.
-		// 하지만 이 특징은 이 프론트엔드에서는 필요가 없으므로 주소가 비어있으면 쿼리 자체를 하지 않는다.
 		return this.bech32Address !== '';
 	}
 
@@ -93,7 +90,6 @@ export class ObservableQueryAccountLockedInner extends ObservableChainQuery<Acco
 				return lock.coins.find(coin => coin.denom === currency.coinMinimalDenom) != null;
 			});
 
-		// End time 별로 구분하기 위한 map. key는 end time의 getTime()의 결과이다.
 		const map: Map<
 			number,
 			{
@@ -124,7 +120,6 @@ export class ObservableQueryAccountLockedInner extends ObservableChainQuery<Acco
 		}
 
 		return [...map.values()].sort((v1, v2) => {
-			// End time이 더 적은 lock을 우선한다.
 			return v1.endTime > v2.endTime ? 1 : -1;
 		});
 	});

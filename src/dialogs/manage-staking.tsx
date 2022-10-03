@@ -27,7 +27,6 @@ export const ManageStakingDialog = wrapBaseDialog(
 			setStage(MODAL_STAGE.MANAGE);
 		}, [close]);
 
-		// TODO : @Thunnini fetch validator info using validatorIndex
 		const validator = {
 			moniker: 'Sikka',
 			commission: 0.03,
@@ -36,7 +35,6 @@ export const ManageStakingDialog = wrapBaseDialog(
 			imgSrc: '',
 		};
 
-		// TODO : @Thunnini fetch my delegation
 		const myDelegation = 32305.231;
 
 		const content = React.useMemo(() => {
