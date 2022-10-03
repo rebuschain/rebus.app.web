@@ -155,7 +155,7 @@ const ProposalDialog = observer(() => {
 					</Section1Status>
 				</div>
 			</Content>
-			<PoolContent>
+			<ProposalContent>
 				<Section2>
 					<Section2Content className={ClassNames(show ? 'show_more' : '')}>
 						{proposal && proposal.content && proposal.content.value && proposal.content.value.description}
@@ -247,7 +247,7 @@ const ProposalDialog = observer(() => {
 						</VotedContent>
 					</div>
 				) : null}
-			</PoolContent>
+			</ProposalContent>
 		</div>
 	);
 });
@@ -294,7 +294,7 @@ const VotedContent = styled.p`
 	}
 `;
 
-const PoolContent = styled.div`
+const ProposalContent = styled.div`
 	background-color: #231d4b;
 	padding: 40px;
 

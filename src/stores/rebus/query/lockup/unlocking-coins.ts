@@ -12,8 +12,6 @@ export class ObservableQueryAccountUnlockingCoinsInner extends ObservableChainQu
 	}
 
 	protected canFetch(): boolean {
-		// 위의 쿼리는 주소가 비어있을 경우 모든 계정의 해당 결과를 리턴한다.
-		// 하지만 이 특징은 이 프론트엔드에서는 필요가 없으므로 주소가 비어있으면 쿼리 자체를 하지 않는다.
 		return this.bech32Address !== '';
 	}
 

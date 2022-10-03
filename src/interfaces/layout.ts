@@ -22,6 +22,4 @@ export enum TCardTypes {
 
 export enum TModal {
 	INIT,
-	NEW_POOL,
-	MANAGE_LIQUIDITY,
 }

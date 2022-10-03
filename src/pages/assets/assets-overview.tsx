@@ -30,22 +30,9 @@ export const AssetsOverview: FunctionComponent<{ title: string }> = observer(({ 
 	function calcTotalFiatValue(balanceList: CoinPretty[]) {
 		let fiatValue = new PricePretty(priceStore.getFiatCurrency('usd')!, new Dec(0));
 		for (const balance of balanceList) {
-			if (balance.currency.coinMinimalDenom.startsWith('gamm/pool/')) {
-				const poolId = balance.currency.coinMinimalDenom.replace('gamm/pool/', '');
-				const pool = queries.rebus.queryGammPools.getPool(poolId);
-				if (pool) {
-					const tvl = pool.computeTotalValueLocked(priceStore, priceStore.getFiatCurrency('usd')!);
-					const totalShare = pool.totalShare;
-					if (tvl.toDec().gt(new Dec(0)) && totalShare.toDec().gt(new Dec(0))) {
-						const value = tvl.mul(balance.quo(totalShare));
-						fiatValue = fiatValue.add(value);
-					}
-				}
-			} else {
-				const price = priceStore.calculatePrice(balance);
-				if (price) {
-					fiatValue = fiatValue.add(price);
-				}
+			const price = priceStore.calculatePrice(balance);
+			if (price) {
+				fiatValue = fiatValue.add(price);
 			}
 		}
 		return fiatValue;

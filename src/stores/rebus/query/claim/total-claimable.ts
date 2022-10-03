@@ -12,6 +12,10 @@ export class ObservableQueryTotalClaimableInner extends ObservableChainQuery<Tot
 		makeObservable(this);
 	}
 
+	protected canFetch(): boolean {
+		return !!this.bech32Address;
+	}
+
 	// Key: denom, Value: amount
 	@computed
 	protected get coinsMap(): Map<string, string> {

@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import styled from '@emotion/styled';
 import { useAppSelector } from 'src/hooks/use-app-select';
+import { RootState } from 'src/reducers/store';
 
 const colors = ['#0023DA', '#C9387E', '#EC2C00', '#80E3F2', '#E86FC5', '#1F3278', '#FFE761', '#7041B9'];
 
@@ -10,7 +11,7 @@ type ValidatorNameProps = {
 	value: any;
 };
 
-const selector = (state: any) => {
+const selector = (state: RootState) => {
 	return {
 		validatorImages: state.stake.validators.images,
 	};
