@@ -54,7 +54,9 @@ jobs:
         run: |
           export DEV_PUBLIC_URL="https://assets.rebustokenred.com/portal/"
           export TESTNET_PUBLIC_URL="https://assets.rebustestnet.com/portal/"
+          export TESTNET_DOMAIN_URL="https://app.rebustestnet.com/"
           export MAINNET_PUBLIC_URL="https://assets.rebuschain.com/portal/"
+          export MAINNET_DOMAIN_URL="https://app.rebuschain.com/"
           export NODE_OPTIONS="--max_old_space_size=4096"
           yarn 'react-env:testnet'
           mv public/__ENV.js public/__ENV.js.testnet
@@ -68,7 +70,9 @@ jobs:
           cp ./prod/index.html ./prod/index.testnet.html
           cp ./prod/index.html ./prod/index.mainnet.html
           sed -i -r "/manifest\.json/! s/(src|href)=\"[^h]([^\"]*)\"/\1=\"${DEV_PUBLIC_URL//\//\\/}\2\"/g" ./prod/index.html
+          sed -i -r "s/https:\/\/app.rebustokenred.com\//${TESTNET_DOMAIN_URL//\//\\/}/g" ./prod/index.testnet.html
           sed -i -r "/manifest\.json/! s/(src|href)=\"[^h]([^\"]*)\"/\1=\"${TESTNET_PUBLIC_URL//\//\\/}\2\"/g" ./prod/index.testnet.html
+          sed -i -r "s/https:\/\/app.rebustokenred.com\//${MAINNET_DOMAIN_URL//\//\\/}/g" ./prod/index.mainnet.html
           sed -i -r "/manifest\.json/! s/(src|href)=\"[^h]([^\"]*)\"/\1=\"${MAINNET_PUBLIC_URL//\//\\/}\2\"/g" ./prod/index.mainnet.html
 
           sed -i -r "s/url\(\/assets/url\(\.\/assets/g" ./prod/styles.css
