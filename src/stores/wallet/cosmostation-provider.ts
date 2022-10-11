@@ -3,13 +3,10 @@ import { Account } from './types';
 import { BaseProvider } from './base-provider';
 import { AccountData, AminoSignResponse, OfflineAminoSigner, StdSignDoc } from '@cosmjs/amino';
 
-const chainId = env('CHAIN_ID');
-const chainName = env('CHAIN_NAME');
-
 export class CosmostationProvider extends BaseProvider<TendermintExtended> {
 	accountsChangedEvent: any;
 
-	constructor(name = '', provider: TendermintExtended) {
+	constructor(name = '', provider: TendermintExtended, protected chainId: string, protected chainName: string) {
 		super(name, provider);
 	}
 
@@ -27,10 +24,10 @@ export class CosmostationProvider extends BaseProvider<TendermintExtended> {
 
 	async connect() {
 		const supportedChains = await this.cosmostation.getSupportedChains();
-		const lowerChainName = chainName.toLowerCase();
+		const lowerChainName = this.chainName.toLowerCase();
 
 		try {
-			await this.cosmostation.requestAccount(chainName);
+			await this.cosmostation.requestAccount(this.chainName);
 		} catch {
 			// Ignore error in case wallet plugin is not connected to the site
 		}
@@ -40,8 +37,8 @@ export class CosmostationProvider extends BaseProvider<TendermintExtended> {
 		}
 
 		return await this.cosmostation.addChain({
-			chainId,
-			chainName,
+			chainId: this.chainId,
+			chainName: this.chainName,
 			addressPrefix: env('PREFIX'),
 			baseDenom: env('COIN_MINIMAL_DENOM'),
 			displayDenom: env('COIN_DENOM'),
@@ -56,7 +53,7 @@ export class CosmostationProvider extends BaseProvider<TendermintExtended> {
 	}
 
 	async getAccount(): Promise<Account> {
-		const account = await this.cosmostation.getAccount(chainName);
+		const account = await this.cosmostation.getAccount(this.chainName);
 
 		return {
 			address: account.address,
@@ -68,7 +65,7 @@ export class CosmostationProvider extends BaseProvider<TendermintExtended> {
 	getOfflineAminoSigner(): OfflineAminoSigner {
 		return {
 			getAccounts: async (): Promise<readonly AccountData[]> => {
-				const account = await this.cosmostation.getAccount(chainName);
+				const account = await this.cosmostation.getAccount(this.chainName);
 
 				return [
 					{
@@ -79,7 +76,7 @@ export class CosmostationProvider extends BaseProvider<TendermintExtended> {
 				];
 			},
 			signAmino: async (signerAddress: string, signDoc: StdSignDoc): Promise<AminoSignResponse> => {
-				const result = await this.cosmostation.signAmino(chainName, signDoc as any, { memo: true, fee: true });
+				const result = await this.cosmostation.signAmino(this.chainName, signDoc as any, { memo: true, fee: true });
 
 				return {
 					signature: {
