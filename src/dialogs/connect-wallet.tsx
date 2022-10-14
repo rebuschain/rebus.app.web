@@ -235,11 +235,9 @@ export class ConnectWalletManager {
 			localStorage?.removeItem(KeyConnectingWalletType);
 			localStorage?.setItem(KeyAutoConnectingWalletType, 'extension');
 			this.autoConnectingWalletType = 'extension';
-
-			return getKeplrFromWindow();
 		}
 
-		return Promise.resolve(undefined);
+		return getKeplrFromWindow();
 	};
 
 	onWalletConnectDisconnected = (error: Error | null) => {

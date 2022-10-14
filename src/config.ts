@@ -37,12 +37,12 @@ export const IBCAssetInfos: {
 	// If the asset requires a custom withdrawal external link
 	withdrawUrlOverride?: string;
 }[] = [
-	{
-		counterpartyChainId: 'osmosis-1',
-		sourceChannelId: 'channel-0',
-		destChannelId: 'channel-355',
-		coinMinimalDenom: 'uosmo',
-	},
+	// {
+	// 	counterpartyChainId: 'osmosis-1',
+	// 	sourceChannelId: 'channel-0',
+	// 	destChannelId: 'channel-355',
+	// 	coinMinimalDenom: 'uosmo',
+	// },
 ];
 
 export const EmbedChainInfos: ChainInfoWithExplorer[] = [
@@ -98,6 +98,12 @@ export const EmbedChainInfos: ChainInfoWithExplorer[] = [
 				coinDecimals: 6,
 				coinGeckoId: 'osmosis',
 				coinImageUrl: window.location.origin + '/public/assets/tokens/osmo.svg',
+				paths: [
+					{
+						portId: 'transfer',
+						channelId: 'channel-355',
+					},
+				],
 			},
 		],
 		feeCurrencies: [
@@ -147,6 +153,13 @@ export const EmbedChainInfos: ChainInfoWithExplorer[] = [
 				coinDecimals: 6,
 				coinGeckoId: 'ion',
 				coinImageUrl: window.location.origin + '/public/assets/tokens/ion.png',
+			},
+			{
+				coinDenom: denom,
+				coinMinimalDenom: minDenom,
+				coinDecimals: decimals,
+				coinGeckoId: prefix,
+				coinImageUrl,
 			},
 		],
 		feeCurrencies: [

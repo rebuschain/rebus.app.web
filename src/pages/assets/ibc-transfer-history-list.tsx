@@ -17,7 +17,7 @@ const tableWidths = ['20%', '15%', '15%', '30%', '20%'];
 export const IbcTransferHistoryList = observer(function IbcTransferHistoryList() {
 	const { ibcTransferHistoryStore, chainStore, accountStore, walletStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
-	const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
+	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 
 	const { isMobileView } = useWindowSize();
 

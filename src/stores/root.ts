@@ -15,6 +15,7 @@ import { isSlippageError } from '../utils/tx';
 import { prettifyTxError } from 'src/stores/prettify-tx-error';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import { ConnectWalletManager } from 'src/dialogs/connect-wallet';
+import { gas } from 'src/constants/default-gas-values';
 
 export class RootStore {
 	public readonly chainStore: ChainStore;
@@ -107,7 +108,7 @@ export class RootStore {
 				chainOpts: this.chainStore.chainInfos.map(chainInfo => {
 					return {
 						chainId: chainInfo.chainId,
-						msgOpts: { ibcTransfer: { gas: 130000 } },
+						msgOpts: { ibcTransfer: { gas: gas.ibc_transfer } },
 						preTxEvents: {
 							onBroadcastFailed: (e?: Error) => {
 								let message: string = 'Unknown error';
