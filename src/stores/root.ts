@@ -98,7 +98,7 @@ export class RootStore {
 							copied.coinType = 60;
 							// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 							// @ts-ignore
-							copied.features = ['eth-address-gen', 'eth-key-sign'];
+							copied.features = [...(copied.features || []), 'eth-address-gen', 'eth-key-sign'];
 						}
 
 						await keplr.experimentalSuggestChain(copied);

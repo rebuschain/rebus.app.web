@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { IBCCurrency } from '@keplr-wallet/types';
 import { AmountInput } from '../components/form/inputs';
-import { ButtonPrimary } from '../components/layouts/buttons';
 import { colorWhiteEmphasis } from '../emotion-styles/colors';
 import { useStore } from '../stores';
 import { Bech32Address } from '@keplr-wallet/cosmos';
@@ -15,6 +14,7 @@ import { useAccountConnection } from '../hooks/account/use-account-connection';
 import { useCustomBech32Address } from '../hooks/account/use-custom-bech32-address';
 import { ConnectAccountButton } from '../components/connect-account-button';
 import { Buffer } from 'buffer/';
+import { Button } from 'src/components/common/button';
 
 export const TransferDialog = wrapBaseDialog(
 	observer(
@@ -217,9 +217,15 @@ export const TransferDialog = wrapBaseDialog(
 										isWithdraw
 									)}
 									{isWithdraw && !isEditingWithdrawAddr && counterpartyAccount.walletStatus === WalletStatus.Loaded && (
-										<ButtonPrimary
-											className="ml-1 text-white-emphasis"
-											style={{ fontSize: '11px', padding: '6px 8px' }}
+										<Button
+											style={{
+												borderRadius: '12px !important',
+												fontSize: '11px',
+												marginBottom: '3px',
+												marginLeft: '6px',
+												minWidth: '0',
+												padding: '2px 8px',
+											}}
 											onClick={e => {
 												e.preventDefault();
 												setIsEditingWithdrawAddr(true);
@@ -230,7 +236,7 @@ export const TransferDialog = wrapBaseDialog(
 												setDidVerifyWithdrawRisks(false);
 											}}>
 											Edit
-										</ButtonPrimary>
+										</Button>
 									)}
 								</p>
 							)}
@@ -289,8 +295,8 @@ export const TransferDialog = wrapBaseDialog(
 								}}
 							/>
 						) : (
-							<button
-								className="w-full md:w-2/3 p-4 md:p-6 bg-primary-200 rounded-2xl flex items-center justify-center hover:opacity-75 disabled:opacity-50"
+							<Button
+								className="w-full md:w-2/3 p-4 md:p-6 h-14"
 								disabled={
 									!account.isReadyToSendMsgs ||
 									!counterpartyAccount.isReadyToSendMsgs ||
@@ -395,7 +401,8 @@ export const TransferDialog = wrapBaseDialog(
 
 															close();
 														},
-													}
+													},
+													account.rebus.isEvmos
 												);
 											}
 										} else {
@@ -548,7 +555,7 @@ export const TransferDialog = wrapBaseDialog(
 								) : (
 									<h6 className="text-base md:text-lg">{isWithdraw ? 'Withdraw' : 'Deposit'}</h6>
 								)}
-							</button>
+							</Button>
 						)}
 					</div>
 				</div>

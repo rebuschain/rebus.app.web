@@ -1,0 +1,94 @@
+diff --git a/node_modules/@keplr-wallet/stores/build/account/base.d.ts b/node_modules/@keplr-wallet/stores/build/account/base.d.ts
+index b5777ae..79c0827 100644
+--- a/node_modules/@keplr-wallet/stores/build/account/base.d.ts
++++ b/node_modules/@keplr-wallet/stores/build/account/base.d.ts
+@@ -77,12 +77,12 @@ export declare class AccountSetBase<MsgOpts, Queries> {
+         onBroadcastFailed?: (e?: Error) => void;
+         onBroadcasted?: (txHash: Uint8Array) => void;
+         onFulfill?: (tx: any) => void;
+-    }): Promise<void>;
++    }, isEvmos?: boolean): Promise<void>;
+     sendToken(amount: string, currency: AppCurrency, recipient: string, memo?: string, stdFee?: Partial<StdFee>, signOptions?: KeplrSignOptions, onTxEvents?: ((tx: any) => void) | {
+         onBroadcasted?: (txHash: Uint8Array) => void;
+         onFulfill?: (tx: any) => void;
+     }): Promise<void>;
+-    protected broadcastMsgs(msgs: AminoMsgsOrWithProtoMsgs, fee: StdFee, memo?: string, signOptions?: KeplrSignOptions, mode?: "block" | "async" | "sync"): Promise<{
++    protected broadcastMsgs(msgs: AminoMsgsOrWithProtoMsgs, fee: StdFee, memo?: string, signOptions?: KeplrSignOptions, mode?: "block" | "async" | "sync", isEvmos?: boolean): Promise<{
+         txHash: Uint8Array;
+         signDoc: StdSignDoc;
+     }>;
+diff --git a/node_modules/@keplr-wallet/stores/build/account/base.js b/node_modules/@keplr-wallet/stores/build/account/base.js
+index d513a03..2372ba6 100644
+--- a/node_modules/@keplr-wallet/stores/build/account/base.js
++++ b/node_modules/@keplr-wallet/stores/build/account/base.js
+@@ -133,7 +133,7 @@ class AccountSetBase {
+     get isReadyToSendMsgs() {
+         return (this.walletStatus === WalletStatus.Loaded && this.bech32Address !== "");
+     }
+-    sendMsgs(type, msgs, memo = "", fee, signOptions, onTxEvents) {
++    sendMsgs(type, msgs, memo = "", fee, signOptions, onTxEvents, isEvmos = false) {
+         var _a, _b;
+         return __awaiter(this, void 0, void 0, function* () {
+             mobx_1.runInAction(() => {
+@@ -145,7 +145,7 @@ class AccountSetBase {
+                 if (typeof msgs === "function") {
+                     msgs = yield msgs();
+                 }
+-                const result = yield this.broadcastMsgs(msgs, fee, memo, signOptions, this.broadcastMode);
++                const result = yield this.broadcastMsgs(msgs, fee, memo, signOptions, this.broadcastMode, isEvmos);
+                 txHash = result.txHash;
+                 signDoc = result.signDoc;
+             }
+@@ -224,7 +224,7 @@ class AccountSetBase {
+         });
+     }
+     // Return the tx hash.
+-    broadcastMsgs(msgs, fee, memo = "", signOptions, mode = "async") {
++    broadcastMsgs(msgs, fee, memo = "", signOptions, mode = "async", isEvmos = false) {
+         return __awaiter(this, void 0, void 0, function* () {
+             if (this.walletStatus !== WalletStatus.Loaded) {
+                 throw new Error(`Wallet is not loaded: ${this.walletStatus}`);
+@@ -260,7 +260,7 @@ class AccountSetBase {
+                         signerInfos: [
+                             {
+                                 publicKey: {
+-                                    type_url: "/cosmos.crypto.secp256k1.PubKey",
++                                    type_url: isEvmos ? "/ethermint.crypto.v1.ethsecp256k1.PubKey" : "/cosmos.crypto.secp256k1.PubKey",
+                                     value: cosmos_1.cosmos.crypto.secp256k1.PubKey.encode({
+                                         key: buffer_1.Buffer.from(signResponse.signature.pub_key.value, "base64"),
+                                     }).finish(),
+diff --git a/node_modules/@keplr-wallet/stores/build/account/cosmos.d.ts b/node_modules/@keplr-wallet/stores/build/account/cosmos.d.ts
+index ebae193..548b80f 100644
+--- a/node_modules/@keplr-wallet/stores/build/account/cosmos.d.ts
++++ b/node_modules/@keplr-wallet/stores/build/account/cosmos.d.ts
+@@ -51,7 +51,7 @@ export declare class CosmosAccount {
+     }, amount: string, currency: AppCurrency, recipient: string, memo?: string, stdFee?: Partial<StdFee>, signOptions?: KeplrSignOptions, onTxEvents?: ((tx: any) => void) | {
+         onBroadcasted?: (txHash: Uint8Array) => void;
+         onFulfill?: (tx: any) => void;
+-    }): Promise<void>;
++    }, isEvmos?: boolean): Promise<void>;
+     /**
+      * Send `MsgDelegate` msg to the chain.
+      * @param amount Decimal number used by humans.
+diff --git a/node_modules/@keplr-wallet/stores/build/account/cosmos.js b/node_modules/@keplr-wallet/stores/build/account/cosmos.js
+index f2ed2fb..7e95791 100644
+--- a/node_modules/@keplr-wallet/stores/build/account/cosmos.js
++++ b/node_modules/@keplr-wallet/stores/build/account/cosmos.js
+@@ -131,7 +131,7 @@ class CosmosAccount {
+             return false;
+         });
+     }
+-    sendIBCTransferMsg(channel, amount, currency, recipient, memo = "", stdFee = {}, signOptions, onTxEvents) {
++    sendIBCTransferMsg(channel, amount, currency, recipient, memo = "", stdFee = {}, signOptions, onTxEvents, isEvmos = false) {
+         var _a, _b;
+         return __awaiter(this, void 0, void 0, function* () {
+             if (new common_1.DenomHelper(currency.coinMinimalDenom).type !== "native") {
+@@ -210,7 +210,7 @@ class CosmosAccount {
+                         queryBalance.fetch();
+                     }
+                 }
+-            }));
++            }), isEvmos);
+         });
+     }
+     /**
