@@ -38,7 +38,7 @@ export const IbcTransferHistoryList = observer(function IbcTransferHistoryList()
 					IBC Transaction History
 				</TitleText>
 			</div>
-			<div className="overflow-x-scroll">
+			<div className="overflow-x-auto">
 				<table className="w-full md:table-fixed">
 					<IbcTransferHistoryHeader />
 					<tbody>
