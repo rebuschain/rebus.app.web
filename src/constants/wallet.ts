@@ -30,7 +30,11 @@ export type WalletConfig = {
 	type: 'extension' | 'wallet-connect';
 	walletType?: WalletTypes;
 	link?: string;
+	version?: string;
 };
+
+export const KEPLR_VERSION = '1.0.0';
+export const KEPLR_EVMOS_VERSION = '1.0.0';
 
 export const WALLET_LIST: WalletConfig[] = [
 	isExtensionEnvironment && {
@@ -39,6 +43,7 @@ export const WALLET_LIST: WalletConfig[] = [
 		logoUrl: '/public/assets/other-logos/keplr.png',
 		type: 'extension',
 		walletType: 'keplr',
+		version: KEPLR_VERSION,
 	},
 	isExtensionEnvironment && {
 		name: 'Keplr Wallet (EVMOS)',
@@ -47,6 +52,7 @@ export const WALLET_LIST: WalletConfig[] = [
 		logoUrl: '/public/assets/other-logos/keplr.png',
 		type: 'extension',
 		walletType: 'keplr-evmos',
+		version: KEPLR_EVMOS_VERSION,
 	},
 	// Disable mobile app for now since it is not working at all with rebus
 	localStorage.getItem('keplr_mobile_enabled') === 'true' && {
@@ -55,6 +61,7 @@ export const WALLET_LIST: WalletConfig[] = [
 		logoUrl: '/public/assets/other-logos/wallet-connect.png',
 		type: 'wallet-connect',
 		walletType: 'keplr-mobile',
+		version: '1.0.0',
 	},
 	isExtensionEnvironment && {
 		name: 'Metamask',
@@ -63,6 +70,7 @@ export const WALLET_LIST: WalletConfig[] = [
 		type: 'extension',
 		walletType: 'metamask',
 		link: 'https://metamask.io/',
+		version: '1.0.0',
 	},
 	isExtensionEnvironment && {
 		name: 'Cosmostation',
@@ -71,6 +79,7 @@ export const WALLET_LIST: WalletConfig[] = [
 		type: 'extension',
 		walletType: 'cosmostation',
 		link: 'https://www.cosmostation.io/wallet/',
+		version: '1.0.0',
 	},
 	localStorage.getItem('falcon_enabled') === 'true' &&
 		isExtensionEnvironment && {
@@ -80,6 +89,7 @@ export const WALLET_LIST: WalletConfig[] = [
 			type: 'extension',
 			walletType: 'falcon',
 			link: 'https://www.falconwallet.app/',
+			version: '1.0.0',
 		},
 	isExtensionEnvironment && {
 		name: 'Crypto.com',
@@ -87,5 +97,6 @@ export const WALLET_LIST: WalletConfig[] = [
 		logoUrl: '/public/assets/other-logos/crypto.jpg',
 		type: 'extension',
 		walletType: 'crypto',
+		version: '1.0.0',
 	},
 ].filter(Boolean) as WalletConfig[];

@@ -16,6 +16,7 @@ import { prettifyTxError } from 'src/stores/prettify-tx-error';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import { ConnectWalletManager } from 'src/dialogs/connect-wallet';
 import { gas } from 'src/constants/default-gas-values';
+import { KEPLR_EVMOS_VERSION, KEPLR_VERSION } from 'src/constants/wallet';
 
 export class RootStore {
 	public readonly chainStore: ChainStore;
@@ -90,7 +91,9 @@ export class RootStore {
 							}
 						}
 
-						if (this.accountStore.getAccount(chainInfo.chainId).rebus.isEvmos) {
+						const account = this.accountStore.getAccount(chainInfo.chainId);
+
+						if (account.rebus.isEvmos) {
 							// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 							// @ts-ignore
 							copied.bip44.coinType = 60;
@@ -100,6 +103,15 @@ export class RootStore {
 							// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 							// @ts-ignore
 							copied.features = [...(copied.features || []), 'eth-address-gen', 'eth-key-sign'];
+							// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+							// @ts-ignore
+							copied.chainName += ' (EVM)';
+						}
+
+						if (account.rebus.version) {
+							// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+							// @ts-ignore
+							copied.chainName += ` v${account.rebus.version}`;
 						}
 
 						await keplr.experimentalSuggestChain(copied);
@@ -187,6 +199,17 @@ export class RootStore {
 
 	setIsEvmos = (chainId: string, isEvmos: boolean) => {
 		this.accountStore.getAccount(chainId).rebus.isEvmos = isEvmos;
+		this.updateVersion(chainId);
+	};
+
+	updateVersion = (chainId: string) => {
+		const account = this.accountStore.getAccount(chainId);
+
+		if (account.rebus.isEvmos) {
+			account.rebus.version = KEPLR_EVMOS_VERSION;
+		} else {
+			account.rebus.version = KEPLR_VERSION;
+		}
 	};
 }
 

@@ -51,6 +51,8 @@ export class WalletStore {
 	@observable
 	public isLoaded = false;
 	@observable
+	public version: string | undefined;
+	@observable
 	public accountName = '';
 	@observable
 	public address = '';
@@ -84,6 +86,16 @@ export class WalletStore {
 		return this._aminoProvider;
 	}
 
+	get chainName() {
+		let name = env('CHAIN_NAME');
+
+		if (this.version) {
+			name += ` v${this.version}`;
+		}
+
+		return name;
+	}
+
 	get chainInfo() {
 		return {
 			chainId: ethChainId,
@@ -102,6 +114,8 @@ export class WalletStore {
 			console.error('No wallet type found', walletType);
 			return false;
 		}
+
+		this.version = wallet.version;
 
 		switch (walletType) {
 			case 'metamask':
@@ -174,7 +188,12 @@ export class WalletStore {
 					tendermintExtendedProvider.getOfflineAminoSigner = () => tendermintExtendedProvider as any;
 					tendermintExtendedProvider.getOfflineSigner = () => tendermintExtendedProvider as any;
 
-					this._aminoProvider = new CosmostationProvider(wallet.name, tendermintExtendedProvider);
+					this._aminoProvider = new CosmostationProvider(
+						wallet.name,
+						tendermintExtendedProvider,
+						chainId,
+						this.chainName
+					);
 
 					await this.aminoProvider.connect();
 				} catch (err) {
@@ -221,6 +240,7 @@ export class WalletStore {
 			this.aminoProvider.offAccountsChanged();
 		}
 
+		this.version = undefined;
 		this.isLoaded = false;
 		this.accountName = '';
 		this.address = '';
@@ -314,7 +334,7 @@ export class WalletStore {
 			{
 				chainId: `0x${ethChainId.toString(16)}`,
 				rpcUrls: [env('METAMASK_URL')],
-				chainName: env('CHAIN_NAME') as string,
+				chainName: this.chainName,
 				nativeCurrency: {
 					name: env('COIN_DENOM'),
 					symbol: env('COIN_DENOM'),
