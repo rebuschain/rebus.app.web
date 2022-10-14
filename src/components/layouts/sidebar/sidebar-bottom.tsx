@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent, useEffect } from 'react';
+import env from '@beam-australia/react-env';
 import { Button } from 'src/components/common/button';
 import { useActions } from 'src/hooks/use-actions';
 import { LINKS } from 'src/constants/links';
@@ -17,6 +18,17 @@ export const SidebarBottom: FunctionComponent = observer(() => {
 	const queries = queriesStore.get(chainStore.current.chainId);
 	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 	const name = walletStore.isLoaded ? walletStore.accountName : account.name;
+	const version = walletStore.isLoaded ? walletStore.version : account.rebus.version;
+
+	let network = env('CHAIN_NAME');
+
+	if (!walletStore.isLoaded && account.rebus.isEvmos) {
+		network += ' (EVM)';
+	}
+
+	if (version) {
+		network += ` v${version}`;
+	}
 
 	const { isAccountConnected, connectAccount, disconnectAccount, isMobileWeb } = useAccountConnection();
 	useEffect(() => {
@@ -35,13 +47,19 @@ export const SidebarBottom: FunctionComponent = observer(() => {
 		<div>
 			{isAccountConnected ? (
 				<React.Fragment>
-					<div className="flex items-center mb-2">
+					<div className="flex items-center mb-2.5">
 						<div className="p-4">
 							<img alt="wallet" className="w-5 h-5" src={`${MISC.ASSETS_BASE}/icons/wallet.svg`} />
 						</div>
 						<div className="flex flex-col">
 							<p className="font-semibold text-white-high text-base">{name}</p>
 							<p className="opacity-50 text-white-emphasis text-sm">{balance}</p>
+							{version && (
+								<>
+									<p className="font-semibold text-white-high text-base mt-1">Network</p>
+									<p className="opacity-50 text-white-emphasis text-xs">{network}</p>
+								</>
+							)}
 						</div>
 					</div>
 					{!isMobileWeb ? (

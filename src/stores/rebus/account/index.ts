@@ -78,6 +78,7 @@ export class AccountWithCosmosAndRebus
 
 export class RebusAccount {
 	isEvmos = false;
+	version: string | undefined;
 
 	constructor(
 		protected readonly base: AccountSetBase<RebusMsgOpts, HasRebusQueries>,
