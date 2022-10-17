@@ -1,5 +1,5 @@
 import { SifchainLiquidityAPYResult } from '@keplr-wallet/stores/build/query/cosmos/supply/sifchain';
-import { Fee } from '@tharsis/transactions';
+import { Fee, Sender } from '@tharsis/transactions';
 
 export type Account = {
 	address: string;
@@ -25,6 +25,7 @@ export type TxResponse = {
 
 export type TransactionResponse = {
 	tx_response: TxResponse | null;
+	sender?: Sender;
 };
 
 export type Tx<T> = {

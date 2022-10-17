@@ -216,7 +216,7 @@ export const TransferDialog = wrapBaseDialog(
 										) : (
 											<div className="w-6 h-6 border-2 border-iconDefault mr-2.5 rounded" />
 										)}
-										I verify that I am not sending to an exchange address
+										I verify that I am sending to the correct address
 									</label>
 								</>
 							) : (
@@ -335,14 +335,6 @@ export const TransferDialog = wrapBaseDialog(
 												counterpartyAccount.bech32Address || (customWithdrawAddr && isValidCustomWithdrawAddr);
 
 											if (walletStore.isLoaded && isRecipientValid) {
-												const destinationBlockHeight = queriesStore
-													.get(counterpartyChainId)
-													.cosmos.queryBlock.getBlock('latest');
-												await destinationBlockHeight.waitFreshResponse();
-												if (destinationBlockHeight.height.equals(new Int('0'))) {
-													throw new Error(`Failed to fetch the latest block of ${counterpartyChainId}`);
-												}
-
 												const gasPriceStepAverage = isWithdraw
 													? config.GAS_PRICE_STEP_AVERAGE
 													: counterpartyChainStore.gasPriceStep?.average || 0;
@@ -355,24 +347,37 @@ export const TransferDialog = wrapBaseDialog(
 												);
 												const actualAmount = dec.truncate().toString();
 
-												const res = await walletStore.sendIBCTransfer({
-													fee: {
-														amount: String(BigInt(gas.ibc_transfer * gasPriceStepAverage)),
-														denom: isWithdraw ? config.COIN_MINIMAL_DENOM : amountConfig.currency.coinMinimalDenom,
-														gas: gas.ibc_transfer.toString(),
+												const res = await walletStore.sendIBCTransfer(
+													{
+														fee: {
+															amount: String(BigInt(gas.ibc_transfer * gasPriceStepAverage)),
+															denom: isWithdraw ? config.COIN_MINIMAL_DENOM : amountConfig.currency.coinMinimalDenom,
+															gas: gas.ibc_transfer.toString(),
+														},
+														msg: {
+															sourcePort: 'transfer',
+															sourceChannel: sourceChannelId,
+															amount: actualAmount,
+															denom: amountConfig.currency.coinMinimalDenom,
+															receiver: recipient,
+															revisionNumber: ChainIdHelper.parse(counterpartyChainId).version,
+															revisionHeight: 0,
+															timeoutTimestamp: '0',
+														},
+														memo: '',
 													},
-													msg: {
-														sourcePort: 'transfer',
-														sourceChannel: sourceChannelId,
-														amount: actualAmount,
-														denom: amountConfig.currency.coinMinimalDenom,
-														receiver: recipient,
-														revisionNumber: ChainIdHelper.parse(counterpartyChainId).version,
-														revisionHeight: parseInt(destinationBlockHeight.height.add(new Int('150')).toString()),
-														timeoutTimestamp: '0',
-													},
-													memo: '',
-												});
+													async () => {
+														const destinationBlockHeight = queriesStore
+															.get(counterpartyChainId)
+															.cosmos.queryBlock.getBlock('latest');
+														await destinationBlockHeight.waitFreshResponse();
+														if (destinationBlockHeight.height.equals(new Int('0'))) {
+															throw new Error(`Failed to fetch the latest block of ${counterpartyChainId}`);
+														}
+
+														return destinationBlockHeight.height;
+													}
+												);
 
 												if (res?.tx_response?.raw_log?.includes('insufficient funds')) {
 													displayToast(TToastType.TX_FAILED, {

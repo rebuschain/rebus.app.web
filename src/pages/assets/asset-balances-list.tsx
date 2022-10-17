@@ -193,8 +193,6 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 							const bal = queries.queryBalances.getQueryBech32Address(address).getBalanceFromCurrency(cur);
 							const totalFiatValue = priceStore.calculatePrice(bal, 'usd');
 
-							const path = (cur as IBCCurrency).paths?.[0];
-
 							return (
 								<AssetBalanceRow
 									key={cur.coinMinimalDenom}

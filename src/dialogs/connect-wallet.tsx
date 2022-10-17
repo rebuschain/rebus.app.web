@@ -261,12 +261,10 @@ export class ConnectWalletManager {
 		}
 
 		if (this.accountStore) {
-			for (const chainInfo of this.chainStore.chainInfos) {
-				const account = this.accountStore.getAccount(chainInfo.chainId);
-				// Clear all account.
-				if (account.walletStatus !== WalletStatus.NotInit) {
-					account.disconnect();
-				}
+			const account = this.accountStore.getAccount(this.chainStore.chainInfos[0].chainId);
+
+			if (account.walletStatus !== WalletStatus.NotInit) {
+				account.disconnect();
 			}
 		}
 

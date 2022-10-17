@@ -1,7 +1,6 @@
 import { makeObservable, observable } from 'mobx';
 import env from '@beam-australia/react-env';
 import axios from 'axios';
-import { AppCurrency } from '@keplr-wallet/types';
 import {
 	BroadcastMode,
 	generateEndpointAccount,
@@ -16,7 +15,6 @@ import {
 	createTxIBCMsgTransfer,
 	createTxRawEIP712,
 	signatureToWeb3Extension,
-	Fee,
 	MsgDelegateParams,
 	Sender,
 	MsgBeginRedelegateParams,
@@ -34,10 +32,10 @@ import { InstallError, tendermint } from '@cosmostation/extension-client';
 import { WALLET_LIST, WalletTypes } from 'src/constants/wallet';
 import { ethToRebus } from 'src/utils/rebus-converter';
 import { FalconProvider } from './falcon-provider';
-import { ChainInfoWithExplorer } from '../chain';
 import { TransactionResponse, Tx } from './types';
 import { CosmostationProvider } from './cosmostation-provider';
 import { BaseProvider } from './base-provider';
+import { Int } from '@keplr-wallet/unit';
 
 const chainId = env('CHAIN_ID');
 const restUrl = env('REST_URL');
@@ -362,6 +360,8 @@ export class WalletStore {
 			}
 		);
 
+		response.data.sender = sender;
+
 		return response.data;
 	}
 
@@ -381,10 +381,19 @@ export class WalletStore {
 		}
 	}
 
-	public async sendIBCTransfer({ fee, msg, memo }: Tx<MessageIBCMsgTransfer>): Promise<TransactionResponse> {
+	public async sendIBCTransfer(
+		{ fee, msg, memo }: Tx<MessageIBCMsgTransfer>,
+		getBlockHeight: () => Promise<Int>
+	): Promise<TransactionResponse> {
 		this.checkIfSupported('ibc-transfer');
 
 		const sender = await this.getSender();
+		const blockHeight = await getBlockHeight();
+
+		if (msg) {
+			msg.revisionHeight = parseInt(blockHeight.add(new Int('150')).toString());
+		}
+
 		const txMsg = createTxIBCMsgTransfer(this.chainInfo, sender, fee, memo, msg as MessageIBCMsgTransfer);
 		return this.broadcast(sender, txMsg);
 	}
