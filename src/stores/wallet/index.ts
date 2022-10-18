@@ -13,6 +13,7 @@ import {
 	createTxMsgUndelegate,
 	createTxMsgBeginRedelegate,
 	createTxMsgVote,
+	createTxIBCMsgTransfer,
 	createTxRawEIP712,
 	signatureToWeb3Extension,
 	Fee,
@@ -23,6 +24,7 @@ import {
 	MsgMultipleWithdrawDelegatorRewardParams,
 	createTxMsgMultipleWithdrawDelegatorReward,
 	MessageMsgVote,
+	MessageIBCMsgTransfer,
 } from '@tharsis/transactions';
 import { ethers } from 'ethers';
 import { signatureToPubkey } from '@hanchon/signature-to-pubkey';
@@ -363,17 +365,35 @@ export class WalletStore {
 		return response.data;
 	}
 
-	public checkIfSupported() {
+	public checkIfSupported(
+		action: 'ibc-transfer' | 'delegate' | 'un-delegate' | 're-delegate' | 'claim-rewards' | 'vote'
+	) {
+		if (!this.walletType) {
+			throw new Error('No wallet connected');
+		}
+
 		if (this.walletType === 'crypto') {
 			throw new Error('Transactions not supported for crypto.com wallets');
 		}
+
+		if (action === 'ibc-transfer' && this.walletType !== 'metamask') {
+			throw new Error('IBC Transfers are only supported on metamask or keplr');
+		}
+	}
+
+	public async sendIBCTransfer({ fee, msg, memo }: Tx<MessageIBCMsgTransfer>): Promise<TransactionResponse> {
+		this.checkIfSupported('ibc-transfer');
+
+		const sender = await this.getSender();
+		const txMsg = createTxIBCMsgTransfer(this.chainInfo, sender, fee, memo, msg as MessageIBCMsgTransfer);
+		return this.broadcast(sender, txMsg);
 	}
 
 	public async delegate(
 		{ fee, msg, memo }: Tx<MsgDelegateParams>,
 		aminoTx: Tx<AminoMsgDelegate>
 	): Promise<TransactionResponse> {
-		this.checkIfSupported();
+		this.checkIfSupported('delegate');
 
 		if (this._aminoProvider) {
 			return this.aminoProvider.signAndBroadcastAmino<Tx<AminoMsgDelegate>>(this.rebusAddress, aminoTx);
@@ -388,7 +408,7 @@ export class WalletStore {
 		{ fee, msg, memo }: Tx<MsgUndelegateParams>,
 		aminoTx: Tx<AminoMsgUndelegate>
 	): Promise<TransactionResponse> {
-		this.checkIfSupported();
+		this.checkIfSupported('un-delegate');
 
 		if (this._aminoProvider) {
 			return this.aminoProvider.signAndBroadcastAmino<Tx<AminoMsgUndelegate>>(this.rebusAddress, aminoTx);
@@ -403,7 +423,7 @@ export class WalletStore {
 		{ fee, msg, memo }: Tx<MsgBeginRedelegateParams>,
 		aminoTx: Tx<AminoMsgWithdrawDelegatorReward>
 	): Promise<TransactionResponse> {
-		this.checkIfSupported();
+		this.checkIfSupported('re-delegate');
 
 		if (this._aminoProvider) {
 			return this.aminoProvider.signAndBroadcastAmino<Tx<AminoMsgWithdrawDelegatorReward>>(this.rebusAddress, aminoTx);
@@ -418,7 +438,7 @@ export class WalletStore {
 		{ fee, msg, memo }: Tx<MsgMultipleWithdrawDelegatorRewardParams>,
 		aminoTx: Tx<AminoMsgWithdrawDelegatorReward>
 	): Promise<TransactionResponse> {
-		this.checkIfSupported();
+		this.checkIfSupported('claim-rewards');
 
 		if (this._aminoProvider) {
 			return this.aminoProvider.signAndBroadcastAmino<Tx<AminoMsgWithdrawDelegatorReward>>(this.rebusAddress, aminoTx);
@@ -436,7 +456,7 @@ export class WalletStore {
 	}
 
 	public async vote({ fee, msg, memo }: Tx<MessageMsgVote>, aminoTx: Tx<AminoMsgVote>): Promise<TransactionResponse> {
-		this.checkIfSupported();
+		this.checkIfSupported('vote');
 
 		if (this._aminoProvider) {
 			return this.aminoProvider.signAndBroadcastAmino<Tx<AminoMsgVote>>(this.rebusAddress, aminoTx);

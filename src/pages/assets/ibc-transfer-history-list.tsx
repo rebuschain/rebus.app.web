@@ -17,7 +17,7 @@ const tableWidths = ['20%', '15%', '15%', '30%', '20%'];
 export const IbcTransferHistoryList = observer(function IbcTransferHistoryList() {
 	const { ibcTransferHistoryStore, chainStore, accountStore, walletStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
-	const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
+	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 
 	const { isMobileView } = useWindowSize();
 
@@ -38,7 +38,7 @@ export const IbcTransferHistoryList = observer(function IbcTransferHistoryList()
 					IBC Transaction History
 				</TitleText>
 			</div>
-			<div className="overflow-x-scroll">
+			<div className="overflow-x-auto">
 				<table className="w-full md:table-fixed">
 					<IbcTransferHistoryHeader />
 					<tbody>

@@ -27,7 +27,7 @@ const TokensTextField = observer(() => {
 
 	const { accountStore, chainStore, queriesStore, walletStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
-	const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
+	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 	const queries = queriesStore.get(chainStore.current.chainId);
 
 	const delegations = queries.rebus.queryDelegations.get(address).response?.data?.result;

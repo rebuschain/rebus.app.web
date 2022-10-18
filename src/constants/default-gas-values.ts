@@ -5,4 +5,5 @@ export const gas = {
 	un_delegate: 500000,
 	re_delegate: 800000,
 	claim_reward: 400000,
+	ibc_transfer: 130000,
 };

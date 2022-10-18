@@ -15,13 +15,10 @@ export const AssetsOverview: FunctionComponent<{ title: string }> = observer(({ 
 
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);
-	const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
+	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 
 	const availableBalanceList = queries.queryBalances.getQueryBech32Address(address).balances.map(bal => bal.balance);
 	const availableBalancePrice = calcTotalFiatValue(availableBalanceList);
-
-	const lockedCoins = queries.rebus.queryLockedCoins.get(address).lockedCoins;
-	const lockedBalancePrice = calcTotalFiatValue(lockedCoins);
 
 	const delegatedBalance = queries.cosmos.queryDelegations.getQueryBech32Address(address).total;
 	const unbondingBanace = queries.cosmos.queryUnbondingDelegations.getQueryBech32Address(address).total;
@@ -47,10 +44,7 @@ export const AssetsOverview: FunctionComponent<{ title: string }> = observer(({ 
 				<AssetsListRow>
 					<OverviewLabelValue label="Total Assets">
 						<TitleText size="2xl" pb={0} isMobileView={isMobileView}>
-							{availableBalancePrice
-								.add(lockedBalancePrice)
-								.add(delegatedBalancePrice)
-								.toString()}
+							{availableBalancePrice.add(delegatedBalancePrice).toString()}
 						</TitleText>
 					</OverviewLabelValue>
 
@@ -62,12 +56,6 @@ export const AssetsOverview: FunctionComponent<{ title: string }> = observer(({ 
 				</AssetsListRow>
 
 				<AssetsListRow>
-					<OverviewLabelValue label="Bonded Assets">
-						<TitleText size="2xl" pb={0} isMobileView={isMobileView}>
-							{lockedBalancePrice.toString()}
-						</TitleText>
-					</OverviewLabelValue>
-
 					<OverviewLabelValue label="Staked Rebus">
 						<TitleText size="2xl" pb={0} isMobileView={isMobileView}>
 							{delegatedBalancePrice.toString()}

@@ -2,13 +2,13 @@ import { ROUTES } from './routes';
 
 export const LAYOUT = {
 	SIDEBAR: {
-		// ASSETS: {
-		// 	ICON: '/public/assets/icons/assets.svg',
-		// 	ICON_SELECTED: '/public/assets/icons/assets-selected.svg',
-		// 	TEXT: 'Assets',
-		// 	ROUTE: '/assets',
-		// 	SELECTED_CHECK: '/assets',
-		// },
+		ASSETS: {
+			ICON: '/public/assets/icons/assets.svg',
+			ICON_SELECTED: '/public/assets/icons/assets-selected.svg',
+			TEXT: 'Assets',
+			ROUTE: '/assets',
+			SELECTED_CHECK: '/assets',
+		},
 		STAKE: {
 			ICON: '/public/assets/icons/stake.svg',
 			ICON_SELECTED: '/public/assets/icons/stake-selected.svg',

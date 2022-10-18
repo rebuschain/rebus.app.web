@@ -15,6 +15,7 @@ import { isSlippageError } from '../utils/tx';
 import { prettifyTxError } from 'src/stores/prettify-tx-error';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import { ConnectWalletManager } from 'src/dialogs/connect-wallet';
+import { gas } from 'src/constants/default-gas-values';
 import { KEPLR_EVMOS_VERSION, KEPLR_VERSION } from 'src/constants/wallet';
 
 export class RootStore {
@@ -101,7 +102,7 @@ export class RootStore {
 							copied.coinType = 60;
 							// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 							// @ts-ignore
-							copied.features = ['eth-address-gen', 'eth-key-sign'];
+							copied.features = [...(copied.features || []), 'eth-address-gen', 'eth-key-sign'];
 							// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 							// @ts-ignore
 							copied.chainName += ' (EVM)';
@@ -119,7 +120,7 @@ export class RootStore {
 				chainOpts: this.chainStore.chainInfos.map(chainInfo => {
 					return {
 						chainId: chainInfo.chainId,
-						msgOpts: { ibcTransfer: { gas: 130000 } },
+						msgOpts: { ibcTransfer: { gas: gas.ibc_transfer } },
 						preTxEvents: {
 							onBroadcastFailed: (e?: Error) => {
 								let message: string = 'Unknown error';

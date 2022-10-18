@@ -10,7 +10,7 @@ import { IbcTransferHistoryList } from './ibc-transfer-history-list';
 const AssetsPage: FunctionComponent = observer(() => {
 	const { ibcTransferHistoryStore, chainStore, accountStore, walletStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
-	const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
+	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 
 	return (
 		<AssetsPageContainer>

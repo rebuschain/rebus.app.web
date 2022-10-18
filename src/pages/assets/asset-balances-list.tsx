@@ -24,7 +24,7 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);
-	const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
+	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 
 	const ibcBalances = IBCAssetInfos.map(channelInfo => {
 		const chainInfo = chainStore.getChain(channelInfo.counterpartyChainId);
@@ -97,6 +97,73 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 
 	const close = () => setDialogState(v => ({ ...v, open: false }));
 
+	const onDeposit = (
+		currency: AppCurrency,
+		sourceChainId: string,
+		sourceDenom: string,
+		sourceChannelId: string,
+		destChainId: string,
+		destChannelId: string,
+		ics20ContractAddress = '',
+		depositUrlOverride = ''
+	) => {
+		if (depositUrlOverride) {
+			window.open(depositUrlOverride, '_blank');
+		} else {
+			let modifiedCurrency = currency;
+			if (sourceDenom != '') {
+				modifiedCurrency = {
+					coinDecimals: currency.coinDecimals,
+					coinGeckoId: currency.coinGeckoId,
+					coinImageUrl: currency.coinImageUrl,
+					coinDenom: currency.coinDenom,
+					coinMinimalDenom: '',
+					paths: (currency as IBCCurrency).paths.slice(0, 1),
+					originChainId: sourceChainId,
+					originCurrency: {
+						coinDecimals: currency.coinDecimals,
+						coinImageUrl: currency.coinImageUrl,
+						coinDenom: currency.coinDenom,
+						coinMinimalDenom: sourceDenom,
+					},
+				};
+			}
+
+			setDialogState({
+				open: true,
+				counterpartyChainId: destChainId,
+				currency: modifiedCurrency as IBCCurrency,
+				sourceChannelId: sourceChannelId,
+				destChannelId,
+				isWithdraw: false,
+				ics20ContractAddress,
+			});
+		}
+	};
+
+	const onWithdraw = (
+		currency: AppCurrency,
+		sourceChannelId: string,
+		destChainId: string,
+		destChannelId: string,
+		ics20ContractAddress = '',
+		withdrawUrlOverride = ''
+	) => {
+		if (withdrawUrlOverride) {
+			window.open(withdrawUrlOverride, '_blank');
+		} else {
+			setDialogState({
+				open: true,
+				counterpartyChainId: destChainId,
+				currency: currency as IBCCurrency,
+				sourceChannelId: sourceChannelId,
+				destChannelId,
+				isWithdraw: true,
+				ics20ContractAddress,
+			});
+		}
+	};
+
 	return (
 		<React.Fragment>
 			{dialogState.open ? (
@@ -121,12 +188,12 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 
 				<tbody className="w-full">
 					{chainStore.current.currencies
-						.concat(chainStore.currentOsmosis.currencies)
 						.filter(cur => !cur.coinMinimalDenom.includes('/'))
 						.map(cur => {
 							const bal = queries.queryBalances.getQueryBech32Address(address).getBalanceFromCurrency(cur);
-
 							const totalFiatValue = priceStore.calculatePrice(bal, 'usd');
+
+							const path = (cur as IBCCurrency).paths?.[0];
 
 							return (
 								<AssetBalanceRow
@@ -168,55 +235,28 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 									.maxDecimals(6)
 									.toString()}
 								totalFiatValue={totalFiatValue}
-								onDeposit={() => {
-									if (bal.depositUrlOverride) {
-										window.open(bal.depositUrlOverride, '_blank');
-									} else {
-										let modifiedCurrency = currency;
-										if (bal.sourceDenom != '') {
-											modifiedCurrency = {
-												coinDecimals: currency.coinDecimals,
-												coinGeckoId: currency.coinGeckoId,
-												coinImageUrl: currency.coinImageUrl,
-												coinDenom: currency.coinDenom,
-												coinMinimalDenom: '',
-												paths: (currency as IBCCurrency).paths.slice(0, 1),
-												originChainId: bal.sourceChainId,
-												originCurrency: {
-													coinDecimals: currency.coinDecimals,
-													coinImageUrl: currency.coinImageUrl,
-													coinDenom: currency.coinDenom,
-													coinMinimalDenom: bal.sourceDenom,
-												},
-											};
-										}
-
-										setDialogState({
-											open: true,
-											counterpartyChainId: bal.chainInfo.chainId,
-											currency: modifiedCurrency as IBCCurrency,
-											sourceChannelId: bal.sourceChannelId,
-											destChannelId: bal.destChannelId,
-											isWithdraw: false,
-											ics20ContractAddress: bal.ics20ContractAddress,
-										});
-									}
-								}}
-								onWithdraw={() => {
-									if (bal.withdrawUrlOverride) {
-										window.open(bal.withdrawUrlOverride, '_blank');
-									} else {
-										setDialogState({
-											open: true,
-											counterpartyChainId: bal.chainInfo.chainId,
-											currency: currency as IBCCurrency,
-											sourceChannelId: bal.sourceChannelId,
-											destChannelId: bal.destChannelId,
-											isWithdraw: true,
-											ics20ContractAddress: bal.ics20ContractAddress,
-										});
-									}
-								}}
+								onDeposit={() =>
+									onDeposit(
+										currency,
+										bal.sourceChainId,
+										bal.sourceDenom,
+										bal.sourceChannelId,
+										bal.chainInfo.chainId,
+										bal.destChannelId,
+										bal.ics20ContractAddress,
+										bal.depositUrlOverride
+									)
+								}
+								onWithdraw={() =>
+									onWithdraw(
+										currency,
+										bal.sourceChannelId,
+										bal.chainInfo.chainId,
+										bal.destChannelId,
+										bal.ics20ContractAddress,
+										bal.withdrawUrlOverride
+									)
+								}
 								isUnstable={bal.isUnstable}
 								isMobileView={isMobileView}
 							/>

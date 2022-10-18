@@ -3,10 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { IBCCurrency } from '@keplr-wallet/types';
 import { AmountInput } from '../components/form/inputs';
-import { ButtonPrimary } from '../components/layouts/buttons';
 import { colorWhiteEmphasis } from '../emotion-styles/colors';
 import { useStore } from '../stores';
-import { Bech32Address } from '@keplr-wallet/cosmos';
+import { Bech32Address, ChainIdHelper } from '@keplr-wallet/cosmos';
 import { getKeplrFromWindow, WalletStatus } from '@keplr-wallet/stores';
 import { useFakeFeeConfig } from '../hooks/tx';
 import { useBasicAmountConfig } from '../hooks/tx/basic-amount-config';
@@ -15,6 +14,11 @@ import { useAccountConnection } from '../hooks/account/use-account-connection';
 import { useCustomBech32Address } from '../hooks/account/use-custom-bech32-address';
 import { ConnectAccountButton } from '../components/connect-account-button';
 import { Buffer } from 'buffer/';
+import { Button } from 'src/components/common/button';
+import { Dec, DecUtils, Int } from '@keplr-wallet/unit';
+import { displayToast, TToastType } from 'src/components/common/toasts';
+import { gas } from 'src/constants/default-gas-values';
+import { config } from 'src/config-insync';
 
 export const TransferDialog = wrapBaseDialog(
 	observer(
@@ -42,9 +46,10 @@ export const TransferDialog = wrapBaseDialog(
 			const { chainStore, accountStore, queriesStore, ibcTransferHistoryStore, walletStore } = useStore();
 
 			const account = accountStore.getAccount(chainStore.current.chainId);
-			const address = walletStore.isLoaded ? walletStore.address : account.bech32Address;
+			const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 			const counterpartyAccount = accountStore.getAccount(counterpartyChainId);
-			const counterpartyBech32Prefix = chainStore.getChain(counterpartyChainId).bech32Config.bech32PrefixAccAddr;
+			const counterpartyChainStore = chainStore.getChain(counterpartyChainId);
+			const counterpartyBech32Prefix = counterpartyChainStore.bech32Config.bech32PrefixAccAddr;
 
 			// custom withdraw address state
 			const [customWithdrawAddr, isValidCustomWithdrawAddr, setCustomWithdrawAddr] = useCustomBech32Address();
@@ -65,10 +70,10 @@ export const TransferDialog = wrapBaseDialog(
 			const [counterpartyInitAttempted, setCounterpartyInitAttempted] = useState(false);
 
 			useEffect(() => {
-				if (counterpartyInitAttempted && counterpartyAccount.walletStatus === WalletStatus.NotInit) {
+				if (counterpartyInitAttempted && counterpartyAccount.walletStatus === WalletStatus.NotInit && isWithdraw) {
 					counterpartyAccount.disconnect();
 					setIsEditingWithdrawAddr(true);
-					setCustomWithdrawAddr(counterpartyAccount.bech32Address, counterpartyBech32Prefix);
+					setCustomWithdrawAddr(counterpartyAccount.bech32Address, counterpartyBech32Prefix, isWithdraw);
 				} else if (address && counterpartyAccount.walletStatus === WalletStatus.NotInit && !counterpartyInitAttempted) {
 					counterpartyAccount.init();
 					setCounterpartyInitAttempted(true);
@@ -82,6 +87,7 @@ export const TransferDialog = wrapBaseDialog(
 				setIsEditingWithdrawAddr,
 				setCustomWithdrawAddr,
 				setCounterpartyInitAttempted,
+				isWithdraw,
 			]);
 
 			const amountConfig = useBasicAmountConfig(
@@ -131,19 +137,19 @@ export const TransferDialog = wrapBaseDialog(
 						<h5 className="text-lg md:text-xl">{isWithdraw ? 'Withdraw' : 'Deposit'} IBC Asset</h5>
 					</div>
 					<h6 className="mb-3 md:mb-4 text-base md:text-lg">IBC Transfer</h6>
-					<section className={`flex flex-col ${!isWithdraw ? 'md:flex-row' : ''} items-center`}>
+					<section className={`flex flex-col items-center`}>
 						<div className="w-full flex-1 p-3 md:p-4 border border-white-faint rounded-2xl">
 							<p className="text-white-high">From</p>
 							<p className="text-white-disabled truncate overflow-ellipsis">
 								{pickOne(
 									Bech32Address.shortenAddress(address, 100),
-									Bech32Address.shortenAddress(counterpartyAccount.bech32Address, 25),
+									Bech32Address.shortenAddress(counterpartyAccount.bech32Address, 100),
 									isWithdraw
 								)}
 							</p>
 						</div>
 						<div className="flex justify-center items-center w-10 my-2 md:my-0">
-							<img src={`/public/assets/icons/arrow-${isMobileView || isWithdraw ? 'down' : 'right'}.svg`} />
+							<img src="/public/assets/icons/arrow-down.svg" />
 						</div>
 						<div
 							className={`w-full flex-1 p-3 md:p-4 border ${
@@ -161,7 +167,8 @@ export const TransferDialog = wrapBaseDialog(
 										<div className="flex gap-3 w-full border border-secondary-200 rounded-xl p-1 my-2">
 											<img className="ml-2 h-3 my-auto" src="/public/assets/icons/warning.svg" />
 											<p className="text-xs">
-												Warning: Withdrawal to central exchange address could result in loss of funds.
+												Warning: {isWithdraw ? 'Withdrawal' : 'Deposit'} to central exchange address could result in
+												loss of funds.
 											</p>
 										</div>
 									)}
@@ -169,7 +176,13 @@ export const TransferDialog = wrapBaseDialog(
 										<AmountInput
 											style={{ fontSize: '14px', textAlign: 'left' }}
 											value={customWithdrawAddr}
-											onChange={(e: any) => setCustomWithdrawAddr(e.target.value, counterpartyBech32Prefix)}
+											onChange={(e: any) =>
+												setCustomWithdrawAddr(
+													e.target.value,
+													isWithdraw ? counterpartyBech32Prefix : config.PREFIX,
+													isWithdraw
+												)
+											}
 										/>
 										<button
 											onClick={() => {
@@ -213,24 +226,38 @@ export const TransferDialog = wrapBaseDialog(
 											didConfirmWithdrawAddr ? customWithdrawAddr : counterpartyAccount.bech32Address,
 											100
 										),
-										Bech32Address.shortenAddress(address, 25),
+										Bech32Address.shortenAddress(didConfirmWithdrawAddr ? customWithdrawAddr : address, 100),
 										isWithdraw
 									)}
-									{isWithdraw && !isEditingWithdrawAddr && counterpartyAccount.walletStatus === WalletStatus.Loaded && (
-										<ButtonPrimary
-											className="ml-1 text-white-emphasis"
-											style={{ fontSize: '11px', padding: '6px 8px' }}
+									{!isEditingWithdrawAddr && counterpartyAccount.walletStatus === WalletStatus.Loaded && (
+										<Button
+											style={{
+												borderRadius: '12px !important',
+												fontSize: '11px',
+												marginBottom: '3px',
+												marginLeft: '6px',
+												minWidth: '0',
+												padding: '2px 8px',
+											}}
 											onClick={e => {
 												e.preventDefault();
 												setIsEditingWithdrawAddr(true);
 												if (customWithdrawAddr === '') {
-													setCustomWithdrawAddr(counterpartyAccount.bech32Address, counterpartyBech32Prefix);
+													if (isWithdraw) {
+														setCustomWithdrawAddr(
+															counterpartyAccount.bech32Address,
+															counterpartyBech32Prefix,
+															isWithdraw
+														);
+													} else {
+														setCustomWithdrawAddr(address, config.PREFIX, isWithdraw);
+													}
 												}
 												setDidConfirmWithdrawAddr(false);
 												setDidVerifyWithdrawRisks(false);
 											}}>
 											Edit
-										</ButtonPrimary>
+										</Button>
 									)}
 								</p>
 							)}
@@ -289,11 +316,11 @@ export const TransferDialog = wrapBaseDialog(
 								}}
 							/>
 						) : (
-							<button
-								className="w-full md:w-2/3 p-4 md:p-6 bg-primary-200 rounded-2xl flex items-center justify-center hover:opacity-75 disabled:opacity-50"
+							<Button
+								className="w-full md:w-2/3 p-4 md:p-6 h-14"
 								disabled={
-									!account.isReadyToSendMsgs ||
-									!counterpartyAccount.isReadyToSendMsgs ||
+									(isWithdraw && !walletStore.isLoaded && !account.isReadyToSendMsgs) ||
+									(!isWithdraw && !counterpartyAccount.isReadyToSendMsgs) ||
 									amountConfig.getError() != null ||
 									!isValidCustomWithdrawAddr
 								}
@@ -302,15 +329,72 @@ export const TransferDialog = wrapBaseDialog(
 
 									try {
 										if (isWithdraw) {
-											if (
-												account.isReadyToSendMsgs &&
-												(counterpartyAccount.bech32Address || (customWithdrawAddr && isValidCustomWithdrawAddr))
-											) {
-												const sender = address;
-												const recipient = didConfirmWithdrawAddr
-													? customWithdrawAddr
-													: counterpartyAccount.bech32Address;
+											const sender = address;
+											const recipient = didConfirmWithdrawAddr ? customWithdrawAddr : counterpartyAccount.bech32Address;
+											const isRecipientValid =
+												counterpartyAccount.bech32Address || (customWithdrawAddr && isValidCustomWithdrawAddr);
 
+											if (walletStore.isLoaded && isRecipientValid) {
+												const destinationBlockHeight = queriesStore
+													.get(counterpartyChainId)
+													.cosmos.queryBlock.getBlock('latest');
+												await destinationBlockHeight.waitFreshResponse();
+												if (destinationBlockHeight.height.equals(new Int('0'))) {
+													throw new Error(`Failed to fetch the latest block of ${counterpartyChainId}`);
+												}
+
+												const gasPriceStepAverage = isWithdraw
+													? config.GAS_PRICE_STEP_AVERAGE
+													: counterpartyChainStore.gasPriceStep?.average || 0;
+
+												let dec = new Dec(amountConfig.amount);
+												dec = dec.mul(
+													DecUtils.getTenExponentNInPrecisionRange(
+														isWithdraw ? config.COIN_DECIMALS : currency.coinDecimals
+													)
+												);
+												const actualAmount = dec.truncate().toString();
+
+												const res = await walletStore.sendIBCTransfer({
+													fee: {
+														amount: String(BigInt(gas.ibc_transfer * gasPriceStepAverage)),
+														denom: isWithdraw ? config.COIN_MINIMAL_DENOM : amountConfig.currency.coinMinimalDenom,
+														gas: gas.ibc_transfer.toString(),
+													},
+													msg: {
+														sourcePort: 'transfer',
+														sourceChannel: sourceChannelId,
+														amount: actualAmount,
+														denom: amountConfig.currency.coinMinimalDenom,
+														receiver: recipient,
+														revisionNumber: ChainIdHelper.parse(counterpartyChainId).version,
+														revisionHeight: parseInt(destinationBlockHeight.height.add(new Int('150')).toString()),
+														timeoutTimestamp: '0',
+													},
+													memo: '',
+												});
+
+												if (res?.tx_response?.raw_log?.includes('insufficient funds')) {
+													displayToast(TToastType.TX_FAILED, {
+														message: `Insufficient ${isWithdraw ? config.COIN_DENOM : amountConfig.currency.coinDenom}`,
+													});
+												}
+
+												const hash = res?.tx_response?.txhash;
+
+												if (hash) {
+													ibcTransferHistoryStore.pushUncommitedHistore({
+														txHash: Buffer.from(hash).toString('hex'),
+														sourceChainId: chainStore.current.chainId,
+														destChainId: counterpartyChainId,
+														amount: { amount: amountConfig.amount, currency: amountConfig.sendCurrency },
+														recipient,
+														sender,
+													});
+
+													// TODO: Implement tx tracer to detect when transaction finishes
+												}
+											} else if (account.isReadyToSendMsgs && isRecipientValid) {
 												await account.cosmos.sendIBCTransferMsg(
 													{
 														portId: 'transfer',
@@ -395,14 +479,15 @@ export const TransferDialog = wrapBaseDialog(
 
 															close();
 														},
-													}
+													},
+													account.rebus.isEvmos
 												);
 											}
 										} else {
-											if (counterpartyAccount.isReadyToSendMsgs && address) {
-												const sender = counterpartyAccount.bech32Address;
-												const recipient = address;
+											const sender = counterpartyAccount.bech32Address;
+											const recipient = didConfirmWithdrawAddr ? customWithdrawAddr : address;
 
+											if (counterpartyAccount.isReadyToSendMsgs && recipient) {
 												const txEvents = {
 													onBroadcasted: (txHash: Uint8Array) =>
 														ibcTransferHistoryStore.pushUncommitedHistore({
@@ -528,7 +613,15 @@ export const TransferDialog = wrapBaseDialog(
 											}
 										}
 									} catch (e) {
+										const err = e as any;
+
 										console.log(e);
+
+										if (err?.code === 4001) {
+											displayToast(TToastType.TX_FAILED, {
+												message: err.message,
+											});
+										}
 									}
 								}}>
 								{(isWithdraw && account.isSendingMsg === 'ibcTransfer') ||
@@ -548,7 +641,7 @@ export const TransferDialog = wrapBaseDialog(
 								) : (
 									<h6 className="text-base md:text-lg">{isWithdraw ? 'Withdraw' : 'Deposit'}</h6>
 								)}
-							</button>
+							</Button>
 						)}
 					</div>
 				</div>
