@@ -1,16 +1,33 @@
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
+import { useHistory } from 'react-router';
 import { CenterSelf } from 'src/components/layouts/containers';
+import { ROUTES } from 'src/constants/routes';
 import { useStore } from 'src/stores';
 import { AssetBalancesList } from './asset-balances-list';
 import { AssetsOverview } from './assets-overview';
 import { IbcTransferHistoryList } from './ibc-transfer-history-list';
 
 const AssetsPage: FunctionComponent = observer(() => {
-	const { ibcTransferHistoryStore, chainStore, accountStore, walletStore } = useStore();
+	const history = useHistory();
+	const { ibcTransferHistoryStore, chainStore, accountStore, walletStore, featureFlagStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
+
+	useEffect(() => {
+		(async () => {
+			await featureFlagStore.waitResponse();
+
+			if (!featureFlagStore.featureFlags.assetsPage) {
+				history.push(ROUTES.STAKE);
+			}
+		})();
+	}, [featureFlagStore, history]);
+
+	if (!featureFlagStore.response) {
+		return null;
+	}
 
 	return (
 		<AssetsPageContainer>

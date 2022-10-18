@@ -1,11 +1,13 @@
 import styled from '@emotion/styled';
 import { Bech32Address, ChainIdHelper } from '@keplr-wallet/cosmos';
+import { WalletStatus } from '@keplr-wallet/stores';
 import { IBCCurrency } from '@keplr-wallet/types';
 import { Dec, DecUtils, Int } from '@keplr-wallet/unit';
 import { IconButton } from '@material-ui/core';
 import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent, useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import { Button } from 'src/components/common/button';
 import { displayToast, TToastType } from 'src/components/common/toasts';
 import { ConnectAccountButton } from 'src/components/connect-account-button';
@@ -27,8 +29,19 @@ const rebusImage = '/public/assets/main/rebus-logo-single.svg';
 const osmosisImage = '/public/assets/tokens/osmo.svg';
 
 const IbcTransferPage: FunctionComponent = observer(() => {
-	const { ibcTransferHistoryStore, chainStore, accountStore, queriesStore, walletStore } = useStore();
+	const history = useHistory();
+	const { ibcTransferHistoryStore, chainStore, accountStore, queriesStore, walletStore, featureFlagStore } = useStore();
 	const [counterpartyWalletStore] = useState(() => new WalletStore());
+
+	useEffect(() => {
+		(async () => {
+			await featureFlagStore.waitResponse();
+
+			if (!featureFlagStore.featureFlags.ibcTransferPage) {
+				history.push('/');
+			}
+		})();
+	}, [featureFlagStore, history]);
 
 	const { isMobileView } = useWindowSize();
 	const { isAccountConnected, connectAccount } = useAccountConnection();
@@ -40,6 +53,7 @@ const IbcTransferPage: FunctionComponent = observer(() => {
 	const [amount, setAmount] = useState('');
 	const [isMax, setIsMax] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [connectingWallet, setConnectingWallet] = useState(false);
 
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const chain = chainStore.getChain(chainStore.current.chainId);
@@ -69,7 +83,12 @@ const IbcTransferPage: FunctionComponent = observer(() => {
 	);
 
 	const onGetKeplAddress = () => {
-		setRecipient(isWithdraw ? counterpartyAccount.bech32Address : account.bech32Address);
+		if (!isWithdraw && account.walletStatus !== WalletStatus.Loaded) {
+			setConnectingWallet(true);
+			connectAccount();
+		} else {
+			setRecipient(isWithdraw ? counterpartyAccount.bech32Address : account.bech32Address);
+		}
 	};
 
 	const onGetMetamaskAddress = async () => {
@@ -393,6 +412,13 @@ const IbcTransferPage: FunctionComponent = observer(() => {
 
 	const isDisabled = !isAccountConnected || hasError || !didConfirm;
 
+	useEffect(() => {
+		if (account.walletStatus === WalletStatus.Loaded && !isWithdraw && connectingWallet) {
+			setConnectingWallet(false);
+			setRecipient(account.bech32Address);
+		}
+	}, [account.bech32Address, account.walletStatus, connectingWallet, isWithdraw]);
+
 	// Initialize counterparty address when wallet loads
 	useEffect(() => {
 		setRecipient(add => {
@@ -446,7 +472,7 @@ const IbcTransferPage: FunctionComponent = observer(() => {
 	}, [amount, currBal, currency.coinDecimals]);
 
 	return (
-		<div className="w-full h-fit text-white-high bg-surface rounded-2xl p-8 m-5 mt-21 md:my-10 mx-15 md:mt-10">
+		<div className="w-full h-fit max-w-3xl text-white-high bg-surface rounded-2xl p-8 m-5 mt-21 md:my-10 mx-15 md:mt-10">
 			<h6 className="mb-3 md:mb-4 text-base md:text-lg">IBC Transfer</h6>
 			<section className={`flex flex-col items-center`}>
 				<AddressInput

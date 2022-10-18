@@ -22,7 +22,7 @@ const SideBar: FunctionComponent = observer(function SideBar() {
 
 	const { isMobileView } = useWindowSize();
 
-	const { chainStore, queriesStore } = useStore();
+	const { chainStore, queriesStore, featureFlagStore } = useStore();
 	const queries = queriesStore.get(chainStore.current.chainId);
 	const { claimEnabled } = queries.rebus.queryClaimParams;
 
@@ -69,9 +69,17 @@ const SideBar: FunctionComponent = observer(function SideBar() {
 								</section>
 								<section>
 									{mapKeyValues(LAYOUT.SIDEBAR, (_: string, sidebarItem: TSIDEBAR_ITEM) => sidebarItem)
-										.filter(sidebarItem => {
-											if (sidebarItem.TEXT === 'Airdrop') {
+										.filter((sidebarItem: TSIDEBAR_ITEM) => {
+											if (sidebarItem.TYPE === 'airdrop') {
 												return claimEnabled;
+											}
+
+											if (sidebarItem.TYPE === 'assets') {
+												return featureFlagStore.featureFlags.assetsPage;
+											}
+
+											if (sidebarItem.TYPE === 'ibc-transfer') {
+												return featureFlagStore.featureFlags.ibcTransferPage;
 											}
 
 											return true;
