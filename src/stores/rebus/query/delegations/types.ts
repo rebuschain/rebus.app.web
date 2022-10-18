@@ -9,7 +9,7 @@ type Balance = {
 	amount: string;
 };
 
-type DelegationResult = {
+export type DelegationResult = {
 	delegation: Delegation;
 	balance: Balance;
 };

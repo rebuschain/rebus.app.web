@@ -15,6 +15,7 @@ import UnDelegateButton from '../home/token-details/un-delegate-button';
 import ReDelegateButton from '../home/token-details/re-delegate-button';
 import DelegateButton from './delegate-button';
 import ValidatorName from './validator-name';
+import { DelegationResult } from 'src/stores/rebus/query/delegations/types';
 
 const ValidatorCell = (value: any, tableMeta: MUIDataTableMeta) => (
 	<ValidatorName
@@ -142,17 +143,27 @@ const selector = (state: RootState) => {
 	};
 };
 
+const EMPTY_DELEGATIONS: DelegationResult[] = [];
+const EMPTY_TABLE_DATA: any[][] = [];
+const VIEW_COLUMN_LABELS = {
+	title: 'Show Columns',
+	titleAria: 'Show/Hide Table Columns',
+};
+
 const Table = observer<TableProps>(({ active }) => {
 	const { delegatedValidatorList, inProgress, validatorList } = useAppSelector(selector);
 
 	const { chainStore, queriesStore } = useStore();
 	const address = useAddress();
-	const bondedTokens = queriesStore.get(chainStore.current.chainId).cosmos.queryPool.response?.data.result
-		.bonded_tokens;
-	const delegations =
-		queriesStore.get(chainStore.current.chainId).rebus.queryDelegations.get(address).response?.data?.result || [];
+
+	const bondedTokensQuery = queriesStore.get(chainStore.current.chainId).cosmos.queryPool;
+	const bondedTokens = bondedTokensQuery.response?.data.result.bonded_tokens;
+
+	const delegationsQuery = queriesStore.get(chainStore.current.chainId).rebus.queryDelegations.get(address);
+	const delegations = delegationsQuery.response?.data?.result || EMPTY_DELEGATIONS;
 
 	const tableData = useMemo(() => {
+		const bondedTokensNumber = Number(bondedTokens) || 0;
 		let dataToMap = active === 2 ? delegatedValidatorList : validatorList;
 
 		if (active === 3 && dataToMap) {
@@ -166,8 +177,6 @@ const Table = observer<TableProps>(({ active }) => {
 		return dataToMap && dataToMap.length
 			? dataToMap.map((item: any) => {
 					const parsedItem = { ...item, delegations };
-
-					const bondedTokensNumber = Number(bondedTokens) || 0;
 					const votingPercentage =
 						bondedTokensNumber === 0 ? 0 : ((Number(parsedItem.tokens) || 0) / bondedTokensNumber) * 100;
 
@@ -185,32 +194,23 @@ const Table = observer<TableProps>(({ active }) => {
 						parsedItem,
 					];
 			  })
-			: [];
-	}, [active, bondedTokens, delegations, delegatedValidatorList, validatorList]);
+			: EMPTY_TABLE_DATA;
+	}, [bondedTokens, active, delegatedValidatorList, validatorList, delegations]);
 
 	const options = useMemo(
 		() => ({
 			serverSide: false,
 			print: false,
 			fixedHeader: false,
-			pagination: true,
-			rowsPerPage: 25,
-			rowsPerPageOptions: [10, 25, 50, 100, 500],
+			pagination: false,
 			selectableRows: 'none',
 			selectToolbarPlacement: 'none',
-			sortOrder: {
-				name: 'voting_power',
-				direction: 'desc',
-			},
 			textLabels: {
 				body: {
 					noMatch: inProgress ? <CircularProgress /> : <div className="no_data_table"> No data found </div>,
 					toolTip: 'Sort',
 				},
-				viewColumns: {
-					title: 'Show Columns',
-					titleAria: 'Show/Hide Table Columns',
-				},
+				viewColumns: VIEW_COLUMN_LABELS,
 			},
 		}),
 		[inProgress]

@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import Axios from 'axios';
 import { VALIDATORS_LIST_URL, validatorImageURL } from 'src/constants/url';
 import { config } from 'src/config-insync';
+import { shuffleArray } from 'src/utils/array';
 
 export const getValidators = createAsyncThunk(
 	'stake/validators/getValidators',
@@ -27,6 +28,7 @@ export const getValidators = createAsyncThunk(
 				responses[0].data && result.push(...responses[0].data.result);
 				responses[1].data && result.push(...responses[1].data.result);
 				responses[2].data && result.push(...responses[2].data.result);
+				shuffleArray(result);
 				return result;
 			})
 			.then(res => {
