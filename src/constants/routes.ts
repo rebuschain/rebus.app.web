@@ -1,5 +1,6 @@
 export const ROUTES = {
 	ASSETS: '/assets',
+	IBC_TRANSFER: '/ibc-transfer',
 	TOOLS: '/tools',
 	VOTE: '/proposals',
 	AIRDROP: '/airdrop',

@@ -45,6 +45,12 @@ export const IBCAssetInfos: {
 	// },
 ];
 
+// Used in the IBC transfer page to transfer rebus-osmosis
+export const IBCTransferInfo = {
+	rebusChannelId: 'channel-0',
+	osmosisChannelId: 'channel-355',
+};
+
 export const EmbedChainInfos: ChainInfoWithExplorer[] = [
 	{
 		rpc: env('RPC_URL'),
@@ -98,12 +104,6 @@ export const EmbedChainInfos: ChainInfoWithExplorer[] = [
 				coinDecimals: 6,
 				coinGeckoId: 'osmosis',
 				coinImageUrl: window.location.origin + '/public/assets/tokens/osmo.svg',
-				paths: [
-					{
-						portId: 'transfer',
-						channelId: 'channel-355',
-					},
-				],
 			},
 		],
 		feeCurrencies: [
@@ -120,7 +120,7 @@ export const EmbedChainInfos: ChainInfoWithExplorer[] = [
 			average: parseFloat(env('GAS_PRICE_STEP_AVERAGE')),
 			high: parseFloat(env('GAS_PRICE_STEP_HIGH')),
 		},
-		explorerUrlToTx: `${env('EXPLORER_URL')}/txs/{txHash}`,
+		explorerUrlToTx: `${env('EXPLORER_URL')}/{txHash}`,
 		features: ['stargate', 'ibc-transfer', 'no-legacy-stdTx', 'ibc-go'],
 	},
 	{
@@ -156,10 +156,17 @@ export const EmbedChainInfos: ChainInfoWithExplorer[] = [
 			},
 			{
 				coinDenom: denom,
-				coinMinimalDenom: minDenom,
+				coinMinimalDenom: 'ibc/A1AC7F9EE2F643A68E3A35BCEB22040120BEA4059773BB56985C76BDFEBC71D9',
 				coinDecimals: decimals,
 				coinGeckoId: prefix,
 				coinImageUrl,
+				originCurrency: {
+					coinDenom: denom,
+					coinMinimalDenom: minDenom,
+					coinDecimals: decimals,
+					coinGeckoId: prefix,
+					coinImageUrl,
+				},
 			},
 		],
 		feeCurrencies: [

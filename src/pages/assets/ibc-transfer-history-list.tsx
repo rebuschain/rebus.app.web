@@ -94,8 +94,10 @@ const IbcTransferHistoryRow = observer(function IbcTransferHistoryRow({ history 
 				</Text>
 			</TableData>
 			<TableData align="right" style={{ width: tableWidths[3] }}>
-				{new CoinPretty(history.amount.currency, new Dec(history.amount.amount))
-					.decreasePrecision(history.amount.currency.coinDecimals)
+				{new CoinPretty(
+					history.amount.currency,
+					new Dec(history.amount.amount).mul(new Dec(10 ** history.amount.currency.coinDecimals))
+				)
 					.maxDecimals(6)
 					.trim(true)
 					.toString()}

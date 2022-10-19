@@ -49,7 +49,7 @@ export const SidebarItem: FunctionComponent<TSidebarItem> = ({ sidebarItem, sele
 				</div>
 				<p
 					className={cn(
-						'ml-2.5 text-base overflow-x-hidden transition-all font-bold transition-all max-w-24',
+						'ml-2.5 text-base overflow-x-hidden transition-all font-bold transition-all max-w-24 whitespace-nowrap',
 						selected ? 'text-white-high' : 'text-iconDefault text-custom-100 group-hover:text-white-mid'
 					)}>
 					{sidebarItem.TEXT}

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../stores';
 import { IBCTransferHistory } from '../stores/ibc-history';
@@ -32,8 +32,9 @@ export const ToastIBCTransferComplete: FunctionComponent<{
 }> = observer(({ history }) => {
 	const { chainStore } = useStore();
 
-	const amount = new CoinPretty(history.amount.currency, new Dec(history.amount.amount)).decreasePrecision(
-		history.amount.currency.coinDecimals
+	const amount = new CoinPretty(
+		history.amount.currency,
+		new Dec(history.amount.amount).mul(new Dec(10 ** history.amount.currency.coinDecimals))
 	);
 
 	return (
@@ -106,6 +107,11 @@ export const ToastIBCTransferRefunded: FunctionComponent<{
 	);
 });
 
+const getToastShownKey = (history: IBCTransferHistory) =>
+	`${history.sender}${history.recipient}${history.destChannelId}${history.createdAt}${history.status}`;
+
+const toastShownMap: Record<string, boolean> = {};
+
 /**
  * IBCHistoryNotifier tracks the changes of the IBC Transfer history on the IBCTransferHistoryStore.
  * And, if the changes are detected, this will notify the success or failure to the users, and update the balances.
@@ -120,12 +126,16 @@ export const IBCHistoryNotifier: FunctionComponent = observer(() => {
 				// Toast the notification should use the `useToast()` context API.
 				// But, it is not yet flexible and it is the thing to be being refactored.
 				// It just uses the "toast" libaray, so for now, just use that library directly before the `useToast()` hook refactored.
-				if (history.status === 'complete') {
-					toast(<ToastIBCTransferComplete history={history} />, defaultOptions as ToastOptions);
-				} else if (history.status === 'timeout') {
-					toast(<ToastIBCTransferTimeout history={history} />, defaultOptions as ToastOptions);
-				} else if (history.status === 'refunded') {
-					toast(<ToastIBCTransferRefunded history={history} />, defaultOptions as ToastOptions);
+				if (!toastShownMap[getToastShownKey(history)]) {
+					if (history.status === 'complete') {
+						toast(<ToastIBCTransferComplete history={history} />, defaultOptions as ToastOptions);
+					} else if (history.status === 'timeout') {
+						toast(<ToastIBCTransferTimeout history={history} />, defaultOptions as ToastOptions);
+					} else if (history.status === 'refunded') {
+						toast(<ToastIBCTransferRefunded history={history} />, defaultOptions as ToastOptions);
+					}
+
+					toastShownMap[getToastShownKey(history)] = true;
 				}
 
 				const account = accountStore.getAccount(chainStore.current.chainId);

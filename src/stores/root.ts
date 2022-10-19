@@ -17,8 +17,11 @@ import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import { ConnectWalletManager } from 'src/dialogs/connect-wallet';
 import { gas } from 'src/constants/default-gas-values';
 import { KEPLR_EVMOS_VERSION, KEPLR_VERSION } from 'src/constants/wallet';
+import { FeatureFlagStore } from './feature-flags';
 
 export class RootStore {
+	public readonly featureFlagStore: FeatureFlagStore;
+
 	public readonly chainStore: ChainStore;
 	public readonly accountStore: AccountStore<AccountWithCosmosAndRebus>;
 	public readonly queriesStore: QueriesStore<QueriesWithCosmosAndRebus>;
@@ -32,6 +35,8 @@ export class RootStore {
 	public readonly layoutStore: LayoutStore;
 
 	constructor() {
+		this.featureFlagStore = new FeatureFlagStore(new IndexedDBKVStore('store_feature_flags'));
+
 		this.chainStore = new ChainStore(EmbedChainInfos, EmbedChainInfos[0].chainId, EmbedChainInfos[1].chainId);
 		this.connectWalletManager = new ConnectWalletManager(this.chainStore);
 

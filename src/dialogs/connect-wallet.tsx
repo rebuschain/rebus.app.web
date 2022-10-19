@@ -29,6 +29,8 @@ import { WalletStore } from 'src/stores/wallet';
 import { WALLET_LIST } from 'src/constants/wallet';
 import { useActions } from 'src/hooks/use-actions';
 import { actions } from 'src/reducers/slices/snackbar';
+import { config } from 'src/config-insync';
+import { useAccountConnection } from 'src/hooks/account/use-account-connection';
 
 async function sendTx(chainId: string, tx: StdTx | Uint8Array, mode: BroadcastMode): Promise<Uint8Array> {
 	const restInstance = Axios.create({
@@ -231,7 +233,11 @@ export class ConnectWalletManager {
 					})
 				);
 			}
-		} else if (!connectingWalletName || connectingWalletName.includes('keplr')) {
+		} else if (
+			(!connectingWalletName || connectingWalletName.includes('keplr')) &&
+			(this.accountStore?.getAccount(config.CHAIN_ID).walletStatus === WalletStatus.Loaded ||
+				this.accountStore?.getAccount(config.CHAIN_ID).walletStatus === WalletStatus.Loading)
+		) {
 			localStorage?.removeItem(KeyConnectingWalletType);
 			localStorage?.setItem(KeyAutoConnectingWalletType, 'extension');
 			this.autoConnectingWalletType = 'extension';
@@ -261,12 +267,10 @@ export class ConnectWalletManager {
 		}
 
 		if (this.accountStore) {
-			for (const chainInfo of this.chainStore.chainInfos) {
-				const account = this.accountStore.getAccount(chainInfo.chainId);
-				// Clear all account.
-				if (account.walletStatus !== WalletStatus.NotInit) {
-					account.disconnect();
-				}
+			const account = this.accountStore.getAccount(this.chainStore.chainInfos[0].chainId);
+
+			if (account.walletStatus !== WalletStatus.NotInit) {
+				account.disconnect();
 			}
 		}
 
@@ -286,6 +290,7 @@ export const ConnectWalletDialog = wrapBaseDialog(
 	observer(({ initialFocus, close }: { initialFocus: React.RefObject<HTMLDivElement>; close: () => void }) => {
 		const { connectWalletManager, chainStore, accountStore, walletStore, setIsEvmos } = useStore();
 		const [isMobile] = useState(() => checkIsMobile());
+		const { isAccountConnected } = useAccountConnection();
 		const [showSnackbar] = useActions([actions.showSnackbar]);
 		const account = accountStore.getAccount(chainStore.current.chainId);
 
@@ -327,11 +332,15 @@ export const ConnectWalletDialog = wrapBaseDialog(
 						key={wallet.name}
 						className="w-full text-left p-3 md:p-5 rounded-2xl bg-background flex items-center mt-4 md:mt-5"
 						onClick={async () => {
-							localStorage.setItem(KeyConnectingWalletType, wallet.type);
-							localStorage.setItem(KeyConnectingWalletName, wallet.walletType || '');
-							connectWalletManager.setWalletName(wallet.walletType || '');
+							const isConnectingKeplr = wallet.walletType?.includes('keplr');
 
-							if (!wallet.walletType?.includes('keplr')) {
+							if (isConnectingKeplr && !walletStore.isLoaded) {
+								localStorage.setItem(KeyConnectingWalletType, wallet.type);
+								localStorage.setItem(KeyConnectingWalletName, wallet.walletType || '');
+								connectWalletManager.setWalletName(wallet.walletType || '');
+							}
+
+							if (!isConnectingKeplr) {
 								try {
 									const success = await walletStore.init(wallet.walletType, true);
 									localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');

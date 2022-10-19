@@ -196,6 +196,9 @@
 		"write-file-webpack-plugin": "^4.5.1",
 		"ws": "^7.4.5"
 	},
+	"resolutions": {
+		"axios": "^0.21.2"
+	},
 	"importSort": {
 		".js, .jsx, .ts, .tsx": {
 			"style": "import-sort-style-react"
