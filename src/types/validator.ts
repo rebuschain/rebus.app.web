@@ -27,10 +27,13 @@ export type Validator = {
 	delegator_shares: string;
 	description: ValidatorDescription;
 	key: string;
+	jailed: boolean;
 	name: string;
 	operator_address: string;
 	status: number;
-	tokens: number;
+	tokens: string;
 	type: string;
+	unbonding_height: string;
+	unbonding_time: string;
 	value: string;
 };

@@ -44,17 +44,17 @@ const Home = observer<HomeProps>(() => {
 	}, [address]);
 
 	return (
-		<InsyncWrapper>
+		<InsyncWrapper fullHeight>
 			<Container>
 				<Title>{langVariables.welcome}</Title>
 				<Card>
 					<TokenDetails lang={lang} />
 				</Card>
 			</Container>
-			<div className="md:px-15 md:mb-10">
-				<div>
-					<Heading>
-						<div className="flex items-center mb-3">
+			<div className="flex flex-col flex-1">
+				<div className="flex flex-col flex-1">
+					<Heading className="md:px-15">
+						<div className="flex items-center mb-3 whitespace-nowrap">
 							<TabText className={active === 2 ? 'active' : ''} onClick={() => setActive(2)}>
 								{variables[lang]['staked_validators']}
 							</TabText>
