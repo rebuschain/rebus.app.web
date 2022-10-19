@@ -3,6 +3,7 @@ import Axios from 'axios';
 import { VALIDATORS_LIST_URL, validatorImageURL } from 'src/constants/url';
 import { config } from 'src/config-insync';
 import { shuffleArray } from 'src/utils/array';
+import { Validator } from 'src/types/validator';
 
 export const getValidators = createAsyncThunk(
 	'stake/validators/getValidators',
@@ -89,8 +90,9 @@ export const validatorsSlice = createSlice({
 	name: 'validators',
 	initialState: {
 		inProgress: false,
-		list: null as any[] | null,
+		list: null as Validator[] | null,
 		images: [] as any[],
+		imagesMap: {} as Record<string, any>,
 	},
 	reducers: {
 		setValidatorsFetching: state => ({
@@ -111,6 +113,10 @@ export const validatorsSlice = createSlice({
 			return {
 				...state,
 				images: [...array],
+				imagesMap: array.reduce((acc, img: any) => {
+					acc[img._id] = img;
+					return acc;
+				}, {}),
 			};
 		},
 		setValidatorsFetchError: (state, action: PayloadAction<string>) => ({

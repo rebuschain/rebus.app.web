@@ -32,7 +32,7 @@ const StakeTokensButton = observer(() => {
 	};
 
 	return (
-		<Button className="btn gradient-blue" variant="outlined" onClick={handleClick}>
+		<Button className="btn gradient-blue whitespace-nowrap" variant="outlined" onClick={handleClick}>
 			{variables[lang]['stake_tokens']}
 		</Button>
 	);

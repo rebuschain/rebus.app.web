@@ -93,11 +93,12 @@ const ValidatorSelectField = observer(() => {
 						image[0].them[0].pictures.primary.url ? (
 							<Image
 								alt={
-									validator &&
-									validator.length &&
-									validator[0] &&
-									validator[0].description &&
-									validator[0].description.moniker
+									(validator &&
+										validator.length &&
+										validator[0] &&
+										validator[0].description &&
+										validator[0].description.moniker) ||
+									''
 								}
 								className="image"
 								src={image[0].them[0].pictures.primary.url}

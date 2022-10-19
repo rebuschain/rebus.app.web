@@ -7,47 +7,32 @@ const colors = ['#0023DA', '#C9387E', '#EC2C00', '#80E3F2', '#E86FC5', '#1F3278'
 
 type ValidatorNameProps = {
 	index: number;
-	name: string;
-	value: any;
+	identity?: number;
+	moniker: string;
 };
 
 const selector = (state: RootState) => {
 	return {
-		validatorImages: state.stake.validators.images,
+		imagesMap: state.stake.validators.imagesMap,
 	};
 };
 
-const ValidatorName: FunctionComponent<ValidatorNameProps> = ({ index, name, value }) => {
-	const { validatorImages } = useAppSelector(selector);
-
-	const image =
-		value &&
-		value.description &&
-		value.description.identity &&
-		validatorImages &&
-		validatorImages.length &&
-		validatorImages.filter((img: any) => img._id === value.description.identity.toString());
+const ValidatorName: FunctionComponent<ValidatorNameProps> = ({ index, identity, moniker }) => {
+	const { imagesMap } = useAppSelector(selector);
+	const image = identity ? imagesMap?.[identity.toString()] : undefined;
 
 	return (
 		<Container>
-			{image &&
-			image.length &&
-			image[0] &&
-			image[0].them &&
-			image[0].them.length &&
-			image[0].them[0] &&
-			image[0].them[0].pictures &&
-			image[0].them[0].pictures.primary &&
-			image[0].them[0].pictures.primary.url ? (
-				<Image alt={value.description && value.description.moniker} src={image[0].them[0].pictures.primary.url} />
-			) : value.description && value.description.moniker ? (
+			{image?.them?.[0]?.pictures?.primary?.url ? (
+				<Image alt={moniker} src={image.them[0].pictures.primary.url} />
+			) : moniker ? (
 				<Image as="div" className="image" style={{ background: colors[index % 6] }}>
-					{value.description.moniker[0]}
+					{moniker[0]}
 				</Image>
 			) : (
 				<Image as="div" className="image" style={{ background: colors[index % 6] }} />
 			)}
-			<p className="heading_text1">{name}</p>
+			<p className="heading_text1">{moniker}</p>
 		</Container>
 	);
 };
@@ -56,6 +41,12 @@ const Container = styled.div`
 	align-items: center;
 	display: flex;
 	width: 200px;
+
+	.heading_text1 {
+		font-size: 14px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 
 	@media (max-width: 958px) {
 		width: 100%;

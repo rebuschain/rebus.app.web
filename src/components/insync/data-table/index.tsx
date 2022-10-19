@@ -1,158 +1,197 @@
-import React, { FunctionComponent } from 'react';
-import MUIDataTable from 'mui-datatables';
 import styled from '@emotion/styled';
+import classNames from 'classnames';
+import React, { FunctionComponent, ReactElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import { VariableSizeList, ListChildComponentProps } from 'react-window';
+import useWindowSize from 'src/hooks/use-window-size';
+import { TableHeader } from './table-header';
+import { TableMobileRow } from './table-mobile-row';
+import { TableRow } from './table-row';
+import { ColumnDef, SortState } from './types';
 
-type DataTableProps = {
-	columns: any[];
-	data: any[];
-	name: string;
-	options: any;
+type DataTableProps<T = any> = {
+	className?: string;
+	columnDefs: ColumnDef<T>[];
+	data: T[];
+	loader?: ReactElement;
+	loading?: boolean;
+	minWidth?: string;
+	noData?: ReactElement;
+	tableRowClassName?: string;
 };
 
-const DataTable: FunctionComponent<DataTableProps> = props => {
-	return <MUIDataTableStyled columns={props.columns} data={props.data} options={props.options} title={props.name} />;
+const getItemKey = (item: any) => item.id;
+
+const EMPTY_OBJECT = {};
+
+const DataTable: FunctionComponent<DataTableProps> = ({
+	className,
+	columnDefs,
+	data,
+	loader,
+	loading,
+	minWidth,
+	noData,
+	tableRowClassName,
+}) => {
+	const [sortState, setSortState] = useState<SortState>();
+	const { isMobileView } = useWindowSize();
+
+	const listRef = useRef<VariableSizeList | null>();
+	const listElementRef = useRef();
+
+	const scrollBackToTop = useCallback(() => {
+		if (listRef.current) {
+			try {
+				listRef.current.resetAfterIndex(0);
+				listRef.current.setState({ scrollOffset: 0 });
+			} catch (err) {
+				// ListRef is not the VariableSizeList reference
+			}
+		}
+
+		if (listElementRef.current) {
+			(listElementRef.current as any).parentElement.scrollTop = 0;
+		}
+	}, []);
+
+	useEffect(() => {
+		scrollBackToTop();
+	}, [data, scrollBackToTop]);
+
+	const sortedData = useMemo(() => {
+		if (!sortState) {
+			return data;
+		}
+
+		const sortRes1 = sortState.direction === 'asc' ? 1 : -1;
+		const sortRes2 = sortState.direction === 'asc' ? -1 : 1;
+
+		const newSortedData = data.slice();
+		newSortedData.sort((a: any, b: any) => {
+			const valueA = a[sortState.property];
+			const valueB = b[sortState.property];
+
+			if (typeof valueA === 'string') {
+				const res = valueA.localeCompare(valueB);
+
+				if (res === 0) {
+					return 0;
+				}
+
+				return res >= 0 ? sortRes1 : sortRes2;
+			}
+
+			if (typeof valueA === 'number') {
+				const res = valueA - valueB;
+
+				if (res === 0) {
+					return 0;
+				}
+
+				return res >= 0 ? sortRes1 : sortRes2;
+			}
+
+			const res = (valueA || '').toString().localeCompare((valueB || '').toString());
+
+			if (res === 0) {
+				return 0;
+			}
+
+			return res >= 0 ? sortRes1 : sortRes2;
+		});
+
+		return newSortedData;
+	}, [data, sortState]);
+
+	const TableRowWrapper = useMemo(
+		// eslint-disable-next-line react/display-name
+		() => (props: ListChildComponentProps) => (
+			<TableRow
+				{...props}
+				columnDefs={columnDefs}
+				data={sortedData[props.index]}
+				isLast={props.index === sortedData.length - 1}
+				tableRowClassName={tableRowClassName}
+			/>
+		),
+		[columnDefs, sortedData, tableRowClassName]
+	);
+
+	const getRowHeight = useCallback(() => 65, []);
+
+	const showRows = !loading && sortedData.length > 0;
+	const otherElement = <div className="flex justify-center md:px-15 md:pb-5 mt-5">{loading ? loader : noData}</div>;
+
+	if (isMobileView) {
+		return (
+			<div>
+				{sortedData.map((item, index) => (
+					<TableMobileRow
+						columnDefs={columnDefs}
+						data={sortedData[index]}
+						key={getItemKey(item)}
+						index={index}
+						isLast={index === sortedData.length - 1}
+						style={EMPTY_OBJECT}
+					/>
+				))}
+			</div>
+		);
+	}
+
+	return (
+		<TableContainer className={classNames('flex-1 flex flex-col', className)} style={{ minWidth }}>
+			<TableHeader columnDefs={columnDefs} setSortState={setSortState} sortState={sortState} />
+			<div className="flex-1">
+				{showRows ? (
+					<AutoSizer defaultHeight={0}>
+						{params => (
+							<VariableSizeList
+								className="list"
+								height={params?.height}
+								itemCount={sortedData.length}
+								itemKey={getItemKey}
+								itemSize={getRowHeight}
+								ref={_ref => {
+									listRef.current = _ref;
+								}}
+								width={params?.width}
+								overscanCount={5}>
+								{TableRowWrapper}
+							</VariableSizeList>
+						)}
+					</AutoSizer>
+				) : (
+					otherElement
+				)}
+			</div>
+		</TableContainer>
+	);
 };
 
-const MUIDataTableStyled = styled(MUIDataTable)`
-	background-color: transparent !important;
-	box-shadow: unset !important;
+const TableContainer = styled.div`
+	.list {
+		overflow-x: auto !important;
+		overflow-y: scroll !important;
 
-	button.view_all {
-		color: #ffffff;
-	}
-
-	table {
-		border-collapse: collapse;
-		border-spacing: 0 5px;
-	}
-
-	div[aria-label='Table Toolbar'] {
-		display: none;
-	}
-
-	thead th {
-		border-bottom: unset;
-		padding: 0 10px;
-		text-align: center;
-		background-color: #2d2755;
-	}
-
-	thead th:nth-child(1) {
-		border-top-left-radius: 1rem;
-		padding-left: 30px;
-	}
-
-	thead th:last-child {
-		border-top-right-radius: 1rem;
-		padding-right: 30px;
-	}
-
-	thead th > span {
-		justify-content: center;
-	}
-
-	th button,
-	thead th > div {
-		font-family: Inter, ui-sans-serif, system-ui;
-		font-weight: 400;
-		font-size: 14px;
-		color: rgba(255, 255, 255, 0.6);
-		margin: auto;
-		width: max-content;
-		text-align: center;
-	}
-
-	th button div {
-		color: rgba(255, 255, 255, 0.6);
-	}
-
-	th button svg {
-		fill: rgba(255, 255, 255, 0.6);
-	}
-
-	th button > span > div > div:last-child {
-		display: flex;
-		align-items: center;
-	}
-
-	tbody tr td {
-		border: unset;
-		margin-bottom: 10px;
-		padding: 12px;
-		border-color: #ffff;
-	}
-
-	tbody tr td > div {
-		text-align: center;
-		font-family: Inter, ui-sans-serif, system-ui;
-		font-size: 16px;
-		color: rgba(255, 255, 255, 0.6);
-	}
-
-	tr {
-		border-color: rgba(255, 255, 255, 0.12);
-		border-style: solid;
-		border-bottom-width: 1px;
-	}
-
-	tbody tr td[colspan='6'] {
-		border-radius: 50px;
-	}
-
-	@media (max-width: 958px) {
-		table {
-			border-spacing: 0 10px;
-			margin-top: unset;
-		}
-
-		tbody tr td {
-			padding: 12px 20px;
-			margin-bottom: -1px;
-			border-radius: unset;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-		}
-
-		tbody tr td > div {
-			text-align: left;
-		}
-
-		tbody tr td > div:last-child {
-			text-align: right;
-		}
-
-		tbody tr td:first-child {
-			border-radius: 10px 10px 0 0;
-		}
-
-		tbody tr td:last-child {
-			border-radius: 0 0 10px 10px;
-		}
-
-		tbody tr td:first-child > div:first-child,
-		tbody tr td:last-child > div:first-child {
-			display: none;
-		}
-
-		tbody tr td:first-child > div:nth-child(2),
-		tbody tr td:last-child > div:nth-child(2) {
-			width: 100%;
+		& > div {
+			position: relative;
 		}
 	}
 
-	@media (max-width: 426px) {
-		table {
-			width: 100%;
+	.list {
+		@media (min-width: 768px) {
+			padding-bottom: 20px;
+			padding-left: 60px;
+			padding-right: 45px;
 		}
-		table tbody,
-		table tbody tr,
-		tbody tr td {
-			width: 100%;
-		}
+	}
 
-		tbody tr td > div {
-			width: auto;
+	.table-header {
+		@media (min-width: 768px) {
+			margin-left: 60px;
+			margin-right: 60px;
 		}
 	}
 `;

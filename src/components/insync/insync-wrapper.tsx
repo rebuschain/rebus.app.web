@@ -17,7 +17,7 @@ const selector = (state: RootState) => ({
 	validatorListInProgress: state.stake.validators.inProgress,
 });
 
-export const InsyncWrapper: FunctionComponent = observer(({ children }) => {
+export const InsyncWrapper: FunctionComponent<{ fullHeight?: boolean }> = observer(({ children, fullHeight }) => {
 	const { chainStore, accountStore, walletStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
 
@@ -101,7 +101,7 @@ export const InsyncWrapper: FunctionComponent = observer(({ children }) => {
 	}, [address, fetch]);
 
 	return (
-		<div className="of_community" style={{ height: 'fit-content', width: '100%' }}>
+		<div className="of_community flex flex-col" style={{ height: fullHeight ? '100%' : 'fit-content', width: '100%' }}>
 			{children}
 			<SnackbarMessage />
 		</div>

@@ -1,7 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { FunctionComponent, useMemo } from 'react';
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
-import { MUIDataTableColumnDef, MUIDataTableMeta } from 'mui-datatables';
 import classNames from 'classnames';
 import DataTable from 'src/components/insync/data-table';
 import CircularProgress from 'src/components/insync/circular-progress';
@@ -16,122 +15,144 @@ import ReDelegateButton from '../home/token-details/re-delegate-button';
 import DelegateButton from './delegate-button';
 import ValidatorName from './validator-name';
 import { DelegationResult } from 'src/stores/rebus/query/delegations/types';
+import { CellRendererProps, ColumnDef } from 'src/components/insync/data-table/types';
+import { CoinPretty, Dec } from '@keplr-wallet/unit';
+import { Currency } from '@keplr-wallet/types';
 
-const ValidatorCell = (value: any, tableMeta: MUIDataTableMeta) => (
-	<ValidatorName
-		index={tableMeta && tableMeta.rowIndex}
-		name={value}
-		value={tableMeta.rowData && tableMeta.rowData.length && tableMeta.rowData[1]}
-	/>
+interface ParsedValidator {
+	commissionRate: number | null;
+	identity: number;
+	isDelegated: boolean;
+	jailed: boolean;
+	moniker: string;
+	operatorAddress: string;
+	tokensStaked: string;
+	status: number;
+	votingPercentage: number;
+	votingPower: number;
+}
+
+const ValidatorCell: FunctionComponent<CellRendererProps<any, ParsedValidator>> = ({ data, rowIndex }) => (
+	<ValidatorName index={rowIndex} moniker={data.moniker} identity={data.identity} />
 );
 
-const StatusCell = (value: any) => (
+const StatusCell: FunctionComponent<CellRendererProps<ParsedValidator['status'], ParsedValidator>> = ({ data }) => (
 	<StatusCellWrapper
-		className={classNames('status', value.jailed ? 'red_status' : '', value.status !== 3 ? 'unbonded' : '')}
-		title={value.status === 1 ? 'Unbonded' : value.status === 2 ? 'Unbonding' : value.status === 3 ? 'Active' : ''}>
-		{value.status === 1 ? 'Unbonded' : value.status === 2 ? 'Unbonding' : value.status === 3 ? 'Active' : ''}
+		className={classNames('status', data.jailed ? 'red_status' : '', data.status !== 3 ? 'unbonded' : '')}
+		title={data.status === 1 ? 'Unbonded' : data.status === 2 ? 'Unbonding' : data.status === 3 ? 'Active' : ''}>
+		{data.status === 1 ? 'Unbonded' : data.status === 2 ? 'Unbonding' : data.status === 3 ? 'Active' : ''}
 	</StatusCellWrapper>
 );
 
-const VotingPowerCell = (value: any) => (
+const VotingPowerCell: FunctionComponent<CellRendererProps<ParsedValidator['votingPower'], ParsedValidator>> = ({
+	value,
+}) => (
 	<VotingCellWrapper>
 		<p>{formatCount(value, true)}</p>
 	</VotingCellWrapper>
 );
 
-const VotingPercentageCell = (value: any) => (
+const VotingPercentageCell: FunctionComponent<CellRendererProps<
+	ParsedValidator['votingPercentage'],
+	ParsedValidator
+>> = ({ value }) => (
 	<VotingCellWrapper>
 		<p>{value}%</p>
 	</VotingCellWrapper>
 );
 
-const CommissionCell = (value: any) => (value ? value + '%' : '0%');
+const CommissionCell: FunctionComponent<CellRendererProps<ParsedValidator['commissionRate'], ParsedValidator>> = ({
+	value,
+}) => <>{value ? `${value}%` : '0%'}</>;
 
-const TokensStakedCell = (item: any) => {
-	let value = item.delegations.find(
-		(val: any) => (val.delegation && val.delegation.validator_address) === item.operator_address
-	);
-	value = value ? value.balance && value.balance.amount && value.balance.amount / 10 ** config.COIN_DECIMALS : null;
-
+const TokensStakedCell: FunctionComponent<CellRendererProps<any, ParsedValidator>> = ({ value }) => {
 	return <TokensCellWrapper className={value ? 'tokens' : 'no_tokens'}>{value || 'no tokens'}</TokensCellWrapper>;
 };
 
-const ActionCell = ({ delegations, operator_address: validatorAddress }: any) =>
-	delegations.find((item: any) => (item.delegation && item.delegation.validator_address) === validatorAddress) ? (
+const ActionCell: FunctionComponent<CellRendererProps<boolean, ParsedValidator>> = ({ data, value }) =>
+	value ? (
 		<ActionCellWrapper>
-			<ReDelegateButton valAddress={validatorAddress} />
+			<ReDelegateButton valAddress={data.operatorAddress} />
 			<Divider />
-			<UnDelegateButton valAddress={validatorAddress} />
+			<UnDelegateButton valAddress={data.operatorAddress} />
 			<Divider />
-			<DelegateButton valAddress={validatorAddress} />
+			<DelegateButton valAddress={data.operatorAddress} />
 		</ActionCellWrapper>
 	) : (
 		<ActionCellWrapper>
-			<DelegateButton valAddress={validatorAddress} />
+			<DelegateButton valAddress={data.operatorAddress} />
 		</ActionCellWrapper>
 	);
 
-const columns: MUIDataTableColumnDef[] = [
+const columnDefs: ColumnDef<ParsedValidator>[] = [
 	{
-		name: 'validator',
-		label: 'Validator',
-		options: {
-			sort: true,
-			customBodyRender: ValidatorCell,
-		},
+		property: 'moniker',
+		header: 'Validator',
+		CellRenderer: ValidatorCell,
+		width: 4,
+		headerAlign: 'center',
+		canSort: true,
+		hideHeaderMobile: true,
 	},
 	{
-		name: 'status',
-		label: 'Status',
-		options: {
-			sort: false,
-			customBodyRender: StatusCell,
-		},
+		property: 'status',
+		header: 'Status',
+		CellRenderer: StatusCell,
+		width: 2,
+		align: 'center',
+		headerAlign: 'center',
 	},
 	{
-		name: 'voting_power',
-		label: 'Voting Power',
-		options: {
-			sort: true,
-			customBodyRender: VotingPowerCell,
-		},
+		property: 'votingPower',
+		header: 'Voting Power',
+		CellRenderer: VotingPowerCell,
+		width: 3,
+		align: 'center',
+		headerAlign: 'center',
+		canSort: true,
 	},
 	{
-		name: 'voting_percentage',
-		label: 'Voting Percentage',
-		options: {
-			sort: true,
-			customBodyRender: VotingPercentageCell,
-		},
+		property: 'votingPercentage',
+		header: 'Voting Percentage',
+		CellRenderer: VotingPercentageCell,
+		width: 2,
+		align: 'center',
+		headerAlign: 'center',
+		canSort: true,
 	},
 	{
-		name: 'commission',
-		label: 'Commission',
-		options: {
-			sort: true,
-			customBodyRender: CommissionCell,
-		},
+		property: 'commissionRate',
+		header: 'Commission',
+		CellRenderer: CommissionCell,
+		width: 2,
+		align: 'center',
+		headerAlign: 'center',
+		canSort: true,
 	},
 	{
-		name: 'tokens_staked',
-		label: 'Tokens Staked',
-		options: {
-			sort: false,
-			customBodyRender: TokensStakedCell,
-		},
+		property: 'tokensStaked',
+		header: 'Tokens Staked',
+		CellRenderer: TokensStakedCell,
+		width: 2,
+		align: 'center',
+		headerAlign: 'center',
+		canSort: true,
 	},
 	{
-		name: 'action',
-		label: 'Action',
-		options: {
-			sort: false,
-			customBodyRender: ActionCell,
-		},
+		property: 'isDelegated',
+		header: 'Action',
+		CellRenderer: ActionCell,
+		width: 9,
+		align: 'flex-end',
+		headerAlign: 'center',
+		hideHeaderMobile: true,
 	},
 ];
 
 type TableProps = {
 	active: number;
+	className?: string;
+	tableRowClassName?: string;
 };
 
 const selector = (state: RootState) => {
@@ -145,12 +166,8 @@ const selector = (state: RootState) => {
 
 const EMPTY_DELEGATIONS: DelegationResult[] = [];
 const EMPTY_TABLE_DATA: any[][] = [];
-const VIEW_COLUMN_LABELS = {
-	title: 'Show Columns',
-	titleAria: 'Show/Hide Table Columns',
-};
 
-const Table = observer<TableProps>(({ active }) => {
+const Table = observer<TableProps>(({ active, className, tableRowClassName }) => {
 	const { delegatedValidatorList, inProgress, validatorList } = useAppSelector(selector);
 
 	const { chainStore, queriesStore } = useStore();
@@ -161,6 +178,13 @@ const Table = observer<TableProps>(({ active }) => {
 
 	const delegationsQuery = queriesStore.get(chainStore.current.chainId).rebus.queryDelegations.get(address);
 	const delegations = delegationsQuery.response?.data?.result || EMPTY_DELEGATIONS;
+
+	const delegationsByValidatorAddress = useMemo(() => {
+		return delegations.reduce((acc: any, item: any) => {
+			acc[item.delegation.validator_address] = item;
+			return acc;
+		}, {});
+	}, [delegations]);
 
 	const tableData = useMemo(() => {
 		const bondedTokensNumber = Number(bondedTokens) || 0;
@@ -175,98 +199,55 @@ const Table = observer<TableProps>(({ active }) => {
 		}
 
 		return dataToMap && dataToMap.length
-			? dataToMap.map((item: any) => {
-					const parsedItem = { ...item, delegations };
+			? dataToMap.map(item => {
 					const votingPercentage =
-						bondedTokensNumber === 0 ? 0 : ((Number(parsedItem.tokens) || 0) / bondedTokensNumber) * 100;
+						bondedTokensNumber === 0 ? 0 : ((Number(item.tokens) || 0) / bondedTokensNumber) * 100;
 
-					return [
-						parsedItem.description && parsedItem.description.moniker,
-						parsedItem,
-						parseFloat((Number(parsedItem.tokens) / 10 ** config.COIN_DECIMALS).toFixed(1)),
-						parseFloat(votingPercentage.toFixed(2)),
-						parsedItem.commission &&
-						parsedItem.commission.commission_rates &&
-						parsedItem.commission.commission_rates.rate
-							? parseFloat((Number(parsedItem.commission.commission_rates.rate) * 100).toFixed(2))
+					const delegation = delegationsByValidatorAddress[item.operator_address];
+					const tokensStaked = delegation?.balance?.amount
+						? new CoinPretty(chainStore.current.stakeCurrency, new Dec(delegation.balance.amount))
+								.hideDenom(true)
+								.trim(true)
+								.maxDecimals(4)
+								.toString()
+						: '';
+
+					const parsedItem: ParsedValidator = {
+						commissionRate: item.commission.commission_rates.rate
+							? parseFloat((Number(item.commission.commission_rates.rate) * 100).toFixed(2))
 							: null,
-						parsedItem,
-						parsedItem,
-					];
+						jailed: item.jailed,
+						identity: item.description.identity,
+						isDelegated: !!delegation,
+						moniker: item.description.moniker,
+						operatorAddress: item.operator_address,
+						status: item.status,
+						tokensStaked,
+						votingPercentage: parseFloat(votingPercentage.toFixed(2)),
+						votingPower: parseFloat((Number(item.tokens) / 10 ** config.COIN_DECIMALS).toFixed(1)),
+					};
+
+					return parsedItem;
 			  })
 			: EMPTY_TABLE_DATA;
-	}, [bondedTokens, active, delegatedValidatorList, validatorList, delegations]);
+	}, [bondedTokens, active, delegatedValidatorList, validatorList, delegationsByValidatorAddress, chainStore]);
 
-	const options = useMemo(
-		() => ({
-			serverSide: false,
-			print: false,
-			fixedHeader: false,
-			pagination: false,
-			selectableRows: 'none',
-			selectToolbarPlacement: 'none',
-			textLabels: {
-				body: {
-					noMatch: inProgress ? <CircularProgress /> : <div className="no_data_table"> No data found </div>,
-					toolTip: 'Sort',
-				},
-				viewColumns: VIEW_COLUMN_LABELS,
-			},
-		}),
-		[inProgress]
-	);
+	const noDataFound = <div className="no_data_table"> No data found </div>;
+	const loader = <CircularProgress />;
 
 	return (
-		<TableContainer>
-			<DataTable columns={columns} data={tableData} name="stake" options={options} />
-		</TableContainer>
+		<DataTable
+			className={className}
+			columnDefs={columnDefs}
+			data={tableData}
+			loading={inProgress}
+			loader={loader}
+			minWidth="1270px"
+			noData={noDataFound}
+			tableRowClassName={tableRowClassName}
+		/>
 	);
 });
-
-const TableContainer = styled.div`
-	display: inherit;
-
-	.circular_progress > div {
-		color: #3f51b5;
-	}
-
-	[class^='MUIDataTable-liveAnnounce'] {
-		display: none;
-	}
-
-	td p {
-		color: #ffffff;
-		font-size: 14px;
-		text-align: left;
-	}
-
-	tfoot td {
-		border-bottom: unset;
-	}
-
-	.MuiTableRow-footer {
-		border-bottom: none;
-
-		.MuiTableCell-footer {
-			background-color: #2d2755;
-			border-bottom-left-radius: 1rem;
-			border-bottom-right-radius: 1rem;
-
-			p,
-			.MuiSelect-select,
-			svg {
-				color: rgba(255, 255, 255, 0.6);
-			}
-		}
-	}
-
-	@media (max-width: 769px) {
-		background: unset;
-		padding: 0;
-		backdrop-filter: unset;
-		border-radius: unset;
-	}
-`;
 
 const Divider = styled.span`
 	border: 1px solid #d2d2d2;
@@ -306,6 +287,7 @@ const StatusCellWrapper = styled.div`
 	font-size: 14px;
 	color: green;
 	padding: 6px 10px;
+	text-align: center;
 
 	&.red_status {
 		background: linear-gradient(104.04deg, #e95062 0%, #e950d0 100%);
@@ -341,6 +323,10 @@ const ActionCellWrapper = styled.div`
 	align-items: center;
 	display: flex;
 	justify-content: flex-end;
+
+	button {
+		flex-shrink: 0;
+	}
 
 	@media (max-width: 426px) {
 		justify-content: space-around;
