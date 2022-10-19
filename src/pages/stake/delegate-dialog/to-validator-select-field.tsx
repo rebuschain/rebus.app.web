@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useMemo } from 'react';
 import { MenuItem } from '@material-ui/core';
+import bigInt from 'big-integer';
 import SelectField from 'src/components/insync/select-field/with-children';
 import { delegateDialogActions } from 'src/reducers/slices';
 import { useActions } from 'src/hooks/use-actions';
@@ -40,8 +41,10 @@ const ToValidatorSelectField: FunctionComponent<ToValidatorSelectFieldProps> = (
 		// Filter active validators only if not on inactive tab
 		return (
 			(canDelegateToInactive
-				? newList?.sort((a, b) => b.tokens - a.tokens)
-				: newList?.filter(item => item.status === 3).sort((a, b) => b.tokens - a.tokens)) || []
+				? newList?.sort((a, b) => (bigInt(b.tokens).lesser(bigInt(a.tokens)) ? 1 : -1))
+				: newList
+						?.filter(item => item.status === 3)
+						.sort((a, b) => (bigInt(b.tokens).lesser(bigInt(a.tokens)) ? 1 : -1))) || []
 		);
 	}, [canDelegateToInactive, validatorList]);
 
