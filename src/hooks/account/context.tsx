@@ -1,5 +1,11 @@
 import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ConnectWalletDialog, KeyAutoConnectingWalletType, KeyConnectingWalletType, WalletType } from 'src/dialogs';
+import {
+	ConnectWalletDialog,
+	KeyAutoConnectingWalletType,
+	KeyConnectingWalletName,
+	KeyConnectingWalletType,
+	WalletType,
+} from 'src/dialogs';
 import { useStore } from 'src/stores';
 import { getKeplrFromWindow, WalletStatus } from '@keplr-wallet/stores';
 import { observer } from 'mobx-react-lite';
@@ -67,6 +73,7 @@ export const AccountConnectionProvider: FunctionComponent = observer(({ children
 				try {
 					const success = await walletStore.init(connectWalletManager.connectingWalletName as any, false, false);
 					localStorage.setItem(KeyAutoConnectingWalletType, success ? 'extension' : '');
+					localStorage.setItem(KeyConnectingWalletName, connectWalletManager.connectingWalletName);
 					if (!success) {
 						connectWalletManager.disableAutoConnect();
 					}
