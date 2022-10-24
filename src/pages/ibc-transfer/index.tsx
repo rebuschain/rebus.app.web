@@ -454,17 +454,13 @@ const IbcTransferPage: FunctionComponent = observer(() => {
 	}, [amount]);
 
 	useEffect(() => {
-		const currBalDec = new Dec(
-			currBal
-				.maxDecimals(6)
-				.trim(true)
-				.hideDenom(true)
-				.toString()
-		);
+		const currBalDec = currBal.maxDecimals(6).toDec();
 
 		try {
-			if (!currBalDec.equals(new Dec(amount || '0'))) {
+			if (!currBalDec.equals(new Dec(amount?.replace(/,/g, '') || '0'))) {
 				setIsMax(false);
+			} else {
+				setIsMax(true);
 			}
 		} catch (err) {
 			setIsMax(false);
@@ -530,6 +526,7 @@ const IbcTransferPage: FunctionComponent = observer(() => {
 									.trim(true)
 									.hideDenom(true)
 									.toString()
+									.replace(/,/g, '')
 							);
 						}}
 						className={classNames(

@@ -334,11 +334,9 @@ export const ConnectWalletDialog = wrapBaseDialog(
 						onClick={async () => {
 							const isConnectingKeplr = wallet.walletType?.includes('keplr');
 
-							if (isConnectingKeplr && !walletStore.isLoaded) {
-								localStorage.setItem(KeyConnectingWalletType, wallet.type);
-								localStorage.setItem(KeyConnectingWalletName, wallet.walletType || '');
-								connectWalletManager.setWalletName(wallet.walletType || '');
-							}
+							localStorage.setItem(KeyConnectingWalletType, wallet.type);
+							localStorage.setItem(KeyConnectingWalletName, wallet.walletType || '');
+							connectWalletManager.setWalletName(wallet.walletType || '');
 
 							if (!isConnectingKeplr) {
 								try {
