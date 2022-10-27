@@ -33,8 +33,8 @@ export type WalletConfig = {
 	version?: string;
 };
 
-export const KEPLR_VERSION = '1.0.0';
-export const KEPLR_EVMOS_VERSION = '1.0.0';
+export const KEPLR_VERSION = '1.0.1';
+export const KEPLR_EVMOS_VERSION = '1.0.1';
 
 export const WALLET_LIST: WalletConfig[] = [
 	isExtensionEnvironment && {
