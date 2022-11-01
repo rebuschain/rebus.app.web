@@ -28,7 +28,7 @@ export const ethToRebus = (ethAddress: string) => {
 	return REBUS.encoder(data);
 };
 
-export const rebusToEth = (evmosAddress: string) => {
-	const data = REBUS.decoder(evmosAddress);
+export const rebusToEth = (rebusAddress: string) => {
+	const data = REBUS.decoder(rebusAddress);
 	return ETH.encoder(data);
 };
