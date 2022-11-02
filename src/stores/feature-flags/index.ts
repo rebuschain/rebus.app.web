@@ -19,8 +19,8 @@ export type FeatureFlagsResponse = {
 };
 
 export type FeatureFlags = {
-	airdropPage?: boolean;
 	assetsPage?: boolean;
+	nftIdPage?: boolean;
 	ibcTransferPage?: boolean;
 };
 

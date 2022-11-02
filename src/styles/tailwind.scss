@@ -40,4 +40,33 @@
 		@apply font-body;
 		@apply text-base;
 	}
+
+	.bg-white {
+		--tw-bg-opacity: 1;
+		background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+	}
+
+	.rounded-2lg {
+		border-radius: 10px;
+	}
+
+	.mb-6\.5 {
+		margin-bottom: 26px;
+	}
+
+	.bg-gray-1 {
+		background-color: #333333;
+	}
+
+	.bg-gray-6 {
+		background-color: #f2f2f2;
+	}
+
+	.gray-1 {
+		color: #333333;
+	}
+
+	.gray-6 {
+		color: #f2f2f2;
+	}
 }

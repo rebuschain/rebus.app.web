@@ -42,6 +42,14 @@ export const LAYOUT = {
 			ROUTE: ROUTES.VOTE,
 			SELECTED_CHECK: ROUTES.VOTE,
 		},
+		NFT_ID: {
+			TYPE: 'nft-id',
+			ICON: '/public/assets/icons/assets.svg',
+			ICON_SELECTED: '/public/assets/icons/assets-selected.svg',
+			TEXT: 'NFT ID',
+			ROUTE: ROUTES.NFT_ID,
+			SELECTED_CHECK: ROUTES.NFT_ID,
+		},
 		TOOLS: {
 			TYPE: 'tools',
 			ICON: '/public/assets/icons/tools.svg',
@@ -53,7 +61,7 @@ export const LAYOUT = {
 	},
 };
 export type TSIDEBAR_ITEM = {
-	TYPE: 'assets' | 'ibc-transfer' | 'stake' | 'airdrop' | 'proposals' | 'tools';
+	TYPE: 'assets' | 'ibc-transfer' | 'stake' | 'airdrop' | 'proposals' | 'tools' | 'nft-id';
 	ICON: string;
 	ICON_SELECTED: string;
 	TEXT: string;
