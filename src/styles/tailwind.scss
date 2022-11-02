@@ -41,13 +41,33 @@
 		@apply text-base;
 	}
 
+	.black {
+		color: #000000;
+	}
+
 	.bg-white {
 		--tw-bg-opacity: 1;
 		background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
 	}
 
+	.mt-12 {
+		margin-top: 48px;
+	}
+
+	.ml-19 {
+		margin-left: 56px;
+	}
+
 	.rounded-2lg {
 		border-radius: 10px;
+	}
+
+	.rounded-br-2lg {
+		border-bottom-right-radius: 10px;
+	}
+
+	.rounded-bl-2lg {
+		border-bottom-left-radius: 10px;
 	}
 
 	.mb-6\.5 {
@@ -56,6 +76,10 @@
 
 	.bg-gray-1 {
 		background-color: #333333;
+	}
+
+	.bg-gray-2 {
+		background-color: #4f4f4f;
 	}
 
 	.bg-gray-6 {

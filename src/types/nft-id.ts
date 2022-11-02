@@ -6,6 +6,10 @@ export type Media = {
 };
 
 export type NftIdData = {
+	documentNumber?: string;
+	idNumber?: string;
+	issuedBy?: string;
+
 	nameHidden?: boolean;
 	name?: string;
 	dateOfBirthHidden?: boolean;

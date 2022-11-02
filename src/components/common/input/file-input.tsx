@@ -8,13 +8,21 @@ import { TextInput } from './text-input';
 
 export type FileInputProps = {
 	className?: string;
+	backgroundSize?: 'cover' | 'contain';
 	onChange: (name: string, value: Media | undefined) => void;
 	name: string;
 	placeholder?: string;
 	value?: Media;
 };
 
-export const FileInput: React.FC<FileInputProps> = ({ className, onChange, name, placeholder, value }) => {
+export const FileInput: React.FC<FileInputProps> = ({
+	className,
+	backgroundSize = 'cover',
+	onChange,
+	name,
+	placeholder,
+	value,
+}) => {
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const onStartUpload: MouseEventHandler<HTMLButtonElement> = e => {
@@ -50,7 +58,7 @@ export const FileInput: React.FC<FileInputProps> = ({ className, onChange, name,
 					backgroundImage: value ? `url(${value.source})` : undefined,
 					backgroundPosition: 'center',
 					backgroundRepeat: 'no-repeat',
-					backgroundSize: 'cover',
+					backgroundSize,
 					height: '115px',
 					width: '100px',
 				}}

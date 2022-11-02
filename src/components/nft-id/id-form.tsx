@@ -158,6 +158,7 @@ export const IdForm: React.FC<IdFormProps> = ({ className, data, onChange, onVis
 				onVisibilityChange,
 				type: InputTypes.FileInput,
 				placeholder: 'Upload File',
+				backgroundSize: 'contain',
 				hide: data.signatureFileHidden,
 				value: data.signatureFile,
 			},
