@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import QRCode from 'qrcode.react';
 import { ReactSVG } from 'react-svg';
-import { NftIdData } from 'src/types/nft-id';
+import { NftIdData, Theme } from 'src/types/nft-id';
 import { DataItem } from './data-item';
 import styled from '@emotion/styled';
+import trianglify from 'trianglify';
+import { ColorPicker } from './color-picker';
 
 type PublicPreviewProps = {
 	className?: string;
 	data: NftIdData;
+	onChangeColor: (theme: Theme) => void;
 };
-
-const getBackgroundImageUrl = (level: number) => `/public/assets/backgrounds/nft-id/bg-${level}.svg`;
 
 const getMiddleAddressLine = (data: NftIdData) => {
 	let middleAddressLine = data.city;
@@ -68,29 +69,81 @@ const getBackgroundLevel = (data: NftIdData) => {
 	return level;
 };
 
-export const PublicPreview: React.FC<PublicPreviewProps> = ({ className, data }) => {
+const imagesLevelMap: Record<string, string> = {};
+
+const BACKGROUND_SEED = 45381;
+const ID_WIDTH = 712;
+
+const COLOR_OPTIONS = [
+	{
+		name: 'Red',
+		colors: ['#ff5454', '#F8A8A8', '#FC4343', '#860020', '#860020'],
+	},
+	{
+		name: 'Blue',
+		colors: ['#A8E0FF', '#7BC8FF', '#0295FF', '#0B0084', '#0B0084'],
+	},
+	{
+		name: 'Pink',
+		colors: ['#EE8BF0', '#F24BF5', '#B34BF5', '#96005C', '#411000'],
+	},
+	{
+		name: 'Black',
+		colors: ['#999999', '#555555', '#333333', '#111111', '#000000'],
+	},
+];
+
+export const PublicPreview: React.FC<PublicPreviewProps> = ({ className, data, onChangeColor }) => {
 	const hasAddress = data.address || data.city || data.country || data.zipCode || data.state;
 	const middleAddressLine = getMiddleAddressLine(data);
 	const level = getBackgroundLevel(data);
 
+	const [backgroundImage, setBackgroundImage] = useState('');
+
+	const theme = data.theme || COLOR_OPTIONS[0];
+
+	useEffect(() => {
+		const key = `${theme.name}-${level}`;
+
+		if (imagesLevelMap[key]) {
+			setBackgroundImage(imagesLevelMap[key]);
+			return;
+		}
+
+		const image = (trianglify as any)({
+			width: ID_WIDTH,
+			height: ID_WIDTH,
+			cellSize: 14 * level,
+			xColors: theme.colors,
+			seed: BACKGROUND_SEED * level,
+		})
+			.toCanvas()
+			.toDataURL();
+
+		setBackgroundImage(image);
+	}, [level, theme.colors, theme.name]);
+
 	return (
 		<div className={className}>
-			<h5 className="mb-6 whitespace-nowrap">Public Preview</h5>
+			<div className="flex items-center mb-6">
+				<h5 className="whitespace-nowrap">Public Preview</h5>
+				<ColorPicker className="ml-3" onChange={onChangeColor} options={COLOR_OPTIONS} value={theme} />
+			</div>
 
 			<div
 				className="border-3xl rounded-3xl overflow-hidden relative"
 				id="nft-id"
 				style={{
-					backgroundImage: `url(${getBackgroundImageUrl(level)})`,
+					backgroundImage: `url(${backgroundImage})`,
 					backgroundPosition: 'top center',
 					backgroundRepeat: 'no-repeat',
 					backgroundSize: 'cover',
-					maxWidth: '712px',
-					minWidth: '712px',
+					maxWidth: `${ID_WIDTH}px`,
+					minWidth: `${ID_WIDTH}px`,
 				}}>
 				<div className="absolute w-full flex justify-center">
 					<ReactSVG
-						src="/public/assets/backgrounds/nft-id/watermark.svg"
+						src="/public/assets/backgrounds/watermark.svg"
 						style={{
 							position: 'relative',
 							top: '129px',

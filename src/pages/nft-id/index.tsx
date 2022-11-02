@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import { IdForm } from 'src/components/nft-id/id-form';
 import { PublicPreview } from 'src/components/nft-id/public-preview';
 import { useStore } from 'src/stores';
-import { NftIdData } from 'src/types/nft-id';
+import { NftIdData, Theme } from 'src/types/nft-id';
 
 const NftIdPage: FunctionComponent = observer(() => {
 	const history = useHistory();
@@ -15,6 +15,9 @@ const NftIdPage: FunctionComponent = observer(() => {
 
 	const onChange = useCallback((name, value) => {
 		setData(oldData => ({ ...oldData, [name]: value }));
+	}, []);
+	const onChangeColor = useCallback((color: Theme) => {
+		setData(oldData => ({ ...oldData, theme: color }));
 	}, []);
 	const onVisibilityChange = useCallback((name, value) => {
 		setData(oldData => ({ ...oldData, [`${name}Hidden`]: value }));
@@ -38,7 +41,7 @@ const NftIdPage: FunctionComponent = observer(() => {
 				onChange={onChange}
 				onVisibilityChange={onVisibilityChange}
 			/>
-			<PublicPreview className="mb-10 md:mb-0" data={data} />
+			<PublicPreview className="mb-10 md:mb-0" data={data} onChangeColor={onChangeColor} />
 		</div>
 	);
 });

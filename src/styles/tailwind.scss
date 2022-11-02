@@ -70,6 +70,14 @@
 		border-bottom-left-radius: 10px;
 	}
 
+	.rounded-tr-2lg {
+		border-top-right-radius: 10px;
+	}
+
+	.rounded-tl-2lg {
+		border-top-left-radius: 10px;
+	}
+
 	.mb-6\.5 {
 		margin-bottom: 26px;
 	}
@@ -92,5 +100,20 @@
 
 	.gray-6 {
 		color: #f2f2f2;
+	}
+
+	.shadow-lg {
+		--tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+		box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+	}
+
+	.bg-gray-200 {
+		--tw-bg-opacity: 1;
+		background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
+	}
+
+	.bg-gray-300 {
+		--tw-bg-opacity: 1;
+		background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
 	}
 }
