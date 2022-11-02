@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import QRCode from 'qrcode.react';
+import countries from 'svg-country-flags/countries.json';
 import { ReactSVG } from 'react-svg';
 import { NftIdData, Theme } from 'src/types/nft-id';
 import { DataItem } from './data-item';
@@ -12,6 +13,11 @@ type PublicPreviewProps = {
 	data: NftIdData;
 	onChangeColor: (theme: Theme) => void;
 };
+
+const countriesToAbbvMap = Object.entries(countries).reduce((map, [abbv, country]) => {
+	map[country] = abbv;
+	return map;
+}, {} as Record<string, string>);
 
 const getMiddleAddressLine = (data: NftIdData) => {
 	let middleAddressLine = data.city;
@@ -42,7 +48,7 @@ const getBackgroundLevel = (data: NftIdData) => {
 		level--;
 	}
 
-	if (data.dateOfBirth && data.gender) {
+	if (data.dateOfBirth && data.dateOfBirth !== 'Invalid Date' && data.gender) {
 		level--;
 	}
 
@@ -123,6 +129,15 @@ export const PublicPreview: React.FC<PublicPreviewProps> = ({ className, data, o
 		setBackgroundImage(image);
 	}, [level, theme.colors, theme.name]);
 
+	let nationalityFlagSvg = '';
+	try {
+		nationalityFlagSvg = require(`svg-country-flags/svg/${countriesToAbbvMap[
+			data.nationality || ''
+		]?.toLowerCase()}.svg`).default;
+	} catch (err) {
+		console.error(`Flag for country ${data.nationality} not found`);
+	}
+
 	return (
 		<div className={className}>
 			<div className="flex items-center mb-6">
@@ -189,16 +204,10 @@ export const PublicPreview: React.FC<PublicPreviewProps> = ({ className, data, o
 
 							{data.nationality && (
 								<div className="flex items-center mt-6">
-									<div
-										className="bg-gray-2 flex-shrink-0"
-										style={{
-											backgroundImage: `url()`,
-											backgroundPosition: 'center',
-											backgroundRepeat: 'no-repeat',
-											backgroundSize: 'contain',
-											height: '36px',
-											width: '56px',
-										}}
+									<img
+										className="flex-shrink-0"
+										src={data.nationalityHidden ? '/public/assets/backgrounds/no-flag.svg' : nationalityFlagSvg}
+										style={{ height: '36px' }}
 									/>
 									<DataItem
 										className="ml-3"
@@ -232,7 +241,10 @@ export const PublicPreview: React.FC<PublicPreviewProps> = ({ className, data, o
 							)}
 
 							{data.signatureFile?.source && (
-								<DataItem className={data.idNumber ? 'mt-2' : 'mt-6'} label="Signature">
+								<DataItem
+									className={data.idNumber ? 'mt-2' : 'mt-6'}
+									isBlurred={data.signatureFileHidden}
+									label="Signature">
 									<div
 										className="mt-1"
 										style={{
@@ -251,7 +263,7 @@ export const PublicPreview: React.FC<PublicPreviewProps> = ({ className, data, o
 					{(hasAddress || data.issuedBy || data.documentNumber) && (
 						<div className="flex mt-10">
 							{hasAddress && (
-								<DataItem className="w-1/2" label="Permanent Address">
+								<DataItem className="w-1/2" isBlurred={data.addressHidden} label="Permanent Address">
 									{data.address}
 									{data.address && (middleAddressLine || data.country) && <br />}
 									{middleAddressLine}

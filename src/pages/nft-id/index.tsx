@@ -20,6 +20,10 @@ const NftIdPage: FunctionComponent = observer(() => {
 		setData(oldData => ({ ...oldData, theme: color }));
 	}, []);
 	const onVisibilityChange = useCallback((name, value) => {
+		if (name === 'cityOfBirth') {
+			name = 'placeOfBirth';
+		}
+
 		setData(oldData => ({ ...oldData, [`${name}Hidden`]: value }));
 	}, []);
 

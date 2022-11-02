@@ -10,7 +10,7 @@ export type FileInputProps = {
 	className?: string;
 	backgroundSize?: 'cover' | 'contain';
 	onChange: (name: string, value: Media | undefined) => void;
-	name: string;
+	name?: string;
 	placeholder?: string;
 	value?: Media;
 };
@@ -19,7 +19,7 @@ export const FileInput: React.FC<FileInputProps> = ({
 	className,
 	backgroundSize = 'cover',
 	onChange,
-	name,
+	name = '',
 	placeholder,
 	value,
 }) => {

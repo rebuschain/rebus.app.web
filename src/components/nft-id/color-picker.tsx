@@ -64,7 +64,10 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ className, onChange, o
 								optionIndex === options.length - 1 && 'rounded-br-2lg rounded-bl-2lg'
 							)}
 							key={option.name}
-							onClick={() => onChange(option)}>
+							onClick={() => {
+								onChange(option);
+								setIsOpen(false);
+							}}>
 							<div>{option.name}</div>
 							<div className="flex items-center">
 								{option.colors.map((color, index) => (

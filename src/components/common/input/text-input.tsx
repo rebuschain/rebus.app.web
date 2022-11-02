@@ -1,10 +1,13 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ChangeEventHandler, KeyboardEventHandler, MouseEventHandler } from 'react';
 
 export type TextInputProps = {
 	className?: string;
+	onClick?: MouseEventHandler<HTMLInputElement>;
 	onChange?: (name: string, value: string) => void;
-	name: string;
+	onRawChange?: ChangeEventHandler<HTMLInputElement>;
+	onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
+	name?: string;
 	placeholder?: string;
 	readonly?: boolean;
 	style?: React.CSSProperties;
@@ -13,8 +16,11 @@ export type TextInputProps = {
 
 export const TextInput: React.FC<TextInputProps> = ({
 	className,
+	onClick,
 	onChange,
-	name,
+	onRawChange,
+	onKeyDown,
+	name = '',
 	placeholder,
 	readonly,
 	style,
@@ -24,7 +30,17 @@ export const TextInput: React.FC<TextInputProps> = ({
 		<input
 			className={classNames(className, 'bg-white bg-opacity-10 rounded-2lg text-white text-base py-2 px-3.5 w-full')}
 			disabled={readonly}
-			onChange={e => onChange && onChange(name, e.target.value)}
+			onClick={onClick}
+			onChange={e => {
+				if (onRawChange) {
+					onRawChange(e);
+				}
+
+				if (onChange) {
+					onChange(name, e.target.value);
+				}
+			}}
+			onKeyDown={onKeyDown}
 			name={name}
 			placeholder={placeholder}
 			style={style}

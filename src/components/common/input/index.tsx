@@ -1,25 +1,32 @@
 import React from 'react';
 import classNames from 'classnames';
 import { ReactSVG } from 'react-svg';
-import { DobInput, DobInputProps } from './dob-input';
+import { DateInput, DateInputProps } from './date-input';
 import { FileInput, FileInputProps } from './file-input';
+import { SelectInput, SelectInputProps, Option } from './select-input';
 import { TextInput, TextInputProps } from './text-input';
 import { Media } from 'src/types/nft-id';
 
 export enum InputTypes {
-	DateOfBirth = 'dateOfBirth',
-	FileInput = 'fileInput',
+	Date = 'date',
+	File = 'file',
+	Select = 'select',
 	Text = 'text',
 }
 
 export interface InputProps
 	extends Omit<TextInputProps, 'onChange' | 'value'>,
-		Omit<DobInputProps, 'onChange' | 'value'>,
-		Omit<FileInputProps, 'onChange' | 'value'> {
+		Omit<DateInputProps, 'onChange' | 'value'>,
+		Omit<FileInputProps, 'onChange' | 'value'>,
+		Omit<SelectInputProps, 'onChange' | 'value'> {
 	className?: string;
 	hide?: boolean;
 	label?: string;
-	onChange?: TextInputProps['onChange'] | DobInputProps['onChange'] | FileInputProps['onChange'];
+	onChange?:
+		| TextInputProps['onChange']
+		| DateInputProps['onChange']
+		| FileInputProps['onChange']
+		| SelectInputProps['onChange'];
 	onVisibilityChange: (name: string, value: boolean) => void;
 	style?: React.CSSProperties;
 	type?: InputTypes;
@@ -31,9 +38,10 @@ export const Input: React.FC<InputProps> = ({
 	className,
 	hide,
 	label,
-	name,
+	name = '',
 	onChange,
 	onVisibilityChange,
+	options,
 	placeholder,
 	style,
 	type,
@@ -43,12 +51,12 @@ export const Input: React.FC<InputProps> = ({
 	let content = null;
 
 	switch (type) {
-		case InputTypes.DateOfBirth:
+		case InputTypes.Date:
 			content = (
-				<DobInput onChange={onChange as DobInputProps['onChange']} name={name} value={value as string | undefined} />
+				<DateInput onChange={onChange as DateInputProps['onChange']} name={name} value={value as string | undefined} />
 			);
 			break;
-		case InputTypes.FileInput:
+		case InputTypes.File:
 			content = (
 				<FileInput
 					onChange={onChange as FileInputProps['onChange']}
@@ -58,10 +66,20 @@ export const Input: React.FC<InputProps> = ({
 				/>
 			);
 			break;
+		case InputTypes.Select:
+			content = (
+				<SelectInput
+					onChange={onChange as SelectInputProps['onChange']}
+					name={name}
+					options={options}
+					value={value as string | undefined}
+				/>
+			);
+			break;
 		default:
 			content = (
 				<TextInput
-					onChange={onChange as DobInputProps['onChange']}
+					onChange={onChange as DateInputProps['onChange']}
 					name={name}
 					placeholder={placeholder}
 					value={value as string | undefined}
