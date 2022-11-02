@@ -1,6 +1,7 @@
 export const ROUTES = {
 	ASSETS: '/assets',
 	IBC_TRANSFER: '/ibc-transfer',
+	NFT_ID: '/nft-id',
 	TOOLS: '/tools',
 	VOTE: '/proposals',
 	AIRDROP: '/airdrop',

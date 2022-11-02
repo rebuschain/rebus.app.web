@@ -4,10 +4,20 @@ import styled from '@emotion/styled';
 import { colorWhite, colorBlackLow } from 'src/emotion-styles/colors';
 
 export const Button: FunctionComponent<ButtonProps & {
-	backgroundStyle?: 'gradient-pink-blue' | 'gradient-pink' | 'gradient-blue' | 'gradient-green' | null;
+	backgroundStyle?: 'gradient-pink-blue' | 'gradient-pink' | 'gradient-blue' | 'gradient-green' | 'blue' | null;
+	smallBorderRadius?: boolean;
+	smallFont?: boolean;
 	textTransform?: 'uppercase' | 'capitalize' | 'none';
-}> = ({ backgroundStyle = 'gradient-pink-blue', children, textTransform = 'none', ...props }) => {
+}> = ({
+	backgroundStyle = 'gradient-pink-blue',
+	children,
+	smallBorderRadius,
+	smallFont,
+	textTransform = 'none',
+	...props
+}) => {
 	let background = '';
+	let backgroundColor = undefined;
 	let textColor = colorWhite;
 
 	if (backgroundStyle === 'gradient-pink') {
@@ -19,11 +29,17 @@ export const Button: FunctionComponent<ButtonProps & {
 		textColor = colorBlackLow;
 	} else if (backgroundStyle === 'gradient-blue') {
 		background = 'linear-gradient(104.04deg, #5084e9 0%, #6f50e9 100%)';
+	} else if (backgroundStyle === 'blue') {
+		background = '';
+		backgroundColor = '#2F80ED';
 	}
 
 	return (
 		<StyledMaterialButton
 			background={background}
+			backgroundColor={backgroundColor}
+			smallBorderRadius={smallBorderRadius}
+			smallFont={smallFont}
 			textTransform={textTransform}
 			textColor={textColor}
 			variant="outlined"
@@ -33,13 +49,21 @@ export const Button: FunctionComponent<ButtonProps & {
 	);
 };
 
-const StyledMaterialButton = styled(MaterialButton)<{ background: string; textColor: string; textTransform: string }>`
+const StyledMaterialButton = styled(MaterialButton)<{
+	background: string;
+	backgroundColor: string | undefined;
+	smallBorderRadius?: boolean;
+	smallFont?: boolean;
+	textColor: string;
+	textTransform: string;
+}>`
 	background: ${props => props.background};
+	background-color: ${props => props.backgroundColor} !important;
 	border: ${props => props.background && 'none !important'};
-	border-radius: 20px !important;
+	border-radius: ${props => (props.smallBorderRadius ? '10px' : '20px')} !important;
 	color: ${props => props.textColor};
 	font-family: Inter, ui-sans-serif, system-ui;
-	font-size: 14px;
+	font-size: ${props => (props.smallFont ? '12px' : '14px')} !important;
 	font-weight: 600;
 	text-align: center;
 	text-transform: ${props => props.textTransform} !important;
