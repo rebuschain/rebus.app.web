@@ -35,6 +35,7 @@ export interface InputProps
 }
 
 export const Input: React.FC<InputProps> = ({
+	backgroundSize,
 	className,
 	hide,
 	label,
@@ -59,6 +60,7 @@ export const Input: React.FC<InputProps> = ({
 		case InputTypes.File:
 			content = (
 				<FileInput
+					backgroundSize={backgroundSize}
 					onChange={onChange as FileInputProps['onChange']}
 					name={name}
 					placeholder={placeholder}
