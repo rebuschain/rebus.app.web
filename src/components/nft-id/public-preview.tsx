@@ -60,6 +60,10 @@ const ID_WIDTH = 712;
 
 const COLOR_OPTIONS = [
 	{
+		name: 'Rebus',
+		colors: ['#a7cfba', '#9fe0e0', '#2083DF', '#8A008A', '#33001E'],
+	},
+	{
 		name: 'Blue',
 		colors: ['#A8E0FF', '#7BC8FF', '#0295FF', '#0B0084', '#0B0084'],
 	},
@@ -70,10 +74,6 @@ const COLOR_OPTIONS = [
 	{
 		name: 'Pink',
 		colors: ['#EE8BF0', '#F24BF5', '#B34BF5', '#96005C', '#411000'],
-	},
-	{
-		name: 'Blue and Pink',
-		colors: ['#a7cfba', '#9fe0e0', '#2083DF', '#8A008A', '#33001E'],
 	},
 	{
 		name: 'Green',
