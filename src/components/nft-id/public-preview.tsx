@@ -19,28 +19,6 @@ const countriesToAbbvMap = Object.entries(countries).reduce((map, [abbv, country
 	return map;
 }, {} as Record<string, string>);
 
-const getMiddleAddressLine = (data: NftIdData) => {
-	let middleAddressLine = data.city;
-
-	if (middleAddressLine && (data.state || data.zipCode)) {
-		middleAddressLine += ', ';
-	}
-
-	if (data.state) {
-		middleAddressLine += data.state;
-	}
-
-	if (data.zipCode) {
-		if (data.state) {
-			middleAddressLine += ' ';
-		}
-
-		middleAddressLine += data.zipCode;
-	}
-
-	return middleAddressLine;
-};
-
 const getBackgroundLevel = (data: NftIdData) => {
 	let level = 8;
 
@@ -60,7 +38,7 @@ const getBackgroundLevel = (data: NftIdData) => {
 		level--;
 	}
 
-	if (data.address && data.city && data.state && data.zipCode) {
+	if (data.address && data.country) {
 		level--;
 	}
 
@@ -82,16 +60,24 @@ const ID_WIDTH = 712;
 
 const COLOR_OPTIONS = [
 	{
-		name: 'Red',
-		colors: ['#ff5454', '#F8A8A8', '#FC4343', '#860020', '#860020'],
-	},
-	{
 		name: 'Blue',
 		colors: ['#A8E0FF', '#7BC8FF', '#0295FF', '#0B0084', '#0B0084'],
 	},
 	{
+		name: 'Red',
+		colors: ['#ff5454', '#F8A8A8', '#FC4343', '#860020', '#860020'],
+	},
+	{
 		name: 'Pink',
 		colors: ['#EE8BF0', '#F24BF5', '#B34BF5', '#96005C', '#411000'],
+	},
+	{
+		name: 'Blue and Pink',
+		colors: ['#a7cfba', '#9fe0e0', '#2083DF', '#8A008A', '#33001E'],
+	},
+	{
+		name: 'Green',
+		colors: ['#baafa8', '#D4D2AA', '#209159', '#00555A', '#002434'],
 	},
 	{
 		name: 'Black',
@@ -100,8 +86,6 @@ const COLOR_OPTIONS = [
 ];
 
 export const PublicPreview: React.FC<PublicPreviewProps> = ({ className, data, onChangeColor }) => {
-	const hasAddress = data.address || data.city || data.country || data.zipCode || data.state;
-	const middleAddressLine = getMiddleAddressLine(data);
 	const level = getBackgroundLevel(data);
 
 	const [backgroundImage, setBackgroundImage] = useState('');
@@ -170,7 +154,9 @@ export const PublicPreview: React.FC<PublicPreviewProps> = ({ className, data, o
 						<div>
 							<div className="flex items-center">
 								<ReactSVGStyled src="/public/assets/main/rebus-logo-single.svg" />
-								<div className="ml-2">REBUS CHAIN NFT IDENTITY CARD</div>
+								<div className="ml-2" style={{ textShadow: '0px 1px rgba(0, 0, 0, 0.6)' }}>
+									REBUS CHAIN NFT IDENTITY CARD
+								</div>
 							</div>
 
 							{data.name && (
@@ -205,7 +191,7 @@ export const PublicPreview: React.FC<PublicPreviewProps> = ({ className, data, o
 							{data.nationality && (
 								<div className="flex items-center mt-6">
 									<img
-										className="flex-shrink-0"
+										className="flex-shrink-0 rounded-md opacity-90"
 										src={data.nationalityHidden ? '/public/assets/backgrounds/no-flag.svg' : nationalityFlagSvg}
 										style={{ height: '36px' }}
 									/>
@@ -245,14 +231,15 @@ export const PublicPreview: React.FC<PublicPreviewProps> = ({ className, data, o
 									className={data.idNumber ? 'mt-2' : 'mt-6'}
 									isBlurred={data.signatureFileHidden}
 									label="Signature">
-									<div
+									<img
 										className="mt-1"
+										src={data.signatureFile.source}
 										style={{
-											backgroundImage: `url(${data.signatureFile.source})`,
-											backgroundPosition: 'left center',
-											backgroundRepeat: 'no-repeat',
-											backgroundSize: 'contain',
+											filter: 'grayscale(100%)',
 											height: '38px',
+											maxWidth: '193px',
+											objectFit: 'contain',
+											objectPosition: 'top',
 										}}
 									/>
 								</DataItem>
@@ -260,14 +247,18 @@ export const PublicPreview: React.FC<PublicPreviewProps> = ({ className, data, o
 						</div>
 					</div>
 
-					{(hasAddress || data.issuedBy || data.documentNumber) && (
+					{(data.address || data.country || data.issuedBy || data.documentNumber) && (
 						<div className="flex mt-10">
-							{hasAddress && (
-								<DataItem className="w-1/2" isBlurred={data.addressHidden} label="Permanent Address">
-									{data.address}
-									{data.address && (middleAddressLine || data.country) && <br />}
-									{middleAddressLine}
-									{(data.address || middleAddressLine) && data.country && <br />}
+							{(data.address || data.country) && (
+								<DataItem className="w-1/2 break-words" isBlurred={data.addressHidden} label="Permanent Address">
+									<div style={{ maxHeight: '84px', overflow: 'hidden' }}>
+										{data.address
+											?.split(/\r?\n/)
+											?.slice(0, 3)
+											.map((line, index) => (
+												<div key={index}>{line}</div>
+											))}
+									</div>
 									{data.country}
 								</DataItem>
 							)}

@@ -30,9 +30,6 @@ export type NftIdData = {
 	nationality?: string;
 	addressHidden?: boolean;
 	address?: string;
-	city?: string;
-	state?: string;
-	zipCode?: string;
 	country?: string;
 	idPhotoFileHidden?: boolean;
 	idPhotoFile?: Media;

@@ -12,13 +12,19 @@ export const DataItem: React.FC<DataItemProps> = ({ children, className, isBlurr
 	return (
 		<div className={classNames(className, 'flex flex-col')}>
 			{label && (
-				<div className="text-xs font-bold uppercase opacity-60" style={{ lineHeight: '14px' }}>
+				<div
+					className="text-xs font-bold uppercase opacity-60"
+					style={{ lineHeight: '14px', textShadow: '0px 1px rgba(0, 0, 0, 0.6)' }}>
 					{label}
 				</div>
 			)}
 			<div
 				className="text-xl gray-6 font-bold"
-				style={{ filter: isBlurred ? 'blur(7.5px)' : undefined, lineHeight: '28px' }}>
+				style={{
+					filter: isBlurred ? 'blur(7.5px)' : undefined,
+					lineHeight: '28px',
+					textShadow: '0px 1px rgba(0, 0, 0, 0.6)',
+				}}>
 				{value || children}
 			</div>
 		</div>

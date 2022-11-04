@@ -12,6 +12,7 @@ export type FileInputProps = {
 	onChange: (name: string, value: Media | undefined) => void;
 	name?: string;
 	placeholder?: string;
+	useGrayscale?: boolean;
 	value?: Media;
 };
 
@@ -21,6 +22,7 @@ export const FileInput: React.FC<FileInputProps> = ({
 	onChange,
 	name = '',
 	placeholder,
+	useGrayscale,
 	value,
 }) => {
 	const fileInputRef = useRef<HTMLInputElement>(null);
@@ -59,6 +61,7 @@ export const FileInput: React.FC<FileInputProps> = ({
 					backgroundPosition: 'center',
 					backgroundRepeat: 'no-repeat',
 					backgroundSize,
+					filter: useGrayscale ? 'grayscale(100%)' : undefined,
 					height: '115px',
 					width: '100px',
 				}}

@@ -38,7 +38,7 @@ const styles: StylesConfig<Option> = {
 	menu: styles => ({ ...styles, backgroundColor: '#2D3D77' }),
 	placeholder: styles => ({ ...styles, color: 'rgba(255, 255, 255, 0.5)' }),
 	singleValue: (styles, { data }) => ({ ...styles, color: 'white !important' }),
-	valueContainer: styles => ({ ...styles, paddingBottom: '4px', paddingTop: '4px' }),
+	valueContainer: styles => ({ ...styles, padding: '4px 12px' }),
 };
 
 export const SelectInput: React.FC<SelectInputProps> = ({

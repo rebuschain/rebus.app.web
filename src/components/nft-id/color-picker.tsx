@@ -29,9 +29,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ className, onChange, o
 					!isOpen && 'rounded-bl-2lg rounded-br-2lg'
 				)}
 				onClick={() => setIsOpen(!isOpen)}>
-				<div className="text-left black mr-2" style={{ width: '44px' }}>
-					{value.name}
-				</div>
+				<div className="text-left black mr-2">{value.name}</div>
 
 				<div className="flex">
 					{value.colors.map((color, index) => (
