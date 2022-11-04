@@ -3,22 +3,25 @@ import classNames from 'classnames';
 import { ReactSVG } from 'react-svg';
 import { DateInput, DateInputProps } from './date-input';
 import { FileInput, FileInputProps } from './file-input';
-import { SelectInput, SelectInputProps, Option } from './select-input';
+import { SelectInput, SelectInputProps } from './select-input';
 import { TextInput, TextInputProps } from './text-input';
 import { Media } from 'src/types/nft-id';
+import { TextareaInput, TextareaInputProps } from './textarea-input';
 
 export enum InputTypes {
 	Date = 'date',
 	File = 'file',
 	Select = 'select',
 	Text = 'text',
+	Textarea = 'textarea',
 }
 
 export interface InputProps
-	extends Omit<TextInputProps, 'onChange' | 'value'>,
+	extends Omit<TextInputProps, 'onChange' | 'onRawChange' | 'onClick' | 'value'>,
 		Omit<DateInputProps, 'onChange' | 'value'>,
 		Omit<FileInputProps, 'onChange' | 'value'>,
-		Omit<SelectInputProps, 'onChange' | 'value'> {
+		Omit<SelectInputProps, 'onChange' | 'value'>,
+		Omit<TextareaInputProps, 'onChange' | 'onRawChange' | 'onClick' | 'value'> {
 	className?: string;
 	hide?: boolean;
 	label?: string;
@@ -26,7 +29,10 @@ export interface InputProps
 		| TextInputProps['onChange']
 		| DateInputProps['onChange']
 		| FileInputProps['onChange']
-		| SelectInputProps['onChange'];
+		| SelectInputProps['onChange']
+		| TextareaInputProps['onChange'];
+	onClick?: TextInputProps['onClick'] | TextareaInputProps['onClick'];
+	onRawChange?: TextInputProps['onRawChange'] | TextareaInputProps['onRawChange'];
 	onVisibilityChange: (name: string, value: boolean) => void;
 	style?: React.CSSProperties;
 	type?: InputTypes;
@@ -39,11 +45,14 @@ export const Input: React.FC<InputProps> = ({
 	className,
 	hide,
 	label,
+	maxLength,
 	name = '',
 	onChange,
 	onVisibilityChange,
 	options,
 	placeholder,
+	useWhitescale,
+	rows,
 	style,
 	type,
 	value,
@@ -64,6 +73,7 @@ export const Input: React.FC<InputProps> = ({
 					onChange={onChange as FileInputProps['onChange']}
 					name={name}
 					placeholder={placeholder}
+					useWhitescale={useWhitescale}
 					value={value as Media | undefined}
 				/>
 			);
@@ -78,10 +88,22 @@ export const Input: React.FC<InputProps> = ({
 				/>
 			);
 			break;
+		case InputTypes.Textarea:
+			content = (
+				<TextareaInput
+					onChange={onChange as TextareaInputProps['onChange']}
+					maxLength={maxLength}
+					name={name}
+					placeholder={placeholder}
+					rows={rows}
+					value={value as string | undefined}
+				/>
+			);
+			break;
 		default:
 			content = (
 				<TextInput
-					onChange={onChange as DateInputProps['onChange']}
+					onChange={onChange as TextInputProps['onChange']}
 					name={name}
 					placeholder={placeholder}
 					value={value as string | undefined}

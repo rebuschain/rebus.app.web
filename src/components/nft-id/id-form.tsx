@@ -13,6 +13,7 @@ type IdFormProps = {
 };
 
 const dateOfBirthStyle = { minWidth: '180px' };
+const textareaStyle = { resize: 'none' };
 
 const COUNTRY_OPTIONS = Object.values(countries)
 	.sort((a, b) => a.localeCompare(b))
@@ -100,38 +101,12 @@ export const IdForm: React.FC<IdFormProps> = ({ className, data, onChange, onVis
 				className: 'mb-1',
 				onChange,
 				onVisibilityChange,
-				placeholder: 'Street Address',
+				placeholder: 'Permanent Address',
 				hide: data.addressHidden,
 				value: data.address,
-			},
-		],
-		[
-			{
-				name: 'city',
-				className: 'mb-1 mr-1',
-				onChange,
-				onVisibilityChange,
-				placeholder: 'City',
-				width: 'w-7/12',
-				value: data.city,
-			},
-			{
-				name: 'state',
-				className: 'mb-1 mr-1',
-				onChange,
-				onVisibilityChange,
-				placeholder: 'State',
-				width: 'w-2/12',
-				value: data.state,
-			},
-			{
-				name: 'zipCode',
-				className: 'mb-1',
-				onChange,
-				onVisibilityChange,
-				placeholder: 'Zip Code',
-				width: 'w-3/12',
-				value: data.zipCode,
+				type: InputTypes.Textarea,
+				maxLength: 150,
+				rows: 2,
 			},
 		],
 		[
@@ -170,6 +145,7 @@ export const IdForm: React.FC<IdFormProps> = ({ className, data, onChange, onVis
 				backgroundSize: 'contain',
 				hide: data.signatureFileHidden,
 				value: data.signatureFile,
+				useWhitescale: true,
 			},
 		],
 	];

@@ -12,6 +12,7 @@ export type FileInputProps = {
 	onChange: (name: string, value: Media | undefined) => void;
 	name?: string;
 	placeholder?: string;
+	useWhitescale?: boolean;
 	value?: Media;
 };
 
@@ -21,6 +22,7 @@ export const FileInput: React.FC<FileInputProps> = ({
 	onChange,
 	name = '',
 	placeholder,
+	useWhitescale,
 	value,
 }) => {
 	const fileInputRef = useRef<HTMLInputElement>(null);
@@ -55,14 +57,21 @@ export const FileInput: React.FC<FileInputProps> = ({
 			<div
 				className="bg-gray-1 rounded-2lg flex-shrink-0"
 				style={{
-					backgroundImage: value ? `url(${value.source})` : undefined,
-					backgroundPosition: 'center',
-					backgroundRepeat: 'no-repeat',
-					backgroundSize,
 					height: '115px',
 					width: '100px',
-				}}
-			/>
+				}}>
+				<div
+					style={{
+						backgroundImage: value ? `url(${value.source})` : undefined,
+						backgroundPosition: 'center',
+						backgroundRepeat: 'no-repeat',
+						backgroundSize,
+						filter: useWhitescale ? 'brightness(0) invert(1)' : undefined,
+						height: '100%',
+						width: '100%',
+					}}
+				/>
+			</div>
 
 			<div className="ml-2.5">
 				<label className="block text-white text-base mb-2.5">File Upload</label>

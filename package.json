@@ -8,7 +8,9 @@
 		"dev": "cross-env NODE_ENV=development react-env && yarn build:css && webpack-dev-server",
 		"dev:alphanet": "yarn react-env:alphanet && cross-env NODE_ENV=development webpack-dev-server",
 		"dev:testnet": "yarn react-env:testnet && cross-env NODE_ENV=development webpack-dev-server",
+		"dev:testnet:local": "yarn react-env:testnet:local && cross-env NODE_ENV=development webpack-dev-server",
 		"dev:mainnet": "yarn react-env:mainnet && cross-env NODE_ENV=development webpack-dev-server",
+		"dev:mainnet:local": "yarn react-env:mainnet:local && cross-env NODE_ENV=development webpack-dev-server",
 		"dev:analyzer": "cross-env NODE_ENV=development ANALYZER=true webpack",
 		"test": "jest --passWithNoTests --runInBand",
 		"lint-test": "eslint \"src/**/*\" webpack.config.js && prettier --check \"src/**/*\" webpack.config.js",
@@ -18,7 +20,9 @@
 		"react-env": "react-env --env APP_ENV",
 		"react-env:alphanet": "cross-env APP_ENV=alphanet react-env --env APP_ENV",
 		"react-env:testnet": "cross-env APP_ENV=testnet react-env --env APP_ENV",
+		"react-env:testnet:local": "cross-env APP_ENV=testnet.local react-env --env APP_ENV",
 		"react-env:mainnet": "cross-env APP_ENV=mainnet react-env --env APP_ENV",
+		"react-env:mainnet:local": "cross-env APP_ENV=mainnet.local react-env --env APP_ENV",
 		"postinstall": "patch-package"
 	},
 	"pre-commit": [
