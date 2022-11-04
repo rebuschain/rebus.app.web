@@ -191,8 +191,12 @@ export const PublicPreview: React.FC<PublicPreviewProps> = ({ className, data, o
 							{data.nationality && (
 								<div className="flex items-center mt-6">
 									<div className="relative flex-shrink-0">
-										<img className="rounded-md opacity-90" src={nationalityFlagSvg} style={{ height: '36px' }} />
-										{data.nationalityHidden && <NoFlag className="rounded-md" />}
+										<img
+											className="rounded opacity-90"
+											src={nationalityFlagSvg}
+											style={{ objectFit: 'contain', objectPosition: 'center', width: '56px' }}
+										/>
+										{data.nationalityHidden && <NoFlag className="rounded" />}
 									</div>
 									<DataItem
 										className="ml-3"
