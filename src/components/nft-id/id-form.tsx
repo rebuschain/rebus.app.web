@@ -145,7 +145,7 @@ export const IdForm: React.FC<IdFormProps> = ({ className, data, onChange, onVis
 				backgroundSize: 'contain',
 				hide: data.signatureFileHidden,
 				value: data.signatureFile,
-				useGrayscale: true,
+				useWhitescale: true,
 			},
 		],
 	];

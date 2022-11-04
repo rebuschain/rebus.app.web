@@ -190,11 +190,10 @@ export const PublicPreview: React.FC<PublicPreviewProps> = ({ className, data, o
 
 							{data.nationality && (
 								<div className="flex items-center mt-6">
-									<img
-										className="flex-shrink-0 rounded-md opacity-90"
-										src={data.nationalityHidden ? '/public/assets/backgrounds/no-flag.svg' : nationalityFlagSvg}
-										style={{ height: '36px' }}
-									/>
+									<div className="relative flex-shrink-0">
+										<img className="rounded-md opacity-90" src={nationalityFlagSvg} style={{ height: '36px' }} />
+										{data.nationalityHidden && <NoFlag className="rounded-md" />}
+									</div>
 									<DataItem
 										className="ml-3"
 										isBlurred={data.nationalityHidden}
@@ -235,7 +234,7 @@ export const PublicPreview: React.FC<PublicPreviewProps> = ({ className, data, o
 										className="mt-1"
 										src={data.signatureFile.source}
 										style={{
-											filter: 'grayscale(100%)',
+											filter: 'brightness(0) invert(1)',
 											height: '38px',
 											maxWidth: '193px',
 											objectFit: 'contain',
@@ -297,5 +296,30 @@ const ReactSVGStyled = styled(ReactSVG as any)`
 	svg {
 		height: 24px;
 		width: 24px;
+	}
+`;
+
+const NoFlag = styled.div`
+	background-color: #4f4f4f;
+	height: 100%;
+	left: 0;
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	width: 100%;
+
+	&:after {
+		background: linear-gradient(
+			to top left,
+			rgba(0, 0, 0, 0) 0%,
+			rgba(0, 0, 0, 0) calc(50% - 0.8px),
+			#828282 50%,
+			rgba(0, 0, 0, 0) calc(50% + 0.8px),
+			rgba(0, 0, 0, 0) 100%
+		);
+		content: '';
+		height: 100%;
+		position: absolute;
+		width: 100%;
 	}
 `;

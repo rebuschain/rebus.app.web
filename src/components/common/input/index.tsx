@@ -51,7 +51,7 @@ export const Input: React.FC<InputProps> = ({
 	onVisibilityChange,
 	options,
 	placeholder,
-	useGrayscale,
+	useWhitescale,
 	rows,
 	style,
 	type,
@@ -73,7 +73,7 @@ export const Input: React.FC<InputProps> = ({
 					onChange={onChange as FileInputProps['onChange']}
 					name={name}
 					placeholder={placeholder}
-					useGrayscale={useGrayscale}
+					useWhitescale={useWhitescale}
 					value={value as Media | undefined}
 				/>
 			);
