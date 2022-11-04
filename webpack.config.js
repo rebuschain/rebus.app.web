@@ -101,7 +101,7 @@ const jsxRule = {
 };
 const fileRule = {
 	test: /\.(svg|png|jpe?g|gif|woff|woff2|eot|ttf)$/i,
-	exclude: /node_modules/,
+	exclude: /node_modules\/(?!svg-country-flags)/,
 	use: [
 		{
 			loader: 'file-loader',

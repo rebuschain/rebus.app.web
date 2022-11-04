@@ -1,4 +1,5 @@
 import React from 'react';
+import countries from 'svg-country-flags/countries.json';
 import { Input, InputProps, InputTypes } from 'src/components/common/input';
 import { NftIdData } from 'src/types/nft-id';
 import { FileInputProps } from '../common/input/file-input';
@@ -12,6 +13,10 @@ type IdFormProps = {
 };
 
 const dateOfBirthStyle = { minWidth: '180px' };
+
+const COUNTRY_OPTIONS = Object.values(countries)
+	.sort((a, b) => a.localeCompare(b))
+	.map(country => ({ label: country, value: country }));
 
 export const IdForm: React.FC<IdFormProps> = ({ className, data, onChange, onVisibilityChange }) => {
 	const inputRows: InputProps[][] = [
@@ -34,7 +39,7 @@ export const IdForm: React.FC<IdFormProps> = ({ className, data, onChange, onVis
 				className: 'mb-6.5 mr-2',
 				onChange,
 				onVisibilityChange,
-				type: InputTypes.DateOfBirth,
+				type: InputTypes.Date,
 				width: 'w-1/3',
 				hide: data.dateOfBirthHidden,
 				value: data.dateOfBirth,
@@ -84,6 +89,8 @@ export const IdForm: React.FC<IdFormProps> = ({ className, data, onChange, onVis
 				placeholder: 'Nationality',
 				hide: data.nationalityHidden,
 				value: data.nationality,
+				options: COUNTRY_OPTIONS,
+				type: InputTypes.Select,
 			},
 		],
 		[
@@ -135,6 +142,8 @@ export const IdForm: React.FC<IdFormProps> = ({ className, data, onChange, onVis
 				onVisibilityChange,
 				placeholder: 'Country',
 				value: data.country,
+				options: COUNTRY_OPTIONS,
+				type: InputTypes.Select,
 			},
 		],
 		[
@@ -144,7 +153,7 @@ export const IdForm: React.FC<IdFormProps> = ({ className, data, onChange, onVis
 				className: 'mb-6.5',
 				onChange,
 				onVisibilityChange,
-				type: InputTypes.FileInput,
+				type: InputTypes.File,
 				placeholder: 'Upload File',
 				hide: data.idPhotoFileHidden,
 				value: data.idPhotoFile,
@@ -156,8 +165,9 @@ export const IdForm: React.FC<IdFormProps> = ({ className, data, onChange, onVis
 				name: 'signatureFile',
 				onChange,
 				onVisibilityChange,
-				type: InputTypes.FileInput,
+				type: InputTypes.File,
 				placeholder: 'Upload File',
+				backgroundSize: 'contain',
 				hide: data.signatureFileHidden,
 				value: data.signatureFile,
 			},

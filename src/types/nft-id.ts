@@ -1,3 +1,8 @@
+export type Theme = {
+	name: string;
+	colors: string[];
+};
+
 export type Media = {
 	name: string;
 	size: number;
@@ -6,6 +11,12 @@ export type Media = {
 };
 
 export type NftIdData = {
+	theme?: Theme;
+
+	documentNumber?: string;
+	idNumber?: string;
+	issuedBy?: string;
+
 	nameHidden?: boolean;
 	name?: string;
 	dateOfBirthHidden?: boolean;

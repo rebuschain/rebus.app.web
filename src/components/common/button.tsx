@@ -3,12 +3,23 @@ import { Button as MaterialButton, ButtonProps } from '@material-ui/core';
 import styled from '@emotion/styled';
 import { colorWhite, colorBlackLow } from 'src/emotion-styles/colors';
 
-export const Button: FunctionComponent<ButtonProps & {
+type Props = ButtonProps & {
 	backgroundStyle?: 'gradient-pink-blue' | 'gradient-pink' | 'gradient-blue' | 'gradient-green' | 'blue' | null;
 	smallBorderRadius?: boolean;
 	smallFont?: boolean;
 	textTransform?: 'uppercase' | 'capitalize' | 'none';
-}> = ({
+};
+
+type StyledProps = {
+	background: string;
+	backgroundColor: string | undefined;
+	smallBorderRadius?: boolean;
+	smallFont?: boolean;
+	textColor: string;
+	textTransform: string;
+};
+
+export const Button: FunctionComponent<Props> = ({
 	backgroundStyle = 'gradient-pink-blue',
 	children,
 	smallBorderRadius,
@@ -49,14 +60,17 @@ export const Button: FunctionComponent<ButtonProps & {
 	);
 };
 
-const StyledMaterialButton = styled(MaterialButton)<{
-	background: string;
-	backgroundColor: string | undefined;
-	smallBorderRadius?: boolean;
-	smallFont?: boolean;
-	textColor: string;
-	textTransform: string;
-}>`
+const StyledMaterialButton = styled(
+	({
+		background,
+		backgroundColor,
+		smallBorderRadius,
+		smallFont,
+		textColor,
+		textTransform,
+		...rest
+	}: Props & StyledProps) => <MaterialButton {...rest} />
+)<StyledProps>`
 	background: ${props => props.background};
 	background-color: ${props => props.backgroundColor} !important;
 	border: ${props => props.background && 'none !important'};
