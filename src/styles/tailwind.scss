@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
 	h1 {
 		@apply text-5xl;
@@ -25,6 +26,7 @@
 	h6 {
 		@apply text-lg;
 	}
+
 	h1,
 	h2,
 	h3,
@@ -119,5 +121,13 @@
 	.bg-gray-300 {
 		--tw-bg-opacity: 1;
 		background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
+	}
+
+	.bg-gradient-pass {
+		background: linear-gradient(104.04deg, #50e996 0%, #b8e950 100%);
+	}
+
+	.bg-gradient-rejected {
+		background: linear-gradient(104.04deg, rgb(233, 80, 98) 0%, rgb(233, 80, 208) 100%);
 	}
 }

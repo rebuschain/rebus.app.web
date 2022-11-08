@@ -19,7 +19,7 @@ const BackButton: FunctionComponent<BackButtonProps> = props => {
 	};
 
 	return (
-		<IconButton className="fixed top-2.5 left-2.5" onClick={onClick}>
+		<IconButton onClick={onClick}>
 			<img alt="back" src={backIcon} style={{ width: 'unset' }} />
 		</IconButton>
 	);

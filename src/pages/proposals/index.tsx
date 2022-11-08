@@ -5,12 +5,15 @@ import { itemsActions, proposalDetailsActions, tallyDetailsActions } from 'src/r
 import { InsyncWrapper } from 'src/components/insync/insync-wrapper';
 import { useActions } from 'src/hooks/use-actions';
 import { RootState } from 'src/reducers/store';
+import { Loader } from 'src/components/common/loader';
 import { useAppSelector } from 'src/hooks/use-app-select';
 import UnSuccessDialog from '../stake/delegate-dialog/un-success-dialog';
 import PendingDialog from '../stake/delegate-dialog/pending-dialog';
 import SuccessDialog from '../stake/delegate-dialog/success-dialog';
+import { useStore } from 'src/stores';
 import Cards from './cards';
 import ProposalDialog from './proposal-dialog';
+import ProposalsPage from './new-index';
 
 const selector = (state: RootState) => {
 	return {
@@ -25,6 +28,16 @@ const selector = (state: RootState) => {
 };
 
 const Proposals: FunctionComponent = () => {
+	const { featureFlagStore } = useStore();
+	const [featureFlags, setFeatureFlags] = useState<any[] | undefined>([]);
+
+	useEffect(() => {
+		(async () => {
+			const flags = await featureFlagStore.waitResponse();
+			setFeatureFlags(flags?.data.data);
+		})();
+	}, [featureFlagStore]);
+
 	const [getProposals, fetchProposalDetails, fetchProposalTally] = useActions([
 		itemsActions.getProposals,
 		proposalDetailsActions.getProposalDetails,
@@ -95,6 +108,14 @@ const Proposals: FunctionComponent = () => {
 		fetchProposals();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+	if (!featureFlagStore.error && (featureFlagStore.isFetching || !featureFlagStore.response)) {
+		return <Loader />;
+	}
+
+	if (featureFlagStore.featureFlags.newProposals) {
+		return <ProposalsPage />;
+	}
 
 	return (
 		<InsyncWrapper>

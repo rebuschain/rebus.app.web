@@ -159,6 +159,7 @@ module.exports = {
 			missionError: '#EF3456',
 			black: '#000000',
 			backdrop: 'rgba(0, 0, 0, 0.3)',
+			votingBlue: '#0085FF',
 		},
 		backgroundColor: themes => ({
 			...themes('colors'),

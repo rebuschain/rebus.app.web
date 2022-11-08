@@ -64,7 +64,7 @@ const SuccessDialog = observer(() => {
 					<img alt="success" className="mr-2" src={success} />
 					{name ? (
 						<ResultDialogHeader>{name + 'd Successfully'}</ResultDialogHeader>
-					) : claimValidator && claimValidator !== 'none' ? (
+					) : !proposalOpen && claimValidator && claimValidator !== 'none' ? (
 						<ResultDialogHeader>{variables[lang].claimed_success}</ResultDialogHeader>
 					) : proposalOpen ? (
 						<ResultDialogHeader>{variables[lang].vote_success}</ResultDialogHeader>
