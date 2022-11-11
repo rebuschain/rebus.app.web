@@ -1,8 +1,10 @@
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+import { ColorPicker } from 'src/components/nft-id/color-picker';
 import { IdForm } from 'src/components/nft-id/id-form';
 import { PublicPreview } from 'src/components/nft-id/public-preview';
+import { COLOR_OPTIONS } from 'src/constants/nft-id';
 import { useStore } from 'src/stores';
 import { NftIdData, Theme } from 'src/types/nft-id';
 
@@ -45,7 +47,15 @@ const NftIdPage: FunctionComponent = observer(() => {
 				onChange={onChange}
 				onVisibilityChange={onVisibilityChange}
 			/>
-			<PublicPreview className="mb-10 md:mb-0" data={data} onChangeColor={onChangeColor} />
+			<div>
+				<PublicPreview className="mb-10 md:mb-0" data={data} />
+				<ColorPicker
+					className="mt-6"
+					onChange={onChangeColor}
+					options={COLOR_OPTIONS}
+					value={data.theme || COLOR_OPTIONS[0]}
+				/>
+			</div>
 		</div>
 	);
 });
