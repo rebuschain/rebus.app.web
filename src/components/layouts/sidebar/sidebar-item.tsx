@@ -43,7 +43,7 @@ export const SidebarItem: FunctionComponent<TSidebarItem> = ({ sidebarItem, sele
 						}
 					/>
 					<img
-						className="w-5 h-5 s-position-abs-center z-10"
+						className={cn('w-5 h-5 s-position-abs-center z-10', sidebarItem.ICON_CLASS)}
 						src={selected ? sidebarItem.ICON_SELECTED : sidebarItem.ICON}
 					/>
 				</div>
