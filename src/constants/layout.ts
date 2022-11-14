@@ -14,7 +14,7 @@ export const LAYOUT = {
 			TYPE: 'ibc-transfer',
 			ICON: '/public/assets/icons/ibc-transfer.svg',
 			ICON_SELECTED: '/public/assets/icons/ibc-transfer-selected.svg',
-			ICON_CLASS: 'w-4',
+			ICON_WIDTH_CLASS: 'w-4',
 			TEXT: 'IBC Transfer',
 			ROUTE: ROUTES.IBC_TRANSFER,
 			SELECTED_CHECK: ROUTES.IBC_TRANSFER,
@@ -47,7 +47,7 @@ export const LAYOUT = {
 			TYPE: 'nft-id',
 			ICON: '/public/assets/icons/nft-id.svg',
 			ICON_SELECTED: '/public/assets/icons/nft-id-selected.svg',
-			ICON_CLASS: 'w-4',
+			ICON_WIDTH_CLASS: 'w-4',
 			TEXT: 'NFT ID',
 			ROUTE: ROUTES.NFT_ID,
 			SELECTED_CHECK: ROUTES.NFT_ID,
@@ -65,7 +65,7 @@ export const LAYOUT = {
 export type TSIDEBAR_ITEM = {
 	TYPE: 'assets' | 'ibc-transfer' | 'stake' | 'airdrop' | 'proposals' | 'tools' | 'nft-id';
 	ICON: string;
-	ICON_CLASS: string;
+	ICON_WIDTH_CLASS: string;
 	ICON_SELECTED: string;
 	TEXT: string;
 	ROUTE: string;
