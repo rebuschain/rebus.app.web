@@ -138,7 +138,8 @@
 		"tailwindcss": "^2.1.1",
 		"tippy.js": "^6.3.1",
 		"trianglify": "^4.1.1",
-		"utility-types": "^3.10.0"
+		"utility-types": "^3.10.0",
+		"victory": "^36.6.8"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.13.13",

@@ -84,6 +84,11 @@ const Router: FunctionComponent = () => {
 													<Route exact path={ROUTES.VOTE} component={lazy(() => import('./pages/proposals'))} />
 													<Route
 														exact
+														path={`${ROUTES.VOTE}/:proposalId`}
+														component={lazy(() => import('./pages/proposal-details'))}
+													/>
+													<Route
+														exact
 														path={ROUTES.WALLET_CONNECT}
 														component={lazy(() => import('./pages/wallet-connect'))}
 													/>

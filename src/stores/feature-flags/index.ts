@@ -22,6 +22,7 @@ export type FeatureFlags = {
 	assetsPage?: boolean;
 	nftIdPage?: boolean;
 	ibcTransferPage?: boolean;
+	newProposals?: boolean;
 };
 
 const axiosInstance = axios.create({
