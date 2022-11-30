@@ -18,9 +18,11 @@ import { ConnectWalletManager } from 'src/dialogs/connect-wallet';
 import { gas } from 'src/constants/default-gas-values';
 import { KEPLR_EVMOS_VERSION, KEPLR_VERSION } from 'src/constants/wallet';
 import { FeatureFlagStore } from './feature-flags';
+import { QuestionsStore } from './questions';
 
 export class RootStore {
 	public readonly featureFlagStore: FeatureFlagStore;
+	public readonly questionsStore: QuestionsStore;
 
 	public readonly chainStore: ChainStore;
 	public readonly accountStore: AccountStore<AccountWithCosmosAndRebus>;
@@ -36,6 +38,7 @@ export class RootStore {
 
 	constructor() {
 		this.featureFlagStore = new FeatureFlagStore(new IndexedDBKVStore('store_feature_flags'));
+		this.questionsStore = new QuestionsStore(new IndexedDBKVStore('store_questions'));
 
 		this.chainStore = new ChainStore(EmbedChainInfos, EmbedChainInfos[0].chainId, EmbedChainInfos[1].chainId);
 		this.connectWalletManager = new ConnectWalletManager(this.chainStore);

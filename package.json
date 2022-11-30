@@ -138,6 +138,7 @@
 		"tailwindcss": "^2.1.1",
 		"tippy.js": "^6.3.1",
 		"trianglify": "^4.1.1",
+		"universal-cookie": "^4.0.4",
 		"utility-types": "^3.10.0",
 		"victory": "^36.6.8"
 	},
