@@ -116,13 +116,25 @@ const Voting = observer<VotingProps>(({ proposalId }) => {
 			memo: '',
 		};
 
-		let result: any = null;
+		let txCode = 0;
+		let txHash = '';
+		let txLog = '';
 
 		try {
 			if (walletStore.isLoaded) {
-				result = await walletStore.vote(ethTx, tx as any);
+				const result = await walletStore.vote(ethTx, tx as any);
+				txCode = result?.tx_response?.code || 0;
+				txHash = result?.tx_response?.txhash || '';
+				txLog = result?.tx_response?.raw_log || '';
 			} else {
-				result = await aminoSignTx(tx, address, null, isEvmos);
+				const result = await aminoSignTx(tx, address, null, isEvmos);
+				txCode = result?.code || 0;
+				txHash = result?.transactionHash || '';
+				txLog = result?.rawLog || '';
+			}
+
+			if (txCode) {
+				throw new Error(txLog);
 			}
 		} catch (err) {
 			const message = (err as any)?.message || '';
@@ -135,8 +147,8 @@ const Voting = observer<VotingProps>(({ proposalId }) => {
 			showMessage(message);
 		}
 
-		if (result) {
-			successDialog(result.tx_response?.txhash || result.transactionHash);
+		if (txHash && !txCode) {
+			successDialog({ hash: txHash });
 			fetchVoteDetails({ id: proposalId, address });
 			fetchProposalTally(proposalId);
 			queries.queryBalances.getQueryBech32Address(address).fetch();
@@ -146,6 +158,8 @@ const Voting = observer<VotingProps>(({ proposalId }) => {
 				queries.queryBalances.getQueryBech32Address(address).fetch();
 			}, 3000);
 		}
+
+		setInProgress(false);
 	};
 
 	const disable = value === '';

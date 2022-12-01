@@ -118,13 +118,25 @@ const Voting = observer<VotingProps>(({ proposalId }) => {
 			memo: '',
 		};
 
-		let result: any = null;
+		let txCode = 0;
+		let txHash = '';
+		let txLog = '';
 
 		try {
 			if (walletStore.isLoaded) {
-				result = await walletStore.vote(ethTx, tx as any);
+				const result = await walletStore.vote(ethTx, tx as any);
+				txCode = result?.tx_response?.code || 0;
+				txHash = result?.tx_response?.txhash || '';
+				txLog = result?.tx_response?.raw_log || '';
 			} else {
-				result = await aminoSignTx(tx, address, null, isEvmos);
+				const result = await aminoSignTx(tx, address, null, isEvmos);
+				txCode = result?.code || 0;
+				txHash = result?.transactionHash || '';
+				txLog = result?.rawLog || '';
+			}
+
+			if (txCode) {
+				throw new Error(txLog);
 			}
 		} catch (err) {
 			const message = (err as any)?.message || '';
@@ -137,9 +149,9 @@ const Voting = observer<VotingProps>(({ proposalId }) => {
 			showMessage(message);
 		}
 
-		if (result) {
+		if (txHash && !txCode) {
 			showProposalDialog({ open: true });
-			successDialog({ hash: result.tx_response?.txhash || result.transactionHash });
+			successDialog({ hash: txHash });
 
 			fetchVoteDetails({ id: proposalId, address });
 			fetchProposalTally(proposalId);

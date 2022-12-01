@@ -24,6 +24,7 @@ import { RootState } from 'src/reducers/store';
 import ValidatorSelectField from './validator-select-field';
 import TokensTextField from './tokens-text-field';
 import ToValidatorSelectField from './to-validator-select-field';
+import { TransactionResponse } from 'src/stores/wallet/types';
 
 const COIN_DECI_VALUE = 10 ** config.COIN_DECIMALS;
 
@@ -82,7 +83,8 @@ const DelegateDialog = observer<DelegateDialogProps>(({ canDelegateToInactive })
 	const handleDelegateType = async () => {
 		setInProgress(true);
 
-		let txHash = '';
+		let txCode = 0;
+		let txHash: string | undefined = '';
 		let gasValue = gas.delegate;
 		let method = 'delegate';
 
@@ -135,11 +137,13 @@ const DelegateDialog = observer<DelegateDialogProps>(({ canDelegateToInactive })
 
 		try {
 			if (walletStore.isLoaded) {
-				const tx = await (walletStore as any)[method](ethTx, updatedTx);
+				const tx: TransactionResponse = await (walletStore as any)[method](ethTx, updatedTx);
+				txCode = tx?.tx_response?.code || 0;
 				txHash = tx?.tx_response?.txhash;
 				txLog = tx?.tx_response?.raw_log || '';
 			} else {
 				const tx = await aminoSignTx(updatedTx, address, null, isEvmos);
+				txCode = tx?.code;
 				txHash = tx?.transactionHash;
 				txLog = tx?.rawLog || '';
 			}
@@ -150,6 +154,10 @@ const DelegateDialog = observer<DelegateDialogProps>(({ canDelegateToInactive })
 
 			if (txLog?.includes('redelegation to this validator already in progress')) {
 				throw new Error(variables[lang]['error_redelegation_in_progress']);
+			}
+
+			if (txCode !== 0) {
+				throw new Error(txLog);
 			}
 
 			updateBalance();

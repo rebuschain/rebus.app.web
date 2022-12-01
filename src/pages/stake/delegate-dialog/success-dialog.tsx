@@ -60,7 +60,7 @@ const SuccessDialog = observer(() => {
 			open={open}
 			onClose={handleClose}>
 			<DialogContent className="content">
-				<div className="flex items-center text-center mb-7.5">
+				<div className="flex items-center mb-7.5 justify-center">
 					<img alt="success" className="mr-2" src={success} />
 					{name ? (
 						<ResultDialogHeader>{name + 'd Successfully'}</ResultDialogHeader>

@@ -36,16 +36,18 @@ const UnSuccessDialog: FunctionComponent = () => {
 			onClose={handleClose}>
 			<DialogContent className="content">
 				<div className="text-center">
-					<img alt="failed" src={failed} />
-					{<ResultDialogHeader>{variables[lang]['transaction_failed']}</ResultDialogHeader>}
+					<div className="flex justify-center items-center">
+						<img alt="failed" className="mr-2" src={failed} />
+						<ResultDialogHeader>{variables[lang]['transaction_failed']}</ResultDialogHeader>
+					</div>
 					<ResultDialogText>{message}</ResultDialogText>
 				</div>
 
 				{hash && (
 					<div className="flex justify-between mt-9 mb-4">
-						<ResultDialogText>{variables[lang]['transaction_hash']}</ResultDialogText>
-						<div className="w-36 cursor-pointer hover:underline" title={hash} onClick={handleRedirect}>
-							<ResultDialogText className="name">{hash}</ResultDialogText>
+						<ResultDialogText className="mr-7.5">{variables[lang]['transaction_hash']}</ResultDialogText>
+						<div className="w-36 cursor-pointer hover:underline overflow-hidden" title={hash} onClick={handleRedirect}>
+							<ResultDialogText className="name overflow-ellipsis overflow-hidden">{hash}</ResultDialogText>
 							{hash && hash.slice(hash.length - 6, hash.length)}
 						</div>
 					</div>
