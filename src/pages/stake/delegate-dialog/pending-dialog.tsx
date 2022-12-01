@@ -27,8 +27,8 @@ const PendingDialog: FunctionComponent = () => {
 			open={open}
 			onClose={handleClose}>
 			<DialogContent className="content">
-				<div className="text-center">
-					<img alt="processing" className="w-24" src={processing} />
+				<div className="text-center flex items-center justify-center">
+					<img alt="processing" className="w-24 mr-2" src={processing} />
 					{<ResultDialogHeader>{variables[lang]['transaction_processing']}</ResultDialogHeader>}
 				</div>
 			</DialogContent>
