@@ -94,6 +94,7 @@ module.exports = {
 			base: '16px',
 			lg: '20px',
 			xl: '24px',
+			'xl-2': '32px',
 			'2xl': '36px',
 			'3xl': '48px',
 			'4xl': '60px',
@@ -160,6 +161,7 @@ module.exports = {
 			black: '#000000',
 			backdrop: 'rgba(0, 0, 0, 0.3)',
 			votingBlue: '#0085FF',
+			blue1: '#2F80ED',
 		},
 		backgroundColor: themes => ({
 			...themes('colors'),
@@ -245,9 +247,9 @@ module.exports = {
 			variants: {
 				rotate: ['hover', 'group-hover'],
 				display: ['responsive', 'hover', 'group-hover'],
-				opacity: ['hover'],
+				opacity: ['hover', 'disabled'],
 				borderWidth: ['hover', 'responsive'],
-				backgroundColor: ['even', 'hover'],
+				backgroundColor: ['even', 'hover', 'disabled'],
 				fontSize: ['responsive'],
 				zIndex: ['hover'],
 			},
