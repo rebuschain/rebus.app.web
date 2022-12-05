@@ -52,7 +52,7 @@ const SideBar: FunctionComponent = observer(function SideBar() {
 				<div className="fixed h-full">
 					<Container
 						className={cn(
-							'blur h-full transition-all pointer-events-auto fixed overflow-x-hidden min-w-sidebar-open max-w-sidebar-open'
+							'backdrop-blur-lg h-full transition-all pointer-events-auto fixed overflow-x-hidden min-w-sidebar-open max-w-sidebar-open'
 						)}
 						type={TCardTypes.TRANSPARENT}>
 						<div className="w-full h-full p-5 md:py-6 flex flex-col justify-between">
