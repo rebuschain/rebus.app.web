@@ -77,6 +77,11 @@ const Router: FunctionComponent = () => {
 														component={lazy(() => import('./pages/ibc-transfer'))}
 													/>
 													<Route exact path={ROUTES.NFT_ID} component={lazy(() => import('./pages/nft-id'))} />
+													<Route
+														exact
+														path={ROUTES.NFT_ID_VIEW}
+														component={lazy(() => import('./pages/nft-id-view'))}
+													/>
 													<Route exact path={ROUTES.TOOLS} component={lazy(() => import('./pages/tools'))} />
 													<Route exact path={ROUTES.ASSETS} component={lazy(() => import('./pages/assets'))} />
 													<Route exact path={ROUTES.AIRDROP} component={lazy(() => import('./pages/airdrop'))} />

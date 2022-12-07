@@ -46,7 +46,7 @@ function normalizePubkey(input: any) {
 export const getAccount = async function(address: string) {
 	const path = config.REST_URL + `/auth/accounts/${address}`;
 	const account = await axios.get(path);
-	const value = account.data.result.base_account || account.data.result.value?.base_vesting_account?.base_account;
+	const value = account.data.result.base_account || account.data.result.value?.base_vesting_account?.base_account || {};
 
 	let sequence;
 	if (value.sequence === undefined || value.sequence === 0 || value.sequence === '') {
@@ -55,7 +55,7 @@ export const getAccount = async function(address: string) {
 		sequence = uint64ToNumber(value.sequence);
 	}
 
-	if (value.address === '') {
+	if (!value.address) {
 		return undefined;
 	}
 

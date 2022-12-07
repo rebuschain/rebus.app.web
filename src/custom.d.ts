@@ -9,3 +9,5 @@ declare module '*.png' {
 }
 
 declare module 'image-screenshot';
+
+declare module 'ascii85';

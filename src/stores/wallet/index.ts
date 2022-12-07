@@ -24,6 +24,8 @@ import {
 	MessageMsgVote,
 	MessageIBCMsgTransfer,
 } from '@tharsis/transactions';
+import { encrypt } from 'eth-sig-util';
+import ascii85 from 'ascii85';
 import { ethers } from 'ethers';
 import { signatureToPubkey } from '@hanchon/signature-to-pubkey';
 import { AminoMsgDelegate, AminoMsgUndelegate, AminoMsgVote, AminoMsgWithdrawDelegatorReward } from '@cosmjs/stargate';
@@ -36,6 +38,7 @@ import { TransactionResponse, Tx } from './types';
 import { CosmostationProvider } from './cosmostation-provider';
 import { BaseProvider } from './base-provider';
 import { Int } from '@keplr-wallet/unit';
+import { AminoMsgMintNftId, createTxMsgMintNftId, MessageMsgMintNftId } from './messages/nftid';
 
 const chainId = env('CHAIN_ID');
 const restUrl = env('REST_URL');
@@ -343,6 +346,66 @@ export class WalletStore {
 		]);
 	}
 
+	public async encrypt(text: string) {
+		if (!this.isLoaded || this.walletType !== 'metamask') {
+			return text;
+		}
+
+		const data = Buffer.from(text, 'base64');
+
+		const keyB64: string = await window.ethereum.request({
+			method: 'eth_getEncryptionPublicKey',
+			params: [this.address],
+		});
+		const publicKey = Buffer.from(keyB64, 'base64');
+
+		// Returned object contains 4 properties: version, ephemPublicKey, nonce, ciphertext
+		// Each contains data encoded using base64, version is always the same string
+		const encrypted = encrypt(
+			publicKey.toString('base64'),
+			{ data: ascii85.encode(data).toString() },
+			'x25519-xsalsa20-poly1305'
+		);
+
+		const buf = Buffer.concat([
+			Buffer.from(encrypted.ephemPublicKey, 'base64'),
+			Buffer.from(encrypted.nonce, 'base64'),
+			Buffer.from(encrypted.ciphertext, 'base64'),
+		]);
+
+		return buf.toString('base64');
+	}
+
+	public async decrypt(text: string) {
+		if (!this.isLoaded || this.walletType !== 'metamask') {
+			return text;
+		}
+
+		const data = Buffer.from(text, 'base64');
+
+		// Reconstructing the original object outputed by encryption
+		const structuredData = {
+			version: 'x25519-xsalsa20-poly1305',
+			ephemPublicKey: data.slice(0, 32).toString('base64'),
+			nonce: data.slice(32, 56).toString('base64'),
+			ciphertext: data.slice(56).toString('base64'),
+		};
+
+		// Convert data to hex string required by MetaMask
+		const ct = `0x${Buffer.from(JSON.stringify(structuredData), 'utf8').toString('hex')}`;
+
+		// Send request to MetaMask to decrypt the ciphertext
+		const decrypt = await window.ethereum.request({
+			method: 'eth_decrypt',
+			params: [ct, this.address],
+		});
+
+		// Decode the base85 to final bytes
+		const res = ascii85.decode(decrypt);
+
+		return res.toString('base64');
+	}
+
 	public sign(msgToSign: string): Promise<string> {
 		return this.provider.send('eth_signTypedData_v4', [this.address, msgToSign]);
 	}
@@ -473,6 +536,21 @@ export class WalletStore {
 
 		const sender = await this.getSender();
 		const txMsg = createTxMsgVote(this.chainInfo, sender, fee, memo, msg as MessageMsgVote);
+		return this.broadcast(sender, txMsg);
+	}
+
+	public async mintNftId(
+		{ fee, msg, memo }: Tx<MessageMsgMintNftId>,
+		aminoTx: Tx<AminoMsgMintNftId>
+	): Promise<TransactionResponse> {
+		this.checkIfSupported('vote');
+
+		if (this._aminoProvider) {
+			return this.aminoProvider.signAndBroadcastAmino<Tx<AminoMsgMintNftId>>(this.rebusAddress, aminoTx);
+		}
+
+		const sender = await this.getSender();
+		const txMsg = createTxMsgMintNftId(this.chainInfo, sender, fee, memo, msg as MessageMsgMintNftId);
 		return this.broadcast(sender, txMsg);
 	}
 

@@ -108,6 +108,10 @@ export const FileInput: React.FC<FileInputProps> = ({
 					name={name}
 					placeholder={placeholder}
 					ref={fileInputRef}
+					style={{
+						position: 'absolute',
+						zIndex: -1,
+					}}
 					type="file"
 				/>
 			</div>
