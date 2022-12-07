@@ -82,7 +82,7 @@ module.exports = {
 		purgeLayersByDefault: false,
 	},
 	mode: 'jit',
-	purge: ['./src/**/*.{ts,tsx}', './src/index.html'],
+	content: ['./src/**/*.{ts,tsx}', './src/index.html'],
 	theme: {
 		fontFamily: {
 			title: ['Poppins', 'ui-sans-serif', 'system-ui'],
@@ -244,21 +244,6 @@ module.exports = {
 				90: 90,
 				100: 100,
 			},
-			variants: {
-				rotate: ['hover', 'group-hover'],
-				display: ['responsive', 'hover', 'group-hover'],
-				opacity: ['hover', 'disabled'],
-				borderWidth: ['hover', 'responsive'],
-				backgroundColor: ['even', 'hover', 'disabled'],
-				fontSize: ['responsive'],
-				zIndex: ['hover'],
-			},
-		},
-	},
-	variants: {
-		extend: {
-			opacity: ['disabled'],
-			visibility: ['hover', 'group-hover'],
 		},
 	},
 	plugins: [require('tailwindcss'), require('precss'), require('autoprefixer')],
