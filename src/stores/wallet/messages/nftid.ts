@@ -2,8 +2,7 @@ import { createTransaction } from '@tharsis/proto';
 import { createEIP712, generateFee, generateMessage, generateTypes } from '@tharsis/eip712';
 import { Chain, Fee, Sender } from '@tharsis/transactions';
 import { AminoMsg } from '@cosmjs/amino';
-import { MsgMintNftId } from 'src/proto/rebus/nftid/v1/tx';
-import { NftId } from 'src/proto/rebus/nftid/v1/id';
+import { MsgMintNftId } from '../../../proto/rebus/nftid/v1/tx_pb';
 
 const MSG_MINT_NFT_ID_TYPES = {
 	MsgValue: [
@@ -24,10 +23,10 @@ export interface MessageMsgMintNftId {
 }
 
 export interface AminoMsgMintNftId extends AminoMsg {
-	readonly type: 'rebus/nftid/v1/tx/mint_nft_id';
+	readonly type: 'rebus.nftid.v1.MsgMintNftId';
 	readonly value: {
 		readonly address: string;
-		readonly nft_type: NftId;
+		readonly nft_type: number;
 		readonly organization: string;
 		readonly encryption_key: string;
 		readonly metadata_url: string;
@@ -42,7 +41,7 @@ const createMsgMintNftId = (
 	metadataUrl: string
 ) => {
 	return {
-		type: 'rebus/nftid/v1/tx/mint_nft_id',
+		type: 'rebus.nftid.v1.Msg/MintNftId',
 		value: {
 			address: sender,
 			nft_type: nftType,
@@ -60,14 +59,12 @@ const createMsgMintNftIdCosmos = (
 	encryptionKey: string,
 	metadataUrl: string
 ) => {
-	const mintNftIdMessage = MsgMintNftId.fromJSON({
-		address: sender,
-		nftType,
-		organization,
-		encryptionKey,
-		metadataUrl,
-	});
-	(mintNftIdMessage as any).serializeBinary = () => MsgMintNftId.encode(mintNftIdMessage).finish();
+	const mintNftIdMessage = new MsgMintNftId();
+	mintNftIdMessage.setAddress(sender);
+	mintNftIdMessage.setNftType(nftType as any);
+	mintNftIdMessage.setOrganization(organization);
+	mintNftIdMessage.setEncryptionKey(encryptionKey);
+	mintNftIdMessage.setMetadataUrl(metadataUrl);
 
 	return {
 		message: mintNftIdMessage,
