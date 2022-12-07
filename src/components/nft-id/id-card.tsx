@@ -7,6 +7,7 @@ import styled from '@emotion/styled';
 import trianglify from 'trianglify';
 import { COLOR_OPTIONS } from 'src/constants/nft-id';
 import classNames from 'classnames';
+import { useAddress } from 'src/hooks/use-address';
 
 type IdCardProps = {
 	className?: string;
@@ -65,6 +66,7 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 ) => {
 	const theme = data.theme || COLOR_OPTIONS[0];
 	const level = getBackgroundLevel(data);
+	const address = useAddress();
 
 	const [backgroundImage, setBackgroundImage] = useState('');
 
@@ -262,13 +264,13 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 				)}
 
 				<div className="flex bg-white rounded-br-2lg rounded-bl-2lg p-5 mt-12">
-					<QRCode size={100} value="0x98ac833e0f00157cb9918833e0f00157c0157cb9918833e0f0015798ac833e0f0c55" />
+					<QRCode size={100} value={address} />
 					<div className="ml-5">
 						<div className="uppercase text-xs black" style={{ lineHeight: '14px' }}>
 							Token Address
 						</div>
 						<div className="uppercase text-xl black break-all" style={{ lineHeight: '29px' }}>
-							0x98ac833e0f00157cb9918833e0f00157c0157cb9918833e0f0015798ac833e0f0c55
+							{address}
 						</div>
 					</div>
 				</div>

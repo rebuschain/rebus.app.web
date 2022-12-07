@@ -23,8 +23,8 @@ import { BigLoader } from 'src/components/common/loader';
 import { gas } from 'src/constants/default-gas-values';
 import { config } from 'src/config-insync';
 import { aminoSignTx } from 'src/utils/helper';
-import { MsgMintNftId } from 'src/proto/rebus/nftid/v1/tx';
-import { NftId } from 'src/proto/rebus/nftid/v1/id';
+import { MsgMintNftId } from '../../proto/rebus/nftid/v1/tx_pb';
+import { NftId } from '../../proto/rebus/nftid/v1/id_pb';
 import { Button } from '../common/button';
 import { getIpfsHttpsUrl, getIpfsId } from 'src/utils/ipfs';
 
@@ -118,23 +118,24 @@ const PrivateView: FunctionComponent = observer(() => {
 
 		const msg = {
 			address,
-			nft_type: NftId.Default,
+			nft_type: NftId.DEFAULT,
 			organization: 'Rebus',
 			encryption_key: encryptedEncryptionKey,
 			metadata_url: url,
 		};
 
+		const mintNftIdMessage = new MsgMintNftId();
+		mintNftIdMessage.setAddress(msg.address);
+		mintNftIdMessage.setNftType(msg.nft_type);
+		mintNftIdMessage.setOrganization(msg.organization);
+		mintNftIdMessage.setEncryptionKey(msg.encryption_key);
+		mintNftIdMessage.setMetadataUrl(msg.metadata_url);
+
 		const tx = {
 			msgs: [
 				{
 					typeUrl: '/rebus.nftid.v1.MsgMintNftId',
-					value: MsgMintNftId.fromPartial({
-						address,
-						nftType: msg.nft_type,
-						organization: msg.organization,
-						encryptionKey: msg.encryption_key,
-						metadataUrl: msg.metadata_url,
-					}),
+					value: mintNftIdMessage.toObject(),
 				},
 			],
 			fee: {

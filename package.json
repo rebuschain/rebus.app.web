@@ -24,7 +24,8 @@
 		"react-env:mainnet": "cross-env APP_ENV=mainnet react-env --env APP_ENV",
 		"react-env:mainnet:local": "cross-env APP_ENV=mainnet.local react-env --env APP_ENV",
 		"postinstall": "patch-package",
-		"proto": "protoc --plugin=node_modules/ts-proto/protoc-gen-ts_proto --ts_proto_opt=outputClientImpl=grpc-web --ts_proto_opt=esModuleInterop=true --ts_proto_out=./src/proto -I=./proto ./proto/rebus/nftid/v1/*.proto"
+		"proto": "protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts --ts_out=./src/proto --js_out=import_style=commonjs,binary:./src/proto -I=./proto ./proto/rebus/nftid/v1/*.proto ./proto/google/api/*.proto ./proto/gogoproto/*.proto",
+		"proto:ts": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_opt=esModuleInterop=true --ts_proto_out=./src/proto -I=./proto ./proto/rebus/nftid/v1/tx.proto"
 	},
 	"pre-commit": [
 		"lint-test"
@@ -214,6 +215,7 @@
 		"ts-jest": "^26.5.5",
 		"ts-loader": "^6.0.4",
 		"ts-node": "^8.5.2",
+		"ts-protoc-gen": "^0.15.0",
 		"tsconfig-paths-webpack-plugin": "^3.5.1",
 		"type-fest": "^1.0.2",
 		"typescript": "^4.1.3",
