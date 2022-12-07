@@ -1,0 +1,35 @@
+syntax = "proto3";
+package rebus.nftid.v1;
+
+import "gogoproto/gogo.proto";
+
+enum NftId {
+  option (gogoproto.goproto_enum_prefix) = false;
+
+  Default = 0;
+
+}
+
+// A Id Records is the metadata of id data per type_organization_address
+message IdRecord {
+  // address of user
+  string address = 1 [ (gogoproto.moretags) = "yaml:\"address\"" ];
+
+  // refers to the type enum
+  int32 type = 2 [ (gogoproto.moretags) = "yaml:\"type\"" ];
+
+  // name of the organization responsible for the ID
+  string organization = 3 [ (gogoproto.moretags) = "yaml:\"organization\"" ];
+
+  // encryption key used to encrypt the private file image of the ID
+  string encryption_key = 4 [ (gogoproto.moretags) = "yaml:\"encryption_key\"" ];
+
+  // metadata url of file containing the information about the ID
+  string metadata_url = 5 [ (gogoproto.moretags) = "yaml:\"metadata_url\"" ];
+
+  // document number which is the sequence number of this id
+  int64 document_number = 6 [ (gogoproto.moretags) = "yaml:\"document_number\"" ];
+
+  // id number which is the hash of the key type_organization_address
+  string id_number = 7 [ (gogoproto.moretags) = "yaml:\"id_number\"" ];
+}

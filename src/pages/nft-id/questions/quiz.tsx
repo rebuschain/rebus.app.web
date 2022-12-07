@@ -22,6 +22,7 @@ const cookies = new Cookies();
 const QuizPage: FunctionComponent<QuizPageProps> = observer(({ isLockedOut, onComplete }) => {
 	const [currentStep, setCurrentStep] = useState(0);
 	const [userScore, setUserScore] = useState<number>(0);
+	const [fetchingResult, setFetchingResult] = useState(false);
 	const [userAnswers, setUserAnswers] = useState<UserAnswer[]>([]);
 	const currentQuestion = currentStep - 1;
 	const { questionsStore } = useStore();
@@ -81,12 +82,15 @@ const QuizPage: FunctionComponent<QuizPageProps> = observer(({ isLockedOut, onCo
 
 	const fetchQuizResult = useCallback(
 		async (answers: UserAnswer[]) => {
+			setFetchingResult(true);
 			const totalScore = await questionsStore.submitAnswers(answers);
 			setUserScore(totalScore);
 
 			if (totalScore < 80 && currentStep >= 5) {
 				handleQuizFailed();
 			}
+
+			setFetchingResult(false);
 		},
 		[questionsStore, currentStep, handleQuizFailed]
 	);
@@ -117,7 +121,7 @@ const QuizPage: FunctionComponent<QuizPageProps> = observer(({ isLockedOut, onCo
 
 	return (
 		<div className="flex flex-col items-center justify-center p-4 pt-20 md:pt-4" style={{ maxWidth: '580px' }}>
-			{content}
+			{!fetchingResult && content}
 		</div>
 	);
 });

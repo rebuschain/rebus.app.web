@@ -12,6 +12,7 @@ type IdCardProps = {
 	className?: string;
 	data: NftIdData;
 	displayBlurredData?: boolean;
+	onWatermarkLoad?: () => void;
 };
 
 const countriesToAbbvMap = Object.entries(countries).reduce((map, [abbv, country]) => {
@@ -59,7 +60,7 @@ const BACKGROUND_SEED = 45381;
 const ID_WIDTH = 712;
 
 const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = (
-	{ className, data, displayBlurredData },
+	{ className, data, displayBlurredData, onWatermarkLoad },
 	ref
 ) => {
 	const theme = data.theme || COLOR_OPTIONS[0];
@@ -114,6 +115,7 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 			}}>
 			<div className="absolute w-full flex justify-center">
 				<img
+					onLoad={onWatermarkLoad}
 					src="/public/assets/backgrounds/watermark.svg"
 					style={{
 						position: 'relative',

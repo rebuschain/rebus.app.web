@@ -19,6 +19,7 @@ import {
 import { ObservableQueryEpochProvisions, ObservableQueryMintParmas } from './mint';
 import { ObservableQueryTotalCliamable, ObservableQueryClaimRecord, ObservableQueryClaimParams } from './claim';
 import { ObservableQueryGuage } from './incentives';
+import { ObservableQueryIdRecord } from './nftid';
 
 export interface HasRebusQueries {
 	rebus: RebusQueries;
@@ -57,6 +58,8 @@ export class RebusQueries {
 	public readonly queryClaimRecord: DeepReadonly<ObservableQueryClaimRecord>;
 	public readonly queryClaimParams: DeepReadonly<ObservableQueryClaimParams>;
 
+	public readonly queryIdRecord: DeepReadonly<ObservableQueryIdRecord>;
+
 	constructor(queries: QueriesSetBase, kvStore: KVStore, chainId: string, chainGetter: ChainGetter) {
 		this.queryLockedCoins = new ObservableQueryAccountLockedCoins(kvStore, chainId, chainGetter);
 		this.queryUnlockingCoins = new ObservableQueryAccountUnlockingCoins(kvStore, chainId, chainGetter);
@@ -77,5 +80,7 @@ export class RebusQueries {
 		this.queryTotalClaimable = new ObservableQueryTotalCliamable(kvStore, chainId, chainGetter);
 		this.queryClaimRecord = new ObservableQueryClaimRecord(kvStore, chainId, chainGetter);
 		this.queryClaimParams = new ObservableQueryClaimParams(kvStore, chainId, chainGetter);
+
+		this.queryIdRecord = new ObservableQueryIdRecord(kvStore, chainId, chainGetter);
 	}
 }

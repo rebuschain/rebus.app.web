@@ -64,6 +64,7 @@ const variables = {
 		validator_address: 'Validator Address',
 		approval_pending: 'Approval Pending...',
 		connect_account: 'Account not connected. Please connect to wallet',
+		nft_id_created: 'NFT ID Created Successfully',
 	},
 };
 

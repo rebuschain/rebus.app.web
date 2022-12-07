@@ -1,0 +1,38 @@
+syntax = "proto3";
+package rebus.nftid.v1;
+
+import "google/api/annotations.proto";
+import "gogoproto/gogo.proto";
+import "rebus/nftid/v1/id.proto";
+
+option go_package = "github.com/rebuschain/rebus.core/v1/x/nftid/types";
+
+// Msg defines the nftid Msg service.
+service Msg {
+  // MintNftId mints a NFT ID on the blockchain.
+  rpc MintNftId(MsgMintNftId) returns (MsgMintNftIdResponse) {
+    option (google.api.http).get = "/rebus/nftid/v1/tx/mint_nft_id";
+  };
+}
+
+// MsgMintNftId defines a Msg to create or update an nft id record
+message MsgMintNftId {
+  // address of the user who is minting the nft id
+  string address = 1;
+  // type of the nft id
+  NftId nft_type = 2;
+	// organization that the nft id belongs to
+	string organization = 3;
+  // encryption key for nft id encrypted by wallet
+  string encryption_key = 4;
+  // Metadata url where the JSON file is stored with the info about the ID
+  string metadata_url = 5;
+}
+
+// MsgMintNftIdResponse returns no fields
+message MsgMintNftIdResponse {
+	IdRecord id_record = 1 [
+    (gogoproto.moretags) = "yaml:\"id_record\"",
+    (gogoproto.nullable) = false
+  ];
+}

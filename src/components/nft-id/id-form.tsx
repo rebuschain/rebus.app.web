@@ -4,11 +4,15 @@ import { Input, InputProps, InputTypes } from 'src/components/common/input';
 import { NftIdData } from 'src/types/nft-id';
 import { FileInputProps } from '../common/input/file-input';
 import { TextInputProps } from '../common/input/text-input';
+import { Button } from '../common/button';
+import { Loader } from '../common/loader';
 
 type IdFormProps = {
 	className?: string;
 	data: NftIdData;
+	isSaving?: boolean;
 	onChange?: TextInputProps['onChange'] | FileInputProps['onChange'];
+	onSubmit?: () => void;
 	onVisibilityChange: (name: string, value: boolean) => void;
 };
 
@@ -19,7 +23,14 @@ const COUNTRY_OPTIONS = Object.values(countries)
 	.sort((a, b) => a.localeCompare(b))
 	.map(country => ({ label: country, value: country }));
 
-export const IdForm: React.FC<IdFormProps> = ({ className, data, onChange, onVisibilityChange }) => {
+export const IdForm: React.FC<IdFormProps> = ({
+	className,
+	data,
+	isSaving,
+	onChange,
+	onSubmit,
+	onVisibilityChange,
+}) => {
 	const inputRows: InputProps[][] = [
 		[
 			{
@@ -152,7 +163,23 @@ export const IdForm: React.FC<IdFormProps> = ({ className, data, onChange, onVis
 
 	return (
 		<div className={className} style={{ maxWidth: '580px' }}>
-			<h5 className="mb-6 whitespace-nowrap">Identification Details</h5>
+			<div className="mb-6 w-full flex items-center">
+				<h5 className="whitespace-nowrap">Identification Details</h5>
+				<div className="flex items-center ml-3">
+					{isSaving && (
+						<Loader
+							style={{
+								height: '32px',
+								marginRight: '16px',
+								width: 'auto',
+							}}
+						/>
+					)}
+					<Button backgroundStyle="blue" disabled={isSaving} onClick={onSubmit} smallBorderRadius>
+						Save
+					</Button>
+				</div>
+			</div>
 			<div>
 				{inputRows.map((inputs, index) => (
 					<div className="flex items-end" key={index}>

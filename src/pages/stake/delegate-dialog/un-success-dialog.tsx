@@ -36,7 +36,7 @@ const UnSuccessDialog: FunctionComponent = () => {
 			onClose={handleClose}>
 			<DialogContent className="content">
 				<div className="text-center">
-					<div className="flex justify-center items-center">
+					<div className="flex justify-center items-center mb-3">
 						<img alt="failed" className="mr-2" src={failed} />
 						<ResultDialogHeader>{variables[lang]['transaction_failed']}</ResultDialogHeader>
 					</div>

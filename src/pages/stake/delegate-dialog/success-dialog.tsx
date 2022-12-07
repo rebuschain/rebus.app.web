@@ -16,6 +16,7 @@ const selector = (state: RootState) => {
 		lang: state.language,
 		tokens: state.stake.successDialog.tokens,
 		open: state.stake.successDialog.open,
+		isNft: state.stake.successDialog.isNft,
 		hash: state.stake.successDialog.hash,
 		name: state.stake.delegateDialog.name,
 		validator: state.stake.delegateDialog.validatorAddress,
@@ -39,6 +40,7 @@ const SuccessDialog = observer(() => {
 		validatorList,
 		claimValidator,
 		proposalOpen,
+		isNft,
 	} = useAppSelector(selector);
 	const address = useAddress();
 
@@ -62,7 +64,9 @@ const SuccessDialog = observer(() => {
 			<DialogContent className="content">
 				<div className="flex items-center mb-7.5 justify-center">
 					<img alt="success" className="mr-2" src={success} />
-					{name ? (
+					{isNft ? (
+						<ResultDialogHeader>{variables[lang].nft_id_created}</ResultDialogHeader>
+					) : name ? (
 						<ResultDialogHeader>{name + 'd Successfully'}</ResultDialogHeader>
 					) : !proposalOpen && claimValidator && claimValidator !== 'none' ? (
 						<ResultDialogHeader>{variables[lang].claimed_success}</ResultDialogHeader>
@@ -90,10 +94,12 @@ const SuccessDialog = observer(() => {
 									{hash && hash.slice(hash.length - 6, hash.length)}
 								</div>
 							</div>
-							<div className="flex justify-between mb-4">
-								<ResultDialogText>{variables[lang].tokens}</ResultDialogText>
-								<ResultDialogText>{tokens ? tokens + ' ' + config.COIN_DENOM : null}</ResultDialogText>
-							</div>
+							{tokens?.trim() && (
+								<div className="flex justify-between mb-4">
+									<ResultDialogText>{variables[lang].tokens}</ResultDialogText>
+									<ResultDialogText>{tokens + ' ' + config.COIN_DENOM}</ResultDialogText>
+								</div>
+							)}
 						</>
 					) : null
 				) : (
@@ -165,10 +171,12 @@ const SuccessDialog = observer(() => {
 								</div>
 							</div>
 						)}
-						<div className="flex justify-between mb-4">
-							<ResultDialogText>{variables[lang].tokens}</ResultDialogText>
-							<ResultDialogText>{tokens ? tokens + ' ' + config.COIN_DENOM : null}</ResultDialogText>
-						</div>
+						{tokens?.trim() && (
+							<div className="flex justify-between mb-4">
+								<ResultDialogText>{variables[lang].tokens}</ResultDialogText>
+								<ResultDialogText>{tokens + ' ' + config.COIN_DENOM}</ResultDialogText>
+							</div>
+						)}
 					</>
 				)}
 			</DialogContent>

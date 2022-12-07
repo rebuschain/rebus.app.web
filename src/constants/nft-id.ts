@@ -24,3 +24,6 @@ export const COLOR_OPTIONS = [
 		colors: ['#999999', '#555555', '#333333', '#111111', '#000000'],
 	},
 ];
+
+// Timeout for calls to get metadata and images from ipfs
+export const IPFS_TIMEOUT = 60000;
