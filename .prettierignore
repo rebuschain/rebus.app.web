@@ -10,6 +10,6 @@ prod/*
 
 src/styles/index.scss
 
-src/proto/generated/*
+src/proto/**/*
 
 src/hooks/use-shallow-equal-selector.ts
