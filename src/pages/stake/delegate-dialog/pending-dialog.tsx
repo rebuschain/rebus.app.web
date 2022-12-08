@@ -25,7 +25,7 @@ const PendingDialog: FunctionComponent = () => {
 			aria-labelledby="delegate-dialog-title"
 			className="dialog delegate_dialog result pending"
 			open={open}
-			onClose={handleClose}>
+			onClose={() => handleClose()}>
 			<DialogContent className="content">
 				<div className="text-center flex items-center justify-center">
 					<img alt="processing" className="w-24 mr-2" src={processing} />
