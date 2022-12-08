@@ -127,6 +127,7 @@ export const createTxMsgMintNftId = (
 		params.metadata_url,
 		params.minting_fee
 	);
+	debugger;
 	const tx = createTransaction(
 		msgCosmos,
 		memo,

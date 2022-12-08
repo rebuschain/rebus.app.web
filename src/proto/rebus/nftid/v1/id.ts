@@ -5,13 +5,17 @@ import _m0 from "protobufjs/minimal";
 export const protobufPackage = "rebus.nftid.v1";
 
 export enum NftId {
-  Default = 0,
+  None = 0,
+  Default = 1,
   UNRECOGNIZED = -1,
 }
 
 export function nftIdFromJSON(object: any): NftId {
   switch (object) {
     case 0:
+    case "None":
+      return NftId.None;
+    case 1:
     case "Default":
       return NftId.Default;
     case -1:
@@ -23,6 +27,8 @@ export function nftIdFromJSON(object: any): NftId {
 
 export function nftIdToJSON(object: NftId): string {
   switch (object) {
+    case NftId.None:
+      return "None";
     case NftId.Default:
       return "Default";
     case NftId.UNRECOGNIZED:

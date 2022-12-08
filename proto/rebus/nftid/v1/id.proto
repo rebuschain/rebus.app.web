@@ -6,7 +6,8 @@ import "gogoproto/gogo.proto";
 enum NftId {
   option (gogoproto.goproto_enum_prefix) = false;
 
-  Default = 0;
+  None = 0;
+  Default = 1;
 
 }
 
