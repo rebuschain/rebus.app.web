@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { IconButton, Tooltip } from '@material-ui/core';
+import { IconButton, Tooltip } from '@mui/material';
 import styled from '@emotion/styled';
 import copy from 'src/assets/user-details/copy.png';
 

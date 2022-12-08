@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Pagination } from '@material-ui/lab';
+import { Pagination } from '@mui/lab';
 import styled from '@emotion/styled';
 import { useHistory } from 'react-router-dom';
 import { voteCalculation } from 'src/utils/vote-calculation';

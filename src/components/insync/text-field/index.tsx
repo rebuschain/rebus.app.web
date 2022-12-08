@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
-import { makeStyles, TextField as MaterialTextField } from '@material-ui/core';
+import { TextField as MaterialTextField } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import styled from '@emotion/styled';
 import classNames from 'classnames';
 

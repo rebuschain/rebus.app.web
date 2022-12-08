@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { IconButton } from '@material-ui/core';
+import { IconButton } from '@mui/material';
 import backIcon from 'src/assets/back.png';
 
 interface BackButtonProps extends RouteComponentProps<any> {
@@ -19,7 +19,7 @@ const BackButton: FunctionComponent<BackButtonProps> = props => {
 	};
 
 	return (
-		<IconButton onClick={onClick}>
+		<IconButton onClick={onClick} size="large">
 			<img alt="back" src={backIcon} style={{ width: 'unset' }} />
 		</IconButton>
 	);

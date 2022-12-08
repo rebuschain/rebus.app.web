@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Dialog, DialogContent } from '@material-ui/core';
+import { Dialog, DialogContent } from '@mui/material';
 import variables from 'src/utils/variables';
 import { failedDialogActions } from 'src/reducers/slices';
 import failed from 'src/assets/stake/failed.svg';
