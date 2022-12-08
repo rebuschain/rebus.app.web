@@ -74,8 +74,10 @@ export const multiply = (input1: TBigInput, input2: TBigInput, places = DEFAULT_
 	try {
 		return new B(input1).times(input2).toFixed(places);
 	} catch (ex) {
-		console.warn(`Big error ${input1} * ${input2}`, ex.message);
-		return '0';
+		if (ex instanceof Error) {
+			console.warn(`Big error ${input1} * ${input2}`, ex.message);
+			return '0';
+		}
 	}
 };
 
@@ -85,8 +87,10 @@ export const divide = (input1: TBigInput, input2: TBigInput, places = DEFAULT_PL
 		else if (!isFinite(Number(input2)) || !isFinite(Number(input1))) return 'NaN';
 		return new B(input1).div(input2).toFixed(places);
 	} catch (ex) {
-		console.warn(`Big error ${input1} / ${input2}`, ex.message);
-		return '0';
+		if (ex instanceof Error) {
+			console.warn(`Big error ${input1} / ${input2}`, ex.message);
+			return '0';
+		}
 	}
 };
 

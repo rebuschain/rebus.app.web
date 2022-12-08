@@ -54,11 +54,6 @@ dayjs.extend(utc);
 
 const queryClient = new QueryClient();
 const theme = createMuiTheme();
-const useStyles = makeStyles(theme => {
-	root: {
-		// some CSS that accesses the theme
-	}
-});
 
 const Router: FunctionComponent = () => {
 	return (
