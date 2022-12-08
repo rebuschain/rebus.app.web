@@ -35,7 +35,7 @@ export interface MessageMsgMintNftId {
 }
 
 export interface AminoMsgMintNftId extends AminoMsg {
-	readonly type: 'rebus.nftid.v1.MsgMintNftId';
+	readonly type: 'rebus.core/MsgMintNftId';
 	readonly value: {
 		readonly address: string;
 		readonly nft_type: number;
@@ -55,7 +55,7 @@ const createMsgMintNftId = (
 	mintingFee: Amount
 ) => {
 	return {
-		type: 'rebus.nftid.v1.Msg/MintNftId',
+		type: 'rebus.core/MsgMintNftId',
 		value: {
 			address: sender,
 			nft_type: nftType,
