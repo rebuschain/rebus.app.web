@@ -49,7 +49,7 @@ const NewCards: FunctionComponent<CardsProps> = ({ proposals }) => {
 									</p>
 								</div>
 								<div className="py-2 text-xl whitespace-nowrap overflow-hidden text-ellipsis">
-									{proposal.raw.content.value.title}
+									{proposal.title || proposal.content?.value?.title || proposal.content?.title}
 								</div>
 								<div className="flex justify-between">
 									<div className="py-2 text-white-mid">
