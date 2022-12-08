@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
-import { makeStyles, MenuItem } from '@material-ui/core';
+import { MenuItem } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import classNames from 'classnames';
 import { TextFieldStyled } from './components';
 

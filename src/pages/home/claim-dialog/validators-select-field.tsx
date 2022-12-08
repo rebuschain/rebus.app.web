@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
-import { MenuItem } from '@material-ui/core';
+import { MenuItem } from '@mui/material';
 import { CoinPretty, Dec } from '@keplr-wallet/unit';
 import { actions } from 'src/reducers/slices/stake/slices/claim-dialog';
 import SelectField from 'src/components/insync/select-field/with-children';

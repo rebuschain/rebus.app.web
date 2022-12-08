@@ -2,8 +2,8 @@ import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import { TextInput } from './text-input';
 import styled from '@emotion/styled';
-import { KeyboardDatePicker } from '@material-ui/pickers';
-import { TextFieldProps } from '@material-ui/core';
+import DatePicker from '@mui/lab/DatePicker';
+import { TextFieldProps } from '@mui/material';
 
 export type DateInputProps = {
 	className?: string;
@@ -28,7 +28,7 @@ export const DateInput: React.FC<DateInputProps> = ({ className, onChange, name 
 
 	return (
 		<div className={classNames(className, 'flex flex-1 w-full')}>
-			<KeyboardDatePicker
+			<DatePicker
 				disableFuture
 				format={DATE_FORMAT}
 				value={value || null}

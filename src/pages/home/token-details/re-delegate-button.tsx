@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import variables from 'src/utils/variables';
 import { useActions } from 'src/hooks/use-actions';
 import { useAddress } from 'src/hooks/use-address';

@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Button } from '@material-ui/core';
-import { Pagination } from '@material-ui/lab';
+import { Button } from '@mui/material';
+import { Pagination } from '@mui/lab';
 import styled from '@emotion/styled';
 import ClassNames from 'classnames';
 import moment from 'moment';
