@@ -260,7 +260,7 @@ const DelegateDialog = observer<DelegateDialogProps>(({ canDelegateToInactive })
 			aria-labelledby="delegate-dialog-title"
 			className="dialog"
 			open={open}
-			onClose={handleClose}>
+			onClose={() => handleClose()}>
 			{inProgress && <CircularProgress className="full_screen" />}
 			<DialogContentStyled className="content">
 				<Header>{name + ' ' + variables[lang].tokens}</Header>

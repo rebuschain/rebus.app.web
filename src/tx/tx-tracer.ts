@@ -169,7 +169,9 @@ export class TxTracer {
 					}
 				}
 			} catch (e) {
-				console.log(`Tendermint websocket jsonrpc response is not JSON: ${e.message || e.toString()}`);
+				if (e instanceof Error) {
+					console.log(`Tendermint websocket jsonrpc response is not JSON: ${e.message || e.toString()}`);
+				}
 			}
 		}
 	};
