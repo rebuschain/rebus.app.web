@@ -48,7 +48,10 @@ const PrivateView: FunctionComponent = observer(() => {
 	const { lang } = useAppSelector(selector);
 	const [isFetchingMetadata, setIsFetchingMetadata] = useState(false);
 	const [isSaving, setIsSaving] = useState(false);
-	const [data, setData] = useState<NftIdData>({});
+	const [data, setData] = useState<NftIdData>({
+		idNumber: '0x000000000000',
+		documentNumber: '0',
+	});
 	const [currentIdImageData, setCurrentIdImageData] = useState('');
 
 	const [publicImageData, setPublicImageData] = useState('');
@@ -209,6 +212,13 @@ const PrivateView: FunctionComponent = observer(() => {
 
 			queries.queryBalances.getQueryBech32Address(address).fetch();
 			queries.rebus.queryIdRecord.get(address).fetch();
+		} else {
+			try {
+				// Delete uploaded ipfs if there was an error creating the id
+				ipfs.deleteIpfs(getIpfsId(url || ''));
+			} catch (err) {
+				// Error deleting nft id, ignore it
+			}
 		}
 
 		setIsSaving(false);
