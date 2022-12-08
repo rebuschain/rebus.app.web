@@ -3,7 +3,7 @@ import { Bech32Address, ChainIdHelper } from '@keplr-wallet/cosmos';
 import { WalletStatus } from '@keplr-wallet/stores';
 import { IBCCurrency } from '@keplr-wallet/types';
 import { Dec, DecUtils, Int } from '@keplr-wallet/unit';
-import { IconButton } from '@material-ui/core';
+import { IconButton } from '@mui/material';
 import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent, useEffect, useState } from 'react';

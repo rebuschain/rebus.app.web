@@ -1,6 +1,6 @@
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import React, { FunctionComponent } from 'react';
-import { ArrowDownwardRounded, ArrowUpwardRounded } from '@material-ui/icons';
+import { ArrowDownwardRounded, ArrowUpwardRounded } from '@mui/icons-material';
 import { ColumnDef, SortState } from './types';
 import useWindowSize from 'src/hooks/use-window-size';
 

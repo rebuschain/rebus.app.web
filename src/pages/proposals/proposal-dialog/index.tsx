@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { IconButton } from '@material-ui/core';
+import { IconButton } from '@mui/material';
 import styled from '@emotion/styled';
 import moment from 'moment';
 import ClassNames from 'classnames';
