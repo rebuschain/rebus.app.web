@@ -18,7 +18,7 @@ type IdPreviewProps = {
 	titleSuffix?: React.ReactElement;
 };
 
-const EMPTY_OBJ = {};
+const EMPTY_OBJ: NftIdData = {};
 
 export const IdPreview: React.FC<IdPreviewProps> = ({
 	className,
@@ -68,7 +68,7 @@ export const IdPreview: React.FC<IdPreviewProps> = ({
 				});
 			}
 		});
-	}, [data, idImageDataString, onRenderPrivateImage, onRenderPublicImage, watermarkLoaded]);
+	}, [data, data.idNumber, idImageDataString, onRenderPrivateImage, onRenderPublicImage, watermarkLoaded]);
 
 	return (
 		<div className={className}>

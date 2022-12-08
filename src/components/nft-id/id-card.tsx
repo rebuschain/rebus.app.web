@@ -67,6 +67,7 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 	const theme = data.theme || COLOR_OPTIONS[0];
 	const level = getBackgroundLevel(data);
 	const address = useAddress();
+	const tokenAddress = data.idNumber ? `${data.idNumber}${address}` : address;
 
 	const [backgroundImage, setBackgroundImage] = useState('');
 
@@ -130,7 +131,7 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 					<div>
 						<div className="flex items-center">
 							<img className="w-6 h-6" src="/public/assets/main/rebus-logo-single.svg" />
-							<div className="ml-2" style={{ textShadow: '0px 1px rgba(0, 0, 0, 0.6)' }}>
+							<div className="ml-2" style={{ textShadow: '0px 1px rgba(0, 0, 0, 0.6)', whiteSpace: 'nowrap' }}>
 								REBUS CHAIN NFT IDENTITY CARD
 							</div>
 						</div>
@@ -264,13 +265,13 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 				)}
 
 				<div className="flex bg-white rounded-br-2lg rounded-bl-2lg p-5 mt-12">
-					<QRCode size={100} value={address} />
+					<QRCode size={100} value={tokenAddress} />
 					<div className="ml-5">
 						<div className="uppercase text-xs black" style={{ lineHeight: '14px' }}>
 							Token Address
 						</div>
 						<div className="uppercase text-xl black break-all" style={{ lineHeight: '29px' }}>
-							{address}
+							{tokenAddress}
 						</div>
 					</div>
 				</div>
