@@ -4,6 +4,7 @@ package rebus.nftid.v1;
 import "google/api/annotations.proto";
 import "gogoproto/gogo.proto";
 import "rebus/nftid/v1/id.proto";
+import "cosmos/base/v1beta1/coin.proto";
 
 option go_package = "github.com/rebuschain/rebus.core/v1/x/nftid/types";
 
@@ -27,6 +28,8 @@ message MsgMintNftId {
   string encryption_key = 4;
   // Metadata url where the JSON file is stored with the info about the ID
   string metadata_url = 5;
+  // Minting fee for the nft id, min is 0.5 and max is 10
+  cosmos.base.v1beta1.Coin minting_fee = 6;
 }
 
 // MsgMintNftIdResponse returns no fields

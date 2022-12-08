@@ -1,8 +1,11 @@
+import env from '@beam-australia/react-env';
 import { createTransaction } from '@tharsis/proto';
 import { createEIP712, generateFee, generateMessage, generateTypes } from '@tharsis/eip712';
 import { Chain, Fee, Sender } from '@tharsis/transactions';
 import { AminoMsg } from '@cosmjs/amino';
 import { MsgMintNftId } from '../../../proto/rebus/nftid/v1/tx_pb';
+import { Coin } from '../../../proto/cosmos/base/v1beta1/coin_pb';
+import { config } from 'src/config-insync';
 
 const MSG_MINT_NFT_ID_TYPES = {
 	MsgValue: [
@@ -65,6 +68,11 @@ const createMsgMintNftIdCosmos = (
 	mintNftIdMessage.setOrganization(organization);
 	mintNftIdMessage.setEncryptionKey(encryptionKey);
 	mintNftIdMessage.setMetadataUrl(metadataUrl);
+
+	const mintingFee = new Coin();
+	mintingFee.setAmount(env('NFT_ID_MINTING_FEE'));
+	mintingFee.setDenom(config.COIN_MINIMAL_DENOM);
+	mintNftIdMessage.setMintingFee(mintingFee);
 
 	return {
 		message: mintNftIdMessage,

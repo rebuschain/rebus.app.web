@@ -1,5 +1,6 @@
 /* eslint-disable */
 import _m0 from "protobufjs/minimal";
+import { Coin } from "../../../cosmos/base/v1beta1/coin";
 import { IdRecord, NftId, nftIdFromJSON, nftIdToJSON } from "./id";
 
 export const protobufPackage = "rebus.nftid.v1";
@@ -16,6 +17,8 @@ export interface MsgMintNftId {
   encryptionKey: string;
   /** Metadata url where the JSON file is stored with the info about the ID */
   metadataUrl: string;
+  /** Minting fee for the nft id, min is 0.5 and max is 10 */
+  mintingFee: Coin | undefined;
 }
 
 /** MsgMintNftIdResponse returns no fields */
@@ -24,7 +27,7 @@ export interface MsgMintNftIdResponse {
 }
 
 function createBaseMsgMintNftId(): MsgMintNftId {
-  return { address: "", nftType: 0, organization: "", encryptionKey: "", metadataUrl: "" };
+  return { address: "", nftType: 0, organization: "", encryptionKey: "", metadataUrl: "", mintingFee: undefined };
 }
 
 export const MsgMintNftId = {
@@ -43,6 +46,9 @@ export const MsgMintNftId = {
     }
     if (message.metadataUrl !== "") {
       writer.uint32(42).string(message.metadataUrl);
+    }
+    if (message.mintingFee !== undefined) {
+      Coin.encode(message.mintingFee, writer.uint32(50).fork()).ldelim();
     }
     return writer;
   },
@@ -69,6 +75,9 @@ export const MsgMintNftId = {
         case 5:
           message.metadataUrl = reader.string();
           break;
+        case 6:
+          message.mintingFee = Coin.decode(reader, reader.uint32());
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -84,6 +93,7 @@ export const MsgMintNftId = {
       organization: isSet(object.organization) ? String(object.organization) : "",
       encryptionKey: isSet(object.encryptionKey) ? String(object.encryptionKey) : "",
       metadataUrl: isSet(object.metadataUrl) ? String(object.metadataUrl) : "",
+      mintingFee: isSet(object.mintingFee) ? Coin.fromJSON(object.mintingFee) : undefined,
     };
   },
 
@@ -94,6 +104,8 @@ export const MsgMintNftId = {
     message.organization !== undefined && (obj.organization = message.organization);
     message.encryptionKey !== undefined && (obj.encryptionKey = message.encryptionKey);
     message.metadataUrl !== undefined && (obj.metadataUrl = message.metadataUrl);
+    message.mintingFee !== undefined &&
+      (obj.mintingFee = message.mintingFee ? Coin.toJSON(message.mintingFee) : undefined);
     return obj;
   },
 
@@ -104,6 +116,9 @@ export const MsgMintNftId = {
     message.organization = object.organization ?? "";
     message.encryptionKey = object.encryptionKey ?? "";
     message.metadataUrl = object.metadataUrl ?? "";
+    message.mintingFee = (object.mintingFee !== undefined && object.mintingFee !== null)
+      ? Coin.fromPartial(object.mintingFee)
+      : undefined;
     return message;
   },
 };

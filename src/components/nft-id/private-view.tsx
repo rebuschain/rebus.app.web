@@ -27,6 +27,7 @@ import { MsgMintNftId } from '../../proto/rebus/nftid/v1/tx_pb';
 import { NftId } from '../../proto/rebus/nftid/v1/id_pb';
 import { Button } from '../common/button';
 import { getIpfsHttpsUrl, getIpfsId } from 'src/utils/ipfs';
+import { Coin } from '../../proto/cosmos/base/v1beta1/coin_pb';
 
 const ipfs = new IPFS(env('NFT_STORAGE_TOKEN'));
 
@@ -47,6 +48,7 @@ const PrivateView: FunctionComponent = observer(() => {
 
 	const { lang } = useAppSelector(selector);
 	const [isFetchingMetadata, setIsFetchingMetadata] = useState(false);
+	const [isFetchingPrivateImage, setIsFetchingPrivateImage] = useState(false);
 	const [isSaving, setIsSaving] = useState(false);
 	const [data, setData] = useState<NftIdData>({});
 	const [currentIdImageData, setCurrentIdImageData] = useState('');
@@ -130,6 +132,10 @@ const PrivateView: FunctionComponent = observer(() => {
 		mintNftIdMessage.setOrganization(msg.organization);
 		mintNftIdMessage.setEncryptionKey(msg.encryption_key);
 		mintNftIdMessage.setMetadataUrl(msg.metadata_url);
+		const mintingFee = new Coin();
+		mintingFee.setAmount(env('NFT_ID_MINTING_FEE'));
+		mintingFee.setDenom(config.COIN_MINIMAL_DENOM);
+		mintNftIdMessage.setMintingFee(mintingFee);
 
 		const tx = {
 			msgs: [
@@ -242,11 +248,14 @@ const PrivateView: FunctionComponent = observer(() => {
 					: oldData
 			);
 
-			(async () => {
-				setIsFetchingMetadata(true);
+			setIsFetchingMetadata(true);
 
+			(async () => {
 				try {
 					const { data: metadata } = await axios.get(getIpfsHttpsUrl(metadata_url), { timeout: IPFS_TIMEOUT });
+
+					setIsFetchingMetadata(false);
+					setIsFetchingPrivateImage(true);
 					const { data: privateImageData } = await axios.get(getIpfsHttpsUrl(metadata?.properties?.private_image), {
 						timeout: IPFS_TIMEOUT,
 					});
@@ -264,6 +273,7 @@ const PrivateView: FunctionComponent = observer(() => {
 				}
 
 				setIsFetchingMetadata(false);
+				setIsFetchingPrivateImage(false);
 			})();
 		}
 	}, [document_number, encryption_key, id_number, metadata_url, walletStore]);
@@ -293,6 +303,7 @@ const PrivateView: FunctionComponent = observer(() => {
 							className="mb-6"
 							data={data}
 							idImageDataString={currentIdImageData}
+							isFetchingImage={isFetchingPrivateImage}
 							title="Current ID (Private View)"
 							titleSuffix={
 								<div className="ml-3">

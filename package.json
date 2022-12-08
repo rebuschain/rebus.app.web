@@ -24,7 +24,7 @@
 		"react-env:mainnet": "cross-env APP_ENV=mainnet react-env --env APP_ENV",
 		"react-env:mainnet:local": "cross-env APP_ENV=mainnet.local react-env --env APP_ENV",
 		"postinstall": "patch-package",
-		"proto": "protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts --ts_out=./src/proto --js_out=import_style=commonjs,binary:./src/proto -I=./proto ./proto/rebus/nftid/v1/*.proto ./proto/google/api/*.proto ./proto/gogoproto/*.proto",
+		"proto": "protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts --ts_out=./src/proto --js_out=import_style=commonjs,binary:./src/proto -I=./proto ./proto/rebus/nftid/v1/*.proto ./proto/google/api/*.proto ./proto/gogoproto/*.proto ./proto/cosmos/base/v1beta1/*.proto",
 		"proto:ts": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_opt=esModuleInterop=true --ts_proto_out=./src/proto -I=./proto ./proto/rebus/nftid/v1/tx.proto"
 	},
 	"pre-commit": [
