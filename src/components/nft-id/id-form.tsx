@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
+import env from '@beam-australia/react-env';
 import countries from 'svg-country-flags/countries.json';
 import { Input, InputProps, InputTypes } from 'src/components/common/input';
 import { NftIdData } from 'src/types/nft-id';
@@ -6,6 +7,8 @@ import { FileInputProps } from '../common/input/file-input';
 import { TextInputProps } from '../common/input/text-input';
 import { Button } from '../common/button';
 import { Loader } from '../common/loader';
+import ConfirmDialog from 'src/pages/stake/delegate-dialog/confirm-dialog';
+import { config } from 'src/config-insync';
 
 type IdFormProps = {
 	className?: string;
@@ -17,11 +20,12 @@ type IdFormProps = {
 };
 
 const dateOfBirthStyle = { minWidth: '180px' };
-const textareaStyle = { resize: 'none' };
 
 const COUNTRY_OPTIONS = Object.values(countries)
 	.sort((a, b) => a.localeCompare(b))
 	.map(country => ({ label: country, value: country }));
+
+const nftIdCost = parseFloat((Number(env('NFT_ID_MINTING_FEE')) / 10 ** config.COIN_DECIMALS).toFixed(1));
 
 export const IdForm: React.FC<IdFormProps> = ({
 	className,
@@ -31,6 +35,18 @@ export const IdForm: React.FC<IdFormProps> = ({
 	onSubmit,
 	onVisibilityChange,
 }) => {
+	const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+	const openConfirmDialog = useCallback(() => setIsConfirmDialogOpen(true), []);
+	const closeConfirmDialog = useCallback(() => setIsConfirmDialogOpen(false), []);
+
+	const onConfirm = useCallback(() => {
+		closeConfirmDialog();
+
+		if (onSubmit) {
+			onSubmit();
+		}
+	}, [closeConfirmDialog, onSubmit]);
+
 	const inputRows: InputProps[][] = [
 		[
 			{
@@ -175,7 +191,7 @@ export const IdForm: React.FC<IdFormProps> = ({
 							}}
 						/>
 					)}
-					<Button backgroundStyle="blue" disabled={isSaving} onClick={onSubmit} smallBorderRadius>
+					<Button backgroundStyle="blue" disabled={isSaving} onClick={openConfirmDialog} smallBorderRadius>
 						Save
 					</Button>
 				</div>
@@ -189,6 +205,14 @@ export const IdForm: React.FC<IdFormProps> = ({
 					</div>
 				))}
 			</div>
+
+			<ConfirmDialog
+				content={`The cost for minting the NFT ID is ${nftIdCost} REBUS`}
+				isOpen={isConfirmDialogOpen}
+				onClose={closeConfirmDialog}
+				onConfirm={onConfirm}
+				title="Confirm Minting of NFT ID"
+			/>
 		</div>
 	);
 };

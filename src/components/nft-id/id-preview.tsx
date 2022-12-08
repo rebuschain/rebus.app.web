@@ -80,7 +80,7 @@ export const IdPreview: React.FC<IdPreviewProps> = ({
 			)}
 
 			{!idImageDataString && (
-				<div style={{ position: 'absolute', top: 0, zIndex: -1 }}>
+				<div style={{ overflow: 'hidden', position: 'absolute', left: 0, top: 0, zIndex: -1 }}>
 					<IdCard
 						className="absolute top-0"
 						data={data}

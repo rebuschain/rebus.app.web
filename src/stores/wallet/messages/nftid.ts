@@ -1,11 +1,9 @@
-import env from '@beam-australia/react-env';
 import { createTransaction } from '@tharsis/proto';
 import { createEIP712, generateFee, generateMessage, generateTypes } from '@tharsis/eip712';
 import { Chain, Fee, Sender } from '@tharsis/transactions';
 import { AminoMsg } from '@cosmjs/amino';
 import { MsgMintNftId } from '../../../proto/rebus/nftid/v1/tx_pb';
 import { Coin } from '../../../proto/cosmos/base/v1beta1/coin_pb';
-import { config } from 'src/config-insync';
 
 const MSG_MINT_NFT_ID_TYPES = {
 	MsgValue: [
@@ -14,8 +12,18 @@ const MSG_MINT_NFT_ID_TYPES = {
 		{ name: 'organization', type: 'string' },
 		{ name: 'encryption_key', type: 'string' },
 		{ name: 'metadata_url', type: 'string' },
+		{ name: 'minting_fee', type: 'TypeAmount' },
+	],
+	TypeAmount: [
+		{ name: 'denom', type: 'string' },
+		{ name: 'amount', type: 'string' },
 	],
 };
+
+export interface Amount {
+	denom: string;
+	amount: string;
+}
 
 export interface MessageMsgMintNftId {
 	address: string;
@@ -23,6 +31,7 @@ export interface MessageMsgMintNftId {
 	organization: string;
 	encryption_key: string;
 	metadata_url: string;
+	minting_fee: Amount;
 }
 
 export interface AminoMsgMintNftId extends AminoMsg {
@@ -33,6 +42,7 @@ export interface AminoMsgMintNftId extends AminoMsg {
 		readonly organization: string;
 		readonly encryption_key: string;
 		readonly metadata_url: string;
+		readonly minting_fee: Amount;
 	};
 }
 
@@ -41,7 +51,8 @@ const createMsgMintNftId = (
 	nftType: number,
 	organization: string,
 	encryptionKey: string,
-	metadataUrl: string
+	metadataUrl: string,
+	mintingFee: Amount
 ) => {
 	return {
 		type: 'rebus.nftid.v1.Msg/MintNftId',
@@ -51,6 +62,7 @@ const createMsgMintNftId = (
 			organization,
 			encryption_key: encryptionKey,
 			metadata_url: metadataUrl,
+			minting_fee: mintingFee,
 		},
 	};
 };
@@ -60,7 +72,8 @@ const createMsgMintNftIdCosmos = (
 	nftType: number,
 	organization: string,
 	encryptionKey: string,
-	metadataUrl: string
+	metadataUrl: string,
+	mintingFee: Amount
 ) => {
 	const mintNftIdMessage = new MsgMintNftId();
 	mintNftIdMessage.setAddress(sender);
@@ -69,10 +82,10 @@ const createMsgMintNftIdCosmos = (
 	mintNftIdMessage.setEncryptionKey(encryptionKey);
 	mintNftIdMessage.setMetadataUrl(metadataUrl);
 
-	const mintingFee = new Coin();
-	mintingFee.setAmount(env('NFT_ID_MINTING_FEE'));
-	mintingFee.setDenom(config.COIN_MINIMAL_DENOM);
-	mintNftIdMessage.setMintingFee(mintingFee);
+	const mintingFeeCoin = new Coin();
+	mintingFeeCoin.setAmount(mintingFee.amount);
+	mintingFeeCoin.setDenom(mintingFee.denom);
+	mintNftIdMessage.setMintingFee(mintingFeeCoin);
 
 	return {
 		message: mintNftIdMessage,
@@ -94,7 +107,8 @@ export const createTxMsgMintNftId = (
 		params.nft_type,
 		params.organization,
 		params.encryption_key,
-		params.metadata_url
+		params.metadata_url,
+		params.minting_fee
 	);
 	const messages = generateMessage(
 		sender.accountNumber.toString(),
@@ -110,7 +124,8 @@ export const createTxMsgMintNftId = (
 		params.nft_type,
 		params.organization,
 		params.encryption_key,
-		params.metadata_url
+		params.metadata_url,
+		params.minting_fee
 	);
 	const tx = createTransaction(
 		msgCosmos,
