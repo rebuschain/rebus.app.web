@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Button, Dialog, DialogActions, DialogContent } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent } from '@mui/material';
 import variables from 'src/utils/variables';
 import { successDialogActions, snackbarActions } from 'src/reducers/slices';
 import success from 'src/assets/stake/success.svg';
