@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import variables from 'src/utils/variables';
 import { actions as claimDialogActions } from 'src/reducers/slices/stake/slices/claim-dialog';
 import { actions as snackbarActions } from 'src/reducers/slices/snackbar';

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { CircularProgress as MaterialCircularProgress } from '@material-ui/core';
+import { CircularProgress as MaterialCircularProgress } from '@mui/material';
 import styled from '@emotion/styled';
 import ClassNames from 'classnames';
 
