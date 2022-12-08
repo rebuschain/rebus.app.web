@@ -64,7 +64,7 @@ const SuccessDialog = observer(() => {
 			aria-labelledby="delegate-dialog-title"
 			className="dialog delegate_dialog result"
 			open={open}
-			onClose={handleClose}>
+			onClose={() => handleClose()}>
 			<DialogContent className="content">
 				<div className="flex items-center mb-7.5 justify-center">
 					<img alt="success" className="mr-2" src={success} />
@@ -187,7 +187,7 @@ const SuccessDialog = observer(() => {
 				)}
 			</DialogContent>
 			<DialogActions className="footer">
-				<Button variant="contained" onClick={handleClose}>
+				<Button variant="contained" onClick={() => handleClose()}>
 					{variables[lang].done}
 				</Button>
 			</DialogActions>

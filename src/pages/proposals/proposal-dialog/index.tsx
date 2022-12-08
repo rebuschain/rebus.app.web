@@ -123,7 +123,7 @@ const ProposalDialog = observer(() => {
 	return (
 		<div className="h-full w-full">
 			<Content>
-				<CloseButton onClick={handleClose}>
+				<CloseButton onClick={() => handleClose()}>
 					<Icon className="icon" icon="close" />
 				</CloseButton>
 				<div className="flex items-center justify-between flex-col md:flex-row">

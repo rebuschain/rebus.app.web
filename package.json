@@ -166,8 +166,8 @@
 		"@types/jest": "^26.0.22",
 		"@types/lodash-es": "^4.17.4",
 		"@types/qrcode.react": "^1.0.2",
-		"@types/react": "^17.0.2",
-		"@types/react-dom": "^17.0.2",
+		"@types/react": "^17.0.0",
+		"@types/react-dom": "^17.0.0",
 		"@types/react-input-autosize": "^2.2.0",
 		"@types/react-linkify": "^1.0.0",
 		"@types/react-router": "^5.1.13",
@@ -226,7 +226,9 @@
 		"ws": "^7.4.5"
 	},
 	"resolutions": {
-		"axios": "^0.21.2"
+		"axios": "^0.21.2",
+		"@types/react": "^17.0.0",
+		"react": "^17.0.0"
 	},
 	"importSort": {
 		".js, .jsx, .ts, .tsx": {
