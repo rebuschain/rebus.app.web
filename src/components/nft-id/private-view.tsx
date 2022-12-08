@@ -28,6 +28,7 @@ import { NftId } from '../../proto/rebus/nftid/v1/id_pb';
 import { Button } from '../common/button';
 import { getIpfsHttpsUrl, getIpfsId } from 'src/utils/ipfs';
 import { Coin } from '../../proto/cosmos/base/v1beta1/coin_pb';
+import { Amount } from 'src/stores/wallet/messages/nftid';
 
 const ipfs = new IPFS(env('NFT_STORAGE_TOKEN'));
 
@@ -121,30 +122,32 @@ const PrivateView: FunctionComponent = observer(() => {
 			extraProperties: { theme: data.theme },
 		});
 
-		const msg = {
-			address,
-			nft_type: NftId.DEFAULT,
-			organization: 'Rebus',
-			encryption_key: encryptedEncryptionKey,
-			metadata_url: url,
-		};
-
 		const mintNftIdMessage = new MsgMintNftId();
-		mintNftIdMessage.setAddress(msg.address);
-		mintNftIdMessage.setNftType(msg.nft_type);
-		mintNftIdMessage.setOrganization(msg.organization);
-		mintNftIdMessage.setEncryptionKey(msg.encryption_key);
-		mintNftIdMessage.setMetadataUrl(msg.metadata_url);
+		mintNftIdMessage.setAddress(address);
+		mintNftIdMessage.setNftType(NftId.DEFAULT);
+		mintNftIdMessage.setOrganization('Rebus');
+		mintNftIdMessage.setEncryptionKey(encryptedEncryptionKey);
+		mintNftIdMessage.setMetadataUrl(url);
 		const mintingFee = new Coin();
 		mintingFee.setAmount(env('NFT_ID_MINTING_FEE'));
 		mintingFee.setDenom(config.COIN_MINIMAL_DENOM);
 		mintNftIdMessage.setMintingFee(mintingFee);
+		const objMessage = mintNftIdMessage.toObject();
+
+		const msg = {
+			address: objMessage.address,
+			nft_type: objMessage.nftType,
+			organization: objMessage.organization,
+			encryption_key: objMessage.encryptionKey,
+			metadata_url: objMessage.metadataUrl,
+			minting_fee: objMessage.mintingFee as Amount,
+		};
 
 		const tx = {
 			msgs: [
 				{
 					typeUrl: '/rebus.nftid.v1.MsgMintNftId',
-					value: mintNftIdMessage.toObject(),
+					value: msg,
 				},
 			],
 			fee: {
@@ -245,6 +248,19 @@ const PrivateView: FunctionComponent = observer(() => {
 		queries.rebus.queryIdRecord,
 		metadata_url,
 	]);
+
+	// Make html element not be scrollable otherwise there's 2 scroll bars in mobile view
+	useEffect(() => {
+		if (document?.body?.parentElement) {
+			document.body.parentElement.style.overflow = 'hidden';
+		}
+
+		return () => {
+			if (document?.body?.parentElement) {
+				document.body.parentElement.style.overflow = '';
+			}
+		};
+	}, []);
 
 	useEffect(() => {
 		if (id_number) {

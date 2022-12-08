@@ -10,6 +10,7 @@ import { useAppSelector } from 'src/hooks/use-app-select';
 import { RootState } from 'src/reducers/store';
 import { useAddress } from 'src/hooks/use-address';
 import { ResultDialogHeader, ResultDialogText } from './components';
+import { useStore } from 'src/stores';
 
 const selector = (state: RootState) => {
 	return {
@@ -28,6 +29,7 @@ const selector = (state: RootState) => {
 };
 
 const SuccessDialog = observer(() => {
+	const { walletStore } = useStore();
 	const [handleClose] = useActions([successDialogActions.hideSuccessDialog]);
 	const {
 		tokens,
@@ -45,7 +47,7 @@ const SuccessDialog = observer(() => {
 	const address = useAddress();
 
 	const handleRedirect = () => {
-		const link = `${config.EXPLORER_URL}/${hash}`;
+		const link = `${walletStore.getExplorerUrl()}/${hash}`;
 		window.open(link, '_blank');
 	};
 

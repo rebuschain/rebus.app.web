@@ -39,6 +39,7 @@ import { CosmostationProvider } from './cosmostation-provider';
 import { BaseProvider } from './base-provider';
 import { Int } from '@keplr-wallet/unit';
 import { AminoMsgMintNftId, createTxMsgMintNftId, MessageMsgMintNftId } from './messages/nftid';
+import { config } from 'src/config-insync';
 
 const chainId = env('CHAIN_ID');
 const restUrl = env('REST_URL');
@@ -250,6 +251,14 @@ export class WalletStore {
 		this._aminoProvider = undefined;
 	}
 
+	public getExplorerUrl() {
+		if (this.isLoaded && this.walletType === 'metamask') {
+			return config.EVM_EXPLORER_URL || config.EXPLORER_URL;
+		}
+
+		return config.EXPLORER_URL;
+	}
+
 	public async signMessage(message: string) {
 		return this.provider.getSigner().signMessage(message);
 	}
@@ -341,7 +350,7 @@ export class WalletStore {
 					symbol: env('COIN_DENOM'),
 					decimals: parseInt(env('COIN_DECIMALS'), 10),
 				},
-				blockExplorerUrls: [env('EXPLORER_URL')],
+				blockExplorerUrls: [config.EVM_EXPLORER_URL],
 			},
 		]);
 	}

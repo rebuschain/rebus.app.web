@@ -8,6 +8,7 @@ import { useActions } from 'src/hooks/use-actions';
 import { useAppSelector } from 'src/hooks/use-app-select';
 import { RootState } from 'src/reducers/store';
 import { ResultDialogHeader, ResultDialogText } from './components';
+import { useStore } from 'src/stores';
 
 const selector = (state: RootState) => {
 	return {
@@ -19,11 +20,12 @@ const selector = (state: RootState) => {
 };
 
 const UnSuccessDialog: FunctionComponent = () => {
+	const { walletStore } = useStore();
 	const [handleClose] = useActions([failedDialogActions.hideFailedDialog]);
 	const { lang, open, message, hash } = useAppSelector(selector);
 
 	const handleRedirect = () => {
-		const link = `${config.EXPLORER_URL}/${hash}`;
+		const link = `${walletStore.getExplorerUrl()}/${hash}`;
 		window.open(link, '_blank');
 	};
 
