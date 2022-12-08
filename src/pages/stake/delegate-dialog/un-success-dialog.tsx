@@ -35,7 +35,7 @@ const UnSuccessDialog: FunctionComponent = () => {
 			aria-labelledby="delegate-dialog-title"
 			className="dialog delegate_dialog result"
 			open={open}
-			onClose={handleClose}>
+			onClose={() => handleClose()}>
 			<DialogContent className="content">
 				<div className="text-center">
 					<div className="flex justify-center items-center mb-3">
