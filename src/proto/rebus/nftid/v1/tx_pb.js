@@ -21,6 +21,8 @@ var gogoproto_gogo_pb = require('../../../gogoproto/gogo_pb.js');
 goog.object.extend(proto, gogoproto_gogo_pb);
 var rebus_nftid_v1_id_pb = require('../../../rebus/nftid/v1/id_pb.js');
 goog.object.extend(proto, rebus_nftid_v1_id_pb);
+var cosmos_base_v1beta1_coin_pb = require('../../../cosmos/base/v1beta1/coin_pb.js');
+goog.object.extend(proto, cosmos_base_v1beta1_coin_pb);
 goog.exportSymbol('proto.rebus.nftid.v1.MsgMintNftId', null, global);
 goog.exportSymbol('proto.rebus.nftid.v1.MsgMintNftIdResponse', null, global);
 /**
@@ -101,7 +103,8 @@ proto.rebus.nftid.v1.MsgMintNftId.toObject = function(includeInstance, msg) {
     nftType: jspb.Message.getFieldWithDefault(msg, 2, 0),
     organization: jspb.Message.getFieldWithDefault(msg, 3, ""),
     encryptionKey: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    metadataUrl: jspb.Message.getFieldWithDefault(msg, 5, "")
+    metadataUrl: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    mintingFee: (f = msg.getMintingFee()) && cosmos_base_v1beta1_coin_pb.Coin.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -157,6 +160,11 @@ proto.rebus.nftid.v1.MsgMintNftId.deserializeBinaryFromReader = function(msg, re
     case 5:
       var value = /** @type {string} */ (reader.readString());
       msg.setMetadataUrl(value);
+      break;
+    case 6:
+      var value = new cosmos_base_v1beta1_coin_pb.Coin;
+      reader.readMessage(value,cosmos_base_v1beta1_coin_pb.Coin.deserializeBinaryFromReader);
+      msg.setMintingFee(value);
       break;
     default:
       reader.skipField();
@@ -220,6 +228,14 @@ proto.rebus.nftid.v1.MsgMintNftId.serializeBinaryToWriter = function(message, wr
     writer.writeString(
       5,
       f
+    );
+  }
+  f = message.getMintingFee();
+  if (f != null) {
+    writer.writeMessage(
+      6,
+      f,
+      cosmos_base_v1beta1_coin_pb.Coin.serializeBinaryToWriter
     );
   }
 };
@@ -312,6 +328,43 @@ proto.rebus.nftid.v1.MsgMintNftId.prototype.getMetadataUrl = function() {
  */
 proto.rebus.nftid.v1.MsgMintNftId.prototype.setMetadataUrl = function(value) {
   return jspb.Message.setProto3StringField(this, 5, value);
+};
+
+
+/**
+ * optional cosmos.base.v1beta1.Coin minting_fee = 6;
+ * @return {?proto.cosmos.base.v1beta1.Coin}
+ */
+proto.rebus.nftid.v1.MsgMintNftId.prototype.getMintingFee = function() {
+  return /** @type{?proto.cosmos.base.v1beta1.Coin} */ (
+    jspb.Message.getWrapperField(this, cosmos_base_v1beta1_coin_pb.Coin, 6));
+};
+
+
+/**
+ * @param {?proto.cosmos.base.v1beta1.Coin|undefined} value
+ * @return {!proto.rebus.nftid.v1.MsgMintNftId} returns this
+*/
+proto.rebus.nftid.v1.MsgMintNftId.prototype.setMintingFee = function(value) {
+  return jspb.Message.setWrapperField(this, 6, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.rebus.nftid.v1.MsgMintNftId} returns this
+ */
+proto.rebus.nftid.v1.MsgMintNftId.prototype.clearMintingFee = function() {
+  return this.setMintingFee(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.rebus.nftid.v1.MsgMintNftId.prototype.hasMintingFee = function() {
+  return jspb.Message.getField(this, 6) != null;
 };
 
 

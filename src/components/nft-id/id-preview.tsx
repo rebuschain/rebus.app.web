@@ -3,12 +3,15 @@ import { NftIdData } from 'src/types/nft-id';
 import { IdCard } from './id-card';
 import useWindowSize from 'src/hooks/use-window-size';
 import { renderToImage } from 'src/utils/nft-id';
+import { BigLoader } from '../common/loader';
+import styled from '@emotion/styled';
 
 type IdPreviewProps = {
 	className?: string;
 	data?: NftIdData;
 	// If this property is specified, only an image will be rendered
 	idImageDataString?: string;
+	isFetchingImage?: boolean;
 	onRenderPublicImage?: (image: string) => void;
 	onRenderPrivateImage?: (image: string) => void;
 	title?: string;
@@ -21,6 +24,7 @@ export const IdPreview: React.FC<IdPreviewProps> = ({
 	className,
 	data = EMPTY_OBJ,
 	idImageDataString,
+	isFetchingImage,
 	onRenderPublicImage,
 	onRenderPrivateImage,
 	title,
@@ -28,10 +32,10 @@ export const IdPreview: React.FC<IdPreviewProps> = ({
 }) => {
 	const privateCardRef = useRef<HTMLDivElement>();
 	const publicCardRef = useRef<HTMLDivElement>();
-	const imageRef = useRef<HTMLImageElement>();
 	const { isMobileView } = useWindowSize();
 	const renderIteration = useRef(0);
 	const [watermarkLoaded, setWatermarkLoaded] = useState(false);
+	const [imageSrc, setImageSrc] = useState('');
 
 	// Needed since on the first render the watermark image might not be loaded yet, so the generated images won't have it
 	const onWatermarkLoaded = useCallback(() => setWatermarkLoaded(true), []);
@@ -48,9 +52,7 @@ export const IdPreview: React.FC<IdPreviewProps> = ({
 				return;
 			}
 
-			if (imageRef.current) {
-				imageRef.current.src = dataUrl;
-			}
+			setImageSrc(dataUrl);
 
 			if (onRenderPublicImage) {
 				onRenderPublicImage(dataUrl);
@@ -94,12 +96,20 @@ export const IdPreview: React.FC<IdPreviewProps> = ({
 					/>
 				</div>
 			)}
-			<img
-				className="rounded-3xl overflow-hidden"
-				ref={imageRef as LegacyRef<HTMLImageElement>}
-				src={idImageDataString}
-				style={{ minWidth: isMobileView ? '420px' : '550px' }}
-			/>
+			{isFetchingImage || (!idImageDataString && !imageSrc) ? (
+				<BigLoader
+					style={{
+						height: 'auto',
+						margin: '64px 0',
+					}}
+				/>
+			) : (
+				<img
+					className="rounded-3xl overflow-hidden"
+					src={idImageDataString || imageSrc}
+					style={{ minWidth: isMobileView ? '420px' : '550px' }}
+				/>
+			)}
 		</div>
 	);
 };
