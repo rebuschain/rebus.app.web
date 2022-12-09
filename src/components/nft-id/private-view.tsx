@@ -147,7 +147,7 @@ const PrivateView: FunctionComponent = observer(() => {
 			msgs: [
 				{
 					typeUrl: '/rebus.nftid.v1.MsgMintNftId',
-					value: msg,
+					value: objMessage,
 				},
 			],
 			fee: {
