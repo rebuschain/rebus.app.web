@@ -38,8 +38,13 @@ import { TransactionResponse, Tx } from './types';
 import { CosmostationProvider } from './cosmostation-provider';
 import { BaseProvider } from './base-provider';
 import { Int } from '@keplr-wallet/unit';
-import { AminoMsgMintNftId, createTxMsgMintNftId, MessageMsgMintNftId } from './messages/nftid';
+import { AminoMsgMintNftId, createTxMsgMintNftId, MessageMsgMintNftId } from './messages/mint-nft-id';
 import { config } from 'src/config-insync';
+import {
+	AminoMsgCreateIdRecord,
+	createTxMsgCreateIdRecord,
+	MessageMsgCreateIdRecord,
+} from './messages/create-id-record';
 
 const chainId = env('CHAIN_ID');
 const restUrl = env('REST_URL');
@@ -560,6 +565,21 @@ export class WalletStore {
 
 		const sender = await this.getSender();
 		const txMsg = createTxMsgMintNftId(this.chainInfo, sender, fee, memo, msg as MessageMsgMintNftId);
+		return this.broadcast(sender, txMsg);
+	}
+
+	public async createIdRecord(
+		{ fee, msg, memo }: Tx<MessageMsgCreateIdRecord>,
+		aminoTx: Tx<AminoMsgCreateIdRecord>
+	): Promise<TransactionResponse> {
+		this.checkIfSupported('vote');
+
+		if (this._aminoProvider) {
+			return this.aminoProvider.signAndBroadcastAmino<Tx<AminoMsgCreateIdRecord>>(this.rebusAddress, aminoTx);
+		}
+
+		const sender = await this.getSender();
+		const txMsg = createTxMsgCreateIdRecord(this.chainInfo, sender, fee, memo, msg as MessageMsgCreateIdRecord);
 		return this.broadcast(sender, txMsg);
 	}
 

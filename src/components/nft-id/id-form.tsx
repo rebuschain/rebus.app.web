@@ -11,9 +11,11 @@ import ConfirmDialog from 'src/pages/stake/delegate-dialog/confirm-dialog';
 import { config } from 'src/config-insync';
 
 type IdFormProps = {
+	buttonText: string;
 	className?: string;
 	data: NftIdData;
-	isSaving?: boolean;
+	shouldConfirm?: boolean;
+	isLoading?: boolean;
 	onChange?: TextInputProps['onChange'] | FileInputProps['onChange'];
 	onSubmit?: () => void;
 	onVisibilityChange: (name: string, value: boolean) => void;
@@ -28,12 +30,14 @@ const COUNTRY_OPTIONS = Object.values(countries)
 const nftIdCost = parseFloat((Number(env('NFT_ID_MINTING_FEE')) / 10 ** config.COIN_DECIMALS).toFixed(1));
 
 export const IdForm: React.FC<IdFormProps> = ({
+	buttonText,
 	className,
 	data,
-	isSaving,
+	isLoading,
 	onChange,
 	onSubmit,
 	onVisibilityChange,
+	shouldConfirm,
 }) => {
 	const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
 	const openConfirmDialog = useCallback(() => setIsConfirmDialogOpen(true), []);
@@ -133,19 +137,7 @@ export const IdForm: React.FC<IdFormProps> = ({
 				value: data.address,
 				type: InputTypes.Textarea,
 				maxLength: 150,
-				rows: 2,
-			},
-		],
-		[
-			{
-				name: 'country',
-				className: 'mb-6.5',
-				onChange,
-				onVisibilityChange,
-				placeholder: 'Country',
-				value: data.country,
-				options: COUNTRY_OPTIONS,
-				type: InputTypes.Select,
+				rows: 3,
 			},
 		],
 		[
@@ -182,7 +174,7 @@ export const IdForm: React.FC<IdFormProps> = ({
 			<div className="mb-6 w-full flex items-center">
 				<h5 className="whitespace-nowrap">Identification Details</h5>
 				<div className="flex items-center ml-3">
-					{isSaving && (
+					{isLoading && (
 						<Loader
 							style={{
 								height: '32px',
@@ -191,8 +183,12 @@ export const IdForm: React.FC<IdFormProps> = ({
 							}}
 						/>
 					)}
-					<Button backgroundStyle="blue" disabled={isSaving} onClick={openConfirmDialog} smallBorderRadius>
-						Save
+					<Button
+						backgroundStyle="blue"
+						disabled={isLoading}
+						onClick={shouldConfirm ? openConfirmDialog : onSubmit}
+						smallBorderRadius>
+						{buttonText}
 					</Button>
 				</div>
 			</div>

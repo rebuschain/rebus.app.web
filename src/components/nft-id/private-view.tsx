@@ -23,12 +23,12 @@ import { BigLoader } from 'src/components/common/loader';
 import { gas } from 'src/constants/default-gas-values';
 import { config } from 'src/config-insync';
 import { aminoSignTx } from 'src/utils/helper';
-import { MsgMintNftId } from '../../proto/rebus/nftid/v1/tx_pb';
+import { MsgCreateIdRecord, MsgMintNftId } from '../../proto/rebus/nftid/v1/tx_pb';
 import { NftId } from '../../proto/rebus/nftid/v1/id_pb';
 import { Button } from '../common/button';
 import { getIpfsHttpsUrl, getIpfsId } from 'src/utils/ipfs';
 import { Coin } from '../../proto/cosmos/base/v1beta1/coin_pb';
-import { Amount } from 'src/stores/wallet/messages/nftid';
+import { Amount } from 'src/stores/wallet/messages/mint-nft-id';
 
 const ipfs = new IPFS(env('NFT_STORAGE_TOKEN'));
 
@@ -51,6 +51,7 @@ const PrivateView: FunctionComponent = observer(() => {
 	const [isFetchingMetadata, setIsFetchingMetadata] = useState(false);
 	const [isFetchingPrivateImage, setIsFetchingPrivateImage] = useState(false);
 	const [isSaving, setIsSaving] = useState(false);
+	const [isCreatingIdRecord, setIsCreatingIdRecord] = useState(false);
 	const [data, setData] = useState<NftIdData>({
 		idNumber: '0x000000000000',
 		documentNumber: '0',
@@ -71,7 +72,7 @@ const PrivateView: FunctionComponent = observer(() => {
 	const { document_number, encryption_key, id_number, metadata_url } = idRecord || {};
 
 	const goToPublicPreviewLink = useCallback(() => {
-		window.open(`${window.location.origin}/nft-id/Default/Rebus/${address}`, '_blank');
+		window.open(`${window.location.origin}/nft-id/${config.NFT_ID_ORG_NAME}/v1/${address}`, '_blank');
 	}, [address]);
 
 	const onChange = useCallback((name, value) => {
@@ -87,6 +88,107 @@ const PrivateView: FunctionComponent = observer(() => {
 
 		setData(oldData => ({ ...oldData, [`${name}Hidden`]: value }));
 	}, []);
+	const onCreateIdRecord = useCallback(async () => {
+		if (!address) {
+			showMessage(variables[lang]['connect_account']);
+			return;
+		}
+
+		setIsCreatingIdRecord(true);
+
+		const createIdRecordMessage = new MsgCreateIdRecord();
+		createIdRecordMessage.setAddress(address);
+		createIdRecordMessage.setNftType(NftId.V1);
+		createIdRecordMessage.setOrganization(config.NFT_ID_ORG_NAME);
+		const objMessage = createIdRecordMessage.toObject();
+
+		const msg = {
+			address: objMessage.address,
+			nft_type: objMessage.nftType,
+			organization: objMessage.organization,
+		};
+
+		const tx = {
+			msgs: [
+				{
+					typeUrl: '/rebus.nftid.v1.MsgCreateIdRecord',
+					value: objMessage,
+				},
+			],
+			fee: {
+				amount: [
+					{
+						amount: String(gas.mint_nftid * config.GAS_PRICE_STEP_AVERAGE),
+						denom: config.COIN_MINIMAL_DENOM,
+					},
+				],
+				gas: String(gas.mint_nftid),
+			},
+			memo: '',
+		};
+		const ethTx = {
+			fee: {
+				amount: String(gas.mint_nftid * config.GAS_PRICE_STEP_AVERAGE),
+				denom: config.COIN_MINIMAL_DENOM,
+				gas: String(gas.mint_nftid),
+			},
+			msg,
+			memo: '',
+		};
+
+		let txCode = 0;
+		let txHash = '';
+		let txLog = '';
+
+		try {
+			if (walletStore.isLoaded) {
+				const result = await walletStore.createIdRecord(ethTx, tx as any);
+				txCode = result?.tx_response?.code || 0;
+				txHash = result?.tx_response?.txhash || '';
+				txLog = result?.tx_response?.raw_log || '';
+			} else {
+				const result = await aminoSignTx(tx, address, null, isEvmos);
+				txCode = result?.code || 0;
+				txHash = result?.transactionHash || '';
+				txLog = result?.rawLog || '';
+			}
+
+			if (txCode) {
+				throw new Error(txLog);
+			}
+		} catch (err) {
+			const message = (err as any)?.message || '';
+
+			if (message.indexOf('not yet found on the chain') > -1) {
+				pendingDialog();
+				return;
+			}
+
+			failedDialog({ message });
+			showMessage(message);
+		}
+
+		if (txHash && !txCode) {
+			successDialog({ hash: txHash, isNftIdRecord: true });
+			showMessage('Successfuly created an ID Record, now you can mint an NFT ID');
+
+			queries.queryBalances.getQueryBech32Address(address).fetch();
+			queries.rebus.queryIdRecord.get(address).fetch();
+		}
+
+		setIsCreatingIdRecord(false);
+	}, [
+		address,
+		showMessage,
+		lang,
+		walletStore,
+		isEvmos,
+		failedDialog,
+		pendingDialog,
+		successDialog,
+		queries.queryBalances,
+		queries.rebus.queryIdRecord,
+	]);
 	const onSubmit = useCallback(async () => {
 		if (!address) {
 			showMessage(variables[lang]['connect_account']);
@@ -111,8 +213,8 @@ const PrivateView: FunctionComponent = observer(() => {
 		}
 
 		const { url } = await ipfs.createNft({
-			type: 0,
-			organization: 'Rebus',
+			type: NftId.V1,
+			organization: config.NFT_ID_ORG_NAME,
 			address,
 			encryptionKey,
 			imageExtension: 'png',
@@ -124,8 +226,8 @@ const PrivateView: FunctionComponent = observer(() => {
 
 		const mintNftIdMessage = new MsgMintNftId();
 		mintNftIdMessage.setAddress(address);
-		mintNftIdMessage.setNftType(NftId.DEFAULT);
-		mintNftIdMessage.setOrganization('Rebus');
+		mintNftIdMessage.setNftType(NftId.V1);
+		mintNftIdMessage.setOrganization(config.NFT_ID_ORG_NAME);
 		mintNftIdMessage.setEncryptionKey(encryptedEncryptionKey);
 		mintNftIdMessage.setMetadataUrl(url);
 		const mintingFee = new Coin();
@@ -264,43 +366,48 @@ const PrivateView: FunctionComponent = observer(() => {
 
 	useEffect(() => {
 		if (id_number) {
+			const documentNumberLength = document_number?.toString()?.length ?? 0;
+			const documentNumberPrefix = 'REBUS'.slice(0, 6 + (6 - documentNumberLength));
+
 			setData(oldData =>
 				oldData.idNumber !== id_number || !oldData.documentNumber?.startsWith(document_number || '')
 					? {
 							...oldData,
 							idNumber: id_number || '',
-							documentNumber: document_number ? `REB${document_number.padStart(12, '0')}` : '',
+							documentNumber: document_number ? `${documentNumberPrefix}${document_number.padStart(6, '0')}` : '',
 					  }
 					: oldData
 			);
 
-			setIsFetchingMetadata(true);
+			if (metadata_url) {
+				setIsFetchingMetadata(true);
 
-			(async () => {
-				try {
-					const { data: metadata } = await axios.get(getIpfsHttpsUrl(metadata_url), { timeout: IPFS_TIMEOUT });
+				(async () => {
+					try {
+						const { data: metadata } = await axios.get(getIpfsHttpsUrl(metadata_url), { timeout: IPFS_TIMEOUT });
+
+						setIsFetchingMetadata(false);
+						setIsFetchingPrivateImage(true);
+						const { data: privateImageData } = await axios.get(getIpfsHttpsUrl(metadata?.properties?.private_image), {
+							timeout: IPFS_TIMEOUT,
+						});
+
+						const decryptedEncryptionKey = await walletStore.decrypt(encryption_key || '');
+						const decryptedPrivateImage = decrypt(decryptedEncryptionKey, privateImageData);
+
+						setData(oldData => ({
+							...oldData,
+							theme: metadata?.properties?.theme,
+						}));
+						setCurrentIdImageData(decryptedPrivateImage);
+					} catch (error) {
+						console.error(`Unable to fetch NFT ID metadata from ${metadata_url}`, error);
+					}
 
 					setIsFetchingMetadata(false);
-					setIsFetchingPrivateImage(true);
-					const { data: privateImageData } = await axios.get(getIpfsHttpsUrl(metadata?.properties?.private_image), {
-						timeout: IPFS_TIMEOUT,
-					});
-
-					const decryptedEncryptionKey = await walletStore.decrypt(encryption_key || '');
-					const decryptedPrivateImage = decrypt(decryptedEncryptionKey, privateImageData);
-
-					setData(oldData => ({
-						...oldData,
-						theme: metadata?.properties?.theme,
-					}));
-					setCurrentIdImageData(decryptedPrivateImage);
-				} catch (error) {
-					console.error(`Unable to fetch NFT ID metadata from ${metadata_url}`, error);
-				}
-
-				setIsFetchingMetadata(false);
-				setIsFetchingPrivateImage(false);
-			})();
+					setIsFetchingPrivateImage(false);
+				})();
+			}
 		}
 	}, [document_number, encryption_key, id_number, metadata_url, walletStore]);
 
@@ -317,14 +424,16 @@ const PrivateView: FunctionComponent = observer(() => {
 			<div className="flex-col-reverse w-full h-full flex md:flex-row">
 				<IdForm
 					className="w-full md:w-fit md:mr-20"
+					buttonText={id_number ? 'Save' : 'Create ID Record'}
 					data={data}
-					isSaving={isSaving}
+					isLoading={isCreatingIdRecord || isSaving}
 					onChange={onChange}
-					onSubmit={onSubmit}
+					onSubmit={id_number ? onSubmit : onCreateIdRecord}
 					onVisibilityChange={onVisibilityChange}
+					shouldConfirm={!!id_number}
 				/>
 				<div>
-					{idRecord?.id_number && (
+					{id_number && metadata_url && (
 						<IdPreview
 							className="mb-6"
 							data={data}

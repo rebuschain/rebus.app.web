@@ -65,6 +65,7 @@ const variables = {
 		approval_pending: 'Approval Pending...',
 		connect_account: 'Account not connected. Please connect to wallet',
 		nft_id_created: 'NFT ID Created Successfully',
+		id_record_created: 'ID Record created successfuly',
 	},
 };
 

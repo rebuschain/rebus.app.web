@@ -50,7 +50,7 @@ export namespace IdRecord {
 
 export interface NftIdMap {
   NONE: 0;
-  DEFAULT: 1;
+  V1: 1;
 }
 
 export const NftId: NftIdMap;

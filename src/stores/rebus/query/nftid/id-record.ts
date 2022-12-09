@@ -2,10 +2,16 @@ import { ChainGetter, ObservableChainQuery, ObservableChainQueryMap } from '@kep
 import { IdRecord, IdRecordResponse } from './types';
 import { KVStore } from '@keplr-wallet/common';
 import { computed, makeObservable } from 'mobx';
+import { config } from 'src/config-insync';
 
 export class ObservableQueryIdRecordInner extends ObservableChainQuery<IdRecordResponse> {
 	constructor(kvStore: KVStore, chainId: string, chainGetter: ChainGetter, protected readonly bech32Address: string) {
-		super(kvStore, chainId, chainGetter, `/rebus/nftid/v1beta1/id_record/Default/Rebus/${bech32Address}`);
+		super(
+			kvStore,
+			chainId,
+			chainGetter,
+			`/rebus/nftid/v1beta1/id_record/v1/${config.NFT_ID_ORG_NAME}/${bech32Address}`
+		);
 
 		makeObservable(this);
 	}

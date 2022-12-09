@@ -14,6 +14,11 @@ service Msg {
   rpc MintNftId(MsgMintNftId) returns (MsgMintNftIdResponse) {
     option (google.api.http).get = "/rebus/nftid/v1/tx/mint_nft_id";
   };
+
+  // CreateIdRecord creates a ID Record on the blockchain.
+  rpc CreateIdRecord(MsgCreateIdRecord) returns (MsgCreateIdRecordResponse) {
+    option (google.api.http).get = "/rebus/nftid/v1/tx/id_record";
+  };
 }
 
 // MsgMintNftId defines a Msg to create or update an nft id record
@@ -32,8 +37,26 @@ message MsgMintNftId {
   cosmos.base.v1beta1.Coin minting_fee = 6;
 }
 
-// MsgMintNftIdResponse returns no fields
+// MsgMintNftIdResponse returns the id record
 message MsgMintNftIdResponse {
+	IdRecord id_record = 1 [
+    (gogoproto.moretags) = "yaml:\"id_record\"",
+    (gogoproto.nullable) = false
+  ];
+}
+
+// MsgCreateIdRecord defines a Msg to create the id record that holds the nft id (generates id number and document number)
+message MsgCreateIdRecord {
+  // address of the user who is minting the nft id
+  string address = 1;
+  // type of the nft id
+  NftId nft_type = 2;
+	// organization that the nft id belongs to
+	string organization = 3;
+}
+
+// MsgCreateIdRecordResponse returns the id record
+message MsgCreateIdRecordResponse {
 	IdRecord id_record = 1 [
     (gogoproto.moretags) = "yaml:\"id_record\"",
     (gogoproto.nullable) = false

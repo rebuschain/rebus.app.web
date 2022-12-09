@@ -5,6 +5,7 @@ const initialState = {
 	hash: '',
 	tokens: '',
 	isNft: false,
+	isNftIdRecord: false,
 };
 
 export const successDialogSlice = createSlice({
@@ -15,11 +16,15 @@ export const successDialogSlice = createSlice({
 			...state,
 			open: false,
 		}),
-		showSuccessDialog: (state, action: PayloadAction<{ hash?: string; tokens?: string; isNft?: boolean }>) => ({
+		showSuccessDialog: (
+			state,
+			action: PayloadAction<{ hash?: string; tokens?: string; isNft?: boolean; isNftIdRecord?: boolean }>
+		) => ({
 			open: true,
 			hash: action.payload.hash || '',
 			tokens: action.payload.tokens || '',
 			isNft: action.payload.isNft || false,
+			isNftIdRecord: action.payload.isNftIdRecord || false,
 		}),
 	},
 });

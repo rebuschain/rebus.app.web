@@ -11,6 +11,7 @@ const chainId = config.CHAIN_ID;
 
 const registry = new Registry(defaultRegistryTypes);
 registry.register('/rebus.nftid.v1.MsgMintNftId', MsgMintNftId);
+registry.register('/rebus.nftid.v1.MsgCreateIdRecord', MsgMintNftId);
 
 const aminoTypes = new AminoTypes({
 	additions: {
@@ -34,6 +35,23 @@ const aminoTypes = new AminoTypes({
 					encryptionKey: encryption_key,
 					metadataUrl: metadata_url,
 					mintingFee: minting_fee,
+				};
+			},
+		},
+		'/rebus.nftid.v1.MsgCreateIdRecord': {
+			aminoType: '/rebus.nftid.v1.MsgCreateIdRecord',
+			toAmino: ({ address, nftType, organization }) => {
+				return {
+					address,
+					nft_type: nftType,
+					organization,
+				};
+			},
+			fromAmino: ({ address, nftType, organization }) => {
+				return {
+					address,
+					nftType: nftType,
+					organization,
 				};
 			},
 		},

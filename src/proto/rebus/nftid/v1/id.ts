@@ -6,7 +6,7 @@ export const protobufPackage = "rebus.nftid.v1";
 
 export enum NftId {
   None = 0,
-  Default = 1,
+  v1 = 1,
   UNRECOGNIZED = -1,
 }
 
@@ -16,8 +16,8 @@ export function nftIdFromJSON(object: any): NftId {
     case "None":
       return NftId.None;
     case 1:
-    case "Default":
-      return NftId.Default;
+    case "v1":
+      return NftId.v1;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -29,8 +29,8 @@ export function nftIdToJSON(object: NftId): string {
   switch (object) {
     case NftId.None:
       return "None";
-    case NftId.Default:
-      return "Default";
+    case NftId.v1:
+      return "v1";
     case NftId.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";

@@ -3,11 +3,13 @@ package rebus.nftid.v1;
 
 import "gogoproto/gogo.proto";
 
+option go_package = "github.com/rebuschain/rebus.core/v1/x/nftid/types";
+
 enum NftId {
   option (gogoproto.goproto_enum_prefix) = false;
 
   None = 0;
-  Default = 1;
+  v1 = 1;
 
 }
 
