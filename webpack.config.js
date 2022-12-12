@@ -9,6 +9,7 @@ const WriteFilePlugin = require('write-file-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const fs = require('fs');
 
 const isEnvDevelopment = process.env.NODE_ENV !== 'production';
 const isEnvAnalyzer = process.env.ANALYZER === 'true';
@@ -135,6 +136,7 @@ const webConfig = () => {
 			path: path.resolve(__dirname, isEnvDevelopment ? 'dist' : 'prod'),
 			filename: '[name].[contenthash].bundle.js',
 			publicPath: ASSET_PATH,
+			crossOriginLoading: 'anonymous',
 		},
 		resolve: commonResolve('src/assets'),
 		module: {
@@ -161,9 +163,20 @@ const webConfig = () => {
 				chunkFilename: '[name].css',
 			}),
 			new HtmlWebpackPlugin({
-				template: './src/index.html',
+				inject: false,
 				filename: 'index.html',
 				chunks: ['main'],
+				templateContent: ({ htmlWebpackPlugin }) => {
+					const htmlTemplate = fs.readFileSync(path.resolve(__dirname, 'src/index.html'), 'utf8');
+
+					htmlWebpackPlugin.tags.headTags.forEach(tag => {
+						if (tag.tagName === 'script' || tag.tagName === 'link') tag.attributes.crossorigin = 'anonymous';
+					});
+
+					return htmlTemplate
+						.replace('</head>', htmlWebpackPlugin.tags.headTags + '\n</head>')
+						.replace('</body>', htmlWebpackPlugin.tags.bodyTags + '\n</body>');
+				},
 			}),
 			new WriteFilePlugin(),
 			new webpack.EnvironmentPlugin(['NODE_ENV']),
