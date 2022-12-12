@@ -14,46 +14,44 @@ registry.register('/rebus.nftid.v1.MsgMintNftId', MsgMintNftId);
 registry.register('/rebus.nftid.v1.MsgCreateIdRecord', MsgMintNftId);
 
 const aminoTypes = new AminoTypes({
-	additions: {
-		'/rebus.nftid.v1.MsgMintNftId': {
-			aminoType: 'rebus.core/MsgMintNftId',
-			toAmino: ({ address, nftType, organization, encryptionKey, metadataUrl, mintingFee }) => {
-				return {
-					address,
-					nft_type: nftType,
-					organization,
-					encryption_key: encryptionKey,
-					metadata_url: metadataUrl,
-					minting_fee: mintingFee,
-				};
-			},
-			fromAmino: ({ address, nft_type, organization, encryption_key, metadata_url, minting_fee }) => {
-				return {
-					address,
-					nftType: nft_type,
-					organization,
-					encryptionKey: encryption_key,
-					metadataUrl: metadata_url,
-					mintingFee: minting_fee,
-				};
-			},
+	'/rebus.nftid.v1.MsgMintNftId': {
+		aminoType: 'rebus.core/MsgMintNftId',
+		toAmino: ({ address, nftType, organization, encryptionKey, metadataUrl, mintingFee }) => {
+			return {
+				address,
+				nft_type: nftType,
+				organization,
+				encryption_key: encryptionKey,
+				metadata_url: metadataUrl,
+				minting_fee: mintingFee,
+			};
 		},
-		'/rebus.nftid.v1.MsgCreateIdRecord': {
-			aminoType: 'rebus.core/MsgCreateIdRecord',
-			toAmino: ({ address, nftType, organization }) => {
-				return {
-					address,
-					nft_type: nftType,
-					organization,
-				};
-			},
-			fromAmino: ({ address, nft_type, organization }) => {
-				return {
-					address,
-					nftType: nft_type,
-					organization,
-				};
-			},
+		fromAmino: ({ address, nft_type, organization, encryption_key, metadata_url, minting_fee }) => {
+			return {
+				address,
+				nftType: nft_type,
+				organization,
+				encryptionKey: encryption_key,
+				metadataUrl: metadata_url,
+				mintingFee: minting_fee,
+			};
+		},
+	},
+	'/rebus.nftid.v1.MsgCreateIdRecord': {
+		aminoType: 'rebus.core/MsgCreateIdRecord',
+		toAmino: ({ address, nftType, organization }) => {
+			return {
+				address,
+				nft_type: nftType,
+				organization,
+			};
+		},
+		fromAmino: ({ address, nft_type, organization }) => {
+			return {
+				address,
+				nftType: nft_type,
+				organization,
+			};
 		},
 	},
 });
