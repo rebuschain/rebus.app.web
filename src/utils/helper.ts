@@ -13,29 +13,27 @@ const registry = new Registry(defaultRegistryTypes);
 registry.register('/rebus.nftid.v1.MsgMintNftId', MsgMintNftId);
 
 const aminoTypes = new AminoTypes({
-	additions: {
-		'/rebus.nftid.v1.MsgMintNftId': {
-			aminoType: '/rebus.nftid.v1.MsgMintNftId',
-			toAmino: ({ address, nftType, organization, encryptionKey, metadataUrl, mintingFee }) => {
-				return {
-					address,
-					nft_type: nftType,
-					organization,
-					encryption_key: encryptionKey,
-					metadata_url: metadataUrl,
-					minting_fee: mintingFee,
-				};
-			},
-			fromAmino: ({ address, nftType, organization, encryption_key, metadata_url, minting_fee }) => {
-				return {
-					address,
-					nftType: nftType,
-					organization,
-					encryptionKey: encryption_key,
-					metadataUrl: metadata_url,
-					mintingFee: minting_fee,
-				};
-			},
+	'/rebus.nftid.v1.MsgMintNftId': {
+		aminoType: '/rebus.nftid.v1.MsgMintNftId',
+		toAmino: ({ address, nftType, organization, encryptionKey, metadataUrl, mintingFee }) => {
+			return {
+				address,
+				nft_type: nftType,
+				organization,
+				encryption_key: encryptionKey,
+				metadata_url: metadataUrl,
+				minting_fee: mintingFee,
+			};
+		},
+		fromAmino: ({ address, nftType, organization, encryption_key, metadata_url, minting_fee }) => {
+			return {
+				address,
+				nftType: nftType,
+				organization,
+				encryptionKey: encryption_key,
+				metadataUrl: metadata_url,
+				mintingFee: minting_fee,
+			};
 		},
 	},
 });
