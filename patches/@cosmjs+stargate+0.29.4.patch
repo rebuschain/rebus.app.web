@@ -32,6 +32,12 @@ index 7595431..f6a007f 100644
 -            : this.signAmino(signerAddress, messages, fee, memo, signerData);
 +            ? this.signDirect(signerAddress, messages, fee, memo, signerData, isEvmos)
 +            : this.signAmino(signerAddress, messages, fee, memo, signerData, isEvmos);
+index 7884e36..9dadda6 100644
+--- a/node_modules/@cosmjs/stargate/build/signingstargateclient.js
++++ b/node_modules/@cosmjs/stargate/build/signingstargateclient.js
+@@ -196,13 +196,18 @@ class SigningStargateClient extends stargateclient_1.StargateClient {
+             ? this.signDirect(signerAddress, messages, fee, memo, signerData)
+             : this.signAmino(signerAddress, messages, fee, memo, signerData);
      }
 -    async signAmino(signerAddress, messages, fee, memo, { accountNumber, sequence, chainId }) {
 +    async signAmino(signerAddress, messages, fee, memo, { accountNumber, sequence, chainId }, isEvmos) {

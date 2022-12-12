@@ -37,23 +37,22 @@ const aminoTypes = new AminoTypes({
 					metadataUrl: metadata_url,
 				};
 			},
+	},
+	'/rebus.nftid.v1.MsgCreateIdRecord': {
+		aminoType: 'rebus.core/MsgCreateIdRecord',
+		toAmino: ({ address, nftType, organization }) => {
+			return {
+				address,
+				nft_type: nftType,
+				organization,
+			};
 		},
-		'/rebus.nftid.v1.MsgCreateIdRecord': {
-			aminoType: 'rebus.core/MsgCreateIdRecord',
-			toAmino: ({ address, nftType, organization }) => {
-				return {
-					address,
-					nft_type: nftType,
-					organization,
-				};
-			},
-			fromAmino: ({ address, nft_type, organization }) => {
-				return {
-					address,
-					nftType: nft_type,
-					organization,
-				};
-			},
+		fromAmino: ({ address, nft_type, organization }) => {
+			return {
+				address,
+				nftType: nft_type,
+				organization,
+			};
 		},
 		'/rebus.nftid.v1.MsgActivateNftId': {
 			aminoType: 'rebus.core/MsgActivateNftId',
