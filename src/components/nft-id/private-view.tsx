@@ -23,7 +23,7 @@ import { BigLoader } from 'src/components/common/loader';
 import { gas } from 'src/constants/default-gas-values';
 import { config } from 'src/config-insync';
 import { aminoSignTx } from 'src/utils/helper';
-import { MsgCreateIdRecord, MsgMintNftId } from '../../proto/rebus/nftid/v1/tx_pb';
+import { MsgMintNftId } from '../../proto/rebus/nftid/v1/tx_pb';
 import { NftId } from '../../proto/rebus/nftid/v1/id_pb';
 import { Button } from '../common/button';
 import { getIpfsHttpsUrl, getIpfsId } from 'src/utils/ipfs';
@@ -51,7 +51,6 @@ const PrivateView: FunctionComponent = observer(() => {
 	const [isFetchingMetadata, setIsFetchingMetadata] = useState(false);
 	const [isFetchingPrivateImage, setIsFetchingPrivateImage] = useState(false);
 	const [isSaving, setIsSaving] = useState(false);
-	const [isCreatingIdRecord, setIsCreatingIdRecord] = useState(false);
 	const [data, setData] = useState<NftIdData>({
 		idNumber: '0x000000000000',
 		documentNumber: '0',
@@ -88,107 +87,7 @@ const PrivateView: FunctionComponent = observer(() => {
 
 		setData(oldData => ({ ...oldData, [`${name}Hidden`]: value }));
 	}, []);
-	const onCreateIdRecord = useCallback(async () => {
-		if (!address) {
-			showMessage(variables[lang]['connect_account']);
-			return;
-		}
 
-		setIsCreatingIdRecord(true);
-
-		const createIdRecordMessage = new MsgCreateIdRecord();
-		createIdRecordMessage.setAddress(address);
-		createIdRecordMessage.setNftType(NftId.V1);
-		createIdRecordMessage.setOrganization(config.NFT_ID_ORG_NAME);
-		const objMessage = createIdRecordMessage.toObject();
-
-		const msg = {
-			address: objMessage.address,
-			nft_type: objMessage.nftType,
-			organization: objMessage.organization,
-		};
-
-		const tx = {
-			msgs: [
-				{
-					typeUrl: '/rebus.nftid.v1.MsgCreateIdRecord',
-					value: objMessage,
-				},
-			],
-			fee: {
-				amount: [
-					{
-						amount: String(gas.mint_nftid * config.GAS_PRICE_STEP_AVERAGE),
-						denom: config.COIN_MINIMAL_DENOM,
-					},
-				],
-				gas: String(gas.mint_nftid),
-			},
-			memo: '',
-		};
-		const ethTx = {
-			fee: {
-				amount: String(gas.mint_nftid * config.GAS_PRICE_STEP_AVERAGE),
-				denom: config.COIN_MINIMAL_DENOM,
-				gas: String(gas.mint_nftid),
-			},
-			msg,
-			memo: '',
-		};
-
-		let txCode = 0;
-		let txHash = '';
-		let txLog = '';
-
-		try {
-			if (walletStore.isLoaded) {
-				const result = await walletStore.createIdRecord(ethTx, tx as any);
-				txCode = result?.tx_response?.code || 0;
-				txHash = result?.tx_response?.txhash || '';
-				txLog = result?.tx_response?.raw_log || '';
-			} else {
-				const result = await aminoSignTx(tx, address, null, isEvmos);
-				txCode = result?.code || 0;
-				txHash = result?.transactionHash || '';
-				txLog = result?.rawLog || '';
-			}
-
-			if (txCode) {
-				throw new Error(txLog);
-			}
-		} catch (err) {
-			const message = (err as any)?.message || '';
-
-			if (message.indexOf('not yet found on the chain') > -1) {
-				pendingDialog();
-				return;
-			}
-
-			failedDialog({ message });
-			showMessage(message);
-		}
-
-		if (txHash && !txCode) {
-			successDialog({ hash: txHash, isNftIdRecord: true });
-			showMessage('Successfuly created an ID Record, now you can mint an NFT ID');
-
-			queries.queryBalances.getQueryBech32Address(address).fetch();
-			queries.rebus.queryIdRecord.get(address).fetch();
-		}
-
-		setIsCreatingIdRecord(false);
-	}, [
-		address,
-		showMessage,
-		lang,
-		walletStore,
-		isEvmos,
-		failedDialog,
-		pendingDialog,
-		successDialog,
-		queries.queryBalances,
-		queries.rebus.queryIdRecord,
-	]);
 	const onSubmit = useCallback(async () => {
 		if (!address) {
 			showMessage(variables[lang]['connect_account']);
@@ -417,19 +316,31 @@ const PrivateView: FunctionComponent = observer(() => {
 
 	return (
 		<div>
-			<p className="text-lg pb-2 mb-10">
-				If you are using the keplr wallet the information on the private image will not be encrypted so please do not
-				use personal info while testing until we announce the encryption is working
-			</p>
+			<div className="flex items-center mb-10 py-5 px-6" style={{ backgroundColor: '#FC8157' }}>
+				<em
+					style={{
+						fontSize: '80px',
+						fontStyle: 'normal',
+						lineHeight: '18px',
+						marginRight: '24px',
+						opacity: 0.3,
+					}}>
+					!
+				</em>
+				<p className="text-lg" style={{ lineHeight: '28px' }}>
+					If you are using the keplr wallet the information on the private image will not be encrypted so please do not
+					use personal info while testing until we announce the encryption is working
+				</p>
+			</div>
 			<div className="flex-col-reverse w-full h-full flex md:flex-row">
 				<IdForm
 					className="w-full md:w-fit md:mr-20"
-					buttonText={id_number ? 'Save' : 'Create ID Record'}
+					buttonText="Save"
 					data={data}
-					isLoading={isCreatingIdRecord || isSaving}
+					isLoading={isSaving}
 					isSubmitDisabled={!privateImageData}
 					onChange={onChange}
-					onSubmit={id_number ? onSubmit : onCreateIdRecord}
+					onSubmit={onSubmit}
 					onVisibilityChange={onVisibilityChange}
 					shouldConfirm={!!id_number}
 				/>

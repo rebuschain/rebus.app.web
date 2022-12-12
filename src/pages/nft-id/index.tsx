@@ -37,19 +37,15 @@ const NftIdPage: FunctionComponent = observer(() => {
 
 	const idQuery = queries.rebus.queryIdRecord.get(address);
 
-	const [hasCompletedQuiz, setHasCompletedQuiz] = useState<boolean>(cookies.get(QUIZ_PASSED));
 	const [isLockedOut] = useState<boolean>(cookies.get(QUIZ_LOCKED));
 
 	const { id_number, metadata_url } = idQuery.idRecord || {};
-	const shouldShowNft = Boolean((id_number || hasCompletedQuiz) && address);
+	const shouldShowNft = Boolean(id_number && address);
 
 	// TODO: remove once we refactor dialogs
 	useEffect(() => {
 		document.body.classList.add('insync');
 		return () => document.body.classList.remove('insync');
-	}, []);
-	const onQuizComplete = useCallback(() => {
-		setHasCompletedQuiz(true);
 	}, []);
 
 	useEffect(() => {
@@ -119,14 +115,14 @@ const NftIdPage: FunctionComponent = observer(() => {
 			{shouldShowNft ? (
 				<div className="w-full h-fit font-karla py-5 px-5 pt-21 md:py-10 md:px-15">
 					<PrivateView />
-					<SnackbarMessage />
-					<SuccessDialog />
-					<UnSuccessDialog />
-					<PendingDialog />
 				</div>
 			) : (
-				<QuizPage isLockedOut={isLockedOut} onComplete={onQuizComplete} />
+				<QuizPage isLockedOut={isLockedOut} />
 			)}
+			<SnackbarMessage />
+			<SuccessDialog />
+			<UnSuccessDialog />
+			<PendingDialog />
 		</>
 	);
 });
