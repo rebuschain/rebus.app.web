@@ -427,6 +427,7 @@ const PrivateView: FunctionComponent = observer(() => {
 					buttonText={id_number ? 'Save' : 'Create ID Record'}
 					data={data}
 					isLoading={isCreatingIdRecord || isSaving}
+					isSubmitDisabled={!privateImageData}
 					onChange={onChange}
 					onSubmit={id_number ? onSubmit : onCreateIdRecord}
 					onVisibilityChange={onVisibilityChange}
