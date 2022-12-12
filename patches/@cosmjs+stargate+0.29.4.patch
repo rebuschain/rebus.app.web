@@ -1,8 +1,8 @@
 diff --git a/node_modules/@cosmjs/stargate/build/signingstargateclient.js b/node_modules/@cosmjs/stargate/build/signingstargateclient.js
-index 7595431..aa17383 100644
+index 7884e36..9dadda6 100644
 --- a/node_modules/@cosmjs/stargate/build/signingstargateclient.js
 +++ b/node_modules/@cosmjs/stargate/build/signingstargateclient.js
-@@ -206,13 +206,18 @@ class SigningStargateClient extends stargateclient_1.StargateClient {
+@@ -196,13 +196,18 @@ class SigningStargateClient extends stargateclient_1.StargateClient {
              ? this.signDirect(signerAddress, messages, fee, memo, signerData)
              : this.signAmino(signerAddress, messages, fee, memo, signerData);
      }
