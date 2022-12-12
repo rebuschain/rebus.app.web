@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
 import Cookies from 'universal-cookie';
-import { useHistory } from 'react-router';
+import { generatePath, useHistory, useLocation, useRouteMatch } from 'react-router';
 import { QUIZ_LOCKED, QUIZ_PASSED } from 'src/constants/questions';
 import { useStore } from 'src/stores';
 import { BigLoader } from 'src/components/common/loader';
@@ -18,6 +18,7 @@ import PendingDialog from '../stake/delegate-dialog/pending-dialog';
 import SuccessDialog from '../stake/delegate-dialog/success-dialog';
 import QuizPage from './questions/quiz';
 import 'src/styles/insync.scss';
+import { ROUTES } from 'src/constants/routes';
 
 const cookies = new Cookies();
 
@@ -25,6 +26,8 @@ const NftIdPage: FunctionComponent = observer(() => {
 	const [disconnect] = useActions([extraActions.disconnect]);
 
 	const history = useHistory();
+	const isNftIdEditRoute = useRouteMatch(ROUTES.NFT_ID_EDIT);
+
 	const { accountStore, chainStore, featureFlagStore, queriesStore, walletStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);
@@ -36,6 +39,9 @@ const NftIdPage: FunctionComponent = observer(() => {
 
 	const [hasCompletedQuiz, setHasCompletedQuiz] = useState<boolean>(cookies.get(QUIZ_PASSED));
 	const [isLockedOut] = useState<boolean>(cookies.get(QUIZ_LOCKED));
+
+	const { id_number, metadata_url } = idQuery.idRecord || {};
+	const shouldShowNft = Boolean((id_number || hasCompletedQuiz) && address);
 
 	// TODO: remove once we refactor dialogs
 	useEffect(() => {
@@ -55,6 +61,16 @@ const NftIdPage: FunctionComponent = observer(() => {
 			}
 		})();
 	}, [featureFlagStore, history]);
+
+	useEffect(() => {
+		if (shouldShowNft) {
+			if (metadata_url && !isNftIdEditRoute) {
+				history.push(generatePath(ROUTES.NFT_ID_EDIT, { address }));
+			} else if (!metadata_url && isNftIdEditRoute) {
+				history.push(generatePath(ROUTES.NFT_ID));
+			}
+		}
+	}, [address, history, isNftIdEditRoute, metadata_url, shouldShowNft]);
 
 	if (featureFlagStore.isFetching || idQuery.isFetching) {
 		return <BigLoader />;
@@ -100,7 +116,7 @@ const NftIdPage: FunctionComponent = observer(() => {
 
 	return (
 		<>
-			{idQuery.idRecord?.id_number || hasCompletedQuiz ? (
+			{shouldShowNft ? (
 				<div className="w-full h-fit font-karla py-5 px-5 pt-21 md:py-10 md:px-15">
 					<PrivateView />
 					<SnackbarMessage />

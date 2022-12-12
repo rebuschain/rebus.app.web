@@ -40,7 +40,7 @@ const getBackgroundLevel = (data: NftIdData) => {
 		level--;
 	}
 
-	if (data.address && data.country) {
+	if (data.address) {
 		level--;
 	}
 
@@ -67,7 +67,8 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 	const theme = data.theme || COLOR_OPTIONS[0];
 	const level = getBackgroundLevel(data);
 	const address = useAddress();
-	const tokenAddress = data.idNumber ? `${data.idNumber}${address}` : address;
+	const tokenAddress = data.idNumber ? `${data.idNumber}${data.documentNumber}${address}` : address;
+	const publicViewLink = `${window.origin}/nft-id/rebus/v1/${address}`;
 
 	const [backgroundImage, setBackgroundImage] = useState('');
 
@@ -194,7 +195,7 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 						)}
 					</div>
 
-					<div>
+					<div className="flex flex-col items-end">
 						{data.idPhotoFile?.source && (
 							<DataItem isBlurred={data.idPhotoFileHidden && !displayBlurredData}>
 								<div
@@ -212,12 +213,16 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 						)}
 
 						{data.idNumber && (
-							<DataItem className={data.idPhotoFile?.source ? 'mt-6' : ''} label="ID Number" value={data.idNumber} />
+							<DataItem
+								className={classNames('items-end', data.idPhotoFile?.source && 'mt-6')}
+								label="ID Number"
+								value={data.idNumber}
+							/>
 						)}
 
 						{data.signatureFile?.source && (
 							<DataItem
-								className={data.idNumber ? 'mt-2' : 'mt-6'}
+								className={classNames('items-end', data.idNumber ? 'mt-2' : 'mt-6')}
 								isBlurred={data.signatureFileHidden && !displayBlurredData}
 								label="Signature">
 								<img
@@ -236,9 +241,9 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 					</div>
 				</div>
 
-				{(data.address || data.country || data.issuedBy || data.documentNumber) && (
+				{(data.address || data.issuedBy || data.documentNumber) && (
 					<div className="flex mt-10">
-						{(data.address || data.country) && (
+						{data.address && (
 							<DataItem
 								className="w-1/2 break-words"
 								isBlurred={data.addressHidden && !displayBlurredData}
@@ -251,7 +256,6 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 											<div key={index}>{line}</div>
 										))}
 								</div>
-								{data.country}
 							</DataItem>
 						)}
 
@@ -265,11 +269,8 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 				)}
 
 				<div className="flex bg-white rounded-br-2lg rounded-bl-2lg p-5 mt-12">
-					<QRCode size={100} value={tokenAddress} />
+					<QRCode size={100} value={publicViewLink} />
 					<div className="ml-5">
-						<div className="uppercase text-xs black" style={{ lineHeight: '14px' }}>
-							Token Address
-						</div>
 						<div className="uppercase text-xl black break-all" style={{ lineHeight: '29px' }}>
 							{tokenAddress}
 						</div>

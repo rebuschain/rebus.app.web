@@ -355,7 +355,7 @@ proto.rebus.nftid.v1.IdRecord.prototype.setIdNumber = function(value) {
  */
 proto.rebus.nftid.v1.NftId = {
   NONE: 0,
-  DEFAULT: 1
+  V1: 1
 };
 
 goog.object.extend(exports, proto.rebus.nftid.v1);

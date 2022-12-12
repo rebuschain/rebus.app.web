@@ -71,3 +71,53 @@ export namespace MsgMintNftIdResponse {
   }
 }
 
+export class MsgCreateIdRecord extends jspb.Message {
+  getAddress(): string;
+  setAddress(value: string): void;
+
+  getNftType(): rebus_nftid_v1_id_pb.NftIdMap[keyof rebus_nftid_v1_id_pb.NftIdMap];
+  setNftType(value: rebus_nftid_v1_id_pb.NftIdMap[keyof rebus_nftid_v1_id_pb.NftIdMap]): void;
+
+  getOrganization(): string;
+  setOrganization(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): MsgCreateIdRecord.AsObject;
+  static toObject(includeInstance: boolean, msg: MsgCreateIdRecord): MsgCreateIdRecord.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: MsgCreateIdRecord, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): MsgCreateIdRecord;
+  static deserializeBinaryFromReader(message: MsgCreateIdRecord, reader: jspb.BinaryReader): MsgCreateIdRecord;
+}
+
+export namespace MsgCreateIdRecord {
+  export type AsObject = {
+    address: string,
+    nftType: rebus_nftid_v1_id_pb.NftIdMap[keyof rebus_nftid_v1_id_pb.NftIdMap],
+    organization: string,
+  }
+}
+
+export class MsgCreateIdRecordResponse extends jspb.Message {
+  hasIdRecord(): boolean;
+  clearIdRecord(): void;
+  getIdRecord(): rebus_nftid_v1_id_pb.IdRecord | undefined;
+  setIdRecord(value?: rebus_nftid_v1_id_pb.IdRecord): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): MsgCreateIdRecordResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: MsgCreateIdRecordResponse): MsgCreateIdRecordResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: MsgCreateIdRecordResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): MsgCreateIdRecordResponse;
+  static deserializeBinaryFromReader(message: MsgCreateIdRecordResponse, reader: jspb.BinaryReader): MsgCreateIdRecordResponse;
+}
+
+export namespace MsgCreateIdRecordResponse {
+  export type AsObject = {
+    idRecord?: rebus_nftid_v1_id_pb.IdRecord.AsObject,
+  }
+}
+

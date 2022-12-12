@@ -13,4 +13,5 @@ export const config = {
 	COIN_DECIMALS: parseInt(env('COIN_DECIMALS'), 10),
 	PREFIX: env('PREFIX'),
 	GAS_PRICE_STEP_AVERAGE: parseFloat(env('GAS_PRICE_STEP_AVERAGE')),
+	NFT_ID_ORG_NAME: env('NFT_ID_ORG_NAME'),
 };

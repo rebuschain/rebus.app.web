@@ -18,6 +18,7 @@ const selector = (state: RootState) => {
 		tokens: state.stake.successDialog.tokens,
 		open: state.stake.successDialog.open,
 		isNft: state.stake.successDialog.isNft,
+		isNftIdRecord: state.stake.successDialog.isNftIdRecord,
 		hash: state.stake.successDialog.hash,
 		name: state.stake.delegateDialog.name,
 		validator: state.stake.delegateDialog.validatorAddress,
@@ -43,6 +44,7 @@ const SuccessDialog = observer(() => {
 		claimValidator,
 		proposalOpen,
 		isNft,
+		isNftIdRecord,
 	} = useAppSelector(selector);
 	const address = useAddress();
 
@@ -66,7 +68,9 @@ const SuccessDialog = observer(() => {
 			<DialogContent className="content">
 				<div className="flex items-center mb-7.5 justify-center">
 					<img alt="success" className="mr-2" src={success} />
-					{isNft ? (
+					{isNftIdRecord ? (
+						<ResultDialogHeader>{variables[lang].id_record_created}</ResultDialogHeader>
+					) : isNft ? (
 						<ResultDialogHeader>{variables[lang].nft_id_created}</ResultDialogHeader>
 					) : name ? (
 						<ResultDialogHeader>{name + 'd Successfully'}</ResultDialogHeader>

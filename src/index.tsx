@@ -76,7 +76,11 @@ const Router: FunctionComponent = () => {
 														path={ROUTES.IBC_TRANSFER}
 														component={lazy(() => import('./pages/ibc-transfer'))}
 													/>
-													<Route exact path={ROUTES.NFT_ID} component={lazy(() => import('./pages/nft-id'))} />
+													<Route
+														exact
+														path={[ROUTES.NFT_ID, ROUTES.NFT_ID_EDIT]}
+														component={lazy(() => import('./pages/nft-id'))}
+													/>
 													<Route
 														exact
 														path={ROUTES.NFT_ID_VIEW}

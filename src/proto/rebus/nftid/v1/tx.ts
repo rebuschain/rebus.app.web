@@ -21,8 +21,23 @@ export interface MsgMintNftId {
   mintingFee: Coin | undefined;
 }
 
-/** MsgMintNftIdResponse returns no fields */
+/** MsgMintNftIdResponse returns the id record */
 export interface MsgMintNftIdResponse {
+  idRecord: IdRecord | undefined;
+}
+
+/** MsgCreateIdRecord defines a Msg to create the id record that holds the nft id (generates id number and document number) */
+export interface MsgCreateIdRecord {
+  /** address of the user who is minting the nft id */
+  address: string;
+  /** type of the nft id */
+  nftType: NftId;
+  /** organization that the nft id belongs to */
+  organization: string;
+}
+
+/** MsgCreateIdRecordResponse returns the id record */
+export interface MsgCreateIdRecordResponse {
   idRecord: IdRecord | undefined;
 }
 
@@ -172,10 +187,128 @@ export const MsgMintNftIdResponse = {
   },
 };
 
+function createBaseMsgCreateIdRecord(): MsgCreateIdRecord {
+  return { address: "", nftType: 0, organization: "" };
+}
+
+export const MsgCreateIdRecord = {
+  encode(message: MsgCreateIdRecord, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.address !== "") {
+      writer.uint32(10).string(message.address);
+    }
+    if (message.nftType !== 0) {
+      writer.uint32(16).int32(message.nftType);
+    }
+    if (message.organization !== "") {
+      writer.uint32(26).string(message.organization);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateIdRecord {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgCreateIdRecord();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.address = reader.string();
+          break;
+        case 2:
+          message.nftType = reader.int32() as any;
+          break;
+        case 3:
+          message.organization = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgCreateIdRecord {
+    return {
+      address: isSet(object.address) ? String(object.address) : "",
+      nftType: isSet(object.nftType) ? nftIdFromJSON(object.nftType) : 0,
+      organization: isSet(object.organization) ? String(object.organization) : "",
+    };
+  },
+
+  toJSON(message: MsgCreateIdRecord): unknown {
+    const obj: any = {};
+    message.address !== undefined && (obj.address = message.address);
+    message.nftType !== undefined && (obj.nftType = nftIdToJSON(message.nftType));
+    message.organization !== undefined && (obj.organization = message.organization);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgCreateIdRecord>, I>>(object: I): MsgCreateIdRecord {
+    const message = createBaseMsgCreateIdRecord();
+    message.address = object.address ?? "";
+    message.nftType = object.nftType ?? 0;
+    message.organization = object.organization ?? "";
+    return message;
+  },
+};
+
+function createBaseMsgCreateIdRecordResponse(): MsgCreateIdRecordResponse {
+  return { idRecord: undefined };
+}
+
+export const MsgCreateIdRecordResponse = {
+  encode(message: MsgCreateIdRecordResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.idRecord !== undefined) {
+      IdRecord.encode(message.idRecord, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateIdRecordResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgCreateIdRecordResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.idRecord = IdRecord.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgCreateIdRecordResponse {
+    return { idRecord: isSet(object.idRecord) ? IdRecord.fromJSON(object.idRecord) : undefined };
+  },
+
+  toJSON(message: MsgCreateIdRecordResponse): unknown {
+    const obj: any = {};
+    message.idRecord !== undefined && (obj.idRecord = message.idRecord ? IdRecord.toJSON(message.idRecord) : undefined);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgCreateIdRecordResponse>, I>>(object: I): MsgCreateIdRecordResponse {
+    const message = createBaseMsgCreateIdRecordResponse();
+    message.idRecord = (object.idRecord !== undefined && object.idRecord !== null)
+      ? IdRecord.fromPartial(object.idRecord)
+      : undefined;
+    return message;
+  },
+};
+
 /** Msg defines the nftid Msg service. */
 export interface Msg {
   /** MintNftId mints a NFT ID on the blockchain. */
   MintNftId(request: MsgMintNftId): Promise<MsgMintNftIdResponse>;
+  /** CreateIdRecord creates a ID Record on the blockchain. */
+  CreateIdRecord(request: MsgCreateIdRecord): Promise<MsgCreateIdRecordResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -185,11 +318,18 @@ export class MsgClientImpl implements Msg {
     this.service = opts?.service || "rebus.nftid.v1.Msg";
     this.rpc = rpc;
     this.MintNftId = this.MintNftId.bind(this);
+    this.CreateIdRecord = this.CreateIdRecord.bind(this);
   }
   MintNftId(request: MsgMintNftId): Promise<MsgMintNftIdResponse> {
     const data = MsgMintNftId.encode(request).finish();
     const promise = this.rpc.request(this.service, "MintNftId", data);
     return promise.then((data) => MsgMintNftIdResponse.decode(new _m0.Reader(data)));
+  }
+
+  CreateIdRecord(request: MsgCreateIdRecord): Promise<MsgCreateIdRecordResponse> {
+    const data = MsgCreateIdRecord.encode(request).finish();
+    const promise = this.rpc.request(this.service, "CreateIdRecord", data);
+    return promise.then((data) => MsgCreateIdRecordResponse.decode(new _m0.Reader(data)));
   }
 }
 
