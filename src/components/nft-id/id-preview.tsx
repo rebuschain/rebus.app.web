@@ -35,15 +35,21 @@ export const IdPreview: React.FC<IdPreviewProps> = ({
 	const { isMobileView } = useWindowSize();
 	const renderIteration = useRef(0);
 	const [watermarkLoaded, setWatermarkLoaded] = useState(false);
+	const [canRender, setCanRender] = useState(false);
 	const [imageSrc, setImageSrc] = useState('');
 
 	// Needed since on the first render the watermark image might not be loaded yet, so the generated images won't have it
 	const onWatermarkLoaded = useCallback(() => setWatermarkLoaded(true), []);
 
 	useEffect(() => {
+		// Give it 1 second to styles and other assets can load properly before rendering the images
+		setTimeout(() => setCanRender(true), 1000);
+	}, []);
+
+	useEffect(() => {
 		const currentIteration = ++renderIteration.current;
 
-		if (typeof idImageDataString !== 'undefined') {
+		if (typeof idImageDataString !== 'undefined' || !canRender) {
 			return;
 		}
 
@@ -68,7 +74,7 @@ export const IdPreview: React.FC<IdPreviewProps> = ({
 				});
 			}
 		});
-	}, [data, data.idNumber, idImageDataString, onRenderPrivateImage, onRenderPublicImage, watermarkLoaded]);
+	}, [canRender, data, data.idNumber, idImageDataString, onRenderPrivateImage, onRenderPublicImage, watermarkLoaded]);
 
 	return (
 		<div className={className}>

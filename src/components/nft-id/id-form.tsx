@@ -16,6 +16,7 @@ type IdFormProps = {
 	data: NftIdData;
 	shouldConfirm?: boolean;
 	isLoading?: boolean;
+	isSubmitDisabled?: boolean;
 	onChange?: TextInputProps['onChange'] | FileInputProps['onChange'];
 	onSubmit?: () => void;
 	onVisibilityChange: (name: string, value: boolean) => void;
@@ -34,6 +35,7 @@ export const IdForm: React.FC<IdFormProps> = ({
 	className,
 	data,
 	isLoading,
+	isSubmitDisabled,
 	onChange,
 	onSubmit,
 	onVisibilityChange,
@@ -185,7 +187,7 @@ export const IdForm: React.FC<IdFormProps> = ({
 					)}
 					<Button
 						backgroundStyle="blue"
-						disabled={isLoading}
+						disabled={isLoading || isSubmitDisabled}
 						onClick={shouldConfirm ? openConfirmDialog : onSubmit}
 						smallBorderRadius>
 						{buttonText}

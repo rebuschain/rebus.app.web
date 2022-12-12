@@ -133,7 +133,7 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 						<div className="flex items-center">
 							<img className="w-6 h-6" src="/public/assets/main/rebus-logo-single.svg" />
 							<div className="ml-2" style={{ textShadow: '0px 1px rgba(0, 0, 0, 0.6)', whiteSpace: 'nowrap' }}>
-								REBUS CHAIN NFT IDENTITY CARD
+								Rebus Nation Identity Card
 							</div>
 						</div>
 
@@ -271,7 +271,7 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 				<div className="flex bg-white rounded-br-2lg rounded-bl-2lg p-5 mt-12">
 					<QRCode size={100} value={publicViewLink} />
 					<div className="ml-5">
-						<div className="uppercase text-xl black break-all" style={{ lineHeight: '29px' }}>
+						<div className="uppercase text-xl-2 black break-all" style={{ lineHeight: '29px' }}>
 							{tokenAddress}
 						</div>
 					</div>
