@@ -8,7 +8,7 @@ import { TitleText } from 'src/components/texts';
 import { useStore } from 'src/stores';
 import useWindowSize from 'src/hooks/use-window-size';
 
-export const AssetsOverview: FunctionComponent<{ title: string }> = observer(({ title }) => {
+export const AssetsOverview: FunctionComponent<React.PropsWithChildren<{ title: string }>> = observer(({ title }) => {
 	const { chainStore, accountStore, queriesStore, priceStore, walletStore } = useStore();
 
 	const { isMobileView } = useWindowSize();

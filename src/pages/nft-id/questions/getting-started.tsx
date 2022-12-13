@@ -5,7 +5,7 @@ type GettingStartedProps = {
 	onClick: () => void;
 };
 
-const GettingStarted: FunctionComponent<GettingStartedProps> = ({ onClick }) => {
+const GettingStarted: FunctionComponent<React.PropsWithChildren<GettingStartedProps>> = ({ onClick }) => {
 	return (
 		<>
 			<div className="image-wrapper">

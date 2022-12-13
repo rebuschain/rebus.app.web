@@ -1,7 +1,7 @@
 import React, { FunctionComponent, ReactComponentElement, ReactElement, ReactNode } from 'react';
 import { toast, ToastOptions } from 'react-toastify';
 
-const CloseButton: FunctionComponent<{ closeToast: () => void }> = ({ closeToast }) => (
+const CloseButton: FunctionComponent<React.PropsWithChildren<{ closeToast: () => void }>> = ({ closeToast }) => (
 	<button
 		onClick={closeToast}
 		className="hover:opacity-75 absolute top-2 md:-top-2 right-2 md:-left-2 z-100 h-5 md:h-6 w-5 md:w-6">
@@ -73,7 +73,7 @@ export const displayToast: DisplayToastFn = (
 	}
 };
 
-const ToastTxBroadcasting: FunctionComponent = () => (
+const ToastTxBroadcasting: FunctionComponent<React.PropsWithChildren<unknown>> = () => (
 	<div className="flex gap-3 md:gap-3.75">
 		<img alt="ldg" className="s-spin w-7 h-7" src="/public/assets/icons/loading.png" />
 		<section className="text-white-high">
@@ -83,7 +83,7 @@ const ToastTxBroadcasting: FunctionComponent = () => (
 	</div>
 );
 
-const ToastTxFailed: FunctionComponent<{ message: string }> = ({ message }) => (
+const ToastTxFailed: FunctionComponent<React.PropsWithChildren<{ message: string }>> = ({ message }) => (
 	<div className="flex gap-3 md:gap-3.75">
 		<img className="w-8 h-8" alt="x" src="/public/assets/icons/failed-tx.png" />
 		<section className="text-white-high">
@@ -93,7 +93,7 @@ const ToastTxFailed: FunctionComponent<{ message: string }> = ({ message }) => (
 	</div>
 );
 
-const ToastTxSuccess: FunctionComponent<{ link: string }> = ({ link }) => (
+const ToastTxSuccess: FunctionComponent<React.PropsWithChildren<{ link: string }>> = ({ link }) => (
 	<div className="flex gap-3 md:gap-3.75">
 		<img className="w-8 h-8" alt="b" src="/public/assets/icons/toast-success.png" />
 		<section className="text-white-high">

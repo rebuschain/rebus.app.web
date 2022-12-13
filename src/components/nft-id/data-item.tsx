@@ -8,7 +8,13 @@ type DataItemProps = {
 	value?: string;
 };
 
-export const DataItem: React.FC<DataItemProps> = ({ children, className, isBlurred, label, value }) => {
+export const DataItem: React.FC<React.PropsWithChildren<DataItemProps>> = ({
+	children,
+	className,
+	isBlurred,
+	label,
+	value,
+}) => {
 	return (
 		<div className={classNames(className, 'flex flex-col')}>
 			{label && (

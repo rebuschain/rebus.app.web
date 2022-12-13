@@ -13,7 +13,7 @@ type QuizCompleteProps = {
 	onClick: () => void;
 };
 
-const QuizComplete: FunctionComponent<QuizCompleteProps> = observer(({ creatingIdRecord, hasPassed, onClick }) => {
+const QuizComplete: FunctionComponent<React.PropsWithChildren<QuizCompleteProps>> = observer(({ creatingIdRecord, hasPassed, onClick }) => {
 	const { questionsStore } = useStore();
 
 	const onDocumentationClick = useCallback(() => {

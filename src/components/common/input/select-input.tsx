@@ -41,7 +41,7 @@ const styles: StylesConfig<Option> = {
 	valueContainer: styles => ({ ...styles, padding: '4px 12px' }),
 };
 
-export const SelectInput: React.FC<SelectInputProps> = ({
+export const SelectInput: React.FC<React.PropsWithChildren<SelectInputProps>> = ({
 	className,
 	onChange,
 	name = '',

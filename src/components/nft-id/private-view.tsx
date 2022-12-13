@@ -38,7 +38,7 @@ const selector = (state: RootState) => {
 	};
 };
 
-const PrivateView: FunctionComponent = observer(() => {
+const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observer(() => {
 	const { accountStore, chainStore, queriesStore, walletStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);
@@ -74,13 +74,13 @@ const PrivateView: FunctionComponent = observer(() => {
 		window.open(`${window.location.origin}/nft-id/${config.NFT_ID_ORG_NAME}/v1/${address}`, '_blank');
 	}, [address]);
 
-	const onChange = useCallback((name, value) => {
+	const onChange = useCallback((name: any, value: any) => {
 		setData(oldData => ({ ...oldData, [name]: value }));
 	}, []);
 	const onChangeColor = useCallback((color: Theme) => {
 		setData(oldData => ({ ...oldData, theme: color }));
 	}, []);
-	const onVisibilityChange = useCallback((name, value) => {
+	const onVisibilityChange = useCallback((name: any, value: any) => {
 		if (name === 'cityOfBirth') {
 			name = 'placeOfBirth';
 		}

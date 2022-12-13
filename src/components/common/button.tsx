@@ -19,7 +19,7 @@ type StyledProps = {
 	textTransform: string;
 };
 
-export const Button: FunctionComponent<Props> = ({
+export const Button: FunctionComponent<React.PropsWithChildren<Props>> = ({
 	backgroundStyle = 'gradient-pink-blue',
 	children,
 	smallBorderRadius,

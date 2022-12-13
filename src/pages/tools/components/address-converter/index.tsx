@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { snackbarActions } from 'src/reducers/slices';
 import { useActions } from 'src/hooks/use-actions';
 
-const AddressConverter: FunctionComponent = () => {
+const AddressConverter: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 	const [address, setAddress] = useState('');
 	const [convertedAddress, setConvertedAddress] = useState('');
 	const [error, setError] = useState('');

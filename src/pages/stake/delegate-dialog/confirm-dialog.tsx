@@ -10,7 +10,13 @@ type Props = {
 	title: string;
 };
 
-const ConfirmDialog: React.FC<Props> = ({ content, isOpen = false, onClose, onConfirm, title }) => {
+const ConfirmDialog: React.FC<React.PropsWithChildren<Props>> = ({
+	content,
+	isOpen = false,
+	onClose,
+	onConfirm,
+	title,
+}) => {
 	return (
 		<Dialog className="dialog" open={isOpen} onClose={onClose}>
 			<DialogContent className="content">

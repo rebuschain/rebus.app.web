@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router';
 import { observer } from 'mobx-react-lite';
 import styled from '@emotion/styled';
 import { useAppSelector } from 'src/hooks/use-app-select';
@@ -15,7 +14,7 @@ import { InsyncWrapper } from '../../components/insync/insync-wrapper';
 import ClaimDialog from './claim-dialog';
 import TokenDetails from './token-details';
 
-type HomeProps = RouteComponentProps<any>;
+type HomeProps = any;
 
 const selector = (state: RootState) => {
 	return {
@@ -151,4 +150,4 @@ const Heading = styled.div`
 	}
 `;
 
-export default withRouter(Home);
+export default Home;

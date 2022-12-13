@@ -12,7 +12,14 @@ interface Props extends ListChildComponentProps {
 	tableRowClassName?: string;
 }
 
-const TableRow: FunctionComponent<Props> = ({ columnDefs, data, index, isLast, style, tableRowClassName }) => {
+const TableRow: FunctionComponent<React.PropsWithChildren<Props>> = ({
+	columnDefs,
+	data,
+	index,
+	isLast,
+	style,
+	tableRowClassName,
+}) => {
 	return (
 		<div
 			className={classNames(
@@ -50,7 +57,7 @@ const TableRow: FunctionComponent<Props> = ({ columnDefs, data, index, isLast, s
 	);
 };
 
-const TableRowMemo: FunctionComponent<Props> = memo(TableRow, (prevProps, nextProps) => {
+const TableRowMemo: FunctionComponent<React.PropsWithChildren<Props>> = memo(TableRow, (prevProps, nextProps) => {
 	return areEqual(prevProps, nextProps);
 });
 

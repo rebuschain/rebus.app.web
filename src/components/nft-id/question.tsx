@@ -23,7 +23,7 @@ const formControlStyles = {
 	margin: '2px 0px',
 };
 
-export const Question: FunctionComponent<QuestionProps> = ({
+export const Question: FunctionComponent<React.PropsWithChildren<QuestionProps>> = ({
 	question,
 	onChange,
 	currentStep,

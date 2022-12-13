@@ -12,7 +12,15 @@ type Props = {
 	width: ColumnDef['width'];
 };
 
-const TableColumn: FunctionComponent<Props> = ({ CellRenderer, align, data, index, rowIndex, value, width }) => {
+const TableColumn: FunctionComponent<React.PropsWithChildren<Props>> = ({
+	CellRenderer,
+	align,
+	data,
+	index,
+	rowIndex,
+	value,
+	width,
+}) => {
 	const Renderer = CellRenderer || DefaultCellRenderer;
 
 	return (

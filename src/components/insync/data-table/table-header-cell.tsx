@@ -15,7 +15,7 @@ type Props = {
 	width: ColumnDef['width'];
 };
 
-const TableHeaderCell: FunctionComponent<Props> = ({
+const TableHeaderCell: FunctionComponent<React.PropsWithChildren<Props>> = ({
 	align,
 	canSort,
 	index,

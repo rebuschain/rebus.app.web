@@ -32,11 +32,14 @@ interface ParsedValidator {
 	votingPower: number;
 }
 
-const ValidatorCell: FunctionComponent<CellRendererProps<any, ParsedValidator>> = ({ data, rowIndex }) => (
-	<ValidatorName index={rowIndex} moniker={data.moniker} identity={data.identity} />
-);
+const ValidatorCell: FunctionComponent<React.PropsWithChildren<CellRendererProps<any, ParsedValidator>>> = ({
+	data,
+	rowIndex,
+}) => <ValidatorName index={rowIndex} moniker={data.moniker} identity={data.identity} />;
 
-const StatusCell: FunctionComponent<CellRendererProps<ParsedValidator['status'], ParsedValidator>> = ({ data }) => (
+const StatusCell: FunctionComponent<React.PropsWithChildren<
+	CellRendererProps<ParsedValidator['status'], ParsedValidator>
+>> = ({ data }) => (
 	<StatusCellWrapper
 		className={classNames('status', data.jailed ? 'red_status' : '', data.status !== 3 ? 'unbonded' : '')}
 		title={data.status === 1 ? 'Unbonded' : data.status === 2 ? 'Unbonding' : data.status === 3 ? 'Active' : ''}>
@@ -44,32 +47,36 @@ const StatusCell: FunctionComponent<CellRendererProps<ParsedValidator['status'],
 	</StatusCellWrapper>
 );
 
-const VotingPowerCell: FunctionComponent<CellRendererProps<ParsedValidator['votingPower'], ParsedValidator>> = ({
-	value,
-}) => (
+const VotingPowerCell: FunctionComponent<React.PropsWithChildren<
+	CellRendererProps<ParsedValidator['votingPower'], ParsedValidator>
+>> = ({ value }) => (
 	<VotingCellWrapper>
 		<p>{formatCount(value, true)}</p>
 	</VotingCellWrapper>
 );
 
-const VotingPercentageCell: FunctionComponent<CellRendererProps<
-	ParsedValidator['votingPercentage'],
-	ParsedValidator
+const VotingPercentageCell: FunctionComponent<React.PropsWithChildren<
+	CellRendererProps<ParsedValidator['votingPercentage'], ParsedValidator>
 >> = ({ value }) => (
 	<VotingCellWrapper>
 		<p>{value}%</p>
 	</VotingCellWrapper>
 );
 
-const CommissionCell: FunctionComponent<CellRendererProps<ParsedValidator['commissionRate'], ParsedValidator>> = ({
-	value,
-}) => <>{value ? `${value}%` : '0%'}</>;
+const CommissionCell: FunctionComponent<React.PropsWithChildren<
+	CellRendererProps<ParsedValidator['commissionRate'], ParsedValidator>
+>> = ({ value }) => <>{value ? `${value}%` : '0%'}</>;
 
-const TokensStakedCell: FunctionComponent<CellRendererProps<any, ParsedValidator>> = ({ value }) => {
+const TokensStakedCell: FunctionComponent<React.PropsWithChildren<CellRendererProps<any, ParsedValidator>>> = ({
+	value,
+}) => {
 	return <TokensCellWrapper className={value ? 'tokens' : 'no_tokens'}>{value || 'no tokens'}</TokensCellWrapper>;
 };
 
-const ActionCell: FunctionComponent<CellRendererProps<boolean, ParsedValidator>> = ({ data, value }) =>
+const ActionCell: FunctionComponent<React.PropsWithChildren<CellRendererProps<boolean, ParsedValidator>>> = ({
+	data,
+	value,
+}) =>
 	value ? (
 		<ActionCellWrapper>
 			<ReDelegateButton valAddress={data.operatorAddress} />
@@ -88,7 +95,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 	{
 		property: 'moniker',
 		header: 'Validator',
-		CellRenderer: ValidatorCell,
+		CellRenderer: ValidatorCell as any,
 		width: 4,
 		headerAlign: 'center',
 		canSort: true,
@@ -97,7 +104,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 	{
 		property: 'status',
 		header: 'Status',
-		CellRenderer: StatusCell,
+		CellRenderer: StatusCell as any,
 		width: 2,
 		align: 'center',
 		headerAlign: 'center',
@@ -105,7 +112,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 	{
 		property: 'votingPower',
 		header: 'Voting Power',
-		CellRenderer: VotingPowerCell,
+		CellRenderer: VotingPowerCell as any,
 		width: 3,
 		align: 'center',
 		headerAlign: 'center',
@@ -114,7 +121,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 	{
 		property: 'votingPercentage',
 		header: 'Voting Percentage',
-		CellRenderer: VotingPercentageCell,
+		CellRenderer: VotingPercentageCell as any,
 		width: 2,
 		align: 'center',
 		headerAlign: 'center',
@@ -123,7 +130,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 	{
 		property: 'commissionRate',
 		header: 'Commission',
-		CellRenderer: CommissionCell,
+		CellRenderer: CommissionCell as any,
 		width: 2,
 		align: 'center',
 		headerAlign: 'center',
@@ -132,7 +139,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 	{
 		property: 'tokensStaked',
 		header: 'Tokens Staked',
-		CellRenderer: TokensStakedCell,
+		CellRenderer: TokensStakedCell as any,
 		width: 2,
 		align: 'center',
 		headerAlign: 'center',
@@ -141,7 +148,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 	{
 		property: 'isDelegated',
 		header: 'Action',
-		CellRenderer: ActionCell,
+		CellRenderer: ActionCell as any,
 		width: 9,
 		align: 'flex-end',
 		headerAlign: 'center',

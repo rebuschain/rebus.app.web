@@ -20,7 +20,7 @@ type IdPreviewProps = {
 
 const EMPTY_OBJ: NftIdData = {};
 
-export const IdPreview: React.FC<IdPreviewProps> = ({
+export const IdPreview: React.FC<React.PropsWithChildren<IdPreviewProps>> = ({
 	className,
 	data = EMPTY_OBJ,
 	idImageDataString,
