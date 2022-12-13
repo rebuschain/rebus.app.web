@@ -82,6 +82,10 @@ const SideBar: FunctionComponent = observer(function SideBar() {
 												return featureFlagStore.featureFlags.ibcTransferPage;
 											}
 
+											if (sidebarItem.TYPE === 'nft-id') {
+												return featureFlagStore.featureFlags.nftIdPage;
+											}
+
 											return true;
 										})
 										/*.filter(sidebarItem => {
