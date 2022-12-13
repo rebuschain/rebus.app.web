@@ -1,10 +1,37 @@
+diff --git a/node_modules/@cosmjs/stargate/build/signingstargateclient.d.ts b/node_modules/@cosmjs/stargate/build/signingstargateclient.d.ts
+index b740a94..1ec8df6 100644
+--- a/node_modules/@cosmjs/stargate/build/signingstargateclient.d.ts
++++ b/node_modules/@cosmjs/stargate/build/signingstargateclient.d.ts
+@@ -68,7 +68,7 @@ export declare class SigningStargateClient extends StargateClient {
+      * from the chain. This is needed when signing for a multisig account, but it also allows for offline signing
+      * (See the SigningStargateClient.offline constructor).
+      */
+-    sign(signerAddress: string, messages: readonly EncodeObject[], fee: StdFee, memo: string, explicitSignerData?: SignerData): Promise<TxRaw>;
++    sign(signerAddress: string, messages: readonly EncodeObject[], fee: StdFee, memo: string, explicitSignerData?: SignerData, isEvmos?: boolean): Promise<TxRaw>;
+     private signAmino;
+     private signDirect;
+ }
 diff --git a/node_modules/@cosmjs/stargate/build/signingstargateclient.js b/node_modules/@cosmjs/stargate/build/signingstargateclient.js
-index 7884e36..9dadda6 100644
+index 7595431..f6a007f 100644
 --- a/node_modules/@cosmjs/stargate/build/signingstargateclient.js
 +++ b/node_modules/@cosmjs/stargate/build/signingstargateclient.js
-@@ -196,13 +196,18 @@ class SigningStargateClient extends stargateclient_1.StargateClient {
-             ? this.signDirect(signerAddress, messages, fee, memo, signerData)
-             : this.signAmino(signerAddress, messages, fee, memo, signerData);
+@@ -188,7 +188,7 @@ class SigningStargateClient extends stargateclient_1.StargateClient {
+      * from the chain. This is needed when signing for a multisig account, but it also allows for offline signing
+      * (See the SigningStargateClient.offline constructor).
+      */
+-    async sign(signerAddress, messages, fee, memo, explicitSignerData) {
++    async sign(signerAddress, messages, fee, memo, explicitSignerData, isEvmos) {
+         let signerData;
+         if (explicitSignerData) {
+             signerData = explicitSignerData;
+@@ -203,16 +203,21 @@ class SigningStargateClient extends stargateclient_1.StargateClient {
+             };
+         }
+         return (0, proto_signing_1.isOfflineDirectSigner)(this.signer)
+-            ? this.signDirect(signerAddress, messages, fee, memo, signerData)
+-            : this.signAmino(signerAddress, messages, fee, memo, signerData);
++            ? this.signDirect(signerAddress, messages, fee, memo, signerData, isEvmos)
++            : this.signAmino(signerAddress, messages, fee, memo, signerData, isEvmos);
      }
 -    async signAmino(signerAddress, messages, fee, memo, { accountNumber, sequence, chainId }) {
 +    async signAmino(signerAddress, messages, fee, memo, { accountNumber, sequence, chainId }, isEvmos) {
