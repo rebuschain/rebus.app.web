@@ -3,7 +3,9 @@ import styled from '@emotion/styled';
 import { Slide, SlideProps, Snackbar as MaterialSnackbar } from '@mui/material';
 import icon from 'src/assets/user-details/warning.svg';
 
-const TransitionUp: FunctionComponent<SlideProps> = props => <Slide direction="up" {...props} />;
+const TransitionUp: FunctionComponent<React.PropsWithChildren<SlideProps>> = props => (
+	<Slide direction="up" {...props} />
+);
 
 type SnackbarProps = {
 	message: string;
@@ -11,7 +13,7 @@ type SnackbarProps = {
 	onClose: () => void;
 };
 
-const Snackbar: FunctionComponent<SnackbarProps> = props => {
+const Snackbar: FunctionComponent<React.PropsWithChildren<SnackbarProps>> = props => {
 	return (
 		<MaterialSnackbarStyled
 			ContentProps={{

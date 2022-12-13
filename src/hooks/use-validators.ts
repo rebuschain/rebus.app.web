@@ -64,7 +64,7 @@ export const useValidators = () => {
 	);
 
 	const fetch = useCallback(
-		address => {
+		(address: any) => {
 			getValidators((data: Array<any>) => {
 				if (data && data.length && propsRef.current.validatorImages && propsRef.current.validatorImages.length === 0) {
 					const array = data.filter((val: any) => val && val.description && val.description.identity);

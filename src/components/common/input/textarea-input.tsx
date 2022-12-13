@@ -16,7 +16,7 @@ export type TextareaInputProps = {
 	value?: string;
 };
 
-export const TextareaInput: React.FC<TextareaInputProps> = ({
+export const TextareaInput: React.FC<React.PropsWithChildren<TextareaInputProps>> = ({
 	className,
 	onClick,
 	onChange,

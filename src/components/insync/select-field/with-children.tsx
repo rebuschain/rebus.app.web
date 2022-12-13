@@ -22,7 +22,7 @@ type SelectFieldProps = {
 	value: string;
 };
 
-const SelectField: FunctionComponent<SelectFieldProps> = props => {
+const SelectField: FunctionComponent<React.PropsWithChildren<SelectFieldProps>> = props => {
 	const onChange = (e: any) => props.onChange(e.target.value);
 
 	return (

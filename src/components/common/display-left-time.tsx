@@ -1,6 +1,10 @@
 import React, { FunctionComponent } from 'react';
 
-export const DisplayLeftTime: FunctionComponent<IDisplayLeftTime> = ({ day, hour, minute }) => {
+export const DisplayLeftTime: FunctionComponent<React.PropsWithChildren<IDisplayLeftTime>> = ({
+	day,
+	hour,
+	minute,
+}) => {
 	return (
 		<h4 className="text-xl md:text-2xl flex items-center">
 			{day && (

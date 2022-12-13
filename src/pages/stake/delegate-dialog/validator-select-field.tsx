@@ -26,7 +26,9 @@ const selector = (state: RootState) => {
 	};
 };
 
-const ValidatorSelectField: FunctionComponent<ValidatorSelectFieldProps> = ({ canDelegateToInactive }) => {
+const ValidatorSelectField: FunctionComponent<React.PropsWithChildren<ValidatorSelectFieldProps>> = ({
+	canDelegateToInactive,
+}) => {
 	const [onChange] = useActions([delegateDialogActions.setValidatorAddress]);
 	const { lang, value, validatorList, name, validatorImages, delegatedValidatorList } = useAppSelector(selector);
 

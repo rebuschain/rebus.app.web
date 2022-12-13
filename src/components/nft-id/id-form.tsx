@@ -64,7 +64,7 @@ const NATIONALITY_OPTIONS = [
 
 const nftIdCost = parseFloat((Number(env('NFT_ID_MINTING_FEE')) / 10 ** config.COIN_DECIMALS).toFixed(1));
 
-export const IdForm: React.FC<IdFormProps> = ({
+export const IdForm: React.FC<React.PropsWithChildren<IdFormProps>> = ({
 	buttonText,
 	className,
 	data,

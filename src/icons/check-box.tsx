@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from 'react';
 
-export const IconCheckBox: FunctionComponent<React.SVGAttributes<SVGElement> | { className: string }> = props => {
+export const IconCheckBox: FunctionComponent<React.PropsWithChildren<
+	React.SVGAttributes<SVGElement> | { className: string }
+>> = props => {
 	return (
 		<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 			<path

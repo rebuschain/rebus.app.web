@@ -2,7 +2,7 @@
 import React, { FunctionComponent, useState } from 'react';
 import { TermsDialog } from './dialogs/terms-dialog';
 
-export const Terms: FunctionComponent = () => {
+export const Terms: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 	const [isOpen, setIsOpen] = useState(localStorage.getItem('terms_agreement') == null);
 
 	return (

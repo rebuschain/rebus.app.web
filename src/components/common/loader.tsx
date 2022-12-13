@@ -3,7 +3,7 @@ import cn from 'clsx';
 import styled from '@emotion/styled';
 
 // TODO : implement a properly designed loader
-export const Loader: FunctionComponent<ILoader> = ({ className, style }) => {
+export const Loader: FunctionComponent<React.PropsWithChildren<ILoader>> = ({ className, style }) => {
 	return (
 		<div className="w-full h-screen flex items-center justify-center" style={style}>
 			<img

@@ -4,7 +4,7 @@ import { FullScreenContainer } from 'src/components/layouts/containers';
 import SnackbarMessage from '../../components/insync/snackbar-message';
 import { AddressConverter } from './components/address-converter';
 
-const ToolsPage: FunctionComponent = () => {
+const ToolsPage: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 	return (
 		<FullScreenContainerWithPadding>
 			<AddressConverter />

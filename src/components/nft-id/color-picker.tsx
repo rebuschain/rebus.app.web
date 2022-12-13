@@ -16,7 +16,12 @@ type ColorPickerProps = {
 
 const getLinearGradient = (colors: string[]) => `linear-gradient(120deg, ${colors.join(', ')})`;
 
-export const ColorPicker: React.FC<ColorPickerProps> = ({ className, onChange, options, value }) => {
+export const ColorPicker: React.FC<React.PropsWithChildren<ColorPickerProps>> = ({
+	className,
+	onChange,
+	options,
+	value,
+}) => {
 	return (
 		<div className={classNames(className, 'relative')}>
 			<h5 className="whitespace-nowrap mb-6">Color Theme</h5>
