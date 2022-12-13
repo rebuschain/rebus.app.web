@@ -66,7 +66,7 @@ const root = createRoot(container!);
 
 const IbcTransfer = lazy(() => import('./pages/ibc-transfer'));
 const NftId = lazy(() => import('./pages/nft-id'));
-const NftIdView= lazy(() => import('./pages/nft-id-view'));
+const NftIdView = lazy(() => import('./pages/nft-id-view'));
 const Tools = lazy(() => import('./pages/tools'));
 const Assets = lazy(() => import('./pages/assets'));
 const AirDrop = lazy(() => import('./pages/airdrop'));
@@ -95,14 +95,9 @@ const Router: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 														<Routes>
 															<Route path="/" element={<RedirectToAssets />} />
 															<Route path={ROUTES.IBC_TRANSFER} element={<IbcTransfer />} />
-															<Route
-																path={[ROUTES.NFT_ID, ROUTES.NFT_ID_EDIT]}
-																element={<NftId />}
-															/>
-															<Route
-																path={ROUTES.NFT_ID_VIEW}
-																element={<NftIdView />}
-															/>
+															<Route path={ROUTES.NFT_ID} element={<NftId />} />
+															<Route path={ROUTES.NFT_ID_EDIT} element={<NftId />} />
+															<Route path={ROUTES.NFT_ID_VIEW} element={<NftIdView />} />
 															<Route path={ROUTES.TOOLS} element={<Tools />} />
 															<Route path={ROUTES.ASSETS} element={<Assets />} />
 															<Route path={ROUTES.AIRDROP} element={<AirDrop />} />
