@@ -67,7 +67,7 @@ const NftIdPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer(
 				navigate(generatePath(ROUTES.NFT_ID));
 			}
 		}
-	}, [address, history, isNftIdEditRoute, metadata_url, shouldShowNft]);
+	}, [address, navigate, isNftIdEditRoute, metadata_url, shouldShowNft]);
 
 	if (featureFlagStore.isFetching || idQuery.isFetching) {
 		return <BigLoader />;
