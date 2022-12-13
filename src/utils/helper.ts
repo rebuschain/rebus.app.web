@@ -16,7 +16,7 @@ registry.register('/rebus.nftid.v1.MsgCreateIdRecord', MsgMintNftId);
 const aminoTypes = new AminoTypes({
 	additions: {
 		'/rebus.nftid.v1.MsgMintNftId': {
-			aminoType: '/rebus.nftid.v1.MsgMintNftId',
+			aminoType: 'rebus.core/MsgMintNftId',
 			toAmino: ({ address, nftType, organization, encryptionKey, metadataUrl, mintingFee }) => {
 				return {
 					address,
@@ -27,10 +27,10 @@ const aminoTypes = new AminoTypes({
 					minting_fee: mintingFee,
 				};
 			},
-			fromAmino: ({ address, nftType, organization, encryption_key, metadata_url, minting_fee }) => {
+			fromAmino: ({ address, nft_type, organization, encryption_key, metadata_url, minting_fee }) => {
 				return {
 					address,
-					nftType: nftType,
+					nftType: nft_type,
 					organization,
 					encryptionKey: encryption_key,
 					metadataUrl: metadata_url,
@@ -39,7 +39,7 @@ const aminoTypes = new AminoTypes({
 			},
 		},
 		'/rebus.nftid.v1.MsgCreateIdRecord': {
-			aminoType: '/rebus.nftid.v1.MsgCreateIdRecord',
+			aminoType: 'rebus.core/MsgCreateIdRecord',
 			toAmino: ({ address, nftType, organization }) => {
 				return {
 					address,
@@ -47,10 +47,10 @@ const aminoTypes = new AminoTypes({
 					organization,
 				};
 			},
-			fromAmino: ({ address, nftType, organization }) => {
+			fromAmino: ({ address, nft_type, organization }) => {
 				return {
 					address,
-					nftType: nftType,
+					nftType: nft_type,
 					organization,
 				};
 			},
@@ -61,7 +61,7 @@ const aminoTypes = new AminoTypes({
 export const aminoSignTx = async (tx: any, address: string, offlineSigner: OfflineSigner | null, isEvmos: boolean) => {
 	if (!offlineSigner) {
 		(await window.keplr) && window.keplr?.enable(chainId);
-		offlineSigner = (window.getOfflineSigner && window.getOfflineSigner(chainId)) as OfflineSigner;
+		offlineSigner = (window.getOfflineSignerOnlyAmino && window.getOfflineSignerOnlyAmino(chainId)) as OfflineSigner;
 	}
 
 	const client = await SigningStargateClient.connectWithSigner(RPC_URL, offlineSigner, { aminoTypes, registry });
@@ -77,14 +77,7 @@ export const aminoSignTx = async (tx: any, address: string, offlineSigner: Offli
 		chainId: chainId,
 	};
 
-	const result = await (client as any).signDirect(
-		address,
-		tx.msgs ? tx.msgs : [tx.msg],
-		tx.fee,
-		tx.memo,
-		signerData,
-		isEvmos
-	);
+	const result = await client.sign(address, tx.msgs ? tx.msgs : [tx.msg], tx.fee, tx.memo, signerData, isEvmos);
 
 	const txBytes = TxRaw.encode(result).finish();
 
