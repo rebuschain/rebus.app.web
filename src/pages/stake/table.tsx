@@ -144,7 +144,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 	{
 		property: 'moniker',
 		header: 'Validator',
-		CellRenderer: ValidatorCell as any,
+		CellRenderer: ValidatorCell,
 		width: 4,
 		headerAlign: 'center',
 		canSort: true,
@@ -161,7 +161,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 	{
 		property: 'votingPower',
 		header: 'Voting Power',
-		CellRenderer: VotingPowerCell as any,
+		CellRenderer: VotingPowerCell,
 		width: 3,
 		align: 'center',
 		headerAlign: 'center',
