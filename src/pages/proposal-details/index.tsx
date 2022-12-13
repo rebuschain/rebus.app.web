@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent, useEffect } from 'react';
 import { useStore } from 'src/stores';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Loader } from 'src/components/common/loader';
 import { VictoryContainer, VictoryPie, VictoryTooltip } from 'victory';
 import { voteCalculation } from 'src/utils/vote-calculation';
@@ -15,9 +15,9 @@ import Voting from './voting';
 import moment from 'moment';
 import 'src/styles/insync.scss';
 
-interface ProposalDetailParam {
+type ProposalDetailParam = {
 	proposalId: string;
-}
+};
 
 interface ProposalContent {
 	type: string;
@@ -98,19 +98,19 @@ const typeFormatter = (text: string) => {
 	return statusSegments[1].split(/(?=[A-Z])/).join(' ');
 };
 
-const ProposalDetailPage: FunctionComponent = observer(() => {
-	const { proposalId } = useParams<ProposalDetailParam>();
-	const history = useHistory();
+const ProposalDetailPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer(() => {
+	const { proposalId = '' } = useParams<ProposalDetailParam>();
+	const navigate = useNavigate();
 	const { chainStore, queriesStore, walletStore, accountStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 	const queries = queriesStore.get(chainStore.current.chainId);
-	const proposal = queries.cosmos.queryGovernance.getProposal(proposalId);
-	const votedOption = queries.cosmos.queryProposalVote.getVote(proposalId, address);
+	const proposal = queries.cosmos.queryGovernance.getProposal(proposalId as string);
+	const votedOption = queries.cosmos.queryProposalVote.getVote(proposalId as string, address);
 
 	const shouldDisplayVoting = (proposal: any) => proposal.proposalStatus === 1 || proposal.proposalStatus === 2;
 	const onBackButtonClick = () => {
-		history.go(-1);
+		navigate(-1);
 	};
 
 	// TODO: remove once we refactor dialogs

@@ -10,7 +10,7 @@ interface Props {
 	sortState?: SortState;
 }
 
-const TableHeader: FunctionComponent<Props> = ({ columnDefs, setSortState, sortState }) => {
+const TableHeader: FunctionComponent<React.PropsWithChildren<Props>> = ({ columnDefs, setSortState, sortState }) => {
 	return (
 		<div
 			className={classNames('table-header', 'h-10 grid items-center px-2 rounded-t-2xl')}
@@ -41,7 +41,7 @@ const TableHeader: FunctionComponent<Props> = ({ columnDefs, setSortState, sortS
 	);
 };
 
-const TableHeaderMemo: FunctionComponent<Props> = memo(TableHeader, (prevProps, nextProps) => {
+const TableHeaderMemo: FunctionComponent<React.PropsWithChildren<Props>> = memo(TableHeader, (prevProps, nextProps) => {
 	return areEqual(prevProps, nextProps);
 });
 

@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Pagination } from '@mui/lab';
 import styled from '@emotion/styled';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { voteCalculation } from 'src/utils/vote-calculation';
 import TooltipGraphSection from './tooltip-graph-section';
 import { statusColor } from 'src/utils/color-formatter';
@@ -12,13 +12,13 @@ type CardsProps = {
 	proposals: any[];
 };
 
-const NewCards: FunctionComponent<CardsProps> = ({ proposals }) => {
-	const history = useHistory();
+const NewCards: FunctionComponent<React.PropsWithChildren<CardsProps>> = ({ proposals }) => {
+	const navigate = useNavigate();
 	const [page, setPage] = useState(1);
 	const rowsPerPage = 15;
 
 	const handleClick = (id: string) => {
-		history.push(`/proposals/${id}`);
+		navigate(`/proposals/${id}`);
 	};
 
 	const handleChangePage = (event: React.ChangeEvent<unknown>, page: number) => {

@@ -24,7 +24,7 @@ const selector = (state: RootState) => ({
 	tallyDetails: state.proposals.tallyDetails.value,
 });
 
-const Cards: FunctionComponent<CardsProps> = ({ home, proposals }) => {
+const Cards: FunctionComponent<React.PropsWithChildren<CardsProps>> = ({ home, proposals }) => {
 	const [handleShow] = useActions([dialogActions.showProposalDialog]);
 
 	const { proposalDetails, proposalDetailsInProgress, voteDetails, tallyDetails } = useAppSelector(selector);

@@ -7,7 +7,7 @@ type CircularProgressProps = {
 	className?: string;
 };
 
-const CircularProgress: FunctionComponent<CircularProgressProps> = props => {
+const CircularProgress: FunctionComponent<React.PropsWithChildren<CircularProgressProps>> = props => {
 	return (
 		<Container className={ClassNames('circular_progress', props.className ? props.className : '')}>
 			<MaterialCircularProgress />

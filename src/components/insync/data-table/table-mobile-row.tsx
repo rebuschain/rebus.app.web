@@ -10,7 +10,13 @@ interface Props extends ListChildComponentProps {
 	isLast?: boolean;
 }
 
-const TableMobileRow: FunctionComponent<Props> = ({ columnDefs, data, index, isLast, style }) => {
+const TableMobileRow: FunctionComponent<React.PropsWithChildren<Props>> = ({
+	columnDefs,
+	data,
+	index,
+	isLast,
+	style,
+}) => {
 	return (
 		<div
 			className={classNames(`table-row-${index}`, 'grid items-center border-t px-2', isLast && 'border-b')}
@@ -51,8 +57,11 @@ const TableMobileRow: FunctionComponent<Props> = ({ columnDefs, data, index, isL
 	);
 };
 
-const TableMobileRowMemo: FunctionComponent<Props> = memo(TableMobileRow, (prevProps, nextProps) => {
-	return areEqual(prevProps, nextProps);
-});
+const TableMobileRowMemo: FunctionComponent<React.PropsWithChildren<Props>> = memo(
+	TableMobileRow,
+	(prevProps, nextProps) => {
+		return areEqual(prevProps, nextProps);
+	}
+);
 
 export { TableMobileRowMemo as TableMobileRow };

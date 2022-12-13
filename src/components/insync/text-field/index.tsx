@@ -43,7 +43,7 @@ type TextFieldProps = {
 	value?: string;
 };
 
-const TextField: FunctionComponent<TextFieldProps> = props => {
+const TextField: FunctionComponent<React.PropsWithChildren<TextFieldProps>> = props => {
 	const onChange: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> = e => {
 		props.onChange(e.target.value);
 	};

@@ -19,7 +19,7 @@ const selector = (state: RootState) => {
 	};
 };
 
-const UnSuccessDialog: FunctionComponent = () => {
+const UnSuccessDialog: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 	const { walletStore } = useStore();
 	const [handleClose] = useActions([failedDialogActions.hideFailedDialog]);
 	const { lang, open, message, hash } = useAppSelector(selector);

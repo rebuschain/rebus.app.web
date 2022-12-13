@@ -14,7 +14,7 @@ export type TextInputProps = {
 	value?: string;
 };
 
-export const TextInput: React.FC<TextInputProps> = ({
+export const TextInput: React.FC<React.PropsWithChildren<TextInputProps>> = ({
 	className,
 	onClick,
 	onChange,

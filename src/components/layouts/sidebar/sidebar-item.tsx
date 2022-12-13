@@ -5,15 +5,14 @@ import { TSIDEBAR_ITEM } from 'src/constants';
 import { NavLink } from 'react-router-dom';
 import { cssAbsoluteCenter } from 'src/emotion-styles/layout';
 
-const NavLinkFallback: FunctionComponent<{ sidebarItem: TSIDEBAR_ITEM; closeSidebar: () => void }> = ({
-	sidebarItem,
-	closeSidebar,
-	children,
-}) => {
+const NavLinkFallback: FunctionComponent<React.PropsWithChildren<{
+	sidebarItem: TSIDEBAR_ITEM;
+	closeSidebar: () => void;
+}>> = ({ sidebarItem, closeSidebar, children }) => {
 	return (
 		<React.Fragment>
 			{sidebarItem.ROUTE ? (
-				<NavLink exact to={sidebarItem.ROUTE} onClick={closeSidebar}>
+				<NavLink to={sidebarItem.ROUTE} onClick={closeSidebar}>
 					{children}
 				</NavLink>
 			) : (
@@ -25,7 +24,11 @@ const NavLinkFallback: FunctionComponent<{ sidebarItem: TSIDEBAR_ITEM; closeSide
 	);
 };
 
-export const SidebarItem: FunctionComponent<TSidebarItem> = ({ sidebarItem, selected, closeSidebar }) => {
+export const SidebarItem: FunctionComponent<React.PropsWithChildren<TSidebarItem>> = ({
+	sidebarItem,
+	selected,
+	closeSidebar,
+}) => {
 	return (
 		<NavLinkFallback sidebarItem={sidebarItem} closeSidebar={closeSidebar}>
 			<li

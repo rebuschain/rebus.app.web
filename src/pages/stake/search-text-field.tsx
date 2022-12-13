@@ -20,7 +20,7 @@ const selector = (state: RootState) => {
 	};
 };
 
-const SearchTextField: FunctionComponent<SearchTextFieldProps> = () => {
+const SearchTextField: FunctionComponent<React.PropsWithChildren<SearchTextFieldProps>> = () => {
 	const [onChange] = useActions([searchActions.setSearch]);
 	const { value } = useAppSelector(selector);
 

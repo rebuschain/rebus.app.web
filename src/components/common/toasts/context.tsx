@@ -3,7 +3,7 @@ import { displayToast, DisplayToast } from './toast';
 
 export const ToastContext = React.createContext<DisplayToast | null>(null);
 
-export const ToastProvider: FunctionComponent = ({ children }) => {
+export const ToastProvider: FunctionComponent<React.PropsWithChildren<unknown>> = ({ children }) => {
 	return (
 		<ToastContext.Provider
 			value={{

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import styled from '@emotion/styled';
 
-const DotsLoading: FunctionComponent = () => {
+const DotsLoading: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 	return (
 		<Spinner className="spinner">
 			<div className="bounce1" />

@@ -17,7 +17,11 @@ const selector = (state: RootState) => {
 	};
 };
 
-const ValidatorName: FunctionComponent<ValidatorNameProps> = ({ index, identity, moniker }) => {
+const ValidatorName: FunctionComponent<React.PropsWithChildren<ValidatorNameProps>> = ({
+	index,
+	identity,
+	moniker,
+}) => {
 	const { imagesMap } = useAppSelector(selector);
 	const image = identity ? imagesMap?.[identity.toString()] : undefined;
 

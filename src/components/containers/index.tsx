@@ -3,7 +3,7 @@ import cn from 'clsx';
 import { ContainerWrapper } from './container-wrapper';
 import { IContainerSettings, IContainerState, TCardTypes } from '../../interfaces';
 
-export const Container: FunctionComponent<TCardContainerProps> = ({
+export const Container: FunctionComponent<React.PropsWithChildren<TCardContainerProps>> = ({
 	overlayClasses,
 	className,
 	children,
