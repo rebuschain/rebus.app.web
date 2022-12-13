@@ -15,7 +15,7 @@ const selector = (state: RootState) => {
 	};
 };
 
-const PendingDialog: FunctionComponent = () => {
+const PendingDialog: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 	const [handleClose] = useActions([processingDialogActions.hideProcessingDialog]);
 	const { lang, open } = useAppSelector(selector);
 

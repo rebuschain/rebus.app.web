@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent, useEffect } from 'react';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { Loader } from 'src/components/common/loader';
 import { CenterSelf } from 'src/components/layouts/containers';
 import { useStore } from 'src/stores';
@@ -18,8 +18,8 @@ const LoaderStyled = styled(Loader)`
 	}
 `;
 
-const AirdropPage: FunctionComponent = observer(function AirdropPage() {
-	const history = useHistory();
+const AirdropPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer(function AirdropPage() {
+	const navigate = useNavigate();
 	const { chainStore, queriesStore } = useStore();
 
 	const queries = queriesStore.get(chainStore.current.chainId);
@@ -29,9 +29,9 @@ const AirdropPage: FunctionComponent = observer(function AirdropPage() {
 
 	useEffect(() => {
 		if ((hasResponse || error) && !claimEnabled) {
-			history.push('/');
+			navigate('/');
 		}
-	}, [claimEnabled, history, hasResponse, error]);
+	}, [claimEnabled, navigate, hasResponse, error]);
 
 	if (!claimEnabled) {
 		return <LoaderStyled />;

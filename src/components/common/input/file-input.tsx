@@ -16,7 +16,7 @@ export type FileInputProps = {
 	value?: Media;
 };
 
-export const FileInput: React.FC<FileInputProps> = ({
+export const FileInput: React.FC<React.PropsWithChildren<FileInputProps>> = ({
 	className,
 	backgroundSize = 'cover',
 	onChange,

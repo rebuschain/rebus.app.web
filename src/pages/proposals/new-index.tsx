@@ -16,7 +16,7 @@ const selector = (state: RootState) => {
 
 const PENDING_STATUS = 'pending';
 
-const ProposalsPage: FunctionComponent = observer(() => {
+const ProposalsPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer(() => {
 	const { chainStore, queriesStore } = useStore();
 	const queries = queriesStore.get(chainStore.current.chainId);
 	const proposals = queries.cosmos.queryGovernance.proposals;

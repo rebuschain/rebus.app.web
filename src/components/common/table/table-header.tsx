@@ -2,7 +2,12 @@ import React, { FunctionComponent, ReactNode } from 'react';
 import cn from 'clsx';
 import map from 'lodash-es/map';
 
-export const TableHeader: FunctionComponent<TableHeader> = ({ widthArr, values, customClassArr, wrapperClass }) => {
+export const TableHeader: FunctionComponent<React.PropsWithChildren<TableHeader>> = ({
+	widthArr,
+	values,
+	customClassArr,
+	wrapperClass,
+}) => {
 	return (
 		<ul className={cn('w-full flex', wrapperClass)}>
 			{map(values, (v, i) => {

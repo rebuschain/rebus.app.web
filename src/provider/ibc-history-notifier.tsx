@@ -6,7 +6,7 @@ import { ChainIdHelper } from '@keplr-wallet/cosmos';
 import { CoinPretty, Dec } from '@keplr-wallet/unit';
 import { toast, ToastOptions } from 'react-toastify';
 
-const CloseButton: FunctionComponent<{ closeToast: () => void }> = ({ closeToast }) => (
+const CloseButton: FunctionComponent<React.PropsWithChildren<{ closeToast: () => void }>> = ({ closeToast }) => (
 	<button
 		onClick={closeToast}
 		style={{ left: '-8px', top: '-8px' }}
@@ -27,9 +27,9 @@ const defaultOptions = {
 	closeButton: CloseButton,
 };
 
-export const ToastIBCTransferComplete: FunctionComponent<{
+export const ToastIBCTransferComplete: FunctionComponent<React.PropsWithChildren<{
 	history: IBCTransferHistory;
-}> = observer(({ history }) => {
+}>> = observer(({ history }) => {
 	const { chainStore } = useStore();
 
 	const amount = new CoinPretty(
@@ -57,9 +57,9 @@ export const ToastIBCTransferComplete: FunctionComponent<{
 	);
 });
 
-export const ToastIBCTransferTimeout: FunctionComponent<{
+export const ToastIBCTransferTimeout: FunctionComponent<React.PropsWithChildren<{
 	history: IBCTransferHistory;
-}> = observer(({ history }) => {
+}>> = observer(({ history }) => {
 	const { chainStore } = useStore();
 
 	const amount = new CoinPretty(history.amount.currency, new Dec(history.amount.amount)).decreasePrecision(
@@ -86,9 +86,9 @@ export const ToastIBCTransferTimeout: FunctionComponent<{
 	);
 });
 
-export const ToastIBCTransferRefunded: FunctionComponent<{
+export const ToastIBCTransferRefunded: FunctionComponent<React.PropsWithChildren<{
 	history: IBCTransferHistory;
-}> = observer(({ history }) => {
+}>> = observer(({ history }) => {
 	const amount = new CoinPretty(history.amount.currency, new Dec(history.amount.amount)).decreasePrecision(
 		history.amount.currency.coinDecimals
 	);
@@ -117,7 +117,7 @@ const toastShownMap: Record<string, boolean> = {};
  * And, if the changes are detected, this will notify the success or failure to the users, and update the balances.
  * XXX: `IBCHistoryNotifier` doesn't render anything.
  */
-export const IBCHistoryNotifier: FunctionComponent = observer(() => {
+export const IBCHistoryNotifier: FunctionComponent<React.PropsWithChildren<unknown>> = observer(() => {
 	const { chainStore, queriesStore, ibcTransferHistoryStore, accountStore, walletStore } = useStore();
 
 	useEffect(() => {

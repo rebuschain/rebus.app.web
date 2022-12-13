@@ -13,7 +13,7 @@ export type CellRendererProps<T = any, Data = Record<string, any>> = {
 };
 
 export type ColumnDef<T = Record<string, any>> = {
-	CellRenderer?: FunctionComponent<CellRendererProps<any, T>>;
+	CellRenderer?: FunctionComponent<React.PropsWithChildren<CellRendererProps<any, T>>>;
 	align?: 'flex-start' | 'center' | 'flex-end' | 'space-between';
 	canSort?: boolean;
 	headerAlign?: 'flex-start' | 'center' | 'flex-end';

@@ -40,7 +40,7 @@ export interface InputProps
 	width?: string;
 }
 
-export const Input: React.FC<InputProps> = ({
+export const Input: React.FC<React.PropsWithChildren<InputProps>> = ({
 	backgroundSize,
 	className,
 	hide,

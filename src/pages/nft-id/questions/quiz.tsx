@@ -31,7 +31,7 @@ type QuizPageProps = {
 
 const cookies = new Cookies();
 
-const QuizPage: FunctionComponent<QuizPageProps> = observer(({ isLockedOut }) => {
+const QuizPage: FunctionComponent<React.PropsWithChildren<QuizPageProps>> = observer(({ isLockedOut }) => {
 	const [currentStep, setCurrentStep] = useState(0);
 	const [userScore, setUserScore] = useState<number>(0);
 	const [fetchingResult, setFetchingResult] = useState(false);

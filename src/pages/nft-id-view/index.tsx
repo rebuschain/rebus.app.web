@@ -14,7 +14,7 @@ type Params = {
 	type: string;
 };
 
-const NftIdViewPage: FunctionComponent = observer(() => {
+const NftIdViewPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer(() => {
 	const { type, organization, address } = useParams<Params>();
 	const [isFetchingMetadata, setIsFetchingMetadata] = useState(false);
 	const [idImageDataString, setIdImageDataString] = useState('');

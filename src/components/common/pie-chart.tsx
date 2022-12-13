@@ -90,7 +90,9 @@ export const HIGHCHART_LEGEND_GRADIENTS: string[] = [
 	'linear-gradient(180deg, #00CEBA 0%, #008A7D 100%)',
 ];
 
-export const PieChart: FunctionComponent<HighchartsReact.Props & { height?: number; width?: number }> = props => {
+export const PieChart: FunctionComponent<React.PropsWithChildren<
+	HighchartsReact.Props & { height?: number; width?: number }
+>> = props => {
 	const [options, setOptions] = React.useState<Partial<Highcharts.Options>>(defaultOptions);
 	React.useEffect(() => {
 		if (!props.options) return;

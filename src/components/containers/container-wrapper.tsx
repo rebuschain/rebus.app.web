@@ -2,7 +2,7 @@ import React, { FunctionComponent, ReactNode } from 'react';
 import { IContainerState } from '../../interfaces';
 import cn from 'clsx';
 
-export const ContainerWrapper: FunctionComponent<TContainerWrapperProps> = ({
+export const ContainerWrapper: FunctionComponent<React.PropsWithChildren<TContainerWrapperProps>> = ({
 	children,
 	className,
 	overlayClasses,
@@ -68,7 +68,7 @@ const applyState = (totalState: boolean[]) => {
 
 const defaultTotalState = [true, false, false, false, false];
 
-const ContainerOverlay: FunctionComponent<TContainerOverlayProps> = ({ state, className }) => {
+const ContainerOverlay: FunctionComponent<React.PropsWithChildren<TContainerOverlayProps>> = ({ state, className }) => {
 	const stateClass = React.useMemo(() => {
 		switch (state) {
 			case IContainerState.ENABLED:

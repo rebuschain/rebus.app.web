@@ -14,7 +14,11 @@ export type DateInputProps = {
 
 const DATE_FORMAT = 'MM/DD/YYYY';
 
-const TextFieldComponent: React.ComponentType<TextFieldProps> = ({ onChange, InputProps, value }) => {
+const TextFieldComponent: React.ComponentType<React.PropsWithChildren<TextFieldProps>> = ({
+	onChange,
+	InputProps,
+	value,
+}) => {
 	return (
 		<div className="relative">
 			<TextInput onRawChange={onChange} placeholder={DATE_FORMAT} value={(value as string) || ''} />
@@ -23,8 +27,13 @@ const TextFieldComponent: React.ComponentType<TextFieldProps> = ({ onChange, Inp
 	);
 };
 
-export const DateInput: React.FC<DateInputProps> = ({ className, onChange, name = '', value }) => {
-	const onDateChange = useCallback(date => onChange(name, date?.format(DATE_FORMAT) || ''), [name, onChange]);
+export const DateInput: React.FC<React.PropsWithChildren<DateInputProps>> = ({
+	className,
+	onChange,
+	name = '',
+	value,
+}) => {
+	const onDateChange = useCallback((date: any) => onChange(name, date?.format(DATE_FORMAT) || ''), [name, onChange]);
 
 	return (
 		<div className={classNames(className, 'flex flex-1 w-full')}>

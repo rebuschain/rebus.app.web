@@ -5,7 +5,7 @@ type SectionProps = {
 	tooltipTitle: string;
 	children: React.ReactElement<any, any>;
 };
-const TooltipGraphSection: FunctionComponent<SectionProps> = ({ tooltipTitle, children }) => {
+const TooltipGraphSection: FunctionComponent<React.PropsWithChildren<SectionProps>> = ({ tooltipTitle, children }) => {
 	return (
 		<Tooltip
 			className="text-base"

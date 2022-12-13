@@ -1,7 +1,8 @@
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
 import Cookies from 'universal-cookie';
-import { generatePath, useHistory, useLocation, useRouteMatch } from 'react-router';
+import { generatePath, useRouteMatch } from 'react-router';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { QUIZ_LOCKED, QUIZ_PASSED } from 'src/constants/questions';
 import { useStore } from 'src/stores';
 import { BigLoader } from 'src/components/common/loader';
@@ -22,10 +23,10 @@ import { ROUTES } from 'src/constants/routes';
 
 const cookies = new Cookies();
 
-const NftIdPage: FunctionComponent = observer(() => {
+const NftIdPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer(() => {
 	const [disconnect] = useActions([extraActions.disconnect]);
 
-	const history = useHistory();
+	const navigate = useNavigate();
 	const isNftIdEditRoute = useRouteMatch(ROUTES.NFT_ID_EDIT);
 
 	const { accountStore, chainStore, featureFlagStore, queriesStore, walletStore } = useStore();
@@ -53,10 +54,10 @@ const NftIdPage: FunctionComponent = observer(() => {
 			await featureFlagStore.waitResponse();
 
 			if (!featureFlagStore.featureFlags.nftIdPage) {
-				history.push('/');
+				navigate('/');
 			}
 		})();
-	}, [featureFlagStore, history]);
+	}, [featureFlagStore, navigate]);
 
 	useEffect(() => {
 		if (shouldShowNft) {

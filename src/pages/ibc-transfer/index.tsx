@@ -7,7 +7,7 @@ import { IconButton } from '@mui/material';
 import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { Button } from 'src/components/common/button';
 import { displayToast, TToastType } from 'src/components/common/toasts';
 import { ConnectAccountButton } from 'src/components/connect-account-button';
@@ -28,8 +28,8 @@ const counterpartyChainId = EmbedChainInfos[1].chainId;
 const rebusImage = '/public/assets/main/rebus-logo-single.svg';
 const osmosisImage = '/public/assets/tokens/osmo.svg';
 
-const IbcTransferPage: FunctionComponent = observer(() => {
-	const history = useHistory();
+const IbcTransferPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer(() => {
+	const navigate = useNavigate();
 	const { ibcTransferHistoryStore, chainStore, accountStore, queriesStore, walletStore, featureFlagStore } = useStore();
 	const [counterpartyWalletStore] = useState(() => new WalletStore());
 
@@ -38,10 +38,10 @@ const IbcTransferPage: FunctionComponent = observer(() => {
 			await featureFlagStore.waitResponse();
 
 			if (!featureFlagStore.featureFlags.ibcTransferPage) {
-				history.push('/');
+				navigate('/');
 			}
 		})();
-	}, [featureFlagStore, history]);
+	}, [featureFlagStore, navigate]);
 
 	const { isMobileView } = useWindowSize();
 	const { isAccountConnected, connectAccount } = useAccountConnection();
