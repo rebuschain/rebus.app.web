@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
 import Cookies from 'universal-cookie';
-import { generatePath, useRouteMatch } from 'react-router';
+import { generatePath, useMatch } from 'react-router';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { QUIZ_LOCKED, QUIZ_PASSED } from 'src/constants/questions';
 import { useStore } from 'src/stores';
@@ -27,7 +27,7 @@ const NftIdPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer(
 	const [disconnect] = useActions([extraActions.disconnect]);
 
 	const navigate = useNavigate();
-	const isNftIdEditRoute = useRouteMatch(ROUTES.NFT_ID_EDIT);
+	const isNftIdEditRoute = useMatch(ROUTES.NFT_ID_EDIT);
 
 	const { accountStore, chainStore, featureFlagStore, queriesStore, walletStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
@@ -62,14 +62,14 @@ const NftIdPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer(
 	useEffect(() => {
 		if (shouldShowNft) {
 			if (metadata_url && !window.location.href.includes(address)) {
-				history.push(generatePath(ROUTES.NFT_ID_EDIT, { address }));
+				navigate(generatePath(ROUTES.NFT_ID_EDIT, { address }));
 			} else if (!metadata_url && isNftIdEditRoute) {
-				history.push(generatePath(ROUTES.NFT_ID));
+				navigate(generatePath(ROUTES.NFT_ID));
 			}
 		} else if (isNftIdEditRoute) {
-			history.push(generatePath(ROUTES.NFT_ID));
+			navigate(generatePath(ROUTES.NFT_ID));
 		}
-	}, [address, history, isNftIdEditRoute, metadata_url, shouldShowNft]);
+	}, [address, navigate, isNftIdEditRoute, metadata_url, shouldShowNft]);
 
 	if (featureFlagStore.isFetching || idQuery.isFetching) {
 		return <BigLoader />;
