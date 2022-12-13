@@ -95,7 +95,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 	{
 		property: 'moniker',
 		header: 'Validator',
-		CellRenderer: ValidatorCell as any,
+		CellRenderer: ValidatorCell,
 		width: 4,
 		headerAlign: 'center',
 		canSort: true,
@@ -104,7 +104,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 	{
 		property: 'status',
 		header: 'Status',
-		CellRenderer: StatusCell as any,
+		CellRenderer: StatusCell,
 		width: 2,
 		align: 'center',
 		headerAlign: 'center',
@@ -112,7 +112,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 	{
 		property: 'votingPower',
 		header: 'Voting Power',
-		CellRenderer: VotingPowerCell as any,
+		CellRenderer: VotingPowerCell,
 		width: 3,
 		align: 'center',
 		headerAlign: 'center',
@@ -121,7 +121,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 	{
 		property: 'votingPercentage',
 		header: 'Voting Percentage',
-		CellRenderer: VotingPercentageCell as any,
+		CellRenderer: VotingPercentageCell,
 		width: 2,
 		align: 'center',
 		headerAlign: 'center',
@@ -130,7 +130,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 	{
 		property: 'commissionRate',
 		header: 'Commission',
-		CellRenderer: CommissionCell as any,
+		CellRenderer: CommissionCell,
 		width: 2,
 		align: 'center',
 		headerAlign: 'center',
@@ -139,7 +139,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 	{
 		property: 'tokensStaked',
 		header: 'Tokens Staked',
-		CellRenderer: TokensStakedCell as any,
+		CellRenderer: TokensStakedCell,
 		width: 2,
 		align: 'center',
 		headerAlign: 'center',
@@ -148,7 +148,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 	{
 		property: 'isDelegated',
 		header: 'Action',
-		CellRenderer: ActionCell as any,
+		CellRenderer: ActionCell,
 		width: 9,
 		align: 'flex-end',
 		headerAlign: 'center',
