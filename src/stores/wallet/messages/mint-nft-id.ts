@@ -12,9 +12,9 @@ const MSG_MINT_NFT_ID_TYPES = {
 		{ name: 'organization', type: 'string' },
 		{ name: 'encryption_key', type: 'string' },
 		{ name: 'metadata_url', type: 'string' },
-		{ name: 'minting_fee', type: 'TypeAmount' },
+		{ name: 'minting_fee', type: 'TypeMintingFee' },
 	],
-	TypeAmount: [
+	TypeMintingFee: [
 		{ name: 'denom', type: 'string' },
 		{ name: 'amount', type: 'string' },
 	],
