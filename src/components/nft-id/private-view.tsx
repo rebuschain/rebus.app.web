@@ -56,6 +56,10 @@ const PrivateView: FunctionComponent = observer(() => {
 		documentNumber: '0',
 	});
 	const [currentIdImageData, setCurrentIdImageData] = useState('');
+	const [currentPublicIdImageData, setCurrentPublicIdImageData] = useState('');
+	const [currentPrivateIdImageData, setCurrentPrivateIdImageData] = useState('');
+	const [isDecryptingPrivateImage, setIsDecryptingPrivateImage] = useState(false);
+	const [isDecrypted, setIsDecrypted] = useState(false);
 
 	const [publicImageData, setPublicImageData] = useState('');
 	const [privateImageData, setPrivateImageData] = useState('');
@@ -250,6 +254,22 @@ const PrivateView: FunctionComponent = observer(() => {
 		metadata_url,
 	]);
 
+	const encryptPrivateImage = useCallback(() => {
+		setCurrentIdImageData(currentPublicIdImageData);
+		setIsDecrypted(false);
+	}, [currentPublicIdImageData]);
+
+	const decryptPrivateImage = useCallback(async () => {
+		setIsDecryptingPrivateImage(true);
+
+		const decryptedEncryptionKey = await walletStore.decrypt(encryption_key || '');
+		const decryptedPrivateImage = decrypt(decryptedEncryptionKey, currentPrivateIdImageData);
+
+		setCurrentIdImageData(decryptedPrivateImage);
+		setIsDecryptingPrivateImage(false);
+		setIsDecrypted(true);
+	}, [currentPrivateIdImageData, encryption_key, walletStore]);
+
 	// Make html element not be scrollable otherwise there's 2 scroll bars in mobile view
 	useEffect(() => {
 		if (document?.body?.parentElement) {
@@ -284,21 +304,29 @@ const PrivateView: FunctionComponent = observer(() => {
 				(async () => {
 					try {
 						const { data: metadata } = await axios.get(getIpfsHttpsUrl(metadata_url), { timeout: IPFS_TIMEOUT });
-
-						setIsFetchingMetadata(false);
-						setIsFetchingPrivateImage(true);
-						const { data: privateImageData } = await axios.get(getIpfsHttpsUrl(metadata?.properties?.private_image), {
-							timeout: IPFS_TIMEOUT,
-						});
-
-						const decryptedEncryptionKey = await walletStore.decrypt(encryption_key || '');
-						const decryptedPrivateImage = decrypt(decryptedEncryptionKey, privateImageData);
-
 						setData(oldData => ({
 							...oldData,
 							theme: metadata?.properties?.theme,
 						}));
-						setCurrentIdImageData(decryptedPrivateImage);
+						setIsFetchingMetadata(false);
+
+						setIsFetchingPrivateImage(true);
+						const [{ data: privateImageData }, { data: publicImageData }] = await Promise.all([
+							axios.get(getIpfsHttpsUrl(metadata?.properties?.private_image), {
+								timeout: IPFS_TIMEOUT,
+							}),
+							axios.get(getIpfsHttpsUrl(metadata?.image), {
+								timeout: IPFS_TIMEOUT,
+							}),
+						]);
+						setCurrentPublicIdImageData(publicImageData);
+						setCurrentPrivateIdImageData(privateImageData);
+
+						if (!privateImageData || privateImageData.startsWith('data:image/png;base64,')) {
+							setCurrentIdImageData(privateImageData || '');
+						} else if (privateImageData) {
+							setCurrentIdImageData(publicImageData);
+						}
 					} catch (error) {
 						console.error(`Unable to fetch NFT ID metadata from ${metadata_url}`, error);
 					}
@@ -351,11 +379,21 @@ const PrivateView: FunctionComponent = observer(() => {
 							data={data}
 							idImageDataString={currentIdImageData}
 							isFetchingImage={isFetchingPrivateImage}
-							title="Current ID (Private View)"
+							title="Current ID"
+							titleClassName="mr-3"
 							titleSuffix={
-								<div className="ml-3">
+								<div className="whitespace-nowrap">
 									<Button backgroundStyle="blue" onClick={goToPublicPreviewLink} smallBorderRadius>
 										See Public View
+									</Button>
+
+									<Button
+										backgroundStyle="blue"
+										disabled={isDecryptingPrivateImage}
+										onClick={isDecrypted ? encryptPrivateImage : decryptPrivateImage}
+										smallBorderRadius
+										style={{ marginLeft: '8px' }}>
+										{isDecrypted ? 'Encrypt ID' : 'Decrypt ID'}
 									</Button>
 								</div>
 							}

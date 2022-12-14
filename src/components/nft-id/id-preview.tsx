@@ -5,6 +5,7 @@ import useWindowSize from 'src/hooks/use-window-size';
 import { renderToImage } from 'src/utils/nft-id';
 import { BigLoader } from '../common/loader';
 import styled from '@emotion/styled';
+import classNames from 'classnames';
 
 type IdPreviewProps = {
 	className?: string;
@@ -15,6 +16,7 @@ type IdPreviewProps = {
 	onRenderPublicImage?: (image: string) => void;
 	onRenderPrivateImage?: (image: string) => void;
 	title?: string;
+	titleClassName?: string;
 	titleSuffix?: React.ReactElement;
 };
 
@@ -28,6 +30,7 @@ export const IdPreview: React.FC<IdPreviewProps> = ({
 	onRenderPublicImage,
 	onRenderPrivateImage,
 	title,
+	titleClassName,
 	titleSuffix,
 }) => {
 	const privateCardRef = useRef<HTMLDivElement>();
@@ -79,9 +82,9 @@ export const IdPreview: React.FC<IdPreviewProps> = ({
 	return (
 		<div className={className}>
 			{(title || titleSuffix) && (
-				<div className="flex items-center mb-6">
-					<h5 className="whitespace-nowrap">{title}</h5>
-					{titleSuffix}
+				<div className="flex items-center mb-4 flex-wrap">
+					<h5 className={classNames('whitespace-nowrap mb-2', titleClassName)}>{title}</h5>
+					{titleSuffix && <div className="mb-2">{titleSuffix}</div>}
 				</div>
 			)}
 
