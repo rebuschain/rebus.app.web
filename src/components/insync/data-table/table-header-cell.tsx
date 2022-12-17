@@ -2,6 +2,7 @@ import { Button } from '@material-ui/core';
 import React, { FunctionComponent } from 'react';
 import { ArrowDownwardRounded, ArrowUpwardRounded } from '@material-ui/icons';
 import { ColumnDef, SortState } from './types';
+import useWindowSize from 'src/hooks/use-window-size';
 
 type Props = {
 	align?: ColumnDef['align'];
@@ -26,10 +27,11 @@ const TableHeaderCell: FunctionComponent<Props> = ({
 	sortState,
 	width,
 }) => {
+	const { windowSize } = useWindowSize();
 	const style: React.CSSProperties = {
 		color: 'rgba(255,255,255,.6)',
 		fontFamily: 'Inter,ui-sans-serif,system-ui',
-		fontSize: '14px',
+		fontSize: windowSize.width < 968 ? '12px' : '14px',
 		height: '100%',
 		justifyContent: align,
 		gridColumn: `span ${width}`,

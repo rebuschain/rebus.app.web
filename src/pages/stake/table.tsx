@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo } from 'react';
+import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import classNames from 'classnames';
@@ -14,10 +14,16 @@ import UnDelegateButton from '../home/token-details/un-delegate-button';
 import ReDelegateButton from '../home/token-details/re-delegate-button';
 import DelegateButton from './delegate-button';
 import ValidatorName from './validator-name';
+import CollapseMenu, { MenuItem } from 'src/components/common/collapse-menu';
 import { DelegationResult } from 'src/stores/rebus/query/delegations/types';
 import { CellRendererProps, ColumnDef } from 'src/components/insync/data-table/types';
 import { CoinPretty, Dec } from '@keplr-wallet/unit';
 import { Currency } from '@keplr-wallet/types';
+import variables from 'src/utils/variables';
+import { useActions } from 'src/hooks/use-actions';
+import { delegateDialogActions, snackbarActions } from 'src/reducers/slices';
+import useWindowSize from 'src/hooks/use-window-size';
+import { ShowDelegateDialog, NameType } from 'src/reducers/slices/stake/slices/delegate-dialog';
 
 interface ParsedValidator {
 	commissionRate: number | null;
@@ -30,7 +36,17 @@ interface ParsedValidator {
 	status: number;
 	votingPercentage: number;
 	votingPower: number;
+	collapseMenu?: boolean;
 }
+
+const selector = (state: RootState) => {
+	return {
+		lang: state.language,
+		validatorList: state.stake.validators.list,
+		inProgress: state.stake.validators.inProgress,
+		delegatedValidatorList: state.stake.delegatedValidators.list,
+	};
+};
 
 const ValidatorCell: FunctionComponent<CellRendererProps<any, ParsedValidator>> = ({ data, rowIndex }) => (
 	<ValidatorName index={rowIndex} moniker={data.moniker} identity={data.identity} />
@@ -69,20 +85,53 @@ const TokensStakedCell: FunctionComponent<CellRendererProps<any, ParsedValidator
 	return <TokensCellWrapper className={value ? 'tokens' : 'no_tokens'}>{value || 'no tokens'}</TokensCellWrapper>;
 };
 
-const ActionCell: FunctionComponent<CellRendererProps<boolean, ParsedValidator>> = ({ data, value }) =>
-	value ? (
-		<ActionCellWrapper>
-			<ReDelegateButton valAddress={data.operatorAddress} />
-			<Divider />
-			<UnDelegateButton valAddress={data.operatorAddress} />
-			<Divider />
-			<DelegateButton valAddress={data.operatorAddress} />
-		</ActionCellWrapper>
-	) : (
+const ActionCell: FunctionComponent<CellRendererProps<boolean, ParsedValidator>> = ({ data, value }) => {
+	const { lang } = useAppSelector(selector);
+	const [handleOpen, showMessage] = useActions([
+		delegateDialogActions.showDelegateDialog,
+		snackbarActions.showSnackbar,
+	]);
+
+	const address = useAddress();
+
+	const handleClick = (currentlySelected: NameType) => {
+		if (!address) {
+			showMessage(variables[lang]['connect_account']);
+			return;
+		}
+
+		const actionPayload: ShowDelegateDialog = { name: currentlySelected, validatorAddress: data.operatorAddress };
+
+		handleOpen(actionPayload);
+	};
+
+	const menuItems: MenuItem[] = [
+		{ name: 'Delegate', onClick: handleClick },
+		{ name: 'Redelegate', onClick: handleClick },
+		{ name: 'Undelegate', onClick: handleClick },
+	];
+
+	if (value) {
+		if (data.collapseMenu) {
+			return <CollapseMenu menuItems={menuItems} menuTriggerLabel="Actions" />;
+		}
+		return (
+			<ActionCellWrapper>
+				<ReDelegateButton valAddress={data.operatorAddress} />
+				<Divider />
+				<UnDelegateButton valAddress={data.operatorAddress} />
+				<Divider />
+				<DelegateButton valAddress={data.operatorAddress} />
+			</ActionCellWrapper>
+		);
+	}
+
+	return (
 		<ActionCellWrapper>
 			<DelegateButton valAddress={data.operatorAddress} />
 		</ActionCellWrapper>
 	);
+};
 
 const columnDefs: ColumnDef<ParsedValidator>[] = [
 	{
@@ -98,7 +147,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 		property: 'status',
 		header: 'Status',
 		CellRenderer: StatusCell,
-		width: 2,
+		width: 3,
 		align: 'center',
 		headerAlign: 'center',
 	},
@@ -115,7 +164,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 		property: 'votingPercentage',
 		header: 'Voting Percentage',
 		CellRenderer: VotingPercentageCell,
-		width: 2,
+		width: 3,
 		align: 'center',
 		headerAlign: 'center',
 		canSort: true,
@@ -124,7 +173,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 		property: 'commissionRate',
 		header: 'Commission',
 		CellRenderer: CommissionCell,
-		width: 2,
+		width: 3,
 		align: 'center',
 		headerAlign: 'center',
 		canSort: true,
@@ -133,7 +182,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 		property: 'tokensStaked',
 		header: 'Tokens Staked',
 		CellRenderer: TokensStakedCell,
-		width: 2,
+		width: 3,
 		align: 'center',
 		headerAlign: 'center',
 		canSort: true,
@@ -142,8 +191,8 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 		property: 'isDelegated',
 		header: 'Action',
 		CellRenderer: ActionCell,
-		width: 9,
-		align: 'flex-end',
+		width: 4,
+		align: 'center',
 		headerAlign: 'center',
 		hideHeaderMobile: true,
 	},
@@ -155,23 +204,16 @@ type TableProps = {
 	tableRowClassName?: string;
 };
 
-const selector = (state: RootState) => {
-	return {
-		lang: state.language,
-		validatorList: state.stake.validators.list,
-		inProgress: state.stake.validators.inProgress,
-		delegatedValidatorList: state.stake.delegatedValidators.list,
-	};
-};
-
 const EMPTY_DELEGATIONS: DelegationResult[] = [];
 const EMPTY_TABLE_DATA: any[][] = [];
 
 const Table = observer<TableProps>(({ active, className, tableRowClassName }) => {
 	const { delegatedValidatorList, inProgress, validatorList } = useAppSelector(selector);
+	const [isCollapsibleMenuSize, setIsCollapsibleMenuSize] = useState<boolean>(false);
 
 	const { chainStore, queriesStore } = useStore();
 	const address = useAddress();
+	const { windowSize } = useWindowSize();
 
 	const bondedTokensQuery = queriesStore.get(chainStore.current.chainId).cosmos.queryPool;
 	const bondedTokens = bondedTokensQuery.response?.data.result.bonded_tokens;
@@ -225,12 +267,25 @@ const Table = observer<TableProps>(({ active, className, tableRowClassName }) =>
 						tokensStaked,
 						votingPercentage: parseFloat(votingPercentage.toFixed(2)),
 						votingPower: parseFloat((Number(item.tokens) / 10 ** config.COIN_DECIMALS).toFixed(1)),
+						collapseMenu: isCollapsibleMenuSize,
 					};
 
 					return parsedItem;
 			  })
 			: EMPTY_TABLE_DATA;
-	}, [bondedTokens, active, delegatedValidatorList, validatorList, delegationsByValidatorAddress, chainStore]);
+	}, [
+		bondedTokens,
+		active,
+		delegatedValidatorList,
+		validatorList,
+		delegationsByValidatorAddress,
+		chainStore,
+		isCollapsibleMenuSize,
+	]);
+
+	useEffect(() => {
+		setIsCollapsibleMenuSize(windowSize.width >= 830);
+	}, [windowSize]);
 
 	const noDataFound = <div className="no_data_table"> No data found </div>;
 	const loader = <CircularProgress />;
@@ -242,9 +297,9 @@ const Table = observer<TableProps>(({ active, className, tableRowClassName }) =>
 			data={tableData}
 			loading={inProgress}
 			loader={loader}
-			minWidth="1270px"
 			noData={noDataFound}
 			tableRowClassName={tableRowClassName}
+			mobileRowTriggerWidth={830}
 		/>
 	);
 });
@@ -272,6 +327,9 @@ const TokensCellWrapper = styled.div`
 	&.tokens {
 		text-align: center;
 		color: #5084e9;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	@media (max-width: 958px) {
@@ -316,13 +374,16 @@ const VotingCellWrapper = styled.div`
 
 	@media (max-width: 958px) {
 		justify-content: flex-end;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 `;
 
 const ActionCellWrapper = styled.div`
 	align-items: center;
 	display: flex;
-	justify-content: flex-end;
+	justify-content: center;
 
 	button {
 		flex-shrink: 0;

@@ -18,6 +18,7 @@ type DataTableProps<T = any> = {
 	minWidth?: string;
 	noData?: ReactElement;
 	tableRowClassName?: string;
+	mobileRowTriggerWidth?: number;
 };
 
 const getItemKey = (item: any) => item.id;
@@ -33,6 +34,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 	minWidth,
 	noData,
 	tableRowClassName,
+	mobileRowTriggerWidth,
 }) => {
 	const [sortState, setSortState] = useState<SortState>();
 	const { isMobileView } = useWindowSize();
@@ -58,6 +60,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 	useEffect(() => {
 		scrollBackToTop();
 	}, [data, scrollBackToTop]);
+
+	const { windowSize } = useWindowSize();
 
 	const sortedData = useMemo(() => {
 		if (!sortState) {
@@ -123,12 +127,20 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 	const showRows = !loading && sortedData.length > 0;
 	const otherElement = <div className="flex justify-center md:px-15 md:pb-5 mt-5">{loading ? loader : noData}</div>;
 
-	if (isMobileView) {
+	if ((mobileRowTriggerWidth && windowSize.width <= mobileRowTriggerWidth) || isMobileView) {
+		const formattedMobileColumns: ColumnDef[] = columnDefs.map(column => {
+			if (column.header === 'Action') {
+				return { ...column, align: 'flex-end' };
+			}
+
+			return column;
+		});
+
 		return (
 			<div>
 				{sortedData.map((item, index) => (
 					<TableMobileRow
-						columnDefs={columnDefs}
+						columnDefs={formattedMobileColumns}
 						data={sortedData[index]}
 						key={getItemKey(item)}
 						index={index}
@@ -172,8 +184,13 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
 const TableContainer = styled.div`
 	.list {
-		overflow-x: auto !important;
-		overflow-y: scroll !important;
+		padding-left: 60px;
+		padding-right: 60px;
+
+		@media (max-width: 968px) {
+			padding-left: 2px;
+			padding-right: 2px;
+		}
 
 		& > div {
 			position: relative;
@@ -181,17 +198,20 @@ const TableContainer = styled.div`
 	}
 
 	.list {
-		@media (min-width: 768px) {
+		@media (max-width: 968px) {
 			padding-bottom: 20px;
-			padding-left: 60px;
-			padding-right: 45px;
+			padding-left: 2px;
+			padding-right: 2px;
 		}
 	}
 
 	.table-header {
-		@media (min-width: 768px) {
-			margin-left: 60px;
-			margin-right: 60px;
+		margin-left: 60px;
+		margin-right: 60px;
+
+		@media (max-width: 968px) {
+			margin-left: 4px;
+			margin-right: 4px;
 		}
 	}
 `;

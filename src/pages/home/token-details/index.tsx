@@ -59,7 +59,7 @@ const TokenDetails = observer<TokenDetailsProps>(props => {
 	const unstakedInProgress = unBondingDelegationsQuery.isFetching;
 
 	return (
-		<div className="flex flex-1 flex-col items-center justify-center md:flex-row md:items-start md:justify-start">
+		<div className="flex flex-1 flex-wrap flex-col items-center justify-center md:flex-row md:items-start md:justify-start">
 			<ChipInfo>
 				<Label>{langVariables['available_tokens']}</Label>
 				<Chip>

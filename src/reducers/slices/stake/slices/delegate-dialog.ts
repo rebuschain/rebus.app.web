@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type NameType = 'Stake' | 'Delegate' | 'Undelegate' | 'Redelegate' | '';
+export type NameType = 'Stake' | 'Delegate' | 'Undelegate' | 'Redelegate' | '';
 
-type ShowDelegateDialog = {
+export type ShowDelegateDialog = {
 	name: NameType;
 	validatorAddress?: string;
 };
