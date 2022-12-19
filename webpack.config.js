@@ -132,6 +132,7 @@ const webConfig = () => {
 			},
 			port: 8080,
 			historyApiFallback: true,
+			hot: true,
 		},
 		entry: {
 			main: ['./src/index.tsx'],
@@ -207,7 +208,7 @@ const webConfig = () => {
 			source: false,
 			errors: true,
 			errorDetails: true,
-			warnings: false,
+			warnings: true,
 			publicPath: false,
 		},
 	};
