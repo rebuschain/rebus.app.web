@@ -114,7 +114,6 @@ const fileRule = {
 			},
 		},
 	],
-	type: 'asset/resource',
 };
 
 //  https://webpack.js.org/guides/public-path/
