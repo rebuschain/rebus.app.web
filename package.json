@@ -147,7 +147,7 @@
 		"react-use": "^17.2.4",
 		"react-virtualized-auto-sizer": "^1.0.7",
 		"react-window": "^1.8.7",
-		"rebus.nftid.js": "^1.1.0",
+		"rebus.nftid.js": "^1.1.1",
 		"redux": "^4.0.5",
 		"redux-devtools-extension": "^2.13.8",
 		"redux-thunk": "^2.3.0",

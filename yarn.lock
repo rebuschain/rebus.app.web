@@ -15070,10 +15070,10 @@ readonly-date@^1.0.0:
   resolved "https://registry.yarnpkg.com/readonly-date/-/readonly-date-1.0.0.tgz#5af785464d8c7d7c40b9d738cbde8c646f97dcd9"
   integrity sha512-tMKIV7hlk0h4mO3JTmmVuIlJVXjKk3Sep9Bf5OH0O+758ruuVkUy2J9SttDLm91IEX/WHlXPSpxMGjPj4beMIQ==
 
-rebus.nftid.js@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/rebus.nftid.js/-/rebus.nftid.js-1.1.0.tgz#d8b55c9288755f82ab9c2b00f5a0d5dccb24a795"
-  integrity sha512-5l1rGuIwJUdf3rj03kGugTUWeLFx+WJ1AB43L8vavyebdPWoLqR6KM90kgY7Ou+MWpwhkB1/JSTnZIrfiNRHCQ==
+rebus.nftid.js@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/rebus.nftid.js/-/rebus.nftid.js-1.1.1.tgz#dee5c972e9d9ce2846616ce23595686558c8b8e6"
+  integrity sha512-xAmaJwi9/IUQa4y70r4G14w21GfQzn5AL1T8laoTOSmke6I3/qBgweFXWUqC7BvN+5MR0Mo7R9D/GPB2Qj28fw==
   dependencies:
     create-hash "^1.2.0"
     crypto-js "^4.1.1"
