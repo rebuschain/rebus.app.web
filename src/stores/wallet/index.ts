@@ -51,6 +51,8 @@ const restUrl = env('REST_URL');
 const ethChainId = Number(chainId.split('_')[1].split('-')[0]);
 const headers = { 'Content-Type': 'application/json' };
 
+export const ENCRYPTION_KEY_KEY = '_r_k';
+
 /**
  * WalletStore permits connecting and using the etherum wallets
  */
@@ -361,63 +363,71 @@ export class WalletStore {
 	}
 
 	public async encrypt(text: string) {
-		if (!this.isLoaded || this.walletType !== 'metamask') {
+		if (!this.isLoaded) {
 			return text;
 		}
 
-		const data = Buffer.from(text, 'base64');
+		if (this.walletType === 'metamask') {
+			const data = Buffer.from(text, 'base64');
 
-		const keyB64: string = await window.ethereum.request({
-			method: 'eth_getEncryptionPublicKey',
-			params: [this.address],
-		});
-		const publicKey = Buffer.from(keyB64, 'base64');
+			const keyB64: string = await window.ethereum.request({
+				method: 'eth_getEncryptionPublicKey',
+				params: [this.address],
+			});
+			const publicKey = Buffer.from(keyB64, 'base64');
 
-		// Returned object contains 4 properties: version, ephemPublicKey, nonce, ciphertext
-		// Each contains data encoded using base64, version is always the same string
-		const encrypted = encrypt(
-			publicKey.toString('base64'),
-			{ data: ascii85.encode(data).toString() },
-			'x25519-xsalsa20-poly1305'
-		);
+			// Returned object contains 4 properties: version, ephemPublicKey, nonce, ciphertext
+			// Each contains data encoded using base64, version is always the same string
+			const encrypted = encrypt(
+				publicKey.toString('base64'),
+				{ data: ascii85.encode(data).toString() },
+				'x25519-xsalsa20-poly1305'
+			);
 
-		const buf = Buffer.concat([
-			Buffer.from(encrypted.ephemPublicKey, 'base64'),
-			Buffer.from(encrypted.nonce, 'base64'),
-			Buffer.from(encrypted.ciphertext, 'base64'),
-		]);
+			const buf = Buffer.concat([
+				Buffer.from(encrypted.ephemPublicKey, 'base64'),
+				Buffer.from(encrypted.nonce, 'base64'),
+				Buffer.from(encrypted.ciphertext, 'base64'),
+			]);
 
-		return buf.toString('base64');
+			return buf.toString('base64');
+		}
+
+		return text;
 	}
 
 	public async decrypt(text: string) {
-		if (!this.isLoaded || this.walletType !== 'metamask') {
+		if (!this.isLoaded) {
 			return text;
 		}
 
-		const data = Buffer.from(text, 'base64');
+		if (this.walletType === 'metamask') {
+			const data = Buffer.from(text, 'base64');
 
-		// Reconstructing the original object outputed by encryption
-		const structuredData = {
-			version: 'x25519-xsalsa20-poly1305',
-			ephemPublicKey: data.slice(0, 32).toString('base64'),
-			nonce: data.slice(32, 56).toString('base64'),
-			ciphertext: data.slice(56).toString('base64'),
-		};
+			// Reconstructing the original object outputed by encryption
+			const structuredData = {
+				version: 'x25519-xsalsa20-poly1305',
+				ephemPublicKey: data.slice(0, 32).toString('base64'),
+				nonce: data.slice(32, 56).toString('base64'),
+				ciphertext: data.slice(56).toString('base64'),
+			};
 
-		// Convert data to hex string required by MetaMask
-		const ct = `0x${Buffer.from(JSON.stringify(structuredData), 'utf8').toString('hex')}`;
+			// Convert data to hex string required by MetaMask
+			const ct = `0x${Buffer.from(JSON.stringify(structuredData), 'utf8').toString('hex')}`;
 
-		// Send request to MetaMask to decrypt the ciphertext
-		const decrypt = await window.ethereum.request({
-			method: 'eth_decrypt',
-			params: [ct, this.address],
-		});
+			// Send request to MetaMask to decrypt the ciphertext
+			const decrypt = await window.ethereum.request({
+				method: 'eth_decrypt',
+				params: [ct, this.address],
+			});
 
-		// Decode the base85 to final bytes
-		const res = ascii85.decode(decrypt);
+			// Decode the base85 to final bytes
+			const res = ascii85.decode(decrypt);
 
-		return res.toString('base64');
+			return res.toString('base64');
+		}
+
+		return text;
 	}
 
 	public sign(msgToSign: string): Promise<string> {

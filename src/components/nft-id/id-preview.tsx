@@ -1,10 +1,9 @@
-import React, { LegacyRef, MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
+import React, { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { NftIdData } from 'src/types/nft-id';
 import { IdCard } from './id-card';
 import useWindowSize from 'src/hooks/use-window-size';
 import { renderToImage } from 'src/utils/nft-id';
 import { BigLoader } from '../common/loader';
-import styled from '@emotion/styled';
 import classNames from 'classnames';
 
 type IdPreviewProps = {
@@ -40,6 +39,8 @@ export const IdPreview: React.FC<IdPreviewProps> = ({
 	const [watermarkLoaded, setWatermarkLoaded] = useState(false);
 	const [canRender, setCanRender] = useState(false);
 	const [imageSrc, setImageSrc] = useState('');
+	const [renderAttempt, setRenderAttempt] = useState(0);
+	const isFirstRender = useRef(true);
 
 	// Needed since on the first render the watermark image might not be loaded yet, so the generated images won't have it
 	const onWatermarkLoaded = useCallback(() => setWatermarkLoaded(true), []);
@@ -56,7 +57,13 @@ export const IdPreview: React.FC<IdPreviewProps> = ({
 			return;
 		}
 
+		// If over 3 seconds pass, try to render again
+		const timeout = setTimeout(() => setRenderAttempt(renderAttempt + 1), isFirstRender.current ? 1500 : 3000);
+		isFirstRender.current = false;
+
 		renderToImage(publicCardRef.current as HTMLElement, dataUrl => {
+			clearTimeout(timeout);
+
 			if (renderIteration.current !== currentIteration) {
 				return;
 			}
@@ -77,7 +84,16 @@ export const IdPreview: React.FC<IdPreviewProps> = ({
 				});
 			}
 		});
-	}, [canRender, data, data.idNumber, idImageDataString, onRenderPrivateImage, onRenderPublicImage, watermarkLoaded]);
+	}, [
+		canRender,
+		data,
+		data.idNumber,
+		idImageDataString,
+		renderAttempt,
+		onRenderPrivateImage,
+		onRenderPublicImage,
+		watermarkLoaded,
+	]);
 
 	return (
 		<div className={className}>

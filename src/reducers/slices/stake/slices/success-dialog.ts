@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState = {
 	open: false,
+	doubleEncryptionKey: '',
 	hash: '',
 	tokens: '',
 	isNft: false,
@@ -18,9 +19,16 @@ export const successDialogSlice = createSlice({
 		}),
 		showSuccessDialog: (
 			state,
-			action: PayloadAction<{ hash?: string; tokens?: string; isNft?: boolean; isNftIdRecord?: boolean }>
+			action: PayloadAction<{
+				doubleEncryptionKey?: string;
+				hash?: string;
+				tokens?: string;
+				isNft?: boolean;
+				isNftIdRecord?: boolean;
+			}>
 		) => ({
 			open: true,
+			doubleEncryptionKey: action.payload.doubleEncryptionKey || '',
 			hash: action.payload.hash || '',
 			tokens: action.payload.tokens || '',
 			isNft: action.payload.isNft || false,
