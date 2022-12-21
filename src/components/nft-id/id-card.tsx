@@ -5,7 +5,7 @@ import { NftIdData } from 'src/types/nft-id';
 import { DataItem } from './data-item';
 import styled from '@emotion/styled';
 import trianglify from 'trianglify';
-import { COLOR_OPTIONS, PLANET_OPTIONS } from 'src/constants/nft-id';
+import { COLOR_OPTIONS, EXTRA_EARTH_LOCATIONS, MOON_OPTIONS, PLANET_OPTIONS, STAR_OPTIONS } from 'src/constants/nft-id';
 import classNames from 'classnames';
 import { useAddress } from 'src/hooks/use-address';
 
@@ -97,11 +97,22 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 	let nationalityFlagSvg = '';
 	try {
 		if (data.nationality) {
-			const planetOption = PLANET_OPTIONS.find(({ value }) => value === data.nationality);
+			let option = null;
+			let optionGroup = '';
 
-			if (planetOption) {
-				nationalityLabel = planetOption.label;
-				nationalityFlagSvg = `/public/assets/flags/planets/${data.nationality}.png`;
+			if ((option = EXTRA_EARTH_LOCATIONS.find(({ value }) => value === data.nationality))) {
+				optionGroup = 'earth';
+			} else if ((option = MOON_OPTIONS.find(({ value }) => value === data.nationality))) {
+				optionGroup = 'moons';
+			} else if ((option = STAR_OPTIONS.find(({ value }) => value === data.nationality))) {
+				optionGroup = 'stars';
+			} else if ((option = PLANET_OPTIONS.find(({ value }) => value === data.nationality))) {
+				optionGroup = 'planets';
+			}
+
+			if (option) {
+				nationalityLabel = option.label;
+				nationalityFlagSvg = `/public/assets/flags/${optionGroup}/${data.nationality}.png`;
 			} else {
 				nationalityFlagSvg = require(`svg-country-flags/svg/${countriesToAbbvMap[
 					data.nationality || ''

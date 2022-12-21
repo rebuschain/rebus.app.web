@@ -28,6 +28,13 @@ export const COLOR_OPTIONS = [
 // Timeout for calls to get metadata and images from ipfs
 export const IPFS_TIMEOUT = 60000;
 
+export const EXTRA_EARTH_LOCATIONS = [
+	{
+		label: 'Agartha',
+		value: 'agartha',
+	},
+];
+
 export const PLANET_OPTIONS = [
 	{
 		label: 'Mercury',
@@ -70,3 +77,17 @@ export const PLANET_OPTIONS = [
 		value: 'planet-9',
 	},
 ].sort((a, b) => a.label.localeCompare(b.label));
+
+export const MOON_OPTIONS = [
+	{
+		label: 'Moon',
+		value: 'moon',
+	},
+];
+
+export const STAR_OPTIONS = [
+	{
+		label: 'Sun',
+		value: 'sun',
+	},
+];

@@ -9,7 +9,7 @@ import { Button } from '../common/button';
 import { Loader } from '../common/loader';
 import ConfirmDialog from 'src/pages/stake/delegate-dialog/confirm-dialog';
 import { config } from 'src/config-insync';
-import { PLANET_OPTIONS } from 'src/constants/nft-id';
+import { EXTRA_EARTH_LOCATIONS, MOON_OPTIONS, PLANET_OPTIONS, STAR_OPTIONS } from 'src/constants/nft-id';
 
 type IdFormProps = {
 	buttonText: string;
@@ -25,18 +25,30 @@ type IdFormProps = {
 
 const dateOfBirthStyle = { minWidth: '180px' };
 
-const COUNTRY_OPTIONS = Object.values(countries)
+const EARTH_OPTIONS = Object.values(countries)
 	.sort((a, b) => a.localeCompare(b))
 	.map(country => ({ label: country, value: country }));
 
 const NATIONALITY_OPTIONS = [
 	{
+		label: 'Stars',
+		options: STAR_OPTIONS,
+	},
+	{
+		label: 'Moons',
+		options: MOON_OPTIONS,
+	},
+	{
 		label: 'Planets',
 		options: PLANET_OPTIONS,
 	},
 	{
-		label: 'Earth',
-		options: COUNTRY_OPTIONS,
+		label: 'Earth Locations',
+		options: EXTRA_EARTH_LOCATIONS,
+	},
+	{
+		label: 'Earth Countries',
+		options: EARTH_OPTIONS,
 	},
 ];
 
