@@ -5,7 +5,7 @@ import { NftIdData } from 'src/types/nft-id';
 import { DataItem } from './data-item';
 import styled from '@emotion/styled';
 import trianglify from 'trianglify';
-import { COLOR_OPTIONS } from 'src/constants/nft-id';
+import { COLOR_OPTIONS, PLANET_OPTIONS } from 'src/constants/nft-id';
 import classNames from 'classnames';
 import { useAddress } from 'src/hooks/use-address';
 
@@ -93,15 +93,23 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 		setBackgroundImage(image);
 	}, [level, theme.colors, theme.name]);
 
+	let nationalityLabel = data.nationality;
 	let nationalityFlagSvg = '';
 	try {
 		if (data.nationality) {
-			nationalityFlagSvg = require(`svg-country-flags/svg/${countriesToAbbvMap[
-				data.nationality || ''
-			]?.toLowerCase()}.svg`).default;
+			const planetOption = PLANET_OPTIONS.find(({ value }) => value === data.nationality);
+
+			if (planetOption) {
+				nationalityLabel = planetOption.label;
+				nationalityFlagSvg = `/public/assets/flags/planets/${data.nationality}.png`;
+			} else {
+				nationalityFlagSvg = require(`svg-country-flags/svg/${countriesToAbbvMap[
+					data.nationality || ''
+				]?.toLowerCase()}.svg`).default;
+			}
 		}
 	} catch (err) {
-		console.error(`Flag for country ${data.nationality} not found`);
+		console.error(`Flag for nationality ${data.nationality} not found`);
 	}
 
 	return (
@@ -181,7 +189,7 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 									<img
 										className="rounded opacity-90"
 										src={nationalityFlagSvg}
-										style={{ objectFit: 'contain', objectPosition: 'center', width: '56px' }}
+										style={{ maxHeight: '42px', objectFit: 'contain', objectPosition: 'center', width: '64px' }}
 									/>
 									{data.nationalityHidden && <NoFlag className="rounded" />}
 								</div>
@@ -189,7 +197,7 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 									className="ml-3"
 									isBlurred={data.nationalityHidden && !displayBlurredData}
 									label="Nationality"
-									value={data.nationality}
+									value={nationalityLabel}
 								/>
 							</div>
 						)}

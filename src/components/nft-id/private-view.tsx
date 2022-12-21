@@ -160,7 +160,11 @@ const PrivateView: FunctionComponent = observer(() => {
 				}
 			} catch (err) {
 				console.error(err);
+				doubleEncryptionKey.current = '';
+				localStorage.removeItem(encryptionKeyKey);
 				showMessage('Error encrypting/decrypting information for NFT ID');
+				setIsSaving(false);
+				return;
 			}
 
 			const { url } = await ipfs.createNft({
@@ -347,13 +351,15 @@ const PrivateView: FunctionComponent = observer(() => {
 			setIsDecrypted(true);
 		} catch (err) {
 			console.error(err);
+			doubleEncryptionKey.current = '';
+			localStorage.removeItem(encryptionKeyKey);
 			showMessage(
 				'Error decrypting private image' + (walletStore.isLoaded ? '' : '. Please try clearing the encryption key data')
 			);
 		}
 
 		setIsDecryptingPrivateImage(false);
-	}, [walletStore, encryption_key, currentPrivateIdImageData, showMessage]);
+	}, [walletStore, encryption_key, currentPrivateIdImageData, encryptionKeyKey, showMessage]);
 
 	const onSubmitDoubleEncryptionKey = useCallback(() => {
 		setIsInputDialogOpen(false);
