@@ -5,7 +5,14 @@ import { NftIdData } from 'src/types/nft-id';
 import { DataItem } from './data-item';
 import styled from '@emotion/styled';
 import trianglify from 'trianglify';
-import { COLOR_OPTIONS } from 'src/constants/nft-id';
+import {
+	COLOR_OPTIONS,
+	COSMIC_BODIES_OPTIONS,
+	EXTRA_EARTH_LOCATIONS,
+	MOON_OPTIONS,
+	PLANET_OPTIONS,
+	STAR_OPTIONS,
+} from 'src/constants/nft-id';
 import classNames from 'classnames';
 import { useAddress } from 'src/hooks/use-address';
 
@@ -13,6 +20,7 @@ type IdCardProps = {
 	className?: string;
 	data: NftIdData;
 	displayBlurredData?: boolean;
+	onFlagLoad?: (nationality: string) => void;
 	onWatermarkLoad?: () => void;
 };
 
@@ -61,7 +69,7 @@ const BACKGROUND_SEED = 45381;
 const ID_WIDTH = 712;
 
 const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = (
-	{ className, data, displayBlurredData, onWatermarkLoad },
+	{ className, data, displayBlurredData, onFlagLoad, onWatermarkLoad },
 	ref
 ) => {
 	const theme = data.theme || COLOR_OPTIONS[0];
@@ -93,15 +101,36 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 		setBackgroundImage(image);
 	}, [level, theme.colors, theme.name]);
 
+	let nationalityLabel = data.nationality;
 	let nationalityFlagSvg = '';
 	try {
 		if (data.nationality) {
-			nationalityFlagSvg = require(`svg-country-flags/svg/${countriesToAbbvMap[
-				data.nationality || ''
-			]?.toLowerCase()}.svg`).default;
+			let option = null;
+			let optionGroup = '';
+
+			if ((option = EXTRA_EARTH_LOCATIONS.find(({ value }) => value === data.nationality))) {
+				optionGroup = 'earth';
+			} else if ((option = MOON_OPTIONS.find(({ value }) => value === data.nationality))) {
+				optionGroup = 'moons';
+			} else if ((option = STAR_OPTIONS.find(({ value }) => value === data.nationality))) {
+				optionGroup = 'stars';
+			} else if ((option = PLANET_OPTIONS.find(({ value }) => value === data.nationality))) {
+				optionGroup = 'planets';
+			} else if ((option = COSMIC_BODIES_OPTIONS.find(({ value }) => value === data.nationality))) {
+				optionGroup = 'cosmic-bodies';
+			}
+
+			if (option) {
+				nationalityLabel = option.label;
+				nationalityFlagSvg = `/public/assets/flags/${optionGroup}/${data.nationality}.png`;
+			} else {
+				nationalityFlagSvg = require(`svg-country-flags/svg/${countriesToAbbvMap[
+					data.nationality || ''
+				]?.toLowerCase()}.svg`).default;
+			}
 		}
 	} catch (err) {
-		console.error(`Flag for country ${data.nationality} not found`);
+		console.error(`Flag for nationality ${data.nationality} not found`);
 	}
 
 	return (
@@ -180,8 +209,9 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 								<div className="relative flex-shrink-0">
 									<img
 										className="rounded opacity-90"
+										onLoad={() => onFlagLoad?.(data.nationality || '')}
 										src={nationalityFlagSvg}
-										style={{ objectFit: 'contain', objectPosition: 'center', width: '56px' }}
+										style={{ maxHeight: '42px', objectFit: 'contain', objectPosition: 'center', width: '64px' }}
 									/>
 									{data.nationalityHidden && <NoFlag className="rounded" />}
 								</div>
@@ -189,7 +219,7 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 									className="ml-3"
 									isBlurred={data.nationalityHidden && !displayBlurredData}
 									label="Nationality"
-									value={data.nationality}
+									value={nationalityLabel}
 								/>
 							</div>
 						)}

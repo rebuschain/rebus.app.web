@@ -9,6 +9,13 @@ import { Button } from '../common/button';
 import { Loader } from '../common/loader';
 import ConfirmDialog from 'src/pages/stake/delegate-dialog/confirm-dialog';
 import { config } from 'src/config-insync';
+import {
+	COSMIC_BODIES_OPTIONS,
+	EXTRA_EARTH_LOCATIONS,
+	MOON_OPTIONS,
+	PLANET_OPTIONS,
+	STAR_OPTIONS,
+} from 'src/constants/nft-id';
 
 type IdFormProps = {
 	buttonText: string;
@@ -24,9 +31,36 @@ type IdFormProps = {
 
 const dateOfBirthStyle = { minWidth: '180px' };
 
-const COUNTRY_OPTIONS = Object.values(countries)
+const EARTH_OPTIONS = Object.values(countries)
 	.sort((a, b) => a.localeCompare(b))
 	.map(country => ({ label: country, value: country }));
+
+const NATIONALITY_OPTIONS = [
+	{
+		label: 'Stars',
+		options: STAR_OPTIONS,
+	},
+	{
+		label: 'Cosmic Bodies',
+		options: COSMIC_BODIES_OPTIONS,
+	},
+	{
+		label: 'Moons',
+		options: MOON_OPTIONS,
+	},
+	{
+		label: 'Planets',
+		options: PLANET_OPTIONS,
+	},
+	{
+		label: 'Earth Locations',
+		options: EXTRA_EARTH_LOCATIONS,
+	},
+	{
+		label: 'Earth Countries',
+		options: EARTH_OPTIONS,
+	},
+];
 
 const nftIdCost = parseFloat((Number(env('NFT_ID_MINTING_FEE')) / 10 ** config.COIN_DECIMALS).toFixed(1));
 
@@ -123,7 +157,7 @@ export const IdForm: React.FC<IdFormProps> = ({
 				placeholder: 'Nationality',
 				hide: data.nationalityHidden,
 				value: data.nationality,
-				options: COUNTRY_OPTIONS,
+				options: NATIONALITY_OPTIONS,
 				type: InputTypes.Select,
 			},
 		],

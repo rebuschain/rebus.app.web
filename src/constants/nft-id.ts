@@ -27,3 +27,74 @@ export const COLOR_OPTIONS = [
 
 // Timeout for calls to get metadata and images from ipfs
 export const IPFS_TIMEOUT = 60000;
+
+export const EXTRA_EARTH_LOCATIONS = [
+	{
+		label: 'Agartha',
+		value: 'agartha',
+	},
+];
+
+export const PLANET_OPTIONS = [
+	{
+		label: 'Mercury',
+		value: 'mercury',
+	},
+	{
+		label: 'Venus',
+		value: 'venus',
+	},
+	{
+		label: 'Earth',
+		value: 'earth',
+	},
+	{
+		label: 'Mars',
+		value: 'mars',
+	},
+	{
+		label: 'Jupiter',
+		value: 'jupiter',
+	},
+	{
+		label: 'Saturn',
+		value: 'saturn',
+	},
+	{
+		label: 'Uranus',
+		value: 'uranus',
+	},
+	{
+		label: 'Neptune',
+		value: 'neptune',
+	},
+	{
+		label: 'Pluto-Charon',
+		value: 'pluto',
+	},
+	{
+		label: 'Planet Nine',
+		value: 'planet-9',
+	},
+].sort((a, b) => a.label.localeCompare(b.label));
+
+export const MOON_OPTIONS = [
+	{
+		label: 'Moon',
+		value: 'moon',
+	},
+];
+
+export const STAR_OPTIONS = [
+	{
+		label: 'Sun',
+		value: 'sun',
+	},
+];
+
+export const COSMIC_BODIES_OPTIONS = [
+	{
+		label: 'Comet',
+		value: 'comet',
+	},
+];

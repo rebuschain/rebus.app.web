@@ -41,7 +41,7 @@ export const LAYOUT = {
 			ICON_SELECTED: '/public/assets/icons/vote-selected.svg',
 			TEXT: 'Vote',
 			ROUTE: ROUTES.VOTE,
-			SELECTED_CHECK: [ROUTES.VOTE, /\/proposals\/*/g],
+			SELECTED_CHECK: [ROUTES.VOTE, /\/proposals\/*/],
 		},
 		NFT_ID: {
 			TYPE: 'nft-id',
@@ -50,7 +50,7 @@ export const LAYOUT = {
 			ICON_WIDTH_CLASS: 'w-4',
 			TEXT: 'NFT ID',
 			ROUTE: ROUTES.NFT_ID,
-			SELECTED_CHECK: ROUTES.NFT_ID,
+			SELECTED_CHECK: [ROUTES.NFT_ID, /\/nft-id\/*/],
 		},
 		TOOLS: {
 			TYPE: 'tools',

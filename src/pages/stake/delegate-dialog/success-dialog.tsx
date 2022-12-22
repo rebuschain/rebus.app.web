@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { Button, Dialog, DialogActions, DialogContent } from '@material-ui/core';
 import variables from 'src/utils/variables';
-import { successDialogActions } from 'src/reducers/slices';
+import { successDialogActions, snackbarActions } from 'src/reducers/slices';
 import success from 'src/assets/stake/success.svg';
 import { config } from 'src/config-insync';
 import { useActions } from 'src/hooks/use-actions';
@@ -10,12 +10,15 @@ import { useAppSelector } from 'src/hooks/use-app-select';
 import { RootState } from 'src/reducers/store';
 import { useAddress } from 'src/hooks/use-address';
 import { ResultDialogHeader, ResultDialogText } from './components';
+import { Button as CommonButton } from 'src/components/common/button';
+import { copyTextToClipboard } from 'src/utils/copy-to-clipboard';
 import { useStore } from 'src/stores';
 
 const selector = (state: RootState) => {
 	return {
 		lang: state.language,
 		tokens: state.stake.successDialog.tokens,
+		doubleEncryptionKey: state.stake.successDialog.doubleEncryptionKey,
 		open: state.stake.successDialog.open,
 		isNft: state.stake.successDialog.isNft,
 		isNftIdRecord: state.stake.successDialog.isNftIdRecord,
@@ -31,11 +34,12 @@ const selector = (state: RootState) => {
 
 const SuccessDialog = observer(() => {
 	const { walletStore } = useStore();
-	const [handleClose] = useActions([successDialogActions.hideSuccessDialog]);
+	const [handleClose, showMessage] = useActions([successDialogActions.hideSuccessDialog, snackbarActions.showSnackbar]);
 	const {
 		tokens,
 		lang,
 		open,
+		doubleEncryptionKey,
 		hash,
 		name,
 		validator,
@@ -51,6 +55,10 @@ const SuccessDialog = observer(() => {
 	const handleRedirect = () => {
 		const link = `${walletStore.getExplorerUrl()}/${hash}`;
 		window.open(link, '_blank');
+	};
+
+	const copyEncryptionKey = () => {
+		copyTextToClipboard(doubleEncryptionKey, () => showMessage('Copied encryption key to clipboard!'));
 	};
 
 	const validatorDetails =
@@ -82,6 +90,19 @@ const SuccessDialog = observer(() => {
 						<ResultDialogHeader>{variables[lang].success}</ResultDialogHeader>
 					)}
 				</div>
+				{doubleEncryptionKey && (
+					<div className="mb-4">
+						<ResultDialogText>
+							Please click the button below to copy the encryption key and save it in a safe place. You will need it if
+							you access a different browser or clear your browser data.
+						</ResultDialogText>
+						<div className="mt-2">
+							<CommonButton backgroundStyle="blue" onClick={copyEncryptionKey} smallBorderRadius>
+								Copy
+							</CommonButton>
+						</div>
+					</div>
+				)}
 				{proposalOpen && hash ? (
 					<div className="flex justify-between mb-4">
 						<ResultDialogText>{variables[lang]['transaction_hash']}</ResultDialogText>
