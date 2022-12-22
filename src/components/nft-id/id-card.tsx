@@ -5,7 +5,14 @@ import { NftIdData } from 'src/types/nft-id';
 import { DataItem } from './data-item';
 import styled from '@emotion/styled';
 import trianglify from 'trianglify';
-import { COLOR_OPTIONS, EXTRA_EARTH_LOCATIONS, MOON_OPTIONS, PLANET_OPTIONS, STAR_OPTIONS } from 'src/constants/nft-id';
+import {
+	COLOR_OPTIONS,
+	COSMIC_BODIES_OPTIONS,
+	EXTRA_EARTH_LOCATIONS,
+	MOON_OPTIONS,
+	PLANET_OPTIONS,
+	STAR_OPTIONS,
+} from 'src/constants/nft-id';
 import classNames from 'classnames';
 import { useAddress } from 'src/hooks/use-address';
 
@@ -13,6 +20,7 @@ type IdCardProps = {
 	className?: string;
 	data: NftIdData;
 	displayBlurredData?: boolean;
+	onFlagLoad?: (nationality: string) => void;
 	onWatermarkLoad?: () => void;
 };
 
@@ -61,7 +69,7 @@ const BACKGROUND_SEED = 45381;
 const ID_WIDTH = 712;
 
 const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = (
-	{ className, data, displayBlurredData, onWatermarkLoad },
+	{ className, data, displayBlurredData, onFlagLoad, onWatermarkLoad },
 	ref
 ) => {
 	const theme = data.theme || COLOR_OPTIONS[0];
@@ -108,6 +116,8 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 				optionGroup = 'stars';
 			} else if ((option = PLANET_OPTIONS.find(({ value }) => value === data.nationality))) {
 				optionGroup = 'planets';
+			} else if ((option = COSMIC_BODIES_OPTIONS.find(({ value }) => value === data.nationality))) {
+				optionGroup = 'cosmic-bodies';
 			}
 
 			if (option) {
@@ -199,6 +209,7 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 								<div className="relative flex-shrink-0">
 									<img
 										className="rounded opacity-90"
+										onLoad={() => onFlagLoad?.(data.nationality || '')}
 										src={nationalityFlagSvg}
 										style={{ maxHeight: '42px', objectFit: 'contain', objectPosition: 'center', width: '64px' }}
 									/>

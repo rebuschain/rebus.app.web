@@ -91,3 +91,10 @@ export const STAR_OPTIONS = [
 		value: 'sun',
 	},
 ];
+
+export const COSMIC_BODIES_OPTIONS = [
+	{
+		label: 'Comet',
+		value: 'comet',
+	},
+];

@@ -9,7 +9,13 @@ import { Button } from '../common/button';
 import { Loader } from '../common/loader';
 import ConfirmDialog from 'src/pages/stake/delegate-dialog/confirm-dialog';
 import { config } from 'src/config-insync';
-import { EXTRA_EARTH_LOCATIONS, MOON_OPTIONS, PLANET_OPTIONS, STAR_OPTIONS } from 'src/constants/nft-id';
+import {
+	COSMIC_BODIES_OPTIONS,
+	EXTRA_EARTH_LOCATIONS,
+	MOON_OPTIONS,
+	PLANET_OPTIONS,
+	STAR_OPTIONS,
+} from 'src/constants/nft-id';
 
 type IdFormProps = {
 	buttonText: string;
@@ -33,6 +39,10 @@ const NATIONALITY_OPTIONS = [
 	{
 		label: 'Stars',
 		options: STAR_OPTIONS,
+	},
+	{
+		label: 'Cosmic Bodies',
+		options: COSMIC_BODIES_OPTIONS,
 	},
 	{
 		label: 'Moons',

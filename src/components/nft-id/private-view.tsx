@@ -137,7 +137,7 @@ const PrivateView: FunctionComponent = observer(() => {
 					if (walletStore.isLoaded) {
 						encryptionKey = await walletStore.decrypt(encryptedEncryptionKey);
 					} else {
-						if (doubleEncryptionKey) {
+						if (doubleEncryptionKey.current) {
 							currentDoubleEncryptionKey = doubleEncryptionKey.current;
 							encryptionKey = decrypt(currentDoubleEncryptionKey, encryptedEncryptionKey);
 						} else {
@@ -261,8 +261,6 @@ const PrivateView: FunctionComponent = observer(() => {
 			}
 
 			if (txHash && !txCode) {
-				doubleEncryptionKey.current = currentDoubleEncryptionKey || '';
-
 				try {
 					localStorage.setItem(
 						encryptionKeyKey,
@@ -294,6 +292,7 @@ const PrivateView: FunctionComponent = observer(() => {
 					'NFT ID Successfuly created, but it might take a few seconds before you can see it once you refresh the page'
 				);
 
+				doubleEncryptionKey.current = currentDoubleEncryptionKey || '';
 				queries.queryBalances.getQueryBech32Address(address).fetch();
 				queries.rebus.queryIdRecord.get(address).fetch();
 			} else {
