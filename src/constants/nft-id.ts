@@ -33,6 +33,10 @@ export const EXTRA_EARTH_LOCATIONS = [
 		label: 'Agartha',
 		value: 'agartha',
 	},
+	{
+		label: 'Atlantis',
+		value: 'atlantis',
+	},
 ];
 
 export const PLANET_OPTIONS = [
