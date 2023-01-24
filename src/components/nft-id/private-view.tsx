@@ -31,6 +31,7 @@ import { Coin } from '../../proto/cosmos/base/v1beta1/coin_pb';
 import { Amount } from 'src/stores/wallet/messages/mint-nft-id';
 import InputDialog from 'src/pages/stake/delegate-dialog/input-dialog';
 import { ENCRYPTION_KEY_KEY } from 'src/stores/wallet';
+import { StatusChangeButton } from './status-change-button';
 
 const ipfs = new IPFS(env('NFT_STORAGE_TOKEN'));
 
@@ -504,6 +505,7 @@ const PrivateView: FunctionComponent = observer(() => {
 							data={data}
 							idImageDataString={currentIdImageData}
 							isFetchingImage={isFetchingPrivateImage}
+							subtitleContent={<StatusChangeButton className="mb-4" />}
 							title="Current ID"
 							titleClassName="mr-3"
 							titleSuffix={

@@ -66,6 +66,8 @@ const variables = {
 		connect_account: 'Account not connected. Please connect to wallet',
 		nft_id_created: 'NFT ID Created Successfully',
 		id_record_created: 'ID Record created successfuly',
+		nft_id_activated: 'NFT ID activated successfully',
+		nft_id_deactivated: 'NFT ID deactivated successfully',
 	},
 };
 

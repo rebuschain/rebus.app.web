@@ -7,4 +7,6 @@ export const gas = {
 	claim_reward: 400000,
 	ibc_transfer: 250000,
 	mint_nftid: 200000,
+	activate_nftid: 200000,
+	deactivate_nftid: 200000,
 };

@@ -19,6 +19,16 @@ service Msg {
   rpc CreateIdRecord(MsgCreateIdRecord) returns (MsgCreateIdRecordResponse) {
     option (google.api.http).get = "/rebus/nftid/v1/tx/id_record";
   };
+
+  // Activates a NFT ID by paying some kind of fee
+  rpc ActivateNftId(MsgActivateNftId) returns (MsgActivateNftIdResponse) {
+    option (google.api.http).get = "/rebus/nftid/v1/tx/activate_nft_id";
+  };
+
+  // Deactivates a NFT ID in the case a payment type is reversible, such as locking tokens
+  rpc DeactivateNftId(MsgDeactivateNftId) returns (MsgDeactivateNftIdResponse) {
+    option (google.api.http).get = "/rebus/nftid/v1/tx/deactivate_nft_id";
+  };
 }
 
 // MsgMintNftId defines a Msg to create or update an nft id record
@@ -57,6 +67,48 @@ message MsgCreateIdRecord {
 
 // MsgCreateIdRecordResponse returns the id record
 message MsgCreateIdRecordResponse {
+	IdRecord id_record = 1 [
+    (gogoproto.moretags) = "yaml:\"id_record\"",
+    (gogoproto.nullable) = false
+  ];
+}
+
+// MsgActivateNftId defines a Msg to create or update an nft id record
+message MsgActivateNftId {
+  // address of the user who is activating the nft id
+  string address = 1;
+  // type of the nft id
+  NftId nft_type = 2;
+	// organization that the nft id belongs to
+	string organization = 3;
+  // payment type used to activate the nft id
+  PaymentType payment_type = 4;
+  // amount to pay to activate the nft id
+  cosmos.base.v1beta1.Coin amount = 5;
+  // utc timestamp of current time
+  string timestamp = 6;
+}
+
+// MsgActivateNftIdResponse returns the id record
+message MsgActivateNftIdResponse {
+	IdRecord id_record = 1 [
+    (gogoproto.moretags) = "yaml:\"id_record\"",
+    (gogoproto.nullable) = false
+  ];
+}
+
+// MsgDeactivateNftId defines a Msg to create or update an nft id record
+message MsgDeactivateNftId {
+  // address of the user who is deactivating the nft id
+  string address = 1;
+  // type of the nft id
+  NftId nft_type = 2;
+	// organization that the nft id belongs to
+	string organization = 3;
+}
+
+// MsgDeactivateNftIdResponse returns the id record
+message MsgDeactivateNftIdResponse {
 	IdRecord id_record = 1 [
     (gogoproto.moretags) = "yaml:\"id_record\"",
     (gogoproto.nullable) = false

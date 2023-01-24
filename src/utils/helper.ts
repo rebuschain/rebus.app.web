@@ -5,13 +5,15 @@ import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { config } from 'src/config-insync';
 import { getAccount } from 'src/utils/account';
 import { Registry } from '@cosmjs/proto-signing';
-import { MsgMintNftId } from 'src/proto/rebus/nftid/v1/tx';
+import { MsgActivateNftId, MsgDeactivateNftId, MsgMintNftId } from 'src/proto/rebus/nftid/v1/tx';
 
 const chainId = config.CHAIN_ID;
 
 const registry = new Registry(defaultRegistryTypes);
 registry.register('/rebus.nftid.v1.MsgMintNftId', MsgMintNftId);
 registry.register('/rebus.nftid.v1.MsgCreateIdRecord', MsgMintNftId);
+registry.register('/rebus.nftid.v1.MsgActivateNftId', MsgActivateNftId);
+registry.register('/rebus.nftid.v1.MsgDeactivateNftId', MsgDeactivateNftId);
 
 const aminoTypes = new AminoTypes({
 	additions: {
@@ -40,6 +42,46 @@ const aminoTypes = new AminoTypes({
 		},
 		'/rebus.nftid.v1.MsgCreateIdRecord': {
 			aminoType: 'rebus.core/MsgCreateIdRecord',
+			toAmino: ({ address, nftType, organization }) => {
+				return {
+					address,
+					nft_type: nftType,
+					organization,
+				};
+			},
+			fromAmino: ({ address, nft_type, organization }) => {
+				return {
+					address,
+					nftType: nft_type,
+					organization,
+				};
+			},
+		},
+		'/rebus.nftid.v1.MsgActivateNftId': {
+			aminoType: 'rebus.core/MsgActivateNftId',
+			toAmino: ({ address, nftType, organization, paymentType, timestamp, amount }) => {
+				return {
+					address,
+					nft_type: nftType,
+					organization,
+					payment_type: paymentType,
+					amount,
+					timestamp,
+				};
+			},
+			fromAmino: ({ address, nft_type, organization, payment_type, timestamp, amount }) => {
+				return {
+					address,
+					nftType: nft_type,
+					organization,
+					paymentType: payment_type,
+					amount,
+					timestamp,
+				};
+			},
+		},
+		'/rebus.nftid.v1.MsgDeactivateNftId': {
+			aminoType: 'rebus.core/MsgDeactivateNftId',
 			toAmino: ({ address, nftType, organization }) => {
 				return {
 					address,

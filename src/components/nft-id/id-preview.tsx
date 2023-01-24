@@ -14,6 +14,7 @@ type IdPreviewProps = {
 	isFetchingImage?: boolean;
 	onRenderPublicImage?: (image: string) => void;
 	onRenderPrivateImage?: (image: string) => void;
+	subtitleContent?: React.ReactElement;
 	title?: string;
 	titleClassName?: string;
 	titleSuffix?: React.ReactElement;
@@ -28,6 +29,7 @@ export const IdPreview: React.FC<IdPreviewProps> = ({
 	isFetchingImage,
 	onRenderPublicImage,
 	onRenderPrivateImage,
+	subtitleContent,
 	title,
 	titleClassName,
 	titleSuffix,
@@ -106,6 +108,7 @@ export const IdPreview: React.FC<IdPreviewProps> = ({
 					{titleSuffix && <div className="mb-2">{titleSuffix}</div>}
 				</div>
 			)}
+			{subtitleContent}
 
 			{!idImageDataString && (
 				<div style={{ overflow: 'hidden', position: 'absolute', left: 0, top: 0, zIndex: -1 }}>

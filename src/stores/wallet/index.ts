@@ -45,6 +45,12 @@ import {
 	createTxMsgCreateIdRecord,
 	MessageMsgCreateIdRecord,
 } from './messages/create-id-record';
+import { AminoMsgActivateNftId, createTxMsgActivateNftId, MessageMsgActivateNftId } from './messages/activate-nft-id';
+import {
+	AminoMsgDeactivateNftId,
+	createTxMsgDeactivateNftId,
+	MessageMsgDeactivateNftId,
+} from './messages/deactivate-nft-id';
 
 const chainId = env('CHAIN_ID');
 const restUrl = env('REST_URL');
@@ -590,6 +596,36 @@ export class WalletStore {
 
 		const sender = await this.getSender();
 		const txMsg = createTxMsgCreateIdRecord(this.chainInfo, sender, fee, memo, msg as MessageMsgCreateIdRecord);
+		return this.broadcast(sender, txMsg);
+	}
+
+	public async activateNftId(
+		{ fee, msg, memo }: Tx<MessageMsgActivateNftId>,
+		aminoTx: Tx<AminoMsgActivateNftId>
+	): Promise<TransactionResponse> {
+		this.checkIfSupported('vote');
+
+		if (this._aminoProvider) {
+			return this.aminoProvider.signAndBroadcastAmino<Tx<AminoMsgActivateNftId>>(this.rebusAddress, aminoTx);
+		}
+
+		const sender = await this.getSender();
+		const txMsg = createTxMsgActivateNftId(this.chainInfo, sender, fee, memo, msg as MessageMsgActivateNftId);
+		return this.broadcast(sender, txMsg);
+	}
+
+	public async deactivateNftId(
+		{ fee, msg, memo }: Tx<MessageMsgDeactivateNftId>,
+		aminoTx: Tx<AminoMsgDeactivateNftId>
+	): Promise<TransactionResponse> {
+		this.checkIfSupported('vote');
+
+		if (this._aminoProvider) {
+			return this.aminoProvider.signAndBroadcastAmino<Tx<AminoMsgDeactivateNftId>>(this.rebusAddress, aminoTx);
+		}
+
+		const sender = await this.getSender();
+		const txMsg = createTxMsgDeactivateNftId(this.chainInfo, sender, fee, memo, msg as MessageMsgDeactivateNftId);
 		return this.broadcast(sender, txMsg);
 	}
 

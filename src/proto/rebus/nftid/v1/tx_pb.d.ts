@@ -121,3 +121,117 @@ export namespace MsgCreateIdRecordResponse {
   }
 }
 
+export class MsgActivateNftId extends jspb.Message {
+  getAddress(): string;
+  setAddress(value: string): void;
+
+  getNftType(): rebus_nftid_v1_id_pb.NftIdMap[keyof rebus_nftid_v1_id_pb.NftIdMap];
+  setNftType(value: rebus_nftid_v1_id_pb.NftIdMap[keyof rebus_nftid_v1_id_pb.NftIdMap]): void;
+
+  getOrganization(): string;
+  setOrganization(value: string): void;
+
+  getPaymentType(): rebus_nftid_v1_id_pb.PaymentTypeMap[keyof rebus_nftid_v1_id_pb.PaymentTypeMap];
+  setPaymentType(value: rebus_nftid_v1_id_pb.PaymentTypeMap[keyof rebus_nftid_v1_id_pb.PaymentTypeMap]): void;
+
+  hasAmount(): boolean;
+  clearAmount(): void;
+  getAmount(): cosmos_base_v1beta1_coin_pb.Coin | undefined;
+  setAmount(value?: cosmos_base_v1beta1_coin_pb.Coin): void;
+
+  getTimestamp(): string;
+  setTimestamp(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): MsgActivateNftId.AsObject;
+  static toObject(includeInstance: boolean, msg: MsgActivateNftId): MsgActivateNftId.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: MsgActivateNftId, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): MsgActivateNftId;
+  static deserializeBinaryFromReader(message: MsgActivateNftId, reader: jspb.BinaryReader): MsgActivateNftId;
+}
+
+export namespace MsgActivateNftId {
+  export type AsObject = {
+    address: string,
+    nftType: rebus_nftid_v1_id_pb.NftIdMap[keyof rebus_nftid_v1_id_pb.NftIdMap],
+    organization: string,
+    paymentType: rebus_nftid_v1_id_pb.PaymentTypeMap[keyof rebus_nftid_v1_id_pb.PaymentTypeMap],
+    amount?: cosmos_base_v1beta1_coin_pb.Coin.AsObject,
+    timestamp: string,
+  }
+}
+
+export class MsgActivateNftIdResponse extends jspb.Message {
+  hasIdRecord(): boolean;
+  clearIdRecord(): void;
+  getIdRecord(): rebus_nftid_v1_id_pb.IdRecord | undefined;
+  setIdRecord(value?: rebus_nftid_v1_id_pb.IdRecord): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): MsgActivateNftIdResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: MsgActivateNftIdResponse): MsgActivateNftIdResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: MsgActivateNftIdResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): MsgActivateNftIdResponse;
+  static deserializeBinaryFromReader(message: MsgActivateNftIdResponse, reader: jspb.BinaryReader): MsgActivateNftIdResponse;
+}
+
+export namespace MsgActivateNftIdResponse {
+  export type AsObject = {
+    idRecord?: rebus_nftid_v1_id_pb.IdRecord.AsObject,
+  }
+}
+
+export class MsgDeactivateNftId extends jspb.Message {
+  getAddress(): string;
+  setAddress(value: string): void;
+
+  getNftType(): rebus_nftid_v1_id_pb.NftIdMap[keyof rebus_nftid_v1_id_pb.NftIdMap];
+  setNftType(value: rebus_nftid_v1_id_pb.NftIdMap[keyof rebus_nftid_v1_id_pb.NftIdMap]): void;
+
+  getOrganization(): string;
+  setOrganization(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): MsgDeactivateNftId.AsObject;
+  static toObject(includeInstance: boolean, msg: MsgDeactivateNftId): MsgDeactivateNftId.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: MsgDeactivateNftId, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): MsgDeactivateNftId;
+  static deserializeBinaryFromReader(message: MsgDeactivateNftId, reader: jspb.BinaryReader): MsgDeactivateNftId;
+}
+
+export namespace MsgDeactivateNftId {
+  export type AsObject = {
+    address: string,
+    nftType: rebus_nftid_v1_id_pb.NftIdMap[keyof rebus_nftid_v1_id_pb.NftIdMap],
+    organization: string,
+  }
+}
+
+export class MsgDeactivateNftIdResponse extends jspb.Message {
+  hasIdRecord(): boolean;
+  clearIdRecord(): void;
+  getIdRecord(): rebus_nftid_v1_id_pb.IdRecord | undefined;
+  setIdRecord(value?: rebus_nftid_v1_id_pb.IdRecord): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): MsgDeactivateNftIdResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: MsgDeactivateNftIdResponse): MsgDeactivateNftIdResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: MsgDeactivateNftIdResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): MsgDeactivateNftIdResponse;
+  static deserializeBinaryFromReader(message: MsgDeactivateNftIdResponse, reader: jspb.BinaryReader): MsgDeactivateNftIdResponse;
+}
+
+export namespace MsgDeactivateNftIdResponse {
+  export type AsObject = {
+    idRecord?: rebus_nftid_v1_id_pb.IdRecord.AsObject,
+  }
+}
+
