@@ -3,34 +3,20 @@ import { createEIP712, generateFee, generateMessage, generateTypes } from '@thar
 import { Chain, Fee, Sender } from '@tharsis/transactions';
 import { AminoMsg } from '@cosmjs/amino';
 import { MsgActivateNftId } from '../../../proto/rebus/nftid/v1/tx_pb';
-import { Coin } from '../../../proto/cosmos/base/v1beta1/coin_pb';
 
 const MSG_ACTIVATE_NFT_ID_TYPES = {
 	MsgValue: [
 		{ name: 'address', type: 'string' },
 		{ name: 'nft_type', type: 'int32' },
 		{ name: 'organization', type: 'string' },
-		{ name: 'payment_type', type: 'int32' },
-		{ name: 'amount', type: 'TypeAmount' },
 		{ name: 'timestamp', type: 'string' },
 	],
-	TypeAmount: [
-		{ name: 'denom', type: 'string' },
-		{ name: 'amount', type: 'string' },
-	],
 };
-
-export interface Amount {
-	denom: string;
-	amount: string;
-}
 
 export interface MessageMsgActivateNftId {
 	address: string;
 	nft_type: number;
 	organization: string;
-	payment_type: number;
-	amount: Amount;
 	timestamp: string;
 }
 
@@ -40,52 +26,28 @@ export interface AminoMsgActivateNftId extends AminoMsg {
 		readonly address: string;
 		readonly nft_type: number;
 		readonly organization: string;
-		readonly payment_type: string;
-		readonly amount: Amount;
 		readonly timestamp: string;
 	};
 }
 
-const createMsgActivateNftId = (
-	sender: string,
-	nftType: number,
-	organization: string,
-	paymentType: number,
-	amount: Amount,
-	timestamp: string
-) => {
+const createMsgActivateNftId = (sender: string, nftType: number, organization: string, timestamp: string) => {
 	return {
 		type: 'rebus.core/MsgActivateNftId',
 		value: {
 			address: sender,
 			nft_type: nftType,
 			organization,
-			payment_type: paymentType,
-			amount,
 			timestamp,
 		},
 	};
 };
 
-const createMsgActivateNftIdCosmos = (
-	sender: string,
-	nftType: number,
-	organization: string,
-	paymentType: number,
-	amount: Amount,
-	timestamp: string
-) => {
+const createMsgActivateNftIdCosmos = (sender: string, nftType: number, organization: string, timestamp: string) => {
 	const activateNftIdMessage = new MsgActivateNftId();
 	activateNftIdMessage.setAddress(sender);
 	activateNftIdMessage.setNftType(nftType as any);
 	activateNftIdMessage.setOrganization(organization);
-	activateNftIdMessage.setPaymentType(paymentType as any);
 	activateNftIdMessage.setTimestamp(timestamp);
-
-	const activationFeeCoin = new Coin();
-	activationFeeCoin.setAmount(amount.amount);
-	activationFeeCoin.setDenom(amount.denom);
-	activateNftIdMessage.setAmount(activationFeeCoin);
 
 	return {
 		message: activateNftIdMessage,
@@ -102,14 +64,7 @@ export const createTxMsgActivateNftId = (
 ) => {
 	const feeObject = generateFee(fee.amount, fee.denom, fee.gas, sender.accountAddress);
 	const types = generateTypes(MSG_ACTIVATE_NFT_ID_TYPES);
-	const msg = createMsgActivateNftId(
-		sender.accountAddress,
-		params.nft_type,
-		params.organization,
-		params.payment_type,
-		params.amount,
-		params.timestamp
-	);
+	const msg = createMsgActivateNftId(sender.accountAddress, params.nft_type, params.organization, params.timestamp);
 	const messages = generateMessage(
 		sender.accountNumber.toString(),
 		sender.sequence.toString(),
@@ -123,8 +78,6 @@ export const createTxMsgActivateNftId = (
 		sender.accountAddress,
 		params.nft_type,
 		params.organization,
-		params.payment_type,
-		params.amount,
 		params.timestamp
 	);
 	const tx = createTransaction(

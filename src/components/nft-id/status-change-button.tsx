@@ -17,9 +17,8 @@ import { gas } from 'src/constants/default-gas-values';
 import { aminoSignTx } from 'src/utils/helper';
 import ConfirmDialog from 'src/pages/stake/delegate-dialog/confirm-dialog';
 import { Button } from '../common/button';
-import { NftId, PaymentType } from '../../proto/rebus/nftid/v1/id_pb';
+import { NftId } from '../../proto/rebus/nftid/v1/id_pb';
 import { MsgActivateNftId, MsgDeactivateNftId } from '../../proto/rebus/nftid/v1/tx_pb';
-import { Coin } from '../../proto/cosmos/base/v1beta1/coin_pb';
 
 type StatusChangeButtonProps = {
 	className?: string;
@@ -70,21 +69,14 @@ export const StatusChangeButton = observer<StatusChangeButtonProps>(({ className
 		activateNftIdMessage.setAddress(address);
 		activateNftIdMessage.setNftType(NftId.V1);
 		activateNftIdMessage.setOrganization(config.NFT_ID_ORG_NAME);
-		activateNftIdMessage.setPaymentType(PaymentType.LOCK);
 		activateNftIdMessage.setTimestamp(Date.now().toString());
-		const activationFee = new Coin();
-		activationFee.setAmount(env('NFT_ID_ACTIVATION_LOCK_FEE'));
-		activationFee.setDenom(config.COIN_MINIMAL_DENOM);
-		activateNftIdMessage.setAmount(activationFee);
 		const objMessage = activateNftIdMessage.toObject();
 
 		const msg = {
 			address: objMessage.address,
 			nft_type: objMessage.nftType,
 			organization: objMessage.organization,
-			payment_type: objMessage.paymentType,
 			timestamp: objMessage.timestamp,
-			amount: objMessage.amount as any,
 		};
 
 		const tx = {

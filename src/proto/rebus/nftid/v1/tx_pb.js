@@ -235,8 +235,7 @@ proto.rebus.nftid.v1.MsgMintNftId.toObject = function(includeInstance, msg) {
     nftType: jspb.Message.getFieldWithDefault(msg, 2, 0),
     organization: jspb.Message.getFieldWithDefault(msg, 3, ""),
     encryptionKey: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    metadataUrl: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    mintingFee: (f = msg.getMintingFee()) && cosmos_base_v1beta1_coin_pb.Coin.toObject(includeInstance, f)
+    metadataUrl: jspb.Message.getFieldWithDefault(msg, 5, "")
   };
 
   if (includeInstance) {
@@ -292,11 +291,6 @@ proto.rebus.nftid.v1.MsgMintNftId.deserializeBinaryFromReader = function(msg, re
     case 5:
       var value = /** @type {string} */ (reader.readString());
       msg.setMetadataUrl(value);
-      break;
-    case 6:
-      var value = new cosmos_base_v1beta1_coin_pb.Coin;
-      reader.readMessage(value,cosmos_base_v1beta1_coin_pb.Coin.deserializeBinaryFromReader);
-      msg.setMintingFee(value);
       break;
     default:
       reader.skipField();
@@ -360,14 +354,6 @@ proto.rebus.nftid.v1.MsgMintNftId.serializeBinaryToWriter = function(message, wr
     writer.writeString(
       5,
       f
-    );
-  }
-  f = message.getMintingFee();
-  if (f != null) {
-    writer.writeMessage(
-      6,
-      f,
-      cosmos_base_v1beta1_coin_pb.Coin.serializeBinaryToWriter
     );
   }
 };
@@ -460,43 +446,6 @@ proto.rebus.nftid.v1.MsgMintNftId.prototype.getMetadataUrl = function() {
  */
 proto.rebus.nftid.v1.MsgMintNftId.prototype.setMetadataUrl = function(value) {
   return jspb.Message.setProto3StringField(this, 5, value);
-};
-
-
-/**
- * optional cosmos.base.v1beta1.Coin minting_fee = 6;
- * @return {?proto.cosmos.base.v1beta1.Coin}
- */
-proto.rebus.nftid.v1.MsgMintNftId.prototype.getMintingFee = function() {
-  return /** @type{?proto.cosmos.base.v1beta1.Coin} */ (
-    jspb.Message.getWrapperField(this, cosmos_base_v1beta1_coin_pb.Coin, 6));
-};
-
-
-/**
- * @param {?proto.cosmos.base.v1beta1.Coin|undefined} value
- * @return {!proto.rebus.nftid.v1.MsgMintNftId} returns this
-*/
-proto.rebus.nftid.v1.MsgMintNftId.prototype.setMintingFee = function(value) {
-  return jspb.Message.setWrapperField(this, 6, value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.rebus.nftid.v1.MsgMintNftId} returns this
- */
-proto.rebus.nftid.v1.MsgMintNftId.prototype.clearMintingFee = function() {
-  return this.setMintingFee(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.rebus.nftid.v1.MsgMintNftId.prototype.hasMintingFee = function() {
-  return jspb.Message.getField(this, 6) != null;
 };
 
 
@@ -1027,9 +976,7 @@ proto.rebus.nftid.v1.MsgActivateNftId.toObject = function(includeInstance, msg) 
     address: jspb.Message.getFieldWithDefault(msg, 1, ""),
     nftType: jspb.Message.getFieldWithDefault(msg, 2, 0),
     organization: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    paymentType: jspb.Message.getFieldWithDefault(msg, 4, 0),
-    amount: (f = msg.getAmount()) && cosmos_base_v1beta1_coin_pb.Coin.toObject(includeInstance, f),
-    timestamp: jspb.Message.getFieldWithDefault(msg, 6, "")
+    timestamp: jspb.Message.getFieldWithDefault(msg, 4, "")
   };
 
   if (includeInstance) {
@@ -1079,15 +1026,6 @@ proto.rebus.nftid.v1.MsgActivateNftId.deserializeBinaryFromReader = function(msg
       msg.setOrganization(value);
       break;
     case 4:
-      var value = /** @type {!proto.rebus.nftid.v1.PaymentType} */ (reader.readEnum());
-      msg.setPaymentType(value);
-      break;
-    case 5:
-      var value = new cosmos_base_v1beta1_coin_pb.Coin;
-      reader.readMessage(value,cosmos_base_v1beta1_coin_pb.Coin.deserializeBinaryFromReader);
-      msg.setAmount(value);
-      break;
-    case 6:
       var value = /** @type {string} */ (reader.readString());
       msg.setTimestamp(value);
       break;
@@ -1141,25 +1079,10 @@ proto.rebus.nftid.v1.MsgActivateNftId.serializeBinaryToWriter = function(message
       f
     );
   }
-  f = message.getPaymentType();
-  if (f !== 0.0) {
-    writer.writeEnum(
-      4,
-      f
-    );
-  }
-  f = message.getAmount();
-  if (f != null) {
-    writer.writeMessage(
-      5,
-      f,
-      cosmos_base_v1beta1_coin_pb.Coin.serializeBinaryToWriter
-    );
-  }
   f = message.getTimestamp();
   if (f.length > 0) {
     writer.writeString(
-      6,
+      4,
       f
     );
   }
@@ -1221,66 +1144,11 @@ proto.rebus.nftid.v1.MsgActivateNftId.prototype.setOrganization = function(value
 
 
 /**
- * optional PaymentType payment_type = 4;
- * @return {!proto.rebus.nftid.v1.PaymentType}
- */
-proto.rebus.nftid.v1.MsgActivateNftId.prototype.getPaymentType = function() {
-  return /** @type {!proto.rebus.nftid.v1.PaymentType} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
-};
-
-
-/**
- * @param {!proto.rebus.nftid.v1.PaymentType} value
- * @return {!proto.rebus.nftid.v1.MsgActivateNftId} returns this
- */
-proto.rebus.nftid.v1.MsgActivateNftId.prototype.setPaymentType = function(value) {
-  return jspb.Message.setProto3EnumField(this, 4, value);
-};
-
-
-/**
- * optional cosmos.base.v1beta1.Coin amount = 5;
- * @return {?proto.cosmos.base.v1beta1.Coin}
- */
-proto.rebus.nftid.v1.MsgActivateNftId.prototype.getAmount = function() {
-  return /** @type{?proto.cosmos.base.v1beta1.Coin} */ (
-    jspb.Message.getWrapperField(this, cosmos_base_v1beta1_coin_pb.Coin, 5));
-};
-
-
-/**
- * @param {?proto.cosmos.base.v1beta1.Coin|undefined} value
- * @return {!proto.rebus.nftid.v1.MsgActivateNftId} returns this
-*/
-proto.rebus.nftid.v1.MsgActivateNftId.prototype.setAmount = function(value) {
-  return jspb.Message.setWrapperField(this, 5, value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.rebus.nftid.v1.MsgActivateNftId} returns this
- */
-proto.rebus.nftid.v1.MsgActivateNftId.prototype.clearAmount = function() {
-  return this.setAmount(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.rebus.nftid.v1.MsgActivateNftId.prototype.hasAmount = function() {
-  return jspb.Message.getField(this, 5) != null;
-};
-
-
-/**
- * optional string timestamp = 6;
+ * optional string timestamp = 4;
  * @return {string}
  */
 proto.rebus.nftid.v1.MsgActivateNftId.prototype.getTimestamp = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
@@ -1289,7 +1157,7 @@ proto.rebus.nftid.v1.MsgActivateNftId.prototype.getTimestamp = function() {
  * @return {!proto.rebus.nftid.v1.MsgActivateNftId} returns this
  */
 proto.rebus.nftid.v1.MsgActivateNftId.prototype.setTimestamp = function(value) {
-  return jspb.Message.setProto3StringField(this, 6, value);
+  return jspb.Message.setProto3StringField(this, 4, value);
 };
 
 

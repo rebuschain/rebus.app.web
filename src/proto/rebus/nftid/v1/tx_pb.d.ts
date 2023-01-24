@@ -23,11 +23,6 @@ export class MsgMintNftId extends jspb.Message {
   getMetadataUrl(): string;
   setMetadataUrl(value: string): void;
 
-  hasMintingFee(): boolean;
-  clearMintingFee(): void;
-  getMintingFee(): cosmos_base_v1beta1_coin_pb.Coin | undefined;
-  setMintingFee(value?: cosmos_base_v1beta1_coin_pb.Coin): void;
-
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): MsgMintNftId.AsObject;
   static toObject(includeInstance: boolean, msg: MsgMintNftId): MsgMintNftId.AsObject;
@@ -45,7 +40,6 @@ export namespace MsgMintNftId {
     organization: string,
     encryptionKey: string,
     metadataUrl: string,
-    mintingFee?: cosmos_base_v1beta1_coin_pb.Coin.AsObject,
   }
 }
 
@@ -131,14 +125,6 @@ export class MsgActivateNftId extends jspb.Message {
   getOrganization(): string;
   setOrganization(value: string): void;
 
-  getPaymentType(): rebus_nftid_v1_id_pb.PaymentTypeMap[keyof rebus_nftid_v1_id_pb.PaymentTypeMap];
-  setPaymentType(value: rebus_nftid_v1_id_pb.PaymentTypeMap[keyof rebus_nftid_v1_id_pb.PaymentTypeMap]): void;
-
-  hasAmount(): boolean;
-  clearAmount(): void;
-  getAmount(): cosmos_base_v1beta1_coin_pb.Coin | undefined;
-  setAmount(value?: cosmos_base_v1beta1_coin_pb.Coin): void;
-
   getTimestamp(): string;
   setTimestamp(value: string): void;
 
@@ -157,8 +143,6 @@ export namespace MsgActivateNftId {
     address: string,
     nftType: rebus_nftid_v1_id_pb.NftIdMap[keyof rebus_nftid_v1_id_pb.NftIdMap],
     organization: string,
-    paymentType: rebus_nftid_v1_id_pb.PaymentTypeMap[keyof rebus_nftid_v1_id_pb.PaymentTypeMap],
-    amount?: cosmos_base_v1beta1_coin_pb.Coin.AsObject,
     timestamp: string,
   }
 }

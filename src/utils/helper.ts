@@ -19,24 +19,22 @@ const aminoTypes = new AminoTypes({
 	additions: {
 		'/rebus.nftid.v1.MsgMintNftId': {
 			aminoType: 'rebus.core/MsgMintNftId',
-			toAmino: ({ address, nftType, organization, encryptionKey, metadataUrl, mintingFee }) => {
+			toAmino: ({ address, nftType, organization, encryptionKey, metadataUrl }) => {
 				return {
 					address,
 					nft_type: nftType,
 					organization,
 					encryption_key: encryptionKey,
 					metadata_url: metadataUrl,
-					minting_fee: mintingFee,
 				};
 			},
-			fromAmino: ({ address, nft_type, organization, encryption_key, metadata_url, minting_fee }) => {
+			fromAmino: ({ address, nft_type, organization, encryption_key, metadata_url }) => {
 				return {
 					address,
 					nftType: nft_type,
 					organization,
 					encryptionKey: encryption_key,
 					metadataUrl: metadata_url,
-					mintingFee: minting_fee,
 				};
 			},
 		},
@@ -59,23 +57,19 @@ const aminoTypes = new AminoTypes({
 		},
 		'/rebus.nftid.v1.MsgActivateNftId': {
 			aminoType: 'rebus.core/MsgActivateNftId',
-			toAmino: ({ address, nftType, organization, paymentType, timestamp, amount }) => {
+			toAmino: ({ address, nftType, organization, timestamp }) => {
 				return {
 					address,
 					nft_type: nftType,
 					organization,
-					payment_type: paymentType,
-					amount,
 					timestamp,
 				};
 			},
-			fromAmino: ({ address, nft_type, organization, payment_type, timestamp, amount }) => {
+			fromAmino: ({ address, nft_type, organization, timestamp }) => {
 				return {
 					address,
 					nftType: nft_type,
 					organization,
-					paymentType: payment_type,
-					amount,
 					timestamp,
 				};
 			},

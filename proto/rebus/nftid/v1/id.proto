@@ -55,7 +55,7 @@ message IdRecord {
   // id number which is the hash of the key type_organization_address
   string id_number = 7 [ (gogoproto.moretags) = "yaml:\"id_number\"" ];
 
-  // payment_Type is the form of payment needed to activate this id
+  // payment_Type is the form of payment used to activate this id
   PaymentType payment_type = 8 [ (gogoproto.moretags) = "yaml:\"payment_type\"" ];
 
   // payments is the record of payments made for this id by this user

@@ -43,8 +43,6 @@ message MsgMintNftId {
   string encryption_key = 4;
   // Metadata url where the JSON file is stored with the info about the ID
   string metadata_url = 5;
-  // Minting fee for the nft id, min is 0.5 and max is 10
-  cosmos.base.v1beta1.Coin minting_fee = 6;
 }
 
 // MsgMintNftIdResponse returns the id record
@@ -81,12 +79,8 @@ message MsgActivateNftId {
   NftId nft_type = 2;
 	// organization that the nft id belongs to
 	string organization = 3;
-  // payment type used to activate the nft id
-  PaymentType payment_type = 4;
-  // amount to pay to activate the nft id
-  cosmos.base.v1beta1.Coin amount = 5;
   // utc timestamp of current time
-  string timestamp = 6;
+  string timestamp = 4;
 }
 
 // MsgActivateNftIdResponse returns the id record

@@ -13,11 +13,6 @@ const MSG_DEACTIVATE_NFT_ID_TYPES = {
 	],
 };
 
-export interface Amount {
-	denom: string;
-	amount: string;
-}
-
 export interface MessageMsgDeactivateNftId {
 	address: string;
 	nft_type: number;
@@ -30,9 +25,6 @@ export interface AminoMsgDeactivateNftId extends AminoMsg {
 		readonly address: string;
 		readonly nft_type: number;
 		readonly organization: string;
-		readonly encryption_key: string;
-		readonly metadata_url: string;
-		readonly minting_fee: Amount;
 	};
 }
 

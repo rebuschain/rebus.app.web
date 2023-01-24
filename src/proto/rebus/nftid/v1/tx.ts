@@ -1,7 +1,6 @@
 /* eslint-disable */
 import _m0 from "protobufjs/minimal";
-import { Coin } from "../../../cosmos/base/v1beta1/coin";
-import { IdRecord, NftId, nftIdFromJSON, nftIdToJSON, PaymentType, paymentTypeFromJSON, paymentTypeToJSON } from "./id";
+import { IdRecord, NftId, nftIdFromJSON, nftIdToJSON } from "./id";
 
 export const protobufPackage = "rebus.nftid.v1";
 
@@ -17,8 +16,6 @@ export interface MsgMintNftId {
   encryptionKey: string;
   /** Metadata url where the JSON file is stored with the info about the ID */
   metadataUrl: string;
-  /** Minting fee for the nft id, min is 0.5 and max is 10 */
-  mintingFee: Coin | undefined;
 }
 
 /** MsgMintNftIdResponse returns the id record */
@@ -49,12 +46,6 @@ export interface MsgActivateNftId {
   nftType: NftId;
   /** organization that the nft id belongs to */
   organization: string;
-  /** payment type used to activate the nft id */
-  paymentType: PaymentType;
-  /** amount to pay to activate the nft id */
-  amount:
-    | Coin
-    | undefined;
   /** utc timestamp of current time */
   timestamp: string;
 }
@@ -80,7 +71,7 @@ export interface MsgDeactivateNftIdResponse {
 }
 
 function createBaseMsgMintNftId(): MsgMintNftId {
-  return { address: "", nftType: 0, organization: "", encryptionKey: "", metadataUrl: "", mintingFee: undefined };
+  return { address: "", nftType: 0, organization: "", encryptionKey: "", metadataUrl: "" };
 }
 
 export const MsgMintNftId = {
@@ -99,9 +90,6 @@ export const MsgMintNftId = {
     }
     if (message.metadataUrl !== "") {
       writer.uint32(42).string(message.metadataUrl);
-    }
-    if (message.mintingFee !== undefined) {
-      Coin.encode(message.mintingFee, writer.uint32(50).fork()).ldelim();
     }
     return writer;
   },
@@ -128,9 +116,6 @@ export const MsgMintNftId = {
         case 5:
           message.metadataUrl = reader.string();
           break;
-        case 6:
-          message.mintingFee = Coin.decode(reader, reader.uint32());
-          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -146,7 +131,6 @@ export const MsgMintNftId = {
       organization: isSet(object.organization) ? String(object.organization) : "",
       encryptionKey: isSet(object.encryptionKey) ? String(object.encryptionKey) : "",
       metadataUrl: isSet(object.metadataUrl) ? String(object.metadataUrl) : "",
-      mintingFee: isSet(object.mintingFee) ? Coin.fromJSON(object.mintingFee) : undefined,
     };
   },
 
@@ -157,8 +141,6 @@ export const MsgMintNftId = {
     message.organization !== undefined && (obj.organization = message.organization);
     message.encryptionKey !== undefined && (obj.encryptionKey = message.encryptionKey);
     message.metadataUrl !== undefined && (obj.metadataUrl = message.metadataUrl);
-    message.mintingFee !== undefined &&
-      (obj.mintingFee = message.mintingFee ? Coin.toJSON(message.mintingFee) : undefined);
     return obj;
   },
 
@@ -169,9 +151,6 @@ export const MsgMintNftId = {
     message.organization = object.organization ?? "";
     message.encryptionKey = object.encryptionKey ?? "";
     message.metadataUrl = object.metadataUrl ?? "";
-    message.mintingFee = (object.mintingFee !== undefined && object.mintingFee !== null)
-      ? Coin.fromPartial(object.mintingFee)
-      : undefined;
     return message;
   },
 };
@@ -342,7 +321,7 @@ export const MsgCreateIdRecordResponse = {
 };
 
 function createBaseMsgActivateNftId(): MsgActivateNftId {
-  return { address: "", nftType: 0, organization: "", paymentType: 0, amount: undefined, timestamp: "" };
+  return { address: "", nftType: 0, organization: "", timestamp: "" };
 }
 
 export const MsgActivateNftId = {
@@ -356,14 +335,8 @@ export const MsgActivateNftId = {
     if (message.organization !== "") {
       writer.uint32(26).string(message.organization);
     }
-    if (message.paymentType !== 0) {
-      writer.uint32(32).int32(message.paymentType);
-    }
-    if (message.amount !== undefined) {
-      Coin.encode(message.amount, writer.uint32(42).fork()).ldelim();
-    }
     if (message.timestamp !== "") {
-      writer.uint32(50).string(message.timestamp);
+      writer.uint32(34).string(message.timestamp);
     }
     return writer;
   },
@@ -385,12 +358,6 @@ export const MsgActivateNftId = {
           message.organization = reader.string();
           break;
         case 4:
-          message.paymentType = reader.int32() as any;
-          break;
-        case 5:
-          message.amount = Coin.decode(reader, reader.uint32());
-          break;
-        case 6:
           message.timestamp = reader.string();
           break;
         default:
@@ -406,8 +373,6 @@ export const MsgActivateNftId = {
       address: isSet(object.address) ? String(object.address) : "",
       nftType: isSet(object.nftType) ? nftIdFromJSON(object.nftType) : 0,
       organization: isSet(object.organization) ? String(object.organization) : "",
-      paymentType: isSet(object.paymentType) ? paymentTypeFromJSON(object.paymentType) : 0,
-      amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined,
       timestamp: isSet(object.timestamp) ? String(object.timestamp) : "",
     };
   },
@@ -417,8 +382,6 @@ export const MsgActivateNftId = {
     message.address !== undefined && (obj.address = message.address);
     message.nftType !== undefined && (obj.nftType = nftIdToJSON(message.nftType));
     message.organization !== undefined && (obj.organization = message.organization);
-    message.paymentType !== undefined && (obj.paymentType = paymentTypeToJSON(message.paymentType));
-    message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
     message.timestamp !== undefined && (obj.timestamp = message.timestamp);
     return obj;
   },
@@ -428,10 +391,6 @@ export const MsgActivateNftId = {
     message.address = object.address ?? "";
     message.nftType = object.nftType ?? 0;
     message.organization = object.organization ?? "";
-    message.paymentType = object.paymentType ?? 0;
-    message.amount = (object.amount !== undefined && object.amount !== null)
-      ? Coin.fromPartial(object.amount)
-      : undefined;
     message.timestamp = object.timestamp ?? "";
     return message;
   },

@@ -100,7 +100,7 @@ export interface IdRecord {
   documentNumber: number;
   /** id number which is the hash of the key type_organization_address */
   idNumber: string;
-  /** payment_Type is the form of payment needed to activate this id */
+  /** payment_Type is the form of payment used to activate this id */
   paymentType: PaymentType;
   /** payments is the record of payments made for this id by this user */
   payments: Payment[];
