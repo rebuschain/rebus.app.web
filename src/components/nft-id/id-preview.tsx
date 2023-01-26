@@ -42,10 +42,18 @@ export const IdPreview: React.FC<IdPreviewProps> = ({
 	const [renderAttempt, setRenderAttempt] = useState(0);
 	const isFirstRender = useRef(true);
 
+	// Change this every 1second after a flag loads so we make sure to refresh the id image with the flag if by some reason the image didn't load in time
+	const [flagChangeIndex, setFlagChangeIndex] = useState(0);
+
 	// Needed since on the first render the watermark image might not be loaded yet, so the generated images won't have it
 	const onWatermarkLoaded = useCallback(() => setWatermarkLoaded(true), []);
 	// Used to re-render the image when the nationality flag finishes loading
 	const [nationality, setNationality] = useState('');
+
+	const onFlagLoad = useCallback(nat => {
+		setNationality(nat);
+		setTimeout(() => setFlagChangeIndex(oldFlagIndex => oldFlagIndex + 1), 1000);
+	}, []);
 
 	useEffect(() => {
 		// Give it 1 second to styles and other assets can load properly before rendering the images
@@ -90,6 +98,7 @@ export const IdPreview: React.FC<IdPreviewProps> = ({
 		canRender,
 		data,
 		data.idNumber,
+		flagChangeIndex,
 		idImageDataString,
 		nationality,
 		renderAttempt,
@@ -114,14 +123,14 @@ export const IdPreview: React.FC<IdPreviewProps> = ({
 						data={data}
 						displayBlurredData={true}
 						ref={privateCardRef as MutableRefObject<HTMLDivElement>}
-						onFlagLoad={setNationality}
+						onFlagLoad={onFlagLoad}
 						onWatermarkLoad={onWatermarkLoaded}
 					/>
 					<IdCard
 						className="absolute top-0"
 						data={data}
 						ref={publicCardRef as MutableRefObject<HTMLDivElement>}
-						onFlagLoad={setNationality}
+						onFlagLoad={onFlagLoad}
 						onWatermarkLoad={onWatermarkLoaded}
 					/>
 				</div>
