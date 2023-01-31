@@ -255,6 +255,10 @@ module.exports = {
 				fontSize: ['responsive'],
 				zIndex: ['hover'],
 			},
+			screens: {
+				'md-sm': '958px',
+				...defaultTheme.screens,
+			},
 		},
 	},
 	variants: {

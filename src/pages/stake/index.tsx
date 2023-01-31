@@ -66,11 +66,11 @@ const TabText = styled.p`
 	font-size: 24px;
 	color: #ffffff80;
 
-	&.actife {
+	&.active {
 		color: #ffffff;
 	}
 
-	@media (max-width: 769px) {
+	@media (max-width: 830px) {
 		font-size: 18px;
 	}
 

@@ -53,8 +53,8 @@ const Home = observer<HomeProps>(() => {
 			</Container>
 			<div className="flex flex-col flex-1">
 				<div className="flex flex-col flex-1">
-					<Heading className="md:px-15">
-						<div className="flex items-center mb-3 whitespace-nowrap">
+					<Heading className="">
+						<div className="flex items-center mb-3 whitespace-nowrap md-sm:px-15 md-sm:mx-0 mx-auto">
 							<TabText className={active === 2 ? 'active' : ''} onClick={() => setActive(2)}>
 								{variables[lang]['staked_validators']}
 							</TabText>
@@ -118,7 +118,7 @@ const TabText = styled.p`
 		color: #ffffff;
 	}
 
-	@media (max-width: 769px) {
+	@media (max-width: 830px) {
 		font-size: 18px;
 	}
 
