@@ -162,6 +162,8 @@ module.exports = {
 			backdrop: 'rgba(0, 0, 0, 0.3)',
 			votingBlue: '#0085FF',
 			blue1: '#2F80ED',
+			red: '#e95062',
+			green: '#50e996',
 		},
 		backgroundColor: themes => ({
 			...themes('colors'),

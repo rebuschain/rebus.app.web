@@ -2,6 +2,7 @@ syntax = "proto3";
 package rebus.nftid.v1;
 
 import "gogoproto/gogo.proto";
+import "cosmos/base/v1beta1/coin.proto";
 
 option go_package = "github.com/rebuschain/rebus.core/v1/x/nftid/types";
 
@@ -11,6 +12,24 @@ enum NftId {
   None = 0;
   v1 = 1;
 
+}
+
+enum PaymentType {
+  option (gogoproto.goproto_enum_prefix) = false;
+
+  Invalid = 0;
+  Lifetime = 1;
+  Lock = 2;
+
+}
+
+message Payment {
+  option (gogoproto.equal) = true;
+
+  cosmos.base.v1beta1.Coin amount = 1;
+  int64 timestamp = 2;
+  string locked_at_address = 3;
+  bool can_refund = 4;
 }
 
 // A Id Records is the metadata of id data per type_organization_address
@@ -35,4 +54,13 @@ message IdRecord {
 
   // id number which is the hash of the key type_organization_address
   string id_number = 7 [ (gogoproto.moretags) = "yaml:\"id_number\"" ];
+
+  // payment_Type is the form of payment used to activate this id
+  PaymentType payment_type = 8 [ (gogoproto.moretags) = "yaml:\"payment_type\"" ];
+
+  // payments is the record of payments made for this id by this user
+  repeated Payment payments = 9 [ (gogoproto.moretags) = "yaml:\"payments\"" ];
+
+  // active status of the nft id, this turns to true when the payment is made
+  bool active = 10 [ (gogoproto.moretags) = "yaml:\"active\"" ];
 }

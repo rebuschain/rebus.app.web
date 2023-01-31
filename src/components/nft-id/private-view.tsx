@@ -27,10 +27,9 @@ import { MsgMintNftId } from '../../proto/rebus/nftid/v1/tx_pb';
 import { NftId } from '../../proto/rebus/nftid/v1/id_pb';
 import { Button } from '../common/button';
 import { getIpfsHttpsUrl, getIpfsId } from 'src/utils/ipfs';
-import { Coin } from '../../proto/cosmos/base/v1beta1/coin_pb';
-import { Amount } from 'src/stores/wallet/messages/mint-nft-id';
 import InputDialog from 'src/pages/stake/delegate-dialog/input-dialog';
 import { ENCRYPTION_KEY_KEY } from 'src/stores/wallet';
+import { StatusChangeButton } from './status-change-button';
 
 const ipfs = new IPFS(env('NFT_STORAGE_TOKEN'));
 
@@ -185,10 +184,6 @@ const PrivateView: FunctionComponent = observer(() => {
 			mintNftIdMessage.setOrganization(config.NFT_ID_ORG_NAME);
 			mintNftIdMessage.setEncryptionKey(encryptedEncryptionKey || '');
 			mintNftIdMessage.setMetadataUrl(url);
-			const mintingFee = new Coin();
-			mintingFee.setAmount(env('NFT_ID_MINTING_FEE'));
-			mintingFee.setDenom(config.COIN_MINIMAL_DENOM);
-			mintNftIdMessage.setMintingFee(mintingFee);
 			const objMessage = mintNftIdMessage.toObject();
 
 			const msg = {
@@ -197,7 +192,6 @@ const PrivateView: FunctionComponent = observer(() => {
 				organization: objMessage.organization,
 				encryption_key: objMessage.encryptionKey,
 				metadata_url: objMessage.metadataUrl,
-				minting_fee: objMessage.mintingFee as Amount,
 			};
 
 			const tx = {
@@ -504,6 +498,7 @@ const PrivateView: FunctionComponent = observer(() => {
 							data={data}
 							idImageDataString={currentIdImageData}
 							isFetchingImage={isFetchingPrivateImage}
+							subtitleContent={<StatusChangeButton className="mb-4" />}
 							title="Current ID"
 							titleClassName="mr-3"
 							titleSuffix={

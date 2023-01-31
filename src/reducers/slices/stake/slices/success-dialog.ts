@@ -7,6 +7,7 @@ const initialState = {
 	tokens: '',
 	isNft: false,
 	isNftIdRecord: false,
+	isNftIdActivated: undefined as boolean | undefined,
 };
 
 export const successDialogSlice = createSlice({
@@ -25,6 +26,7 @@ export const successDialogSlice = createSlice({
 				tokens?: string;
 				isNft?: boolean;
 				isNftIdRecord?: boolean;
+				isNftIdActivated?: boolean;
 			}>
 		) => ({
 			open: true,
@@ -33,6 +35,7 @@ export const successDialogSlice = createSlice({
 			tokens: action.payload.tokens || '',
 			isNft: action.payload.isNft || false,
 			isNftIdRecord: action.payload.isNftIdRecord || false,
+			isNftIdActivated: action.payload.isNftIdActivated,
 		}),
 	},
 });
