@@ -60,11 +60,13 @@ const NftIdPage: FunctionComponent = observer(() => {
 
 	useEffect(() => {
 		if (shouldShowNft) {
-			if (metadata_url && !isNftIdEditRoute) {
+			if (metadata_url && !window.location.href.includes(address)) {
 				history.push(generatePath(ROUTES.NFT_ID_EDIT, { address }));
 			} else if (!metadata_url && isNftIdEditRoute) {
 				history.push(generatePath(ROUTES.NFT_ID));
 			}
+		} else if (isNftIdEditRoute) {
+			history.push(generatePath(ROUTES.NFT_ID));
 		}
 	}, [address, history, isNftIdEditRoute, metadata_url, shouldShowNft]);
 
