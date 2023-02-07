@@ -104,7 +104,7 @@ export const aminoSignTx = async (tx: any, address: string, offlineSigner: Offli
 	const myac = await getAccount(address);
 
 	if (!myac) {
-		throw new Error('Account not found');
+		throw new Error('Account not found, please transfer some rebus to your account');
 	}
 
 	const signerData = {

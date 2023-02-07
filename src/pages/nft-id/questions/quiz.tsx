@@ -18,6 +18,7 @@ import {
 	successDialogActions,
 	snackbarActions,
 } from 'src/reducers/slices';
+import { getAccount } from 'src/utils/account';
 
 type UserAnswer = {
 	id: number;
@@ -34,6 +35,7 @@ const QuizPage: FunctionComponent<QuizPageProps> = observer(({ isLockedOut }) =>
 	const [currentStep, setCurrentStep] = useState(0);
 	const [userScore, setUserScore] = useState<number>(0);
 	const [fetchingResult, setFetchingResult] = useState(false);
+	const [fetchingAccount, setFetchingAccount] = useState(false);
 	const [userAnswers, setUserAnswers] = useState<UserAnswer[]>([]);
 	const [creatingIdRecord, setCreatingIdRecord] = useState(false);
 	const currentQuestion = currentStep - 1;
@@ -60,9 +62,24 @@ const QuizPage: FunctionComponent<QuizPageProps> = observer(({ isLockedOut }) =>
 		setHasPassedQuiz(cookies.get(QUIZ_PASSED(address)));
 	}, [address]);
 
-	const handleGettingStartedClick = useCallback(() => {
-		setCurrentStep(1);
-	}, []);
+	const handleGettingStartedClick = useCallback(async () => {
+		setFetchingAccount(true);
+
+		let myac = null;
+		try {
+			myac = await getAccount(address);
+		} catch {}
+
+		if (!myac) {
+			showMessage(
+				'Account not found, please transfer some rebus to your account before attempting to create an NFT ID'
+			);
+		} else {
+			setCurrentStep(1);
+		}
+
+		setFetchingAccount(false);
+	}, [address, showMessage]);
 
 	const handleQuestionCompletion = useCallback(
 		(answerData: UserAnswer) => {
@@ -238,7 +255,7 @@ const QuizPage: FunctionComponent<QuizPageProps> = observer(({ isLockedOut }) =>
 			/>
 		);
 	} else if (currentStep === 0 && !isLockedOut) {
-		content = <GettingStarted onClick={handleGettingStartedClick} />;
+		content = <GettingStarted disabled={fetchingAccount} onClick={handleGettingStartedClick} />;
 	} else if (
 		(currentStep === 1 || currentStep === 2 || currentStep === 3 || currentStep === 4 || currentStep === 5) &&
 		!isLockedOut

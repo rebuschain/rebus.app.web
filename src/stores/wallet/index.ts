@@ -326,7 +326,7 @@ export class WalletStore {
 		const res = await axios.get(`${restUrl}${generateEndpointAccount(this.rebusAddress)}`, { headers });
 
 		if (res.status !== 200 || !res.data) {
-			throw new Error('Account not found');
+			throw new Error('Account not found, please transfer some rebus to your account');
 		}
 
 		const {
