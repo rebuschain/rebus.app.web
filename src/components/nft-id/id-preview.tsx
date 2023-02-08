@@ -5,10 +5,13 @@ import useWindowSize from 'src/hooks/use-window-size';
 import { renderToImage } from 'src/utils/nft-id';
 import { BigLoader } from '../common/loader';
 import classNames from 'classnames';
+import { ActiveDot } from './active-dot';
 
 type IdPreviewProps = {
 	className?: string;
 	data?: NftIdData;
+	// If this property is specified, show an inactive/active dot on the top right of the id
+	isActive?: boolean;
 	// If this property is specified, only an image will be rendered
 	idImageDataString?: string;
 	isFetchingImage?: boolean;
@@ -25,6 +28,7 @@ const EMPTY_OBJ: NftIdData = {};
 export const IdPreview: React.FC<IdPreviewProps> = ({
 	className,
 	data = EMPTY_OBJ,
+	isActive,
 	idImageDataString,
 	isFetchingImage,
 	onRenderPublicImage,
@@ -119,39 +123,43 @@ export const IdPreview: React.FC<IdPreviewProps> = ({
 			)}
 			{subtitleContent}
 
-			{!idImageDataString && (
-				<div style={{ overflow: 'hidden', position: 'absolute', left: 0, top: 0, zIndex: -1 }}>
-					<IdCard
-						className="absolute top-0"
-						data={data}
-						displayBlurredData={true}
-						ref={privateCardRef as MutableRefObject<HTMLDivElement>}
-						onFlagLoad={onFlagLoad}
-						onWatermarkLoad={onWatermarkLoaded}
+			<div className="relative">
+				{typeof isActive !== 'undefined' && <ActiveDot isActive={isActive} />}
+
+				{!idImageDataString && (
+					<div style={{ overflow: 'hidden', position: 'absolute', left: 0, top: 0, zIndex: -1 }}>
+						<IdCard
+							className="absolute top-0"
+							data={data}
+							displayBlurredData={true}
+							ref={privateCardRef as MutableRefObject<HTMLDivElement>}
+							onFlagLoad={onFlagLoad}
+							onWatermarkLoad={onWatermarkLoaded}
+						/>
+						<IdCard
+							className="absolute top-0"
+							data={data}
+							ref={publicCardRef as MutableRefObject<HTMLDivElement>}
+							onFlagLoad={onFlagLoad}
+							onWatermarkLoad={onWatermarkLoaded}
+						/>
+					</div>
+				)}
+				{isFetchingImage || (!idImageDataString && !imageSrc) ? (
+					<BigLoader
+						style={{
+							height: 'auto',
+							margin: '64px 0',
+						}}
 					/>
-					<IdCard
-						className="absolute top-0"
-						data={data}
-						ref={publicCardRef as MutableRefObject<HTMLDivElement>}
-						onFlagLoad={onFlagLoad}
-						onWatermarkLoad={onWatermarkLoaded}
+				) : (
+					<img
+						className="rounded-3xl overflow-hidden"
+						src={idImageDataString || imageSrc}
+						style={{ minWidth: isMobileView ? '420px' : '550px' }}
 					/>
-				</div>
-			)}
-			{isFetchingImage || (!idImageDataString && !imageSrc) ? (
-				<BigLoader
-					style={{
-						height: 'auto',
-						margin: '64px 0',
-					}}
-				/>
-			) : (
-				<img
-					className="rounded-3xl overflow-hidden"
-					src={idImageDataString || imageSrc}
-					style={{ minWidth: isMobileView ? '420px' : '550px' }}
-				/>
-			)}
+				)}
+			</div>
 		</div>
 	);
 };
