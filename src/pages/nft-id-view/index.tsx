@@ -18,6 +18,7 @@ const NftIdViewPage: FunctionComponent = observer(() => {
 	const { type, organization, address } = useParams<Params>();
 	const [isFetchingMetadata, setIsFetchingMetadata] = useState(false);
 	const [idImageDataString, setIdImageDataString] = useState('');
+	const [isActive, setIsActive] = useState<boolean>(false);
 
 	useEffect(() => {
 		(async () => {
@@ -28,6 +29,8 @@ const NftIdViewPage: FunctionComponent = observer(() => {
 				const { data: { id_record } = {} } = await axios.get(url);
 
 				if (id_record?.metadata_url) {
+					setIsActive(id_record.active || false);
+
 					const { data: metadata } = await axios.get(getIpfsHttpsUrl(id_record.metadata_url), {
 						timeout: IPFS_TIMEOUT,
 					});
@@ -49,7 +52,11 @@ const NftIdViewPage: FunctionComponent = observer(() => {
 		<div className="w-full h-full font-karla flex items-center justify-center py-5 px-5 pt-21 md:py-10 md:px-15">
 			{isFetchingMetadata && <BigLoader />}
 			{!isFetchingMetadata &&
-				(idImageDataString ? <IdPreview idImageDataString={idImageDataString} /> : <div>NFT ID Not Found</div>)}
+				(idImageDataString ? (
+					<IdPreview idImageDataString={idImageDataString} isActive={isActive} />
+				) : (
+					<div>NFT ID Not Found</div>
+				))}
 		</div>
 	);
 });
