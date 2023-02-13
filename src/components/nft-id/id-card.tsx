@@ -32,15 +32,15 @@ const countriesToAbbvMap = Object.entries(countries).reduce((map, [abbv, country
 const getBackgroundLevel = (data: NftIdData) => {
 	let level = 8;
 
-	if (data.name) {
+	if (data.name?.trim()) {
 		level--;
 	}
 
-	if (data.dateOfBirth && data.dateOfBirth !== 'Invalid Date' && data.gender) {
+	if (data.dateOfBirth?.trim() && data.dateOfBirth !== 'Invalid Date' && data.gender?.trim()) {
 		level--;
 	}
 
-	if (data.cityOfBirth && data.stateOfBirth) {
+	if (data.cityOfBirth?.trim() && data.stateOfBirth?.trim()) {
 		level--;
 	}
 
@@ -48,7 +48,7 @@ const getBackgroundLevel = (data: NftIdData) => {
 		level--;
 	}
 
-	if (data.address) {
+	if (data.address?.trim()) {
 		level--;
 	}
 
@@ -166,7 +166,7 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 							</div>
 						</div>
 
-						{data.name && (
+						{data.name?.trim() && (
 							<DataItem
 								className="mt-6"
 								isBlurred={data.nameHidden && !displayBlurredData}
@@ -183,7 +183,7 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 									value={data.dateOfBirth}
 								/>
 							)}
-							{data.gender && (
+							{data.gender?.trim() && (
 								<DataItem
 									className={data.dateOfBirth ? 'ml-19' : ''}
 									isBlurred={data.genderHidden && !displayBlurredData}
@@ -193,7 +193,7 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 							)}
 						</div>
 
-						{(data.cityOfBirth || data.stateOfBirth) && (
+						{(data.cityOfBirth?.trim() || data.stateOfBirth?.trim()) && (
 							<DataItem
 								className="mt-6"
 								isBlurred={data.placeOfBirthHidden && !displayBlurredData}
@@ -273,7 +273,7 @@ const IdCardView: React.ForwardRefRenderFunction<HTMLDivElement, IdCardProps> = 
 
 				{(data.address || data.issuedBy || data.documentNumber) && (
 					<div className="flex mt-10">
-						{data.address && (
+						{data.address?.trim() && (
 							<DataItem
 								className="w-1/2 break-words"
 								isBlurred={data.addressHidden && !displayBlurredData}
