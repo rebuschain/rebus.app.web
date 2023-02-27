@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { lighten } from '@material-ui/core';
+import { lighten } from '@mui/material';
 import React from 'react';
 
 type ActiveDotProps = {

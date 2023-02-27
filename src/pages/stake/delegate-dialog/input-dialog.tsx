@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Dialog, DialogActions, DialogContent } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent } from '@mui/material';
 import TextField from 'src/components/insync/text-field';
 import { ResultDialogHeader, ResultDialogText } from './components';
 

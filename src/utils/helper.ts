@@ -37,7 +37,7 @@ const aminoTypes = new AminoTypes({
 					metadataUrl: metadata_url,
 				};
 			},
-	},
+		},
 	'/rebus.nftid.v1.MsgCreateIdRecord': {
 		aminoType: 'rebus.core/MsgCreateIdRecord',
 		toAmino: ({ address, nftType, organization }) => {
