@@ -56,7 +56,7 @@ export const IdPreview: React.FC<React.PropsWithChildren<IdPreviewProps>> = ({
 	// Used to re-render the image when the nationality flag finishes loading
 	const [nationality, setNationality] = useState('');
 
-	const onFlagLoad = useCallback(nat => {
+	const onFlagLoad = useCallback((nat: string) => {
 		setNationality(nat);
 		setTimeout(() => setFlagChangeIndex(oldFlagIndex => oldFlagIndex + 1), 1000);
 	}, []);
