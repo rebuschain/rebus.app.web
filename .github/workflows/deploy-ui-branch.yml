@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build-lint:
-    uses: rebuschain/rebus.app.web/.github/workflows/action-build-lint.yml@master
+    uses: rebuschain/rebus.app.web/.github/workflows/action-build-lint.yml@fix-epic-branch-pt2
 
   dispatch:
     runs-on: ubuntu-latest

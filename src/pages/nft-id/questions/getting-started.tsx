@@ -16,7 +16,7 @@ const loaderStyles: React.CSSProperties = {
 	top: '0',
 };
 
-const GettingStarted: FunctionComponent<React.PropsWithChildren<GettingStartedProps>> = ({ onClick }) => {
+const GettingStarted: FunctionComponent<React.PropsWithChildren<GettingStartedProps>> = ({ disabled, onClick }) => {
 	return (
 		<>
 			<div className="image-wrapper">
