@@ -122,6 +122,11 @@ const ASSET_PATH = process.env.ASSET_PATH || '/';
 const webConfig = () => {
 	return {
 		mode: isEnvDevelopment ? 'development' : 'production',
+		performance: {
+			hints: false,
+			maxEntrypointSize: 512000,
+			maxAssetSize: 512000,
+		},
 
 		// In development environment, turn on source map.
 		devtool: isEnvDevelopment ? 'source-map' : false,
@@ -142,11 +147,6 @@ const webConfig = () => {
 			filename: '[name].[contenthash].bundle.js',
 			publicPath: ASSET_PATH,
 			crossOriginLoading: 'anonymous',
-		},
-		performance: {
-			hints: false,
-			maxEntrypointSize: 512000,
-			maxAssetSize: 512000,
 		},
 		resolve: commonResolve('src/assets'),
 		module: {
