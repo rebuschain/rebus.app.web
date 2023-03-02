@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"description": "",
 	"scripts": {
-		"build": "yarn build:css && cross-env NODE_ENV=production webpack serve",
+		"build": "yarn build:css && cross-env NODE_ENV=production webpack",
 		"serve": "http-server --address 0.0.0.0 --port 8080 --proxy http://localhost:8080? ./prod",
 		"dev": "cross-env NODE_ENV=development react-env && yarn build:css && webpack serve",
 		"dev:alphanet": "yarn react-env:alphanet && cross-env NODE_ENV=development webpack serve",

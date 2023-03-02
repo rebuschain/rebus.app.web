@@ -13,7 +13,6 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const fs = require('fs');
 
 const isEnvDevelopment = process.env.NODE_ENV !== 'production';
-console.log('========\n', 'isEnvDevelopment', isEnvDevelopment, '\n========');
 const isEnvAnalyzer = process.env.ANALYZER === 'true';
 const commonResolve = dir => ({
 	extensions: ['.ts', '.tsx', '.js', '.jsx', '.css', '.scss'],
