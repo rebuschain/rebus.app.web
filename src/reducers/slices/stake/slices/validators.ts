@@ -15,7 +15,6 @@ export const getValidators = createAsyncThunk(
 		const axiosOptions = {
 			headers: {
 				Accept: 'application/json, text/plain, */*',
-				Connection: 'keep-alive',
 			},
 		};
 
@@ -62,7 +61,6 @@ export const getValidatorImage = createAsyncThunk(
 		return Axios.get(URL, {
 			headers: {
 				Accept: 'application/json, text/plain, */*',
-				Connection: 'keep-alive',
 			},
 		})
 			.then(res => {

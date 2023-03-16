@@ -19,7 +19,6 @@ export const getDelegatedValidatorsDetails = createAsyncThunk(
 		Axios.get(URL, {
 			headers: {
 				Accept: 'application/json, text/plain, */*',
-				Connection: 'keep-alive',
 			},
 		})
 			.then(res => {

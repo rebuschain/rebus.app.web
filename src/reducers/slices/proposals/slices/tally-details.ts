@@ -23,7 +23,6 @@ export const getTallyDetails = createAsyncThunk(
 		Axios.get(url, {
 			headers: {
 				Accept: 'application/json, text/plain, */*',
-				Connection: 'keep-alive',
 			},
 		})
 			.then(res => {
