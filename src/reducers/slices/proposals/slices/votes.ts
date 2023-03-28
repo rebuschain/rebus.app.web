@@ -12,7 +12,6 @@ export const getVotes = createAsyncThunk('proposals/votes/getVotes', async (id: 
 	Axios.get(url, {
 		headers: {
 			Accept: 'application/json, text/plain, */*',
-			Connection: 'keep-alive',
 		},
 	})
 		.then(res => {

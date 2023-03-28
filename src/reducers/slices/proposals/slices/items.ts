@@ -13,7 +13,6 @@ export const getProposals = createAsyncThunk(
 		Axios.get(PROPOSALS_LIST_URL, {
 			headers: {
 				Accept: 'application/json, text/plain, */*',
-				Connection: 'keep-alive',
 			},
 		})
 			.then(res => {
