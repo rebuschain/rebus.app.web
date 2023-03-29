@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useCallback, useState, useMemo, useEffect } from 'react';
 import pickBy from 'lodash-es/pickBy';
 import identity from 'lodash-es/identity';
-import { Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Radio, RadioGroup } from '@material-ui/core';
+import { Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Radio, RadioGroup } from '@mui/material';
 import { Question as QuestionData, UserAnswer } from 'src/stores/questions/types';
 
 type QuestionProps = {
@@ -23,7 +23,7 @@ const formControlStyles = {
 	margin: '2px 0px',
 };
 
-export const Question: FunctionComponent<QuestionProps> = ({
+export const Question: FunctionComponent<React.PropsWithChildren<QuestionProps>> = ({
 	question,
 	onChange,
 	currentStep,

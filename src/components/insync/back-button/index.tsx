@@ -1,13 +1,14 @@
 import React, { FunctionComponent } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { IconButton } from '@material-ui/core';
+import { useNavigate } from 'react-router-dom';
+import { IconButton } from '@mui/material';
 import backIcon from 'src/assets/back.png';
 
-interface BackButtonProps extends RouteComponentProps<any> {
+interface BackButtonProps {
 	onClick: () => void;
 }
 
-const BackButton: FunctionComponent<BackButtonProps> = props => {
+const BackButton: FunctionComponent<React.PropsWithChildren<BackButtonProps>> = props => {
+	const navigate = useNavigate();
 	const onClick = () => {
 		if (props.onClick) {
 			props.onClick();
@@ -15,14 +16,14 @@ const BackButton: FunctionComponent<BackButtonProps> = props => {
 			return;
 		}
 
-		props.history.back();
+		navigate(-1);
 	};
 
 	return (
-		<IconButton onClick={onClick}>
+		<IconButton onClick={onClick} size="large">
 			<img alt="back" src={backIcon} style={{ width: 'unset' }} />
 		</IconButton>
 	);
 };
 
-export default withRouter(BackButton);
+export default BackButton;

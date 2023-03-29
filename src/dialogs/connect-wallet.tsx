@@ -363,10 +363,10 @@ export const ConnectWalletDialog = wrapBaseDialog(
 	})
 );
 
-export const WalletConnectQRCodeModal: FunctionComponent<{
+export const WalletConnectQRCodeModal: FunctionComponent<React.PropsWithChildren<{
 	uri: string;
 	close: () => void;
-}> = ({ uri, close }) => {
+}>> = ({ uri, close }) => {
 	const [isMobile] = useState(() => checkIsMobile());
 	const [isAndroid] = useState(() => checkIsAndroid());
 

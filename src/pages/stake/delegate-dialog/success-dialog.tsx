@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Button, Dialog, DialogActions, DialogContent } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent } from '@mui/material';
 import variables from 'src/utils/variables';
 import { successDialogActions, snackbarActions } from 'src/reducers/slices';
 import success from 'src/assets/stake/success.svg';
@@ -74,7 +74,7 @@ const SuccessDialog = observer(() => {
 			aria-labelledby="delegate-dialog-title"
 			className="dialog delegate_dialog result"
 			open={open}
-			onClose={handleClose}>
+			onClose={() => handleClose()}>
 			<DialogContent className="content">
 				<div className="flex items-center mb-7.5 justify-center">
 					<img alt="success" className="mr-2" src={success} />
@@ -214,7 +214,7 @@ const SuccessDialog = observer(() => {
 				)}
 			</DialogContent>
 			<DialogActions className="footer">
-				<Button variant="contained" onClick={handleClose}>
+				<Button variant="contained" onClick={() => handleClose()}>
 					{variables[lang].done}
 				</Button>
 			</DialogActions>

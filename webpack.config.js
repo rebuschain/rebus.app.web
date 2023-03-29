@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const webpack = require('webpack');
 const path = require('path');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
@@ -120,14 +121,22 @@ const ASSET_PATH = process.env.ASSET_PATH || '/';
 const webConfig = () => {
 	return {
 		mode: isEnvDevelopment ? 'development' : 'production',
+		performance: {
+			hints: false,
+			maxEntrypointSize: 512000,
+			maxAssetSize: 512000,
+		},
 
 		// In development environment, turn on source map.
 		devtool: isEnvDevelopment ? 'source-map' : false,
 		// In development environment, webpack watch the file changes, and recompile
-		watch: isEnvDevelopment,
 		devServer: {
+			static: {
+				directory: path.join(__dirname, 'dist'),
+			},
 			port: 8080,
 			historyApiFallback: true,
+			hot: true,
 		},
 		entry: {
 			main: ['./src/index.tsx'],
@@ -149,6 +158,7 @@ const webConfig = () => {
 		plugins: [
 			// Remove all and write anyway
 			// TODO: Optimizing build process
+			new NodePolyfillPlugin(),
 			new CleanWebpackPlugin(),
 			new CopyWebpackPlugin({
 				patterns: [{ from: 'public', to: 'public' }],
@@ -202,7 +212,7 @@ const webConfig = () => {
 			source: false,
 			errors: true,
 			errorDetails: true,
-			warnings: false,
+			warnings: true,
 			publicPath: false,
 		},
 	};

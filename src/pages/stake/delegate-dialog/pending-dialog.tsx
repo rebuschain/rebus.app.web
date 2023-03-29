@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Dialog, DialogContent } from '@material-ui/core';
+import { Dialog, DialogContent } from '@mui/material';
 import variables from 'src/utils/variables';
 import { processingDialogActions } from 'src/reducers/slices';
 import processing from 'src/assets/stake/processing.svg';
@@ -15,7 +15,7 @@ const selector = (state: RootState) => {
 	};
 };
 
-const PendingDialog: FunctionComponent = () => {
+const PendingDialog: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 	const [handleClose] = useActions([processingDialogActions.hideProcessingDialog]);
 	const { lang, open } = useAppSelector(selector);
 
@@ -25,7 +25,7 @@ const PendingDialog: FunctionComponent = () => {
 			aria-labelledby="delegate-dialog-title"
 			className="dialog delegate_dialog result pending"
 			open={open}
-			onClose={handleClose}>
+			onClose={() => handleClose()}>
 			<DialogContent className="content">
 				<div className="text-center flex items-center justify-center">
 					<img alt="processing" className="w-24 mr-2" src={processing} />

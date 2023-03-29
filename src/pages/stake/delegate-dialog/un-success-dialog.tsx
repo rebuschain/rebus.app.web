@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Dialog, DialogContent } from '@material-ui/core';
+import { Dialog, DialogContent } from '@mui/material';
 import variables from 'src/utils/variables';
 import { failedDialogActions } from 'src/reducers/slices';
 import failed from 'src/assets/stake/failed.svg';
@@ -19,7 +19,7 @@ const selector = (state: RootState) => {
 	};
 };
 
-const UnSuccessDialog: FunctionComponent = () => {
+const UnSuccessDialog: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 	const { walletStore } = useStore();
 	const [handleClose] = useActions([failedDialogActions.hideFailedDialog]);
 	const { lang, open, message, hash } = useAppSelector(selector);
@@ -35,7 +35,7 @@ const UnSuccessDialog: FunctionComponent = () => {
 			aria-labelledby="delegate-dialog-title"
 			className="dialog delegate_dialog result"
 			open={open}
-			onClose={handleClose}>
+			onClose={() => handleClose()}>
 			<DialogContent className="content">
 				<div className="text-center">
 					<div className="flex justify-center items-center mb-3">

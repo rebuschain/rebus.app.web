@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { CircularProgress as MaterialCircularProgress } from '@material-ui/core';
+import { CircularProgress as MaterialCircularProgress } from '@mui/material';
 import styled from '@emotion/styled';
 import ClassNames from 'classnames';
 
@@ -7,7 +7,7 @@ type CircularProgressProps = {
 	className?: string;
 };
 
-const CircularProgress: FunctionComponent<CircularProgressProps> = props => {
+const CircularProgress: FunctionComponent<React.PropsWithChildren<CircularProgressProps>> = props => {
 	return (
 		<Container className={ClassNames('circular_progress', props.className ? props.className : '')}>
 			<MaterialCircularProgress />

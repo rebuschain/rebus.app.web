@@ -11,7 +11,7 @@ export interface BaseDialogProps {
 
 // https://github.com/tailwindlabs/headlessui/issues/407
 // TODO : has issues with FocusTrap -> fork and fix maybe?
-export const BaseDialog: FunctionComponent<BaseDialogProps> = ({
+export const BaseDialog: FunctionComponent<React.PropsWithChildren<BaseDialogProps>> = ({
 	isOpen,
 	close = () => {},
 	children,

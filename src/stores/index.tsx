@@ -5,15 +5,15 @@ import { createRootStore, RootStore } from './root';
 
 const storeContext = React.createContext<RootStore | null>(null);
 
-export const StoreProvider: FunctionComponent = ({ children }) => {
+export const StoreProvider: FunctionComponent<React.PropsWithChildren<unknown>> = ({ children }) => {
 	const [stores] = useState(() => createRootStore());
 
 	return <storeContext.Provider value={stores}>{children}</storeContext.Provider>;
 };
 
-export const StoreConsumer: FunctionComponent<{
+export const StoreConsumer: FunctionComponent<React.PropsWithChildren<{
 	children: (rootStore: RootStore) => React.ReactNode;
-}> = ({ children }) => {
+}>> = ({ children }) => {
 	return (
 		<storeContext.Consumer>
 			{rootStore => {

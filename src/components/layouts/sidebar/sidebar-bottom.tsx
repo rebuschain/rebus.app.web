@@ -10,7 +10,7 @@ import { useStore } from 'src/stores';
 import * as extraActions from 'src/reducers/extra-actions';
 import { ConnectAccountButton } from '../../connect-account-button';
 
-export const SidebarBottom: FunctionComponent = observer(() => {
+export const SidebarBottom: FunctionComponent<React.PropsWithChildren<unknown>> = observer(() => {
 	const [disconnect] = useActions([extraActions.disconnect]);
 
 	const { chainStore, accountStore, queriesStore, walletStore } = useStore();

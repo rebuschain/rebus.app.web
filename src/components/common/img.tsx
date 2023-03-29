@@ -2,7 +2,14 @@ import React, { FunctionComponent } from 'react';
 import CoolImg from 'react-cool-img';
 
 const retrySettings = { count: 0 };
-export const Img: FunctionComponent<TImg> = ({ src, style, className, onClick, loadingSpin = false, error }) => {
+export const Img: FunctionComponent<React.PropsWithChildren<TImg>> = ({
+	src,
+	style,
+	className,
+	onClick,
+	loadingSpin = false,
+	error,
+}) => {
 	return React.useMemo(
 		() => (
 			<CoolImg

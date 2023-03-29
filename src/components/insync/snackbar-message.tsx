@@ -1,11 +1,12 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Snackbar from 'src/components/insync/snackbar';
 import { useActions } from 'src/hooks/use-actions';
 import { useAppSelector } from 'src/hooks/use-app-select';
 import { actions } from 'src/reducers/slices/snackbar';
 
-const SnackbarMessage: FunctionComponent<RouteComponentProps<any>> = ({ history }) => {
+const SnackbarMessage: FunctionComponent<React.PropsWithChildren<any>> = () => {
+	const navigate = useNavigate();
 	const { open, message } = useAppSelector(state => state.snackbar);
 	const [hideSnackbar] = useActions([actions.hideSnackbar]);
 
@@ -17,15 +18,15 @@ const SnackbarMessage: FunctionComponent<RouteComponentProps<any>> = ({ history 
 				hideSnackbar();
 
 				localStorage.removeItem('of_co_address');
-				history.push('/');
+				navigate('/');
 
 				break;
 			default:
 				break;
 		}
-	}, [hideSnackbar, history, message]);
+	}, [hideSnackbar, navigate, message]);
 
 	return <Snackbar message={message} open={open} onClose={hideSnackbar} />;
 };
 
-export default withRouter(SnackbarMessage);
+export default SnackbarMessage;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Button, Dialog, DialogActions, DialogContent } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent } from '@mui/material';
 import { CoinPretty, Dec } from '@keplr-wallet/unit';
 import styled from '@emotion/styled';
 import variables from 'src/utils/variables';
@@ -260,7 +260,7 @@ const DelegateDialog = observer<DelegateDialogProps>(({ canDelegateToInactive })
 			aria-labelledby="delegate-dialog-title"
 			className="dialog"
 			open={open}
-			onClose={handleClose}>
+			onClose={() => handleClose()}>
 			{inProgress && <CircularProgress className="full_screen" />}
 			<DialogContentStyled className="content">
 				<Header>{name + ' ' + variables[lang].tokens}</Header>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Button, FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
+import { Button, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import styled from '@emotion/styled';
 import CircularProgress from 'src/components/insync/circular-progress';
 import { aminoSignTx } from 'src/utils/helper';
@@ -181,7 +181,7 @@ const Voting = observer<VotingProps>(({ proposalId }) => {
 					<FormControlLabel control={<Radio />} label="Abstain" value="Abstain" />
 				</RadioGroup>
 				<Buttons>
-					<CancelButton variant="outlined" onClick={handleClose}>
+					<CancelButton variant="outlined" onClick={() => handleClose()}>
 						Cancel
 					</CancelButton>
 					<ConfirmButton disabled={disable} variant="contained" onClick={handleVote}>

@@ -25,7 +25,7 @@ const getItemKey = (item: any) => item.id;
 
 const EMPTY_OBJECT = {};
 
-const DataTable: FunctionComponent<DataTableProps> = ({
+const DataTable: FunctionComponent<React.PropsWithChildren<DataTableProps>> = ({
 	className,
 	columnDefs,
 	data,

@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Button, Dialog, DialogActions, DialogContent } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent } from '@mui/material';
 import { CoinPretty, Dec } from '@keplr-wallet/unit';
 import { useStore } from 'src/stores';
 import { aminoSignTx } from 'src/utils/helper';
@@ -218,7 +218,7 @@ const ClaimDialog = observer(() => {
 			aria-labelledby="claim-dialog-title"
 			className="dialog delegate_dialog claim_dialog"
 			open={open}
-			onClose={handleClose}>
+			onClose={() => handleClose()}>
 			{inProgress && <CircularProgress className="full_screen" />}
 			<DialogContent className="content">
 				<Header>Claim Rewards</Header>

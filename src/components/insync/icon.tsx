@@ -6,7 +6,7 @@ type IconProps = {
 	icon: string;
 };
 
-const Icon: FunctionComponent<IconProps> = props => {
+const Icon: FunctionComponent<React.PropsWithChildren<IconProps>> = props => {
 	return (
 		<svg className={`icon icon-${props.className}`} viewBox="0 0 16 16">
 			<use xlinkHref={`${icons}#icon-${props.icon}`} />

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from '@mui/styles';
 import classNames from 'classnames';
 import { TextFieldStyled } from './components';
 
@@ -22,7 +22,7 @@ type SelectFieldProps = {
 	value: string;
 };
 
-const SelectField: FunctionComponent<SelectFieldProps> = props => {
+const SelectField: FunctionComponent<React.PropsWithChildren<SelectFieldProps>> = props => {
 	const onChange = (e: any) => props.onChange(e.target.value);
 
 	return (

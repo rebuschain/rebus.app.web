@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Button } from '@material-ui/core';
-import { Pagination } from '@material-ui/lab';
+import { Button } from '@mui/material';
+import { Pagination } from '@mui/lab';
 import styled from '@emotion/styled';
 import ClassNames from 'classnames';
 import moment from 'moment';
@@ -24,7 +24,7 @@ const selector = (state: RootState) => ({
 	tallyDetails: state.proposals.tallyDetails.value,
 });
 
-const Cards: FunctionComponent<CardsProps> = ({ home, proposals }) => {
+const Cards: FunctionComponent<React.PropsWithChildren<CardsProps>> = ({ home, proposals }) => {
 	const [handleShow] = useActions([dialogActions.showProposalDialog]);
 
 	const { proposalDetails, proposalDetailsInProgress, voteDetails, tallyDetails } = useAppSelector(selector);

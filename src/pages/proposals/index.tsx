@@ -27,7 +27,7 @@ const selector = (state: RootState) => {
 	};
 };
 
-const Proposals: FunctionComponent = () => {
+const Proposals: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 	const { featureFlagStore } = useStore();
 	const [featureFlags, setFeatureFlags] = useState<any[] | undefined>([]);
 

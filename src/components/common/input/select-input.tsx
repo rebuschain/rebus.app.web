@@ -53,7 +53,7 @@ const formatGroupLabel = (data: GroupedOption) => (
 	</div>
 );
 
-export const SelectInput: React.FC<SelectInputProps> = ({
+export const SelectInput: React.FC<React.PropsWithChildren<SelectInputProps>> = ({
 	className,
 	onChange,
 	name = '',

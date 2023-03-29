@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Button, Menu, MenuItem } from '@material-ui/core';
+import { Button, Menu, MenuItem } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import { NameType } from 'src/reducers/slices/stake/slices/delegate-dialog';
 

@@ -5,16 +5,17 @@ import { TCardTypes } from '../../../interfaces';
 import { LAYOUT, TSIDEBAR_ITEM, TSIDEBAR_SELECTED_CHECK } from '../../../constants';
 import { mapKeyValues } from '../../../utils/scripts';
 import { SidebarItem } from './sidebar-item';
-import { useHistory, withRouter } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { SidebarBottom } from './sidebar-bottom';
 import isArray from 'lodash-es/isArray';
 import useWindowSize from 'src/hooks/use-window-size';
 import { observer } from 'mobx-react-lite';
 import { useStore } from 'src/stores';
 
-const SideBar: FunctionComponent = observer(function SideBar() {
-	const history = useHistory();
-	const pathname = history?.location?.pathname;
+export const Sidebar: FunctionComponent<React.PropsWithChildren<unknown>> = observer(function SideBar() {
+	const location = useLocation();
+	const navigate = useNavigate();
+	const pathname = location?.pathname;
 
 	const [isOpenSidebar, setIsOpenSidebar] = React.useState<boolean>(false);
 
@@ -52,7 +53,7 @@ const SideBar: FunctionComponent = observer(function SideBar() {
 				<div className="fixed h-full">
 					<Container
 						className={cn(
-							'blur h-full transition-all pointer-events-auto fixed overflow-x-hidden min-w-sidebar-open max-w-sidebar-open'
+							'backdrop-blur-lg h-full transition-all pointer-events-auto fixed overflow-x-hidden min-w-sidebar-open max-w-sidebar-open'
 						)}
 						type={TCardTypes.TRANSPARENT}>
 						<div className="w-full h-full p-5 md:py-6 flex flex-col justify-between">
@@ -63,7 +64,7 @@ const SideBar: FunctionComponent = observer(function SideBar() {
 											className="cursor-pointer h-10"
 											src="/public/assets/main/rebus-logo.svg"
 											alt="rebus logo"
-											onClick={() => history.push('/')}
+											onClick={() => navigate('/')}
 										/>
 									</div>
 								</section>
@@ -119,7 +120,7 @@ const SideBar: FunctionComponent = observer(function SideBar() {
 					className="h-10 ml-3"
 					src="/public/assets/main/rebus-logo.svg"
 					alt="rebus-logo"
-					onClick={() => history.push('/')}
+					onClick={() => navigate('/')}
 				/>
 				<img
 					className="h-10 -mr-2.5"
@@ -144,5 +145,3 @@ const pathnameCheck = (str: string, routes: TSIDEBAR_SELECTED_CHECK) => {
 	}
 	return false;
 };
-
-export const Sidebar = withRouter(SideBar);

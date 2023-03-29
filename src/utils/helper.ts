@@ -16,80 +16,78 @@ registry.register('/rebus.nftid.v1.MsgActivateNftId', MsgActivateNftId);
 registry.register('/rebus.nftid.v1.MsgDeactivateNftId', MsgDeactivateNftId);
 
 const aminoTypes = new AminoTypes({
-	additions: {
-		'/rebus.nftid.v1.MsgMintNftId': {
-			aminoType: 'rebus.core/MsgMintNftId',
-			toAmino: ({ address, nftType, organization, encryptionKey, metadataUrl }) => {
-				return {
-					address,
-					nft_type: nftType,
-					organization,
-					encryption_key: encryptionKey,
-					metadata_url: metadataUrl,
-				};
-			},
-			fromAmino: ({ address, nft_type, organization, encryption_key, metadata_url }) => {
-				return {
-					address,
-					nftType: nft_type,
-					organization,
-					encryptionKey: encryption_key,
-					metadataUrl: metadata_url,
-				};
-			},
+	'/rebus.nftid.v1.MsgMintNftId': {
+		aminoType: 'rebus.core/MsgMintNftId',
+		toAmino: ({ address, nftType, organization, encryptionKey, metadataUrl }) => {
+			return {
+				address,
+				nft_type: nftType,
+				organization,
+				encryption_key: encryptionKey,
+				metadata_url: metadataUrl,
+			};
 		},
-		'/rebus.nftid.v1.MsgCreateIdRecord': {
-			aminoType: 'rebus.core/MsgCreateIdRecord',
-			toAmino: ({ address, nftType, organization }) => {
-				return {
-					address,
-					nft_type: nftType,
-					organization,
-				};
-			},
-			fromAmino: ({ address, nft_type, organization }) => {
-				return {
-					address,
-					nftType: nft_type,
-					organization,
-				};
-			},
+		fromAmino: ({ address, nft_type, organization, encryption_key, metadata_url }) => {
+			return {
+				address,
+				nftType: nft_type,
+				organization,
+				encryptionKey: encryption_key,
+				metadataUrl: metadata_url,
+			};
 		},
-		'/rebus.nftid.v1.MsgActivateNftId': {
-			aminoType: 'rebus.core/MsgActivateNftId',
-			toAmino: ({ address, nftType, organization, timestamp }) => {
-				return {
-					address,
-					nft_type: nftType,
-					organization,
-					timestamp,
-				};
-			},
-			fromAmino: ({ address, nft_type, organization, timestamp }) => {
-				return {
-					address,
-					nftType: nft_type,
-					organization,
-					timestamp,
-				};
-			},
+	},
+	'/rebus.nftid.v1.MsgCreateIdRecord': {
+		aminoType: 'rebus.core/MsgCreateIdRecord',
+		toAmino: ({ address, nftType, organization }) => {
+			return {
+				address,
+				nft_type: nftType,
+				organization,
+			};
 		},
-		'/rebus.nftid.v1.MsgDeactivateNftId': {
-			aminoType: 'rebus.core/MsgDeactivateNftId',
-			toAmino: ({ address, nftType, organization }) => {
-				return {
-					address,
-					nft_type: nftType,
-					organization,
-				};
-			},
-			fromAmino: ({ address, nft_type, organization }) => {
-				return {
-					address,
-					nftType: nft_type,
-					organization,
-				};
-			},
+		fromAmino: ({ address, nft_type, organization }) => {
+			return {
+				address,
+				nftType: nft_type,
+				organization,
+			};
+		},
+	},
+	'/rebus.nftid.v1.MsgActivateNftId': {
+		aminoType: 'rebus.core/MsgActivateNftId',
+		toAmino: ({ address, nftType, organization, timestamp }) => {
+			return {
+				address,
+				nft_type: nftType,
+				organization,
+				timestamp,
+			};
+		},
+		fromAmino: ({ address, nft_type, organization, timestamp }) => {
+			return {
+				address,
+				nftType: nft_type,
+				organization,
+				timestamp,
+			};
+		},
+	},
+	'/rebus.nftid.v1.MsgDeactivateNftId': {
+		aminoType: 'rebus.core/MsgDeactivateNftId',
+		toAmino: ({ address, nftType, organization }) => {
+			return {
+				address,
+				nft_type: nftType,
+				organization,
+			};
+		},
+		fromAmino: ({ address, nft_type, organization }) => {
+			return {
+				address,
+				nftType: nft_type,
+				organization,
+			};
 		},
 	},
 });

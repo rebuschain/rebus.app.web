@@ -2,7 +2,7 @@ import React, { FunctionComponent, useMemo } from 'react';
 import bigInt from 'big-integer';
 import SelectField from 'src/components/insync/select-field/with-children';
 import { delegateDialogActions } from 'src/reducers/slices';
-import { MenuItem } from '@material-ui/core';
+import { MenuItem } from '@mui/material';
 import variables from 'src/utils/variables';
 import { useActions } from 'src/hooks/use-actions';
 import { useAppSelector } from 'src/hooks/use-app-select';
@@ -26,7 +26,9 @@ const selector = (state: RootState) => {
 	};
 };
 
-const ValidatorSelectField: FunctionComponent<ValidatorSelectFieldProps> = ({ canDelegateToInactive }) => {
+const ValidatorSelectField: FunctionComponent<React.PropsWithChildren<ValidatorSelectFieldProps>> = ({
+	canDelegateToInactive,
+}) => {
 	const [onChange] = useActions([delegateDialogActions.setValidatorAddress]);
 	const { lang, value, validatorList, name, validatorImages, delegatedValidatorList } = useAppSelector(selector);
 

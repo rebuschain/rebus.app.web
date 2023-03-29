@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { IconButton } from '@material-ui/core';
+import { IconButton } from '@mui/material';
 import styled from '@emotion/styled';
 import moment from 'moment';
 import ClassNames from 'classnames';
@@ -123,7 +123,7 @@ const ProposalDialog = observer(() => {
 	return (
 		<div className="h-full w-full">
 			<Content>
-				<CloseButton onClick={handleClose}>
+				<CloseButton onClick={() => handleClose()}>
 					<Icon className="icon" icon="close" />
 				</CloseButton>
 				<div className="flex items-center justify-between flex-col md:flex-row">

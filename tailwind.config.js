@@ -82,7 +82,7 @@ module.exports = {
 		purgeLayersByDefault: false,
 	},
 	mode: 'jit',
-	purge: ['./src/**/*.{ts,tsx}', './src/index.html'],
+	content: ['./src/**/*.{ts,tsx}', './src/index.html'],
 	theme: {
 		fontFamily: {
 			title: ['Poppins', 'ui-sans-serif', 'system-ui'],

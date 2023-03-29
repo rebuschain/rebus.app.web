@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
-import { useLocation, useHistory } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { isMobile as checkIsMobile } from '@walletconnect/browser-utils';
 import axios from 'axios';
 import env from '@beam-australia/react-env';
@@ -40,10 +40,10 @@ const signKeplr = async (address: string, nonce: number, userId: string) => {
 	);
 };
 
-const WalletConnect: FunctionComponent = observer(() => {
+const WalletConnect: FunctionComponent<React.PropsWithChildren<unknown>> = observer(() => {
 	const { search } = useLocation();
 	const [loading, setLoading] = useState(false);
-	const history = useHistory();
+	const navigate = useNavigate();
 	const searchParams = new URLSearchParams(search);
 	const app = searchParams.get('app') as string;
 	const redirectUrl = searchParams.get('redirectUrl');
@@ -63,9 +63,9 @@ const WalletConnect: FunctionComponent = observer(() => {
 
 	useEffect(() => {
 		if (!serverId || !userId) {
-			history.push('/');
+			navigate('/');
 		}
-	}, [history, serverId, userId]);
+	}, [navigate, serverId, userId]);
 
 	useEffect(() => {
 		// Skip the selection of wallet type if mobile

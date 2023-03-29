@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { IconButton, InputAdornment } from '@material-ui/core';
+import { IconButton, InputAdornment } from '@mui/material';
 import TextField from 'src/components/insync/text-field';
 import Icon from 'src/components/insync/icon';
 import { searchActions } from 'src/reducers/slices';
@@ -20,7 +20,7 @@ const selector = (state: RootState) => {
 	};
 };
 
-const SearchTextField: FunctionComponent<SearchTextFieldProps> = () => {
+const SearchTextField: FunctionComponent<React.PropsWithChildren<SearchTextFieldProps>> = () => {
 	const [onChange] = useActions([searchActions.setSearch]);
 	const { value } = useAppSelector(selector);
 
@@ -39,7 +39,7 @@ const SearchTextField: FunctionComponent<SearchTextFieldProps> = () => {
 				),
 				endAdornment: (
 					<InputAdornment position="end">
-						<IconButton className="text_field_icon">
+						<IconButton className="text_field_icon" size="large">
 							<Icon className="menu" icon="menu" />
 						</IconButton>
 					</InputAdornment>

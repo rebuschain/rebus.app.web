@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { IconButton, Tooltip } from '@material-ui/core';
+import { IconButton, Tooltip } from '@mui/material';
 import styled from '@emotion/styled';
 import copy from 'src/assets/user-details/copy.png';
 
@@ -7,7 +7,7 @@ type CopyButtonProps = {
 	data: string;
 };
 
-const CopyButton: FunctionComponent<CopyButtonProps> = props => {
+const CopyButton: FunctionComponent<React.PropsWithChildren<CopyButtonProps>> = props => {
 	const [open, setOpen] = React.useState(false);
 
 	const handleClose = () => {

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Button as MaterialButton, ButtonProps } from '@material-ui/core';
+import { Button as MaterialButton, ButtonProps } from '@mui/material';
 import styled from '@emotion/styled';
 import { colorWhite, colorBlackLow } from 'src/emotion-styles/colors';
 
@@ -19,7 +19,7 @@ type StyledProps = {
 	textTransform: string;
 };
 
-export const Button: FunctionComponent<Props> = ({
+export const Button: FunctionComponent<React.PropsWithChildren<Props>> = ({
 	backgroundStyle = 'gradient-pink-blue',
 	children,
 	smallBorderRadius,

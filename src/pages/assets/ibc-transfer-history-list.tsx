@@ -192,11 +192,11 @@ function IbcTransferHistoryHeader() {
 	);
 }
 
-const TablePagination: FunctionComponent<{
+const TablePagination: FunctionComponent<React.PropsWithChildren<{
 	page: number;
 	numPages: number;
 	onPageChange: (page: number) => void;
-}> = ({ page, numPages, onPageChange }) => {
+}>> = ({ page, numPages, onPageChange }) => {
 	const pageRender = [];
 
 	for (let i = 0; i < numPages; i++) {
