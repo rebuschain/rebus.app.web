@@ -1,4 +1,4 @@
-import { makeObservable, observable } from 'mobx';
+import { computed, makeObservable, observable } from 'mobx';
 import env from '@beam-australia/react-env';
 import axios from 'axios';
 import {
@@ -26,7 +26,7 @@ import {
 } from '@tharsis/transactions';
 import { encrypt } from 'eth-sig-util';
 import ascii85 from 'ascii85';
-import { ethers } from 'ethers';
+import { Contract, ethers } from 'ethers';
 import { signatureToPubkey } from '@hanchon/signature-to-pubkey';
 import { AminoMsgDelegate, AminoMsgUndelegate, AminoMsgVote, AminoMsgWithdrawDelegatorReward } from '@cosmjs/stargate';
 import { DeFiWeb3Connector } from 'deficonnect';
@@ -34,10 +34,10 @@ import { InstallError, tendermint } from '@cosmostation/extension-client';
 import { WALLET_LIST, WalletTypes } from 'src/constants/wallet';
 import { ethToRebus } from 'src/utils/rebus-converter';
 import { FalconProvider } from './falcon-provider';
-import { TransactionResponse, Tx } from './types';
+import { AminoTx, TransactionResponse, Tx } from './types';
 import { CosmostationProvider } from './cosmostation-provider';
 import { BaseProvider } from './base-provider';
-import { Int } from '@keplr-wallet/unit';
+import { CoinPretty, Int } from '@keplr-wallet/unit';
 import { AminoMsgMintNftId, createTxMsgMintNftId, MessageMsgMintNftId } from './messages/mint-nft-id';
 import { config } from 'src/config-insync';
 import {
@@ -51,6 +51,12 @@ import {
 	createTxMsgDeactivateNftId,
 	MessageMsgDeactivateNftId,
 } from './messages/deactivate-nft-id';
+import { AminoMsgConvertCoin, createTxMsgConvertCoin, MessageMsgConvertCoin } from './messages/convert-coin';
+import { AminoMsgConvertERC20, createTxMsgConvertERC20, MessageMsgConvertERC20 } from './messages/convert-erc20';
+import erc20ABI from './abis/erc20.json';
+import { ContractAddresses } from 'src/config';
+import { AppCurrency } from '@keplr-wallet/types';
+import { computedFn } from 'mobx-utils';
 
 const chainId = env('CHAIN_ID');
 const restUrl = env('REST_URL');
@@ -76,13 +82,30 @@ export class WalletStore {
 	@observable
 	public walletType: WalletTypes = undefined;
 
+	@observable
+	public erc20BalanceMap = new Map<string, CoinPretty>();
+	public erc20BalanceFetchingMap: Record<string, boolean> = {};
+
+	@observable
+	public network: ethers.providers.Network | undefined;
+
 	private _provider: ethers.providers.Web3Provider | undefined;
 	private _aminoProvider: BaseProvider<AminoProviderBase> | undefined;
 
 	private _isEtherumListenerAttached = false;
 
+	private isSwitchingNetwork = false;
+
 	constructor() {
 		makeObservable(this);
+	}
+
+	isValidNetwork(network?: ethers.providers.Network, shouldSwitchNetwork = false) {
+		if (shouldSwitchNetwork && !this.isSwitchingNetwork) {
+			this.switchNetwork();
+		}
+
+		return network?.chainId === ethChainId;
 	}
 
 	private get provider() {
@@ -154,8 +177,10 @@ export class WalletStore {
 					}
 				}
 
-				if (this._isEtherumListenerAttached) {
+				if (!this._isEtherumListenerAttached) {
+					this._isEtherumListenerAttached = true;
 					window.ethereum.on('accountsChanged', this.metamaskOnAccountChange);
+					window.ethereum.on('networkChanged', this.onUpdate);
 				}
 
 				break;
@@ -241,6 +266,10 @@ export class WalletStore {
 
 		await this.onUpdate();
 
+		try {
+			this.network = await this.provider.getNetwork();
+		} catch (err) {}
+
 		if (this._aminoProvider) {
 			this.aminoProvider.onAccountsChanged(this.onUpdate);
 		}
@@ -262,6 +291,9 @@ export class WalletStore {
 		this.rebusAddress = '';
 		this._provider = undefined;
 		this._aminoProvider = undefined;
+		this.erc20BalanceMap.clear();
+		this.erc20BalanceFetchingMap = {};
+		this.network = undefined;
 	}
 
 	public getExplorerUrl() {
@@ -344,6 +376,12 @@ export class WalletStore {
 	}
 
 	public async switchNetwork(): Promise<void> {
+		if (!this._provider) {
+			return;
+		}
+
+		this.isSwitchingNetwork = true;
+
 		try {
 			const network = await this.provider.getNetwork();
 			if (network?.chainId === ethChainId) {
@@ -353,7 +391,7 @@ export class WalletStore {
 			console.error(err);
 		}
 
-		return this.provider.send('wallet_addEthereumChain', [
+		await this.provider.send('wallet_addEthereumChain', [
 			{
 				chainId: `0x${ethChainId.toString(16)}`,
 				rpcUrls: [env('METAMASK_URL')],
@@ -366,6 +404,12 @@ export class WalletStore {
 				blockExplorerUrls: [config.EVM_EXPLORER_URL],
 			},
 		]);
+
+		try {
+			this.network = await this.provider.getNetwork();
+		} catch (err) {}
+
+		this.isSwitchingNetwork = false;
 	}
 
 	public async encrypt(text: string) {
@@ -459,7 +503,15 @@ export class WalletStore {
 	}
 
 	public checkIfSupported(
-		action: 'ibc-transfer' | 'delegate' | 'un-delegate' | 're-delegate' | 'claim-rewards' | 'vote'
+		action:
+			| 'ibc-transfer'
+			| 'delegate'
+			| 'un-delegate'
+			| 're-delegate'
+			| 'claim-rewards'
+			| 'vote'
+			| 'convert-coin'
+			| 'convert-erc20'
 	) {
 		if (!this.walletType) {
 			throw new Error('No wallet connected');
@@ -629,7 +681,37 @@ export class WalletStore {
 		return this.broadcast(sender, txMsg);
 	}
 
-	private onUpdate = async () => {
+	public async convertCoin(
+		{ fee, msg, memo }: Tx<MessageMsgConvertCoin>,
+		aminoTx: AminoTx<AminoMsgConvertCoin>
+	): Promise<TransactionResponse> {
+		this.checkIfSupported('convert-coin');
+
+		if (this._aminoProvider) {
+			return this.aminoProvider.signAndBroadcastAmino<AminoTx<AminoMsgConvertCoin>>(this.rebusAddress, aminoTx);
+		}
+
+		const sender = await this.getSender();
+		const txMsg = createTxMsgConvertCoin(this.chainInfo, sender, fee, memo, msg as MessageMsgConvertCoin);
+		return this.broadcast(sender, txMsg);
+	}
+
+	public async convertERC20(
+		{ fee, msg, memo }: Tx<MessageMsgConvertERC20>,
+		aminoTx: AminoTx<AminoMsgConvertERC20>
+	): Promise<TransactionResponse> {
+		this.checkIfSupported('convert-erc20');
+
+		if (this._aminoProvider) {
+			return this.aminoProvider.signAndBroadcastAmino<AminoTx<AminoMsgConvertERC20>>(this.rebusAddress, aminoTx);
+		}
+
+		const sender = await this.getSender();
+		const txMsg = createTxMsgConvertERC20(this.chainInfo, sender, fee, memo, msg as MessageMsgConvertERC20);
+		return this.broadcast(sender, txMsg);
+	}
+
+	private onUpdate = async (chainId?: number) => {
 		try {
 			try {
 				if (this._aminoProvider) {
@@ -659,6 +741,13 @@ export class WalletStore {
 			}
 
 			this.rebusAddress = isRebusAddress ? this.address : ethToRebus(this.address);
+
+			this.erc20BalanceMap.clear();
+			this.erc20BalanceFetchingMap = {};
+
+			if (chainId) {
+				this.network = { chainId, name: '' };
+			}
 		} catch (err) {
 			this.disconnect();
 			throw err;
@@ -670,5 +759,56 @@ export class WalletStore {
 			this.address = accounts[0];
 			this.rebusAddress = ethToRebus(this.address);
 		}
+	};
+
+	getBalance = (tokenAddress: string, currency: AppCurrency, forceFetch = false): CoinPretty => {
+		if (!this.address || !tokenAddress || !currency || this.network?.chainId !== ethChainId) {
+			return new CoinPretty(currency, 0);
+		}
+
+		if (this.erc20BalanceMap.has(tokenAddress) && !forceFetch) {
+			return this.erc20BalanceMap.get(tokenAddress)!;
+		}
+
+		if (!this.erc20BalanceFetchingMap[tokenAddress]) {
+			this.erc20BalanceFetchingMap[tokenAddress] = true;
+
+			const tokenInst = new Contract(tokenAddress, erc20ABI, this.provider);
+			tokenInst.functions
+				.balanceOf(this.address)
+				.then(res => {
+					this.erc20BalanceMap.set(tokenAddress, new CoinPretty(currency, res.balance.toBigInt()));
+					this.erc20BalanceFetchingMap[tokenAddress] = false;
+				})
+				.catch(err => {
+					console.error(err);
+					this.erc20BalanceFetchingMap[tokenAddress] = false;
+				});
+		}
+
+		return new CoinPretty(currency, 0);
+	};
+
+	isEthereumSupported = () => !!window.ethereum;
+
+	suggestToken = async (tokenAddress: string, currency: AppCurrency): Promise<boolean> => {
+		try {
+			return await window.ethereum.request({
+				method: 'wallet_watchAsset',
+				params: {
+					type: 'ERC20',
+					options: {
+						address: tokenAddress,
+						symbol: currency.coinDenom,
+						decimals: currency.coinDecimals,
+						image: currency.coinImageUrl,
+					},
+				},
+			});
+		} catch (error) {
+			console.log(error);
+		}
+
+		return false;
 	};
 }

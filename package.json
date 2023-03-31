@@ -5,12 +5,12 @@
 	"scripts": {
 		"build": "yarn build:css && cross-env NODE_ENV=production webpack",
 		"serve": "http-server --address 0.0.0.0 --port 8080 --proxy http://localhost:8080? ./prod",
-		"dev": "cross-env NODE_ENV=development react-env && yarn build:css && webpack serve",
-		"dev:alphanet": "yarn react-env:alphanet && cross-env NODE_ENV=development webpack serve",
-		"dev:testnet": "yarn react-env:testnet && cross-env NODE_ENV=development webpack serve",
-		"dev:testnet:local": "yarn react-env:testnet:local && cross-env NODE_ENV=development webpack serve",
-		"dev:mainnet": "yarn react-env:mainnet && cross-env NODE_ENV=development webpack serve",
-		"dev:mainnet:local": "yarn react-env:mainnet:local && cross-env NODE_ENV=development webpack serve",
+		"dev": "cross-env NODE_OPTIONS=--max_old_space_size=4096 NODE_ENV=development react-env && yarn build:css && webpack serve",
+		"dev:alphanet": "yarn react-env:alphanet && cross-env NODE_OPTIONS=--max_old_space_size=4096 NODE_ENV=development webpack serve",
+		"dev:testnet": "yarn react-env:testnet && cross-env NODE_OPTIONS=--max_old_space_size=4096 NODE_ENV=development webpack serve",
+		"dev:testnet:local": "yarn react-env:testnet:local && cross-env NODE_OPTIONS=--max_old_space_size=4096 NODE_ENV=development webpack serve",
+		"dev:mainnet": "yarn react-env:mainnet && cross-env NODE_OPTIONS=--max_old_space_size=4096 NODE_ENV=development webpack serve",
+		"dev:mainnet:local": "yarn react-env:mainnet:local && cross-env NODE_OPTIONS=--max_old_space_size=4096 NODE_ENV=development webpack serve",
 		"dev:analyzer": "cross-env NODE_ENV=development ANALYZER=true webpack serve",
 		"test": "jest --passWithNoTests --runInBand",
 		"lint-test": "eslint \"src/**/*\" webpack.config.js && prettier --check \"src/**/*\" webpack.config.js",
@@ -24,8 +24,8 @@
 		"react-env:mainnet": "cross-env APP_ENV=mainnet react-env --env APP_ENV",
 		"react-env:mainnet:local": "cross-env APP_ENV=mainnet.local react-env --env APP_ENV",
 		"postinstall": "patch-package",
-		"proto": "protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts --ts_out=./src/proto --js_out=import_style=commonjs,binary:./src/proto -I=./proto ./proto/rebus/nftid/v1/*.proto ./proto/google/api/*.proto ./proto/gogoproto/*.proto ./proto/cosmos/base/v1beta1/*.proto",
-		"proto:ts": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_opt=esModuleInterop=true --ts_proto_out=./src/proto -I=./proto ./proto/rebus/nftid/v1/tx.proto"
+		"proto": "protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts --ts_out=./src/proto --js_out=import_style=commonjs,binary:./src/proto -I=./proto ./proto/rebus/nftid/v1/*.proto ./proto/evmos/erc20/v1/*.proto ./proto/google/api/*.proto ./proto/gogoproto/*.proto ./proto/cosmos/base/v1beta1/*.proto",
+		"proto:ts": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_opt=esModuleInterop=true --ts_proto_out=./src/proto -I=./proto ./proto/rebus/nftid/v1/tx.proto ./proto/evmos/erc20/v1/tx.proto"
 	},
 	"pre-commit": [
 		"lint-test"

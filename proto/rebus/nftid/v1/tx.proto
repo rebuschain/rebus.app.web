@@ -4,7 +4,6 @@ package rebus.nftid.v1;
 import "google/api/annotations.proto";
 import "gogoproto/gogo.proto";
 import "rebus/nftid/v1/id.proto";
-import "cosmos/base/v1beta1/coin.proto";
 
 option go_package = "github.com/rebuschain/rebus.core/v1/x/nftid/types";
 

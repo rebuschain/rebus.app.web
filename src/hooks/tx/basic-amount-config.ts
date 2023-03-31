@@ -3,6 +3,7 @@ import { action, computed, makeObservable, observable, override } from 'mobx';
 import { AppCurrency } from '@keplr-wallet/types';
 import { ChainGetter, ObservableQueryBalances } from '@keplr-wallet/stores';
 import { useState } from 'react';
+import { Dec, DecUtils } from '@keplr-wallet/unit';
 
 export class BasicAmountConfig extends AmountConfig {
 	@observable.ref
@@ -45,6 +46,13 @@ export class BasicAmountConfig extends AmountConfig {
 	@computed
 	get sendableCurrencies(): AppCurrency[] {
 		return [this.sendCurrency];
+	}
+
+	@computed
+	get actualAmount(): string {
+		let dec = new Dec(this.amount);
+		dec = dec.mul(DecUtils.getTenExponentNInPrecisionRange(this.currency.coinDecimals));
+		return dec.truncate().toString();
 	}
 }
 

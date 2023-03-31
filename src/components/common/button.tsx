@@ -78,8 +78,8 @@ const MaterialButtonWithRef = React.forwardRef<HTMLButtonElement, Props & Styled
 MaterialButtonWithRef.displayName = 'MaterialButtonWithRef';
 
 const StyledMaterialButton = styled(MaterialButtonWithRef)<StyledProps>`
-	background: ${props => props.background};
-	background-color: ${props => props.backgroundColor} !important;
+	background-image: ${props => props.background} !important;
+	${props => (props.backgroundColor ? `background-color: ${props.backgroundColor} !important;` : '')}
 	border: ${props => props.background && 'none !important'};
 	border-radius: ${props => (props.smallBorderRadius ? '10px' : '20px')} !important;
 	color: ${props => props.textColor};

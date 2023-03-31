@@ -9,4 +9,6 @@ export const gas = {
 	mint_nftid: 200000,
 	activate_nftid: 200000,
 	deactivate_nftid: 200000,
+	convert_coin: 3000000,
+	convert_erc20: 3000000,
 };

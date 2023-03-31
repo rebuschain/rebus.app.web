@@ -30,19 +30,14 @@ export enum TToastType {
 }
 
 interface IToastExtra {
-	message: string;
-	customLink: string;
+	message?: string;
+	customLink?: string;
 }
 
 export type DisplayToastFn = ((type: TToastType.TX_BROADCASTING, options?: Partial<ToastOptions>) => void) &
 	((
-		type: TToastType.TX_SUCCESSFUL,
-		extraData?: Partial<Pick<IToastExtra, 'customLink'>>,
-		options?: Partial<ToastOptions>
-	) => void) &
-	((
-		type: TToastType.TX_FAILED,
-		extraData?: Partial<Pick<IToastExtra, 'message'>>,
+		type: TToastType.TX_SUCCESSFUL | TToastType.TX_FAILED,
+		extraData?: IToastExtra,
 		options?: Partial<ToastOptions>
 	) => void);
 
@@ -52,7 +47,7 @@ export interface DisplayToast {
 
 export const displayToast: DisplayToastFn = (
 	type: TToastType,
-	extraData?: Partial<IToastExtra> | Partial<ToastOptions>,
+	extraData?: IToastExtra | Partial<ToastOptions>,
 	options?: Partial<ToastOptions>
 ) => {
 	const refinedOptions = type === TToastType.TX_BROADCASTING ? extraData ?? {} : options ?? {};
@@ -65,9 +60,9 @@ export const displayToast: DisplayToastFn = (
 	if (type === TToastType.TX_BROADCASTING) {
 		toast(<ToastTxBroadcasting />, inputOptions);
 	} else if (type === TToastType.TX_SUCCESSFUL) {
-		toast(<ToastTxSuccess link={inputExtraData.customLink} />, inputOptions);
+		toast(<ToastTxSuccess link={inputExtraData.customLink || ''} message={inputExtraData.message} />, inputOptions);
 	} else if (type === TToastType.TX_FAILED) {
-		toast(<ToastTxFailed message={inputExtraData.message} />, inputOptions);
+		toast(<ToastTxFailed message={inputExtraData.message || ''} />, inputOptions);
 	} else {
 		console.error(`Undefined toast type - ${type}`);
 	}
@@ -93,11 +88,15 @@ const ToastTxFailed: FunctionComponent<React.PropsWithChildren<{ message: string
 	</div>
 );
 
-const ToastTxSuccess: FunctionComponent<React.PropsWithChildren<{ link: string }>> = ({ link }) => (
+const ToastTxSuccess: FunctionComponent<React.PropsWithChildren<{ link: string; message?: string }>> = ({
+	link,
+	message,
+}) => (
 	<div className="flex gap-3 md:gap-3.75">
 		<img className="w-8 h-8" alt="b" src="/public/assets/icons/toast-success.png" />
 		<section className="text-white-high">
 			<h6 className="mb-2 text-base md:text-lg">Transaction Successful</h6>
+			{message && <p className="text-xs md:text-sm">{message}</p>}
 			<a target="__blank" href={link} className="text-xs md:text-sm inline hover:opacity-75 cursor-pointer">
 				View explorer <img alt="link" src="/public/assets/icons/link.png" className="inline-block h-4 w-4 mb-0.75" />
 			</a>

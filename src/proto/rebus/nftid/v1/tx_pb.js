@@ -21,8 +21,6 @@ var gogoproto_gogo_pb = require('../../../gogoproto/gogo_pb.js');
 goog.object.extend(proto, gogoproto_gogo_pb);
 var rebus_nftid_v1_id_pb = require('../../../rebus/nftid/v1/id_pb.js');
 goog.object.extend(proto, rebus_nftid_v1_id_pb);
-var cosmos_base_v1beta1_coin_pb = require('../../../cosmos/base/v1beta1/coin_pb.js');
-goog.object.extend(proto, cosmos_base_v1beta1_coin_pb);
 goog.exportSymbol('proto.rebus.nftid.v1.MsgActivateNftId', null, global);
 goog.exportSymbol('proto.rebus.nftid.v1.MsgActivateNftIdResponse', null, global);
 goog.exportSymbol('proto.rebus.nftid.v1.MsgCreateIdRecord', null, global);

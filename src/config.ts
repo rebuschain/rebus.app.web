@@ -1,6 +1,7 @@
 import { Bech32Address } from '@keplr-wallet/cosmos';
 import { ChainInfoWithExplorer } from './stores/chain';
 import env from '@beam-australia/react-env';
+import { AppCurrency } from '@keplr-wallet/types';
 
 export const RewardEpochIdentifier = 'day';
 
@@ -51,6 +52,58 @@ export const IBCTransferInfo = {
 	osmosisChannelId: 'channel-355',
 };
 
+const LudusCoin = {
+	coinDenom: 'LUDUS',
+	coinMinimalDenom: 'uludus',
+	coinDecimals: 6,
+	coinGeckoId: 'ludus',
+	coinImageUrl: window.location.origin + '/public/assets/tokens/ludus.png',
+};
+
+const OsmoCoin = {
+	coinDenom: 'OSMO',
+	coinMinimalDenom: 'uosmo',
+	coinDecimals: 6,
+	coinGeckoId: 'osmosis',
+	coinImageUrl: window.location.origin + '/public/assets/tokens/osmo.svg',
+};
+
+const AtomCoin = {
+	coinDenom: 'ATOM',
+	coinMinimalDenom: 'uatom',
+	coinDecimals: 6,
+	coinGeckoId: 'pool:uatom',
+	coinImageUrl: window.location.origin + '/public/assets/tokens/atom.svg',
+};
+
+const isMainnet = env('NETWORK_TYPE') === 'mainnet';
+
+/**
+ * Determine the channel info per the chain.
+ * Guide users to use the same channel for convenience.
+ */
+export const ERC20AssetInfos: {
+	contractAddress: string;
+	currency: AppCurrency;
+}[] = [
+	{
+		contractAddress: '0x80b5a32E4F032B2a058b4F29EC95EEfEEB87aDcd',
+		currency: LudusCoin,
+	},
+	isMainnet && {
+		contractAddress: '0x6e7a5FAFcec6BB1e78bAE2A1F0B612012BF14827',
+		currency: OsmoCoin,
+	},
+	isMainnet && {
+		contractAddress: '0x0eb3a705fc54725037cc9e008bdede697f62f335',
+		currency: AtomCoin,
+	},
+].filter(Boolean) as any;
+
+export const ContractAddresses = {
+	ERC20: '0xa5A785D77ECcc28ECcBDCc9Fc1E81B0d57618D12',
+};
+
 export const EmbedChainInfos: ChainInfoWithExplorer[] = [
 	{
 		rpc: env('RPC_URL'),
@@ -84,23 +137,11 @@ export const EmbedChainInfos: ChainInfoWithExplorer[] = [
 				coinGeckoId: prefix,
 				coinImageUrl,
 			},
-			{
-				coinDenom: 'LUDUS',
-				coinMinimalDenom: 'uludus',
-				coinDecimals: 6,
-				coinGeckoId: 'ludus',
-				coinImageUrl: window.location.origin + '/public/assets/tokens/ludus.png',
-			},
+			LudusCoin,
 			{
 				coinDenom: 'OSMO',
 				coinMinimalDenom: 'ibc/ED07A3391A112B175915CD8FAF43A2DA8E4790EDE12566649D0C2F97716B8518',
-				originCurrency: {
-					coinDenom: 'OSMO',
-					coinMinimalDenom: 'uosmo',
-					coinDecimals: 6,
-					coinGeckoId: 'osmosis',
-					coinImageUrl: window.location.origin + '/public/assets/tokens/osmo.svg',
-				},
+				originCurrency: OsmoCoin,
 				coinDecimals: 6,
 				coinGeckoId: 'osmosis',
 				coinImageUrl: window.location.origin + '/public/assets/tokens/osmo.svg',
@@ -185,5 +226,25 @@ export const EmbedChainInfos: ChainInfoWithExplorer[] = [
 		},
 		features: ['stargate', 'ibc-transfer', 'no-legacy-stdTx', 'ibc-go'],
 		explorerUrlToTx: 'https://www.mintscan.io/osmosis/txs/{txHash}',
+	},
+	{
+		rpc: 'https://rpc-cosmoshub.keplr.app',
+		rest: 'https://lcd-cosmoshub.keplr.app',
+		chainId: 'cosmoshub-4',
+		chainName: 'Cosmos Hub',
+		bip44: {
+			coinType: 118,
+		},
+		bech32Config: Bech32Address.defaultBech32Config('cosmos'),
+		stakeCurrency: AtomCoin,
+		currencies: [AtomCoin],
+		feeCurrencies: [AtomCoin],
+		gasPriceStep: {
+			low: 0.01,
+			average: 0.025,
+			high: 0.03,
+		},
+		features: ['ibc-transfer', 'ibc-go'],
+		explorerUrlToTx: 'https://www.mintscan.io/cosmos/txs/{txHash}',
 	},
 ];

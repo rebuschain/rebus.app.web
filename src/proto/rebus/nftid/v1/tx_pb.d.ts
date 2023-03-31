@@ -5,7 +5,6 @@ import * as jspb from "google-protobuf";
 import * as google_api_annotations_pb from "../../../google/api/annotations_pb";
 import * as gogoproto_gogo_pb from "../../../gogoproto/gogo_pb";
 import * as rebus_nftid_v1_id_pb from "../../../rebus/nftid/v1/id_pb";
-import * as cosmos_base_v1beta1_coin_pb from "../../../cosmos/base/v1beta1/coin_pb";
 
 export class MsgMintNftId extends jspb.Message {
   getAddress(): string;
