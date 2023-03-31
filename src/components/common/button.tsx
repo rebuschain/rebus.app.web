@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, forwardRef } from 'react';
 import { Button as MaterialButton, ButtonProps } from '@mui/material';
 import styled from '@emotion/styled';
 import { colorWhite, colorBlackLow } from 'src/emotion-styles/colors';
@@ -17,60 +17,67 @@ type StyledProps = {
 	smallFont?: boolean;
 	textColor: string;
 	textTransform: string;
+	ref?: React.Ref<HTMLButtonElement>;
 };
 
-export const Button: FunctionComponent<React.PropsWithChildren<Props>> = ({
-	backgroundStyle = 'gradient-pink-blue',
-	children,
-	smallBorderRadius,
-	smallFont,
-	textTransform = 'none',
-	...props
-}) => {
-	let background = '';
-	let backgroundColor = undefined;
-	let textColor = colorWhite;
+export const Button: FunctionComponent<React.PropsWithChildren<Props>> = forwardRef(
+	(
+		{
+			backgroundStyle = 'gradient-pink-blue',
+			children,
+			smallBorderRadius,
+			smallFont,
+			textTransform = 'none',
+			...props
+		},
+		ref
+	) => {
+		let background = '';
+		let backgroundColor = undefined;
+		let textColor = colorWhite;
 
-	if (backgroundStyle === 'gradient-pink') {
-		background = 'linear-gradient(104.04deg, #e95062 0%, #e950d0 100%)';
-	} else if (backgroundStyle === 'gradient-pink-blue') {
-		background = 'linear-gradient(135deg, #e95062, #e950b3 52%, #5084e9)';
-	} else if (backgroundStyle === 'gradient-green') {
-		background = 'linear-gradient(104.04deg, #50e996 0%, #b8e950 100%)';
-		textColor = colorBlackLow;
-	} else if (backgroundStyle === 'gradient-blue') {
-		background = 'linear-gradient(104.04deg, #5084e9 0%, #6f50e9 100%)';
-	} else if (backgroundStyle === 'blue') {
-		background = '';
-		backgroundColor = '#2F80ED';
+		if (backgroundStyle === 'gradient-pink') {
+			background = 'linear-gradient(104.04deg, #e95062 0%, #e950d0 100%)';
+		} else if (backgroundStyle === 'gradient-pink-blue') {
+			background = 'linear-gradient(135deg, #e95062, #e950b3 52%, #5084e9)';
+		} else if (backgroundStyle === 'gradient-green') {
+			background = 'linear-gradient(104.04deg, #50e996 0%, #b8e950 100%)';
+			textColor = colorBlackLow;
+		} else if (backgroundStyle === 'gradient-blue') {
+			background = 'linear-gradient(104.04deg, #5084e9 0%, #6f50e9 100%)';
+		} else if (backgroundStyle === 'blue') {
+			background = '';
+			backgroundColor = '#2F80ED';
+		}
+
+		return (
+			<StyledMaterialButton
+				background={background}
+				backgroundColor={backgroundColor}
+				ref={ref}
+				smallBorderRadius={smallBorderRadius}
+				smallFont={smallFont}
+				textTransform={textTransform}
+				textColor={textColor}
+				variant="outlined"
+				{...props}>
+				{children}
+			</StyledMaterialButton>
+		);
 	}
+);
 
-	return (
-		<StyledMaterialButton
-			background={background}
-			backgroundColor={backgroundColor}
-			smallBorderRadius={smallBorderRadius}
-			smallFont={smallFont}
-			textTransform={textTransform}
-			textColor={textColor}
-			variant="outlined"
-			{...props}>
-			{children}
-		</StyledMaterialButton>
-	);
-};
+Button.displayName = 'Button';
 
-const StyledMaterialButton = styled(
-	({
-		background,
-		backgroundColor,
-		smallBorderRadius,
-		smallFont,
-		textColor,
-		textTransform,
-		...rest
-	}: Props & StyledProps) => <MaterialButton {...rest} />
-)<StyledProps>`
+const MaterialButtonWithRef = React.forwardRef<HTMLButtonElement, Props & StyledProps>(
+	({ background, backgroundColor, smallBorderRadius, smallFont, textColor, textTransform, ...rest }, ref) => (
+		<MaterialButton ref={ref} {...rest} />
+	)
+);
+
+MaterialButtonWithRef.displayName = 'MaterialButtonWithRef';
+
+const StyledMaterialButton = styled(MaterialButtonWithRef)<StyledProps>`
 	background: ${props => props.background};
 	background-color: ${props => props.backgroundColor} !important;
 	border: ${props => props.background && 'none !important'};
@@ -91,3 +98,5 @@ const StyledMaterialButton = styled(
 		color: ${props => props.textColor};
 	}
 `;
+
+StyledMaterialButton.displayName = 'StyledMaterialButton';

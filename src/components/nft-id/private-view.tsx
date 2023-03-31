@@ -4,6 +4,7 @@ import axios from 'axios';
 import env from '@beam-australia/react-env';
 import { decrypt, encrypt, generateKey, IPFS } from 'rebus.nftid.js';
 import { ColorPicker } from 'src/components/nft-id/color-picker';
+import { Tooltip } from '@mui/material';
 import { IdForm } from 'src/components/nft-id/id-form';
 import { IdPreview } from 'src/components/nft-id/id-preview';
 import { COLOR_OPTIONS, IPFS_TIMEOUT } from 'src/constants/nft-id';
@@ -76,6 +77,9 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 
 	// Double encryption key used to encrypt the encryption_key of the nft id
 	const doubleEncryptionKey = useRef('');
+	const publicViewTooltipRef = useRef(null);
+	const decryptIdTooltipRef = useRef(null);
+	const clearEncryptionTooltipRef = useRef(null);
 	const [tempDoubleEncryptionKey, setTempDoubleEncryptionKey] = useState('');
 	const [isInputDialogOpen, setIsInputDialogOpen] = useState(false);
 	const [showMintInputDialog, setShowMintInputDialog] = useState(false);
@@ -503,29 +507,49 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 							titleClassName="mr-3"
 							titleSuffix={
 								<div className="whitespace-nowrap">
-									<Button backgroundStyle="blue" onClick={goToPublicPreviewLink} smallBorderRadius>
-										See Public View
-									</Button>
+									<Tooltip title="Open public view of NFT ID in another tab" arrow>
+										<Button
+											ref={publicViewTooltipRef}
+											backgroundStyle="blue"
+											onClick={goToPublicPreviewLink}
+											smallBorderRadius>
+											See Public View
+										</Button>
+									</Tooltip>
 
-									<Button
-										backgroundStyle="blue"
-										disabled={isDecryptingPrivateImage || isSaving || isFetchingPrivateImage}
-										onClick={isDecrypted ? encryptPrivateImage : decryptPrivateImage}
-										smallBorderRadius
-										style={{ marginLeft: '8px' }}>
-										{isDecrypted ? 'Encrypt ID' : 'Decrypt ID'}
-									</Button>
+									<Tooltip
+										title={
+											isDecrypted
+												? 'Decrypts the private view of the NFT ID below revealing private fields if there are any'
+												: 'Encrypts the private view of the NFT ID below hiding private fields if there are any'
+										}
+										arrow>
+										<Button
+											ref={decryptIdTooltipRef}
+											backgroundStyle="blue"
+											disabled={isDecryptingPrivateImage || isSaving || isFetchingPrivateImage}
+											onClick={isDecrypted ? encryptPrivateImage : decryptPrivateImage}
+											smallBorderRadius
+											style={{ marginLeft: '8px' }}>
+											{isDecrypted ? 'Encrypt ID' : 'Decrypt ID'}
+										</Button>
+									</Tooltip>
 
 									{/* Keplr only */}
 									{!walletStore.isLoaded && address && !!localStorage.getItem(encryptionKeyKey) && (
-										<Button
-											backgroundStyle="blue"
-											disabled={isSaving}
-											onClick={clearEncryptionKey}
-											smallBorderRadius
-											style={{ marginLeft: '8px' }}>
-											Clear Encryption Key
-										</Button>
+										<Tooltip
+											title="Removes the encryption key used to decrypt the NFT ID private view from the browser storage"
+											arrow>
+											<Button
+												ref={clearEncryptionTooltipRef}
+												backgroundStyle="blue"
+												disabled={isSaving}
+												onClick={clearEncryptionKey}
+												smallBorderRadius
+												style={{ marginLeft: '8px' }}>
+												Clear Encryption Key
+											</Button>
+										</Tooltip>
 									)}
 								</div>
 							}
