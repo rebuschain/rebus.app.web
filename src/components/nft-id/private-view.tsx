@@ -516,12 +516,11 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 											See Public View
 										</Button>
 									</Tooltip>
-
 									<Tooltip
 										title={
 											isDecrypted
-												? 'Decrypts the private view of the NFT ID below revealing private fields if there are any'
-												: 'Encrypts the private view of the NFT ID below hiding private fields if there are any'
+												? 'Encrypts the private view of the NFT ID below hiding private fields if there are any'
+												: 'Decrypts the private view of the NFT ID below revealing private fields if there are any'
 										}
 										arrow>
 										<Button
@@ -534,7 +533,6 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 											{isDecrypted ? 'Encrypt ID' : 'Decrypt ID'}
 										</Button>
 									</Tooltip>
-
 									{/* Keplr only */}
 									{!walletStore.isLoaded && address && !!localStorage.getItem(encryptionKeyKey) && (
 										<Tooltip
