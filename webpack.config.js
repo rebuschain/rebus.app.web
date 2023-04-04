@@ -12,6 +12,10 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const fs = require('fs');
 
+if (typeof process.env.NODE_ENV === 'undefined') {
+	process.env.NODE_ENV = 'development';
+}
+
 const isEnvDevelopment = process.env.NODE_ENV !== 'production';
 const isEnvAnalyzer = process.env.ANALYZER === 'true';
 const commonResolve = dir => ({

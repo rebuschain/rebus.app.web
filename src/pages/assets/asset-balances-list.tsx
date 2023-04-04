@@ -1,30 +1,44 @@
 import styled from '@emotion/styled';
 import { AppCurrency, IBCCurrency } from '@keplr-wallet/types';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Img } from 'src/components/common/img';
 import { ButtonFaint, ButtonSecondary } from 'src/components/layouts/buttons';
 import { Text, TitleText } from 'src/components/texts';
-import { IBCAssetInfos } from 'src/config';
+import { EmbedChainInfos, ERC20AssetInfos, IBCAssetInfos } from 'src/config';
 import { TransferDialog } from 'src/dialogs/transfer';
+import { ConvertDialog } from 'src/dialogs/convert';
 import { TableData, TableHeaderRow } from 'src/pages/assets/components/table';
 import { useStore } from 'src/stores';
 import { makeIBCMinimalDenom } from 'src/utils/ibc';
 import useWindowSize from 'src/hooks/use-window-size';
 import { PricePretty } from '@keplr-wallet/unit/build/price-pretty';
 import { Dec } from '@keplr-wallet/unit';
+import { useParams, useLocation, useNavigate } from 'react-router';
+import { useSearchParams } from 'react-router-dom';
+import { useActions } from 'src/hooks/use-actions';
+import { snackbarActions } from 'src/reducers/slices';
+import { config } from '../../config-insync';
 
-const tableWidths = ['45%', '25%', '15%', '15%'];
-const tableWidthsOnMobileView = ['70%', '30%'];
+const tableWidths = ['45%', '20%', '20%', '15%'];
+const tableWidthsOnMobileView = ['35%', '32.5%', '32.5%'];
 
 export const AssetBalancesList = observer(function AssetBalancesList() {
+	const [params] = useSearchParams();
+	const navigate = useNavigate();
+
 	const { chainStore, queriesStore, accountStore, priceStore, walletStore } = useStore();
+
+	const currencyDenom = params.get('currency');
+	const convertCoinInfo = ERC20AssetInfos.find(info => info.currency?.coinDenom === currencyDenom);
 
 	const { isMobileView } = useWindowSize();
 
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);
 	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
+
+	const [showMessage] = useActions([snackbarActions.showSnackbar]);
 
 	const ibcBalances = IBCAssetInfos.map(channelInfo => {
 		const chainInfo = chainStore.getChain(channelInfo.counterpartyChainId);
@@ -164,6 +178,57 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 		}
 	};
 
+	const closeConvert = () => {
+		navigate({
+			search: '',
+		});
+	};
+
+	const onConvert = (currency: AppCurrency, tokenAddress: string) => {
+		navigate({
+			search: `?currency=${currency.coinDenom}`,
+		});
+	};
+
+	useEffect(() => {
+		const getBalance = () => {
+			if (!walletStore.isValidNetwork(walletStore.network, true)) {
+				return;
+			}
+
+			chainStore.current.currencies.forEach(cur => {
+				const erc20Info = ERC20AssetInfos.find(info => info.currency?.coinDenom === cur.coinDenom);
+
+				if (erc20Info) {
+					walletStore.getBalance(erc20Info.contractAddress, erc20Info.currency, true);
+				}
+			});
+		};
+
+		getBalance();
+
+		const interval = setInterval(() => getBalance(), 10000);
+
+		return () => {
+			clearInterval(interval);
+		};
+	}, [chainStore, chainStore.current.currencies, walletStore, walletStore.network]);
+
+	const currencies = useMemo(() => {
+		const currentChainCurrencies = chainStore.current.currencies.filter(cur => !cur.coinMinimalDenom.includes('/'));
+		const currentChainCurrencyDenoms = currentChainCurrencies.map(cur => cur.coinDenom);
+
+		if (config.NETWORK_TYPE !== 'mainnet') {
+			return currentChainCurrencies;
+		}
+
+		return currentChainCurrencies.concat(
+			EmbedChainInfos.filter(x => !currentChainCurrencyDenoms.includes(x.stakeCurrency.coinDenom)).map(
+				x => x.stakeCurrency
+			)
+		);
+	}, [chainStore]);
+
 	return (
 		<React.Fragment>
 			{dialogState.open ? (
@@ -180,6 +245,16 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 					ics20ContractAddress={dialogState.ics20ContractAddress}
 				/>
 			) : null}
+			{convertCoinInfo ? (
+				<ConvertDialog
+					dialogStyle={isMobileView ? {} : { minHeight: '533px', minWidth: '656px', maxWidth: '656px' }}
+					isMobileView={isMobileView}
+					isOpen
+					close={closeConvert}
+					currency={convertCoinInfo.currency}
+					tokenAddress={convertCoinInfo.contractAddress}
+				/>
+			) : null}
 			<div className="px-5 md:px-0">
 				<TitleText isMobileView={isMobileView}>Assets</TitleText>
 			</div>
@@ -187,28 +262,54 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 				<AssetBalanceHeader isMobileView={isMobileView} />
 
 				<tbody className="w-full">
-					{chainStore.current.currencies
-						.filter(cur => !cur.coinMinimalDenom.includes('/'))
-						.map(cur => {
-							const bal = queries.queryBalances.getQueryBech32Address(address).getBalanceFromCurrency(cur);
-							const totalFiatValue = priceStore.calculatePrice(bal, 'usd');
+					{currencies.map(cur => {
+						const bal = queries.queryBalances.getQueryBech32Address(address).getBalanceFromCurrency(cur);
+						const totalFiatValue = priceStore.calculatePrice(bal, 'usd');
 
-							return (
-								<AssetBalanceRow
-									key={cur.coinMinimalDenom}
-									chainName=""
-									coinDenom={cur.coinDenom}
-									currency={cur}
-									balance={bal
-										.hideDenom(true)
-										.trim(true)
-										.maxDecimals(6)
-										.toString()}
-									totalFiatValue={totalFiatValue}
-									isMobileView={isMobileView}
-								/>
-							);
-						})}
+						const erc20Info = ERC20AssetInfos.find(info => info.currency?.coinDenom === cur.coinDenom);
+						const erc20Balance = walletStore.erc20BalanceMap.get(erc20Info?.contractAddress ?? '');
+						const totalErc20FiatValue = erc20Balance ? priceStore.calculatePrice(erc20Balance, 'usd') : undefined;
+
+						return (
+							<AssetBalanceRow
+								key={cur.coinMinimalDenom}
+								chainName=""
+								coinDenom={cur.coinDenom}
+								currency={cur}
+								balance={bal
+									.hideDenom(true)
+									.trim(true)
+									.maxDecimals(3)
+									.toString()}
+								erc20Balance={erc20Balance
+									?.hideDenom(true)
+									.trim(true)
+									.maxDecimals(3)
+									.toString()}
+								totalFiatValue={totalFiatValue}
+								totalErc20FiatValue={totalErc20FiatValue}
+								isMobileView={isMobileView}
+								onConvert={
+									erc20Info
+										? () => {
+												onConvert(cur, erc20Info?.contractAddress ?? '');
+										  }
+										: undefined
+								}
+								suggestToken={
+									erc20Info && walletStore.isEthereumSupported()
+										? async () => {
+												if (await walletStore.suggestToken(erc20Info.contractAddress!, cur)) {
+													showMessage(`${cur.coinDenom} added to wallet`);
+												} else {
+													showMessage(`${cur.coinDenom} not added to wallet`);
+												}
+										  }
+										: undefined
+								}
+							/>
+						);
+					})}
 					{ibcBalances.map(bal => {
 						const currency = bal.balance.currency;
 						const coinDenom = (() => {
@@ -278,23 +379,33 @@ function AssetBalanceHeader({ isMobileView }: AssetBalanceHeaderProps) {
 					<Text size="sm">Asset / Chain</Text>
 				</TableData>
 				<TableData
-					className="md:!pr-4 lg:!pr-20 !justify-end"
+					className="md:!pl-4 justify-end text-right"
 					style={{
 						width: isMobileView ? tableWidthsOnMobileView[1] : tableWidths[1],
 					}}>
 					<Text size="sm">Balance</Text>
 				</TableData>
+				<TableData
+					className="md:!pl-4 justify-end text-right"
+					style={{
+						width: isMobileView ? tableWidthsOnMobileView[2] : tableWidths[2],
+					}}>
+					<Text size="sm">ERC20 Balance</Text>
+				</TableData>
+				<TableData className="justify-end text-right" style={{ width: tableWidths[3] }}>
+					<Text size="sm">Convert</Text>
+				</TableData>
 
-				{!isMobileView && (
-					<TableData style={{ width: tableWidths[2] }}>
+				{/* {!isMobileView && (
+					<TableData style={{ width: tableWidths[4] }}>
 						<Text size="sm">IBC Deposit</Text>
 					</TableData>
 				)}
 				{!isMobileView && (
-					<TableData style={{ width: tableWidths[3] }}>
+					<TableData style={{ width: tableWidths[5] }}>
 						<Text size="sm">IBC Withdraw</Text>
 					</TableData>
-				)}
+				)} */}
 			</TableHeaderRow>
 		</thead>
 	);
@@ -305,12 +416,16 @@ interface AssetBalanceRowProps {
 	coinDenom: string;
 	currency: AppCurrency;
 	balance: string;
+	erc20Balance?: string;
 	totalFiatValue?: PricePretty;
+	totalErc20FiatValue?: PricePretty;
+	onConvert?: () => void;
 	onDeposit?: () => void;
 	onWithdraw?: () => void;
 	isUnstable?: boolean;
 	showComingSoon?: boolean;
 	isMobileView: boolean;
+	suggestToken?: () => void;
 }
 
 function AssetBalanceRow({
@@ -318,11 +433,15 @@ function AssetBalanceRow({
 	coinDenom,
 	currency,
 	balance,
+	erc20Balance,
 	totalFiatValue,
+	totalErc20FiatValue,
+	onConvert,
 	onDeposit,
 	onWithdraw,
 	isUnstable,
 	isMobileView,
+	suggestToken,
 }: AssetBalanceRowProps) {
 	const isCW20 =
 		'originCurrency' in currency && currency.originCurrency && 'contractAddress' in currency.originCurrency;
@@ -341,9 +460,14 @@ function AssetBalanceRow({
 							{chainName ? `${chainName} - ${coinDenom.toUpperCase()}` : coinDenom.toUpperCase()}
 						</Text>
 						{isCW20 ? <div className="ml-2 px-2 py-1 rounded-full font-title text-xs bg-primary-200">CW20</div> : null}
+						{suggestToken && (
+							<button className="ml-2 w-6" onClick={suggestToken}>
+								<img src="/public/assets/other-logos/metamask.png" alt="metamask" />
+							</button>
+						)}
 					</TableData>
 					<TableData
-						className="md:!pr-3 lg:!pr-20 !justify-end"
+						className="md:!pl-3 justify-end"
 						style={{
 							width: isMobileView ? tableWidthsOnMobileView[1] : tableWidths[1],
 						}}>
@@ -356,7 +480,36 @@ function AssetBalanceRow({
 							) : null}
 						</div>
 					</TableData>
-					{!isMobileView && (
+					<TableData
+						className="md:!pl-3 justify-end"
+						style={{
+							width: isMobileView ? tableWidthsOnMobileView[2] : tableWidths[2],
+						}}>
+						<div className="flex flex-col items-end">
+							<Text emphasis="medium" isMobileView={isMobileView}>
+								{erc20Balance || '0'}
+							</Text>
+							{totalErc20FiatValue && totalErc20FiatValue.toDec().gt(new Dec(0)) ? (
+								<Text size="sm">{totalErc20FiatValue.toString()}</Text>
+							) : null}
+						</div>
+					</TableData>
+					<TableData className="!pr-0 justify-end" style={{ width: tableWidths[3] }}>
+						{onConvert ? (
+							<React.Fragment>
+								<div className="relative group">
+									<ButtonFaint
+										onClick={onConvert}
+										style={{ display: 'flex', alignItems: 'center' }}
+										disabled={isUnstable === true}>
+										<p className="text-sm text-secondary-200 leading-none">Convert</p>
+										<img alt="right" src={'/public/assets/icons/right.svg'} />
+									</ButtonFaint>
+								</div>
+							</React.Fragment>
+						) : null}
+					</TableData>
+					{/* {!isMobileView && (
 						<TableData style={{ width: tableWidths[2] }}>
 							{onDeposit ? (
 								<React.Fragment>
@@ -413,9 +566,9 @@ function AssetBalanceRow({
 								</React.Fragment>
 							) : null}
 						</TableData>
-					)}
+					)} */}
 				</AssetBalanceTableRow>
-				{isMobileView && (onWithdraw || onDeposit) && (
+				{/* {isMobileView && (onWithdraw || onDeposit) && (
 					<IBCTransferButtonsOnMobileView>
 						{onWithdraw ? (
 							<ButtonSecondary isOutlined onClick={onWithdraw} style={{ width: '100%' }} disabled={isUnstable === true}>
@@ -428,7 +581,7 @@ function AssetBalanceRow({
 							</ButtonSecondary>
 						) : null}
 					</IBCTransferButtonsOnMobileView>
-				)}
+				)} */}
 			</AssetBalanceRowContainer>
 		</React.Fragment>
 	);

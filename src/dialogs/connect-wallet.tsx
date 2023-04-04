@@ -172,7 +172,7 @@ export class ConnectWalletManager {
 		return;
 	};
 
-	getKeplr = (): Promise<Keplr | undefined> => {
+	getKeplr = (autoConnect = true): Promise<Keplr | undefined> => {
 		const connectingWalletType =
 			localStorage?.getItem(KeyAutoConnectingWalletType) || localStorage?.getItem(KeyConnectingWalletType);
 		const connectingWalletName = localStorage?.getItem(KeyConnectingWalletName);
@@ -201,9 +201,11 @@ export class ConnectWalletManager {
 				return new Promise<Keplr | undefined>((resolve, reject) => {
 					this.walletConnector!.connect()
 						.then(() => {
-							localStorage?.removeItem(KeyConnectingWalletType);
-							localStorage?.setItem(KeyAutoConnectingWalletType, 'wallet-connect');
-							this.autoConnectingWalletType = 'wallet-connect';
+							if (autoConnect) {
+								localStorage?.removeItem(KeyConnectingWalletType);
+								localStorage?.setItem(KeyAutoConnectingWalletType, 'wallet-connect');
+								this.autoConnectingWalletType = 'wallet-connect';
+							}
 
 							resolve(
 								new KeplrWalletConnectV1(this.walletConnector!, {
@@ -222,9 +224,11 @@ export class ConnectWalletManager {
 						});
 				});
 			} else {
-				localStorage?.removeItem(KeyConnectingWalletType);
-				localStorage?.setItem(KeyAutoConnectingWalletType, 'wallet-connect');
-				this.autoConnectingWalletType = 'wallet-connect';
+				if (autoConnect) {
+					localStorage?.removeItem(KeyConnectingWalletType);
+					localStorage?.setItem(KeyAutoConnectingWalletType, 'wallet-connect');
+					this.autoConnectingWalletType = 'wallet-connect';
+				}
 
 				return Promise.resolve(
 					new KeplrWalletConnectV1(this.walletConnector, {
@@ -238,9 +242,11 @@ export class ConnectWalletManager {
 			(this.accountStore?.getAccount(config.CHAIN_ID).walletStatus === WalletStatus.Loaded ||
 				this.accountStore?.getAccount(config.CHAIN_ID).walletStatus === WalletStatus.Loading)
 		) {
-			localStorage?.removeItem(KeyConnectingWalletType);
-			localStorage?.setItem(KeyAutoConnectingWalletType, 'extension');
-			this.autoConnectingWalletType = 'extension';
+			if (autoConnect) {
+				localStorage?.removeItem(KeyConnectingWalletType);
+				localStorage?.setItem(KeyAutoConnectingWalletType, 'extension');
+				this.autoConnectingWalletType = 'extension';
+			}
 		}
 
 		return getKeplrFromWindow();

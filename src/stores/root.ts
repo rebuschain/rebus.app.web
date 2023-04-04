@@ -36,7 +36,7 @@ export class RootStore {
 
 	public readonly layoutStore: LayoutStore;
 
-	constructor() {
+	constructor(autoConnect = true) {
 		this.featureFlagStore = new FeatureFlagStore(new IndexedDBKVStore('store_feature_flags'));
 		this.questionsStore = new QuestionsStore(new IndexedDBKVStore('store_questions'));
 
@@ -46,7 +46,7 @@ export class RootStore {
 		this.queriesStore = new QueriesStore(
 			new IndexedDBKVStore('store_web_queries'),
 			this.chainStore,
-			this.connectWalletManager.getKeplr,
+			() => this.connectWalletManager.getKeplr(autoConnect),
 			QueriesWithCosmosAndRebus
 		);
 
@@ -60,7 +60,7 @@ export class RootStore {
 					prefetching: false,
 					suggestChain: true,
 					autoInit: false,
-					getKeplr: this.connectWalletManager.getKeplr,
+					getKeplr: () => this.connectWalletManager.getKeplr(autoConnect),
 					suggestChainFn: async (keplr, chainInfo) => {
 						if (keplr.mode === 'mobile-web') {
 							// Can't suggest the chain on mobile web.
@@ -221,6 +221,6 @@ export class RootStore {
 	};
 }
 
-export function createRootStore() {
-	return new RootStore();
+export function createRootStore(autoConnect = true) {
+	return new RootStore(autoConnect);
 }

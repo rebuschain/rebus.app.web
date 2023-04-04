@@ -1,3 +1,4 @@
+import { StdFee } from '@cosmjs/amino';
 import { SifchainLiquidityAPYResult } from '@keplr-wallet/stores/build/query/cosmos/supply/sifchain';
 import { Fee, Sender } from '@tharsis/transactions';
 
@@ -30,6 +31,13 @@ export type TransactionResponse = {
 
 export type Tx<T> = {
 	fee: Fee;
+	msg?: T;
+	msgs?: T[];
+	memo: string;
+};
+
+export type AminoTx<T> = {
+	fee: StdFee;
 	msg?: T;
 	msgs?: T[];
 	memo: string;

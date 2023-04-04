@@ -45,6 +45,7 @@ export const TableData = styled.td<{ align?: 'left' | 'center' | 'right' }>`
 	display: flex;
 	align-items: center;
 	justify-content: ${({ align = 'left' }) => JUSTIFY_CONTENT_BY_ALIGN[align]};
+	min-width: 75px;
 	padding: 12px 6px;
 
 	@media (min-width: 768px) {

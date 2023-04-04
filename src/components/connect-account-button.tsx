@@ -12,7 +12,7 @@ export function ConnectAccountButton(props: React.HTMLAttributes<HTMLButtonEleme
 	const { isMobileView } = useWindowSize();
 
 	return (
-		<Button {...(props as any)} style={{ whiteSpace: 'nowrap' }}>
+		<Button {...(props as any)} style={{ whiteSpace: 'nowrap', ...(props.style || {}) }}>
 			<WalletImg src="/public/assets/icons/wallet.svg" />
 			<Text
 				style={{
