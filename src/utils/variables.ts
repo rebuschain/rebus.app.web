@@ -68,6 +68,8 @@ const variables = {
 		id_record_created: 'ID Record created successfuly',
 		nft_id_activated: 'NFT ID activated successfully',
 		nft_id_deactivated: 'NFT ID deactivated successfully',
+		confirm_clear_encryption: 'Confirm',
+		cancel_clear_encryption: 'Cancel',
 	},
 };
 
