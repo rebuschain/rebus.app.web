@@ -7,7 +7,7 @@ import { ColorPicker } from 'src/components/nft-id/color-picker';
 import { Tooltip } from '@mui/material';
 import { IdForm } from 'src/components/nft-id/id-form';
 import { IdPreview } from 'src/components/nft-id/id-preview';
-import { ClearEncryptionDialog } from 'src/components/nft-id/clear-encryption-dialog';
+import ConfirmDialog from 'src/pages/stake/delegate-dialog/confirm-dialog';
 import { COLOR_OPTIONS, IPFS_TIMEOUT } from 'src/constants/nft-id';
 import { useActions } from 'src/hooks/use-actions';
 import { useAppSelector } from 'src/hooks/use-app-select';
@@ -87,7 +87,7 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 	const [showMintInputDialog, setShowMintInputDialog] = useState(false);
 	const closeInputDialog = useCallback(() => setIsInputDialogOpen(false), []);
 	const closeClearEncryptionDialog = useCallback(() => setClearEncryptionModalOpen(false), []);
-	const openClearEncryptionDialog = useCallback(() => setClearEncryptionModalOpen(false), []);
+	const openClearEncryptionDialog = useCallback(() => setClearEncryptionModalOpen(true), []);
 
 	const { idRecord } = idQuery;
 	const { document_number, encryption_key, id_number, metadata_url } = idRecord || {};
@@ -594,10 +594,12 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 				value={tempDoubleEncryptionKey}
 			/>
 
-			<ClearEncryptionDialog
-				open={clearEncryptionModalOpen}
+			<ConfirmDialog
+				content={`Are you sure you want to clear the encryption?`}
+				isOpen={clearEncryptionModalOpen}
 				onClose={closeClearEncryptionDialog}
-				onSubmit={handleSubmitClearEncryptionDialog}
+				onConfirm={handleSubmitClearEncryptionDialog}
+				title="Clear the encryption"
 			/>
 		</div>
 	);
