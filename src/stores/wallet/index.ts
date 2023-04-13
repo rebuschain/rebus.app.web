@@ -357,7 +357,7 @@ export class WalletStore {
 					symbol: env('COIN_DENOM'),
 					decimals: parseInt(env('COIN_DECIMALS'), 10),
 				},
-				blockExplorerUrls: [config.EVM_EXPLORER_URL],
+				blockExplorerUrls: [config.EVM_EXPLORER_URL.split('/tx')[0].split('/transaction')[0]],
 			},
 		]);
 	}
