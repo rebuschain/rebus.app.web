@@ -7,6 +7,7 @@ import { ColorPicker } from 'src/components/nft-id/color-picker';
 import { Tooltip } from '@mui/material';
 import { IdForm } from 'src/components/nft-id/id-form';
 import { IdPreview } from 'src/components/nft-id/id-preview';
+import ConfirmDialog from 'src/pages/stake/delegate-dialog/confirm-dialog';
 import { COLOR_OPTIONS, IPFS_TIMEOUT } from 'src/constants/nft-id';
 import { useActions } from 'src/hooks/use-actions';
 import { useAppSelector } from 'src/hooks/use-app-select';
@@ -53,6 +54,7 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 
 	const { lang } = useAppSelector(selector);
 	const [isFetchingMetadata, setIsFetchingMetadata] = useState(false);
+	const [clearEncryptionModalOpen, setClearEncryptionModalOpen] = useState(false);
 	const [isFetchingPrivateImage, setIsFetchingPrivateImage] = useState(false);
 	const [isSaving, setIsSaving] = useState(false);
 	const [data, setData] = useState<NftIdData>({
@@ -84,6 +86,8 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 	const [isInputDialogOpen, setIsInputDialogOpen] = useState(false);
 	const [showMintInputDialog, setShowMintInputDialog] = useState(false);
 	const closeInputDialog = useCallback(() => setIsInputDialogOpen(false), []);
+	const closeClearEncryptionDialog = useCallback(() => setClearEncryptionModalOpen(false), []);
+	const openClearEncryptionDialog = useCallback(() => setClearEncryptionModalOpen(true), []);
 
 	const { idRecord } = idQuery;
 	const { document_number, encryption_key, id_number, metadata_url } = idRecord || {};
@@ -406,6 +410,11 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 		};
 	}, []);
 
+	const handleSubmitClearEncryptionDialog = useCallback(() => {
+		clearEncryptionKey();
+		closeClearEncryptionDialog();
+	}, [clearEncryptionKey, closeClearEncryptionDialog]);
+
 	// Set the double encryption key from local storage
 	useEffect(() => {
 		if (encryption_key) {
@@ -542,7 +551,7 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 												ref={clearEncryptionTooltipRef}
 												backgroundStyle="blue"
 												disabled={isSaving}
-												onClick={clearEncryptionKey}
+												onClick={openClearEncryptionDialog}
 												smallBorderRadius
 												style={{ marginLeft: '8px' }}>
 												Clear Encryption Key
@@ -583,6 +592,14 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 				submitText="Confirm"
 				title="Confirm Encryption Key"
 				value={tempDoubleEncryptionKey}
+			/>
+
+			<ConfirmDialog
+				content={`Are you sure you want to clear the encryption?`}
+				isOpen={clearEncryptionModalOpen}
+				onClose={closeClearEncryptionDialog}
+				onConfirm={handleSubmitClearEncryptionDialog}
+				title="Clear the encryption"
 			/>
 		</div>
 	);
