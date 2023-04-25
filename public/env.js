@@ -17,5 +17,5 @@ window.__ENV = {
 	REACT_APP_METAMASK_URL: 'http://51.68.173.153:8545',
 	REACT_APP_STAKING_URL: 'http://localhost:8080/staking',
 	REACT_APP_URL: 'http://localhost:8080',
-	REACT_APP_DROPMINT_DISCORD_BOT_URL: 'http://localhost:3000',
+	REACT_APP_DISCORD_BOT_URL: 'http://localhost:3000',
 };

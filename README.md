@@ -62,7 +62,7 @@ The wallet connect page is mainly used to interface with the discord bot which a
 The URL of the bot can be configured by env vars and multiple can be specified.
 When the user is redirected to that page, the URL query params contain a param called `app` which will specify which API url to use.
 
-`REACT_APP_DROPMINT_DISCORD_BOT_URL`: URL to connect to the dropmint app
+`REACT_APP_DISCORD_BOT_URL`: URL to connect to the discord bot app
 
 There are only two API calls made to the bot URL:
 

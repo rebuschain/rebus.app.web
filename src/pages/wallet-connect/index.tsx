@@ -23,7 +23,7 @@ const headers = {
 	'Content-Type': 'application/json',
 };
 const baseUrls = {
-	dropmint: env('DROPMINT_DISCORD_BOT_URL'),
+	dropmint: env('DISCORD_BOT_URL'),
 };
 
 const signKeplr = async (address: string, nonce: number, userId: string) => {
