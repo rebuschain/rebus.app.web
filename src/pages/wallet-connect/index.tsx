@@ -89,7 +89,9 @@ const WalletConnect: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 				return showMessage(`Invalid app: ${app}`);
 			}
 
-			const { data } = await axios.post(`${baseUrl}/api/v1/nonce`, { address }, { headers });
+			// For wallets like metamask we want to use the eth address starting with 0x
+			const addressToUse = walletStore.isLoaded ? walletStore.address : account.bech32Address;
+			const { data } = await axios.post(`${baseUrl}/api/v1/nonce`, { address: addressToUse }, { headers });
 			const nonce = data?.nonce;
 
 			if (!nonce) {
@@ -102,7 +104,7 @@ const WalletConnect: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 			if (walletStore.isLoaded) {
 				signature = await walletStore.signMessage(
 					JSON.stringify({
-						address,
+						address: addressToUse,
 						nonce,
 						userId,
 					})
@@ -113,7 +115,7 @@ const WalletConnect: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 					return showMessage('Error generating signature');
 				}
 			} else {
-				const sigRes = await signKeplr(address, nonce, userId);
+				const sigRes = await signKeplr(addressToUse, nonce, userId);
 				pubKey = sigRes?.pub_key?.value as string;
 				signature = sigRes?.signature as string;
 			}
@@ -121,7 +123,7 @@ const WalletConnect: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 			const authorizeRes = await axios.post(
 				`${baseUrl}/api/v1/authorize`,
 				{
-					address,
+					address: addressToUse,
 					nonce,
 					signature,
 					userId,
@@ -143,7 +145,7 @@ const WalletConnect: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 		}
 
 		setLoading(false);
-	}, [address, app, walletStore, serverId, showMessage, userId]);
+	}, [app, walletStore, account.bech32Address, userId, serverId, showMessage]);
 
 	let content = null;
 
