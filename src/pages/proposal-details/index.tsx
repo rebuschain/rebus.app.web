@@ -253,19 +253,19 @@ const ProposalDetailPage: FunctionComponent<React.PropsWithChildren<unknown>> = 
 											<div className="flex flex-wrap flex-col text-white-mid text-base w-1/2 md:mx-auto">
 												<div className="flex items-center py-2 w-full">
 													<span className="mr-4 rounded-full shrink-0 bg-gradient-pass min-h-4 min-w-4 h-4 w-4" />
-													<p>Yes {proposal.tallyRatio.yes.toString() + '%'}</p>
+													<p>Yes {proposal.tallyRatio.yes.maxDecimals(2).toString() + '%'}</p>
 												</div>
 												<div className="flex items-center py-2 w-full">
 													<span className="mr-4 rounded-full shrink-0 bg-gradient-rejected min-h-4 min-w-4 h-4 w-4" />
-													<p> No {proposal.tallyRatio.no.toString() + '%'}</p>
+													<p> No {proposal.tallyRatio.no.maxDecimals(2).toString() + '%'}</p>
 												</div>
 												<div className="flex items-center py-2 w-full">
 													<span className="mr-4 rounded-full shrink-0 bg-error min-h-4 min-w-4 h-4 w-4" />
-													<p>No With Veto {proposal.tallyRatio.noWithVeto.toString() + '%'}</p>
+													<p>No With Veto {proposal.tallyRatio.noWithVeto.maxDecimals(2).toString() + '%'}</p>
 												</div>
 												<div className="flex items-center py-2 w-full">
 													<span className="mr-4 rounded-full shrink-0 bg-primary-50 min-h-4 min-w-4 h-4 w-4" />
-													<p>Abstain {proposal.tallyRatio.abstain.toString() + '%'}</p>
+													<p>Abstain {proposal.tallyRatio.abstain.maxDecimals(2).toString() + '%'}</p>
 												</div>
 											</div>
 										</div>
