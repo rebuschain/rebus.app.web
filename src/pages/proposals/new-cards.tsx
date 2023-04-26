@@ -76,36 +76,39 @@ const NewCards: FunctionComponent<CardsProps> = observer(({ proposals }) => {
 								</div>
 								<div className="py-4">
 									<div className="flex w-full h-7 bg-white-mid">
-										<TooltipGraphSection tooltipTitle={`Yes ${currentProposal.tallyRatio.yes.toString()}%`}>
+										<TooltipGraphSection
+											tooltipTitle={`Yes ${currentProposal.tallyRatio.yes.maxDecimals(2).toString()}%`}>
 											<div
 												className="h-7 bg-gradient-pass"
 												style={{
-													width: `${currentProposal.tallyRatio.yes.toString()}%`,
-												}}
-											/>
-										</TooltipGraphSection>
-										<TooltipGraphSection tooltipTitle={`No ${currentProposal.tallyRatio.yes.toString()}%`}>
-											<div
-												className="h-7 bg-gradient-rejected"
-												style={{
-													width: `${currentProposal.tallyRatio.no.toString()}%`,
+													width: `${currentProposal.tallyRatio.yes.maxDecimals(2).toString()}%`,
 												}}
 											/>
 										</TooltipGraphSection>
 										<TooltipGraphSection
-											tooltipTitle={`No with veto ${currentProposal.tallyRatio.noWithVeto.toString()}%`}>
+											tooltipTitle={`No ${currentProposal.tallyRatio.yes.maxDecimals(2).toString()}%`}>
 											<div
-												className="h-7 bg-error"
+												className="h-7 bg-gradient-rejected"
 												style={{
-													width: `${currentProposal.tallyRatio.noWithVeto.toString()}%`,
+													width: `${currentProposal.tallyRatio.no.maxDecimals(2).toString()}%`,
 												}}
 											/>
 										</TooltipGraphSection>
-										<TooltipGraphSection tooltipTitle={`Abstain ${currentProposal.tallyRatio.abstain.toString()}%`}>
+										<TooltipGraphSection
+											tooltipTitle={`No with veto ${currentProposal.tallyRatio.noWithVeto.maxDecimals(2).toString()}%`}>
+											<div
+												className="h-7 bg-error"
+												style={{
+													width: `${currentProposal.tallyRatio.noWithVeto.maxDecimals(2).toString()}%`,
+												}}
+											/>
+										</TooltipGraphSection>
+										<TooltipGraphSection
+											tooltipTitle={`Abstain ${currentProposal.tallyRatio.abstain.maxDecimals(2).toString()}%`}>
 											<div
 												className="h-7 bg-primary-50"
 												style={{
-													width: `${currentProposal.tallyRatio.abstain.toString()}%`,
+													width: `${currentProposal.tallyRatio.abstain.maxDecimals(2).toString()}%`,
 												}}
 											/>
 										</TooltipGraphSection>
