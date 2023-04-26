@@ -1,16 +1,16 @@
-export const proposalStatusText = (proposalStatus: number) => {
+export const proposalStatusText = (proposalStatus: string) => {
 	switch (true) {
-		case proposalStatus === 0:
+		case proposalStatus === 'PROPOSAL_STATUS_UNSPECIFIED':
 			return 'Nil';
-		case proposalStatus === 1:
+		case proposalStatus === 'PROPOSAL_STATUS_DEPOSIT_PERIOD':
 			return 'Deposit Period';
-		case proposalStatus === 2:
+		case proposalStatus === 'PROPOSAL_STATUS_VOTING_PERIOD':
 			return 'Voting Period';
-		case proposalStatus === 3:
+		case proposalStatus === 'PROPOSAL_STATUS_PASSED':
 			return 'Passed';
-		case proposalStatus === 4:
+		case proposalStatus === 'PROPOSAL_STATUS_REJECTED':
 			return 'Rejected';
-		case proposalStatus === 5:
+		case proposalStatus === 'PROPOSAL_STATUS_FAILED':
 			return 'Failed';
 		default:
 			return '';

@@ -1,12 +1,12 @@
-export const statusColor = (status: number) => {
+export const statusColor = (status: string) => {
 	switch (status) {
-		case 1:
+		case 'PROPOSAL_STATUS_DEPOSIT_PERIOD':
 			return 'text-enabledGold';
-		case 2:
+		case 'PROPOSAL_STATUS_VOTING_PERIOD':
 			return 'text-enabledGold';
-		case 3:
+		case 'PROPOSAL_STATUS_PASSED':
 			return 'bg-gradient-pass';
-		case 4:
+		case 'PROPOSAL_STATUS_REJECTED':
 			return 'bg-gradient-rejected';
 
 		default:
