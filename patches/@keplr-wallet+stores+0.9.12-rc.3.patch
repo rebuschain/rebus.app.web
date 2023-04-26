@@ -93,10 +93,10 @@ index f2ed2fb..7e95791 100644
      }
      /**
 diff --git a/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/proposal.js b/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/proposal.js
-index 0e25ccd..4bef599 100644
+index 0e25ccd..24344a6 100644
 --- a/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/proposal.js
 +++ b/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/proposal.js
-@@ -13,51 +13,52 @@ const mobx_1 = require("mobx");
+@@ -13,7 +13,7 @@ const mobx_1 = require("mobx");
  const unit_1 = require("@keplr-wallet/unit");
  class ObservableQueryProposal extends chain_query_1.ObservableChainQuery {
      constructor(kvStore, chainId, chainGetter, _raw, governance) {
@@ -105,47 +105,9 @@ index 0e25ccd..4bef599 100644
          this._raw = _raw;
          this.governance = governance;
          mobx_1.makeObservable(this);
-     }
-     canFetch() {
-+        console.log('========\n', 'this.proposalStatus === types_1.ProposalStatus.VOTING_PERIOD', this.proposalStatus === types_1.ProposalStatus.VOTING_PERIOD, '\n========');
-         return this.proposalStatus === types_1.ProposalStatus.VOTING_PERIOD;
-     }
-     get raw() {
-         return this._raw;
-     }
-     get proposalStatus() {
--        if ("proposal_status" in this.raw) {
--            switch (this.raw.proposal_status) {
--                case "DepositPeriod":
--                    return types_1.ProposalStatus.DEPOSIT_PERIOD;
--                case "VotingPeriod":
--                    return types_1.ProposalStatus.VOTING_PERIOD;
--                case "Passed":
--                    return types_1.ProposalStatus.PASSED;
--                case "Rejected":
--                    return types_1.ProposalStatus.REJECTED;
--                case "Failed":
--                    return types_1.ProposalStatus.FAILED;
--                default:
--                    return types_1.ProposalStatus.UNSPECIFIED;
--            }
--        }
-+        // if ("status" in this.raw) {
-+        //     switch (this.raw.status) {
-+        //         case "DepositPeriod":
-+        //             return types_1.ProposalStatus.DEPOSIT_PERIOD;
-+        //         case "VotingPeriod":
-+        //             return types_1.ProposalStatus.VOTING_PERIOD;
-+        //         case "Passed":
-+        //             return types_1.ProposalStatus.PASSED;
-+        //         case "Rejected":
-+        //             return types_1.ProposalStatus.REJECTED;
-+        //         case "Failed":
-+        //             return types_1.ProposalStatus.FAILED;
-+        //         default:
-+        //             return types_1.ProposalStatus.UNSPECIFIED;
-+        //     }
-+        // }
+@@ -42,22 +42,22 @@ class ObservableQueryProposal extends chain_query_1.ObservableChainQuery {
+             }
+         }
          switch (this.raw.status) {
 -            case 1:
 +            case "PROPOSAL_STATUS_DEPOSIT_PERIOD":
@@ -172,7 +134,7 @@ index 0e25ccd..4bef599 100644
      }
      get title() {
          if ("value" in this.raw.content) {
-@@ -133,16 +134,16 @@ class ObservableQueryProposal extends chain_query_1.ObservableChainQuery {
+@@ -133,16 +133,16 @@ class ObservableQueryProposal extends chain_query_1.ObservableChainQuery {
              };
          }
          return {

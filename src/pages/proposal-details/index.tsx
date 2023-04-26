@@ -28,20 +28,20 @@ interface ProposalContent {
 
 const URL_REGEX = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
 
-const PieChart = (tally: any) => {
+const PieChart = (tallyRatio: any) => {
 	const data = [
 		{
 			label: 'Yes',
 			x: 'Yes',
-			y: voteCalculation(tally, 'yes', true),
+			y: parseFloat(tallyRatio?.yes.toString()),
 		},
-		{ label: 'No', x: 'No', y: voteCalculation(tally, 'no', true) },
+		{ label: 'No', x: 'No', y: parseFloat(tallyRatio?.no.toString()) },
 		{
 			label: 'No with Veto',
 			x: 'No V',
-			y: voteCalculation(tally, 'no_with_veto', true),
+			y: parseFloat(tallyRatio?.noWithVeto.toString()),
 		},
-		{ label: 'Abstain', x: 'Abstain', y: voteCalculation(tally, 'abstain', true) },
+		{ label: 'Abstain', x: 'Abstain', y: parseFloat(tallyRatio?.abstain.toString()) },
 	];
 
 	return (
@@ -121,7 +121,6 @@ const ProposalDetailPage: FunctionComponent<React.PropsWithChildren<unknown>> = 
 	const queries = queriesStore.get(chainStore.current.chainId);
 	const proposal = queries.cosmos.queryGovernance.getProposal(proposalId as string) as any;
 	const votedOption = queries.cosmos.queryProposalVote.getVote(proposalId as string, address);
-	console.log(proposal?.tallyRatio.yes.toString());
 
 	const shouldDisplayVoting = (proposal: any) => {
 		return proposal.status === 'PROPOSAL_STATUS_DEPOSIT_PERIOD' || proposal.status === 'PROPOSAL_STATUS_VOTING_PERIOD';
@@ -247,7 +246,7 @@ const ProposalDetailPage: FunctionComponent<React.PropsWithChildren<unknown>> = 
 									<div className="flex flex-wrap items-center justify-between ">
 										<div className=" items-center w-full md:w-1/2 p-0">
 											<div className="flex items-center mx-auto w-1/2 relative">
-												{proposal && PieChart(proposal.tally)}
+												{proposal && PieChart(proposal.tallyRatio)}
 											</div>
 										</div>
 										<div className="w-full md:w-1/2">
