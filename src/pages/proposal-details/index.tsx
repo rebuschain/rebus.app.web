@@ -20,29 +20,28 @@ type ProposalDetailParam = {
 };
 
 interface ProposalContent {
-	type: string;
-	value: {
-		title: string;
-		description: string;
-	};
+	'@type': string;
+	title: string;
+	description: string;
+	metaData: any;
 }
 
 const URL_REGEX = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
 
-const PieChart = (proposal: any) => {
+const PieChart = (tally: any) => {
 	const data = [
 		{
 			label: 'Yes',
 			x: 'Yes',
-			y: voteCalculation(proposal, 'yes', true),
+			y: voteCalculation(tally, 'yes', true),
 		},
-		{ label: 'No', x: 'No', y: voteCalculation(proposal, 'no', true) },
+		{ label: 'No', x: 'No', y: voteCalculation(tally, 'no', true) },
 		{
 			label: 'No with Veto',
 			x: 'No V',
-			y: voteCalculation(proposal, 'no_with_veto', true),
+			y: voteCalculation(tally, 'no_with_veto', true),
 		},
-		{ label: 'Abstain', x: 'Abstain', y: voteCalculation(proposal, 'abstain', true) },
+		{ label: 'Abstain', x: 'Abstain', y: voteCalculation(tally, 'abstain', true) },
 	];
 
 	return (
@@ -93,9 +92,24 @@ const descriptionFormatter = (text: string) => {
 };
 
 const typeFormatter = (text: string) => {
-	const statusSegments = text.split('/');
+	if (!text) {
+		return '';
+	}
+	const statusSegments = text.split('.');
 
-	return statusSegments[1].split(/(?=[A-Z])/).join(' ');
+	return statusSegments[statusSegments.length - 1].split(/(?=[A-Z])/).join(' ');
+};
+
+const voteOptionFormatter = (text: string) => {
+	if (!text || text.split('_').length === 1) {
+		return 'Unspecified';
+	}
+
+	const parts = text.split('VOTE_OPTION_');
+	const mainWord = parts[1].charAt(0) + parts[1].slice(1).toLowerCase();
+	const subWords = parts.slice(2).map(word => word.toLowerCase());
+
+	return [mainWord, ...subWords].join(' ');
 };
 
 const ProposalDetailPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer(() => {
@@ -105,10 +119,14 @@ const ProposalDetailPage: FunctionComponent<React.PropsWithChildren<unknown>> = 
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 	const queries = queriesStore.get(chainStore.current.chainId);
-	const proposal = queries.cosmos.queryGovernance.getProposal(proposalId as string);
+	const proposal = queries.cosmos.queryGovernance.getProposal(proposalId as string) as any;
 	const votedOption = queries.cosmos.queryProposalVote.getVote(proposalId as string, address);
+	console.log(proposal?.tallyRatio.yes.toString());
 
-	const shouldDisplayVoting = (proposal: any) => proposal.proposalStatus === 1 || proposal.proposalStatus === 2;
+	const shouldDisplayVoting = (proposal: any) => {
+		return proposal.status === 'PROPOSAL_STATUS_DEPOSIT_PERIOD' || proposal.status === 'PROPOSAL_STATUS_VOTING_PERIOD';
+	};
+
 	const onBackButtonClick = () => {
 		navigate(-1);
 	};
@@ -134,20 +152,21 @@ const ProposalDetailPage: FunctionComponent<React.PropsWithChildren<unknown>> = 
 									<div className="flex items-center font-semibold text-md md:text-xl py-4 text-white-high">
 										<BackButton onClick={onBackButtonClick} />
 										<p>
-											Proposal #{proposalId} <span className="font-thin text-base pl-2">{proposal.title}</span>
+											Proposal #{proposalId}{' '}
+											<span className="font-thin text-base pl-2">{proposal.raw.content.title}</span>
 										</p>
 									</div>
 									<p
 										className={`font-semibold rounded-lg text-white-high text-lg px-5 py-1 ${statusColor(
-											proposal.proposalStatus
+											proposal.raw.status
 										)} `}>
-										Proposal Status: {proposalStatusText(proposal.proposalStatus)}
+										Proposal Status: {proposalStatusText(proposal.raw.status)}
 									</p>
 								</div>
 							</div>
 						</div>
 
-						{proposal?.proposalStatus === 2 ? (
+						{proposal?.raw.status === 'PROPOSAL_STATUS_VOTING_PERIOD' ? (
 							<div className="voting-section flex flex-wrap justify-center w-full px-4 mt-4 mb-0">
 								<div className="w-full bg-card p-4 rounded-2xl">
 									<div className="flex justify-between items-center">
@@ -155,11 +174,11 @@ const ProposalDetailPage: FunctionComponent<React.PropsWithChildren<unknown>> = 
 									</div>
 									<div className="mt-4 text-sm">
 										<div id="marked">
-											<Voting proposalId={parseInt(proposal?.id)} />
+											<Voting proposalId={parseInt(proposal?.raw.proposal_id)} />
 										</div>
 										{votedOption ? (
 											<div className="mt-4 text-sm">
-												<b>You voted for {votedOption.vote}</b>
+												<b>You voted for {voteOptionFormatter(votedOption.vote)}</b>
 											</div>
 										) : null}
 									</div>
@@ -183,13 +202,13 @@ const ProposalDetailPage: FunctionComponent<React.PropsWithChildren<unknown>> = 
 									<div className="flex mt-4">
 										<div className="w-1/3 text-white-mid">Proposal Type</div>
 										<div className="w-2/3 text-right text-white-mid">
-											{typeFormatter((proposal.raw.content as ProposalContent).type)}
+											{typeFormatter((proposal.raw.content as ProposalContent)['@type'])}
 										</div>
 									</div>
 									<div className="flex mt-4">
 										<div className="w-1/3 text-white-mid">Voting Start</div>
 										<div className="w-2/3 text-right text-votingBlue">
-											{proposal.proposalStatus === 1
+											{proposal.raw.status === 'PROPOSAL_STATUS_DEPOSIT_PERIOD'
 												? '-'
 												: moment(proposal.raw.voting_start_time).format('DD-MMM-YYYY HH:mm:ss')}
 										</div>
@@ -197,7 +216,7 @@ const ProposalDetailPage: FunctionComponent<React.PropsWithChildren<unknown>> = 
 									<div className="flex mt-4">
 										<div className="w-1/3 text-white-mid">Voting End</div>
 										<div className={`w-2/3 text-right text-votingBlue`}>
-											{proposal.proposalStatus === 1
+											{proposal.raw.status === 'PROPOSAL_STATUS_DEPOSIT_PERIOD'
 												? '-'
 												: moment(proposal.raw.voting_end_time).format('DD-MMM-YYYY HH:mm:ss')}
 										</div>
@@ -221,31 +240,33 @@ const ProposalDetailPage: FunctionComponent<React.PropsWithChildren<unknown>> = 
 									<div className="flex justify-between items-center">
 										<div>
 											<p className="font-semibold text-base text-white-high">
-												Voting period is {shouldDisplayVoting(proposal) && 'not'} over
+												Voting period is {shouldDisplayVoting(proposal.raw) && 'not'} over
 											</p>
 										</div>
 									</div>
 									<div className="flex flex-wrap items-center justify-between ">
 										<div className=" items-center w-full md:w-1/2 p-0">
-											<div className="flex items-center mx-auto w-1/2 relative">{proposal && PieChart(proposal)}</div>
+											<div className="flex items-center mx-auto w-1/2 relative">
+												{proposal && PieChart(proposal.tally)}
+											</div>
 										</div>
 										<div className="w-full md:w-1/2">
 											<div className="flex flex-wrap flex-col text-white-mid text-base w-1/2 md:mx-auto">
 												<div className="flex items-center py-2 w-full">
 													<span className="mr-4 rounded-full shrink-0 bg-gradient-pass min-h-4 min-w-4 h-4 w-4" />
-													<p>Yes {voteCalculation(proposal, 'yes')}</p>
+													<p>Yes {proposal.tallyRatio.yes.toString() + '%'}</p>
 												</div>
 												<div className="flex items-center py-2 w-full">
 													<span className="mr-4 rounded-full shrink-0 bg-gradient-rejected min-h-4 min-w-4 h-4 w-4" />
-													<p> No {voteCalculation(proposal, 'no')}</p>
+													<p> No {proposal.tallyRatio.no.toString() + '%'}</p>
 												</div>
 												<div className="flex items-center py-2 w-full">
 													<span className="mr-4 rounded-full shrink-0 bg-error min-h-4 min-w-4 h-4 w-4" />
-													<p>No With Veto {voteCalculation(proposal, 'no_with_veto')}</p>
+													<p>No With Veto {proposal.tallyRatio.noWithVeto.toString() + '%'}</p>
 												</div>
 												<div className="flex items-center py-2 w-full">
 													<span className="mr-4 rounded-full shrink-0 bg-primary-50 min-h-4 min-w-4 h-4 w-4" />
-													<p>Abstain {voteCalculation(proposal, 'abstain')}</p>
+													<p>Abstain {proposal.tallyRatio.abstain.toString() + '%'}</p>
 												</div>
 											</div>
 										</div>
