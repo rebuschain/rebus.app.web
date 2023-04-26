@@ -7,12 +7,13 @@ import TooltipGraphSection from './tooltip-graph-section';
 import { statusColor } from 'src/utils/color-formatter';
 import { proposalStatusText } from 'src/utils/proposal-status';
 import moment from 'moment';
+import { observer } from 'mobx-react-lite';
 
 type CardsProps = {
 	proposals: any[];
 };
 
-const NewCards: FunctionComponent<React.PropsWithChildren<CardsProps>> = ({ proposals }) => {
+const NewCards: FunctionComponent<React.PropsWithChildren<CardsProps>> = observer(({ proposals }) => {
 	const navigate = useNavigate();
 	const [page, setPage] = useState(1);
 	const rowsPerPage = 15;
@@ -33,19 +34,23 @@ const NewCards: FunctionComponent<React.PropsWithChildren<CardsProps>> = ({ prop
 	return (
 		<>
 			<div className="flex flex-wrap">
-				{proposals?.slice(startIndex, startIndex + rowsPerPage).map((proposal, index) => {
+				{proposals?.slice(startIndex, startIndex + rowsPerPage).map((currentProposal, index) => {
+					const proposal = currentProposal.raw;
 					return (
-						<div onClick={() => handleClick(proposal.id)} key={index} className="w-full md:w-2/4 cursor-pointer">
+						<div
+							onClick={() => handleClick(proposal.proposal_id)}
+							key={index}
+							className="w-full md:w-2/4 cursor-pointer">
 							<div className="card bg-card p-4 mb-4 mr-0 md:mr-4 rounded-[20px]">
 								<div className="flex justify-between items-center py-3">
-									<Number>{proposal.id}</Number>
+									<Number>{proposal.proposal_id}</Number>
 									<p
 										className={`font-semibold ${
-											proposal.proposalStatus === 3 || proposal.proposalStatus === 4
+											proposal.status === 'PROPOSAL_STATUS_PASSED' || proposal.status === 'PROPOSAL_STATUS_REJECTED'
 												? 'text-transparent bg-clip-text'
 												: ''
-										} ${statusColor(proposal.proposalStatus)}`}>
-										{proposalStatusText(proposal.proposalStatus)}
+										} ${statusColor(proposal.status)}`}>
+										{proposalStatusText(proposal.status)}
 									</p>
 								</div>
 								<div className="py-2 text-xl whitespace-nowrap overflow-hidden text-ellipsis">
@@ -57,7 +62,7 @@ const NewCards: FunctionComponent<React.PropsWithChildren<CardsProps>> = ({ prop
 										<p className={`pt-1 text-votingBlue ${shouldDisplayVoting(proposal) && 'text-center'}`}>
 											{shouldDisplayVoting(proposal)
 												? '-'
-												: moment(proposal.raw.voting_start_time).format('DD-MMM-YYYY HH:mm:ss')}
+												: moment(proposal.voting_start_time).format('DD-MMM-YYYY HH:mm:ss')}
 										</p>
 									</div>
 									<div className="py-2 text-white-mid">
@@ -65,41 +70,45 @@ const NewCards: FunctionComponent<React.PropsWithChildren<CardsProps>> = ({ prop
 										<p className={`pt-1 text-votingBlue ${shouldDisplayVoting(proposal) && 'text-center'}`}>
 											{shouldDisplayVoting(proposal)
 												? '-'
-												: moment(proposal.raw.voting_end_time).format('DD-MMM-YYYY HH:mm:ss')}
+												: moment(proposal.voting_end_time).format('DD-MMM-YYYY HH:mm:ss')}
 										</p>
 									</div>
 								</div>
 								<div className="py-4">
 									<div className="flex w-full h-7 bg-white-mid">
-										<TooltipGraphSection tooltipTitle={`Yes ${voteCalculation(proposal, 'yes')}`}>
+										<TooltipGraphSection
+											tooltipTitle={`Yes ${currentProposal.tallyRatio.yes.maxDecimals(2).toString()}%`}>
 											<div
 												className="h-7 bg-gradient-pass"
 												style={{
-													width: voteCalculation(proposal, 'yes'),
+													width: `${currentProposal.tallyRatio.yes.maxDecimals(2).toString()}%`,
 												}}
 											/>
 										</TooltipGraphSection>
-										<TooltipGraphSection tooltipTitle={`No ${voteCalculation(proposal, 'no')}`}>
+										<TooltipGraphSection
+											tooltipTitle={`No ${currentProposal.tallyRatio.yes.maxDecimals(2).toString()}%`}>
 											<div
 												className="h-7 bg-gradient-rejected"
 												style={{
-													width: voteCalculation(proposal, 'no'),
+													width: `${currentProposal.tallyRatio.no.maxDecimals(2).toString()}%`,
 												}}
 											/>
 										</TooltipGraphSection>
-										<TooltipGraphSection tooltipTitle={`No with veto ${voteCalculation(proposal, 'no_with_veto')}`}>
+										<TooltipGraphSection
+											tooltipTitle={`No with veto ${currentProposal.tallyRatio.noWithVeto.maxDecimals(2).toString()}%`}>
 											<div
 												className="h-7 bg-error"
 												style={{
-													width: voteCalculation(proposal, 'no_with_veto'),
+													width: `${currentProposal.tallyRatio.noWithVeto.maxDecimals(2).toString()}%`,
 												}}
 											/>
 										</TooltipGraphSection>
-										<TooltipGraphSection tooltipTitle={`Abstain ${voteCalculation(proposal, 'abstain')}`}>
+										<TooltipGraphSection
+											tooltipTitle={`Abstain ${currentProposal.tallyRatio.abstain.maxDecimals(2).toString()}%`}>
 											<div
 												className="h-7 bg-primary-50"
 												style={{
-													width: voteCalculation(proposal, 'abstain'),
+													width: `${currentProposal.tallyRatio.abstain.maxDecimals(2).toString()}%`,
 												}}
 											/>
 										</TooltipGraphSection>
@@ -109,21 +118,21 @@ const NewCards: FunctionComponent<React.PropsWithChildren<CardsProps>> = ({ prop
 									<div className="py-2">
 										<div className="flex items-center pb-1">
 											<span className="h-4 w-4 mr-3 shrink-0 rounded-full bg-gradient-pass" />
-											<p>Yes {voteCalculation(proposal, 'yes')}</p>
+											<p>Yes {voteCalculation(currentProposal.tally, 'yes')}</p>
 										</div>
 										<div className="flex items-center pb-1">
 											<span className="h-4 w-4 mr-3 shrink-0 rounded-full bg-error" />
-											<p>No With Veto {voteCalculation(proposal, 'no_with_veto')}</p>
+											<p>No With Veto {voteCalculation(currentProposal.tally, 'no_with_veto')}</p>
 										</div>
 									</div>
 									<div className="py-2">
 										<div className="flex items-center pb-1">
 											<span className="h-4 w-4 mr-3 shrink-0 rounded-full bg-gradient-rejected" />
-											<p>No {voteCalculation(proposal, 'no')}</p>
+											<p>No {voteCalculation(currentProposal.tally, 'no')}</p>
 										</div>
 										<div className="flex items-center pb-1">
 											<span className="h-4 w-4 mr-3 shrink-0 rounded-full bg-primary-50" />
-											<p>Abstain {voteCalculation(proposal, 'abstain')}</p>
+											<p>Abstain {voteCalculation(currentProposal.tally, 'abstain')}</p>
 										</div>
 									</div>
 								</div>
@@ -139,7 +148,7 @@ const NewCards: FunctionComponent<React.PropsWithChildren<CardsProps>> = ({ prop
 			</PaginationContainer>
 		</>
 	);
-};
+});
 
 const Number = styled.span`
 	font-family: Poppins, ui-sans-serif, system-ui;
