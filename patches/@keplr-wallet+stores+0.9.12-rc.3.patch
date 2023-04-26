@@ -92,3 +92,205 @@ index f2ed2fb..7e95791 100644
          });
      }
      /**
+diff --git a/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/proposal.js b/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/proposal.js
+index 0e25ccd..4bef599 100644
+--- a/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/proposal.js
++++ b/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/proposal.js
+@@ -13,51 +13,52 @@ const mobx_1 = require("mobx");
+ const unit_1 = require("@keplr-wallet/unit");
+ class ObservableQueryProposal extends chain_query_1.ObservableChainQuery {
+     constructor(kvStore, chainId, chainGetter, _raw, governance) {
+-        super(kvStore, chainId, chainGetter, `/gov/proposals/${_raw.id}/tally`);
++        super(kvStore, chainId, chainGetter, `/cosmos/gov/v1beta1/proposals/${_raw.proposal_id}/tally`);
+         this._raw = _raw;
+         this.governance = governance;
+         mobx_1.makeObservable(this);
+     }
+     canFetch() {
++        console.log('========\n', 'this.proposalStatus === types_1.ProposalStatus.VOTING_PERIOD', this.proposalStatus === types_1.ProposalStatus.VOTING_PERIOD, '\n========');
+         return this.proposalStatus === types_1.ProposalStatus.VOTING_PERIOD;
+     }
+     get raw() {
+         return this._raw;
+     }
+     get proposalStatus() {
+-        if ("proposal_status" in this.raw) {
+-            switch (this.raw.proposal_status) {
+-                case "DepositPeriod":
+-                    return types_1.ProposalStatus.DEPOSIT_PERIOD;
+-                case "VotingPeriod":
+-                    return types_1.ProposalStatus.VOTING_PERIOD;
+-                case "Passed":
+-                    return types_1.ProposalStatus.PASSED;
+-                case "Rejected":
+-                    return types_1.ProposalStatus.REJECTED;
+-                case "Failed":
+-                    return types_1.ProposalStatus.FAILED;
+-                default:
+-                    return types_1.ProposalStatus.UNSPECIFIED;
+-            }
+-        }
++        // if ("status" in this.raw) {
++        //     switch (this.raw.status) {
++        //         case "DepositPeriod":
++        //             return types_1.ProposalStatus.DEPOSIT_PERIOD;
++        //         case "VotingPeriod":
++        //             return types_1.ProposalStatus.VOTING_PERIOD;
++        //         case "Passed":
++        //             return types_1.ProposalStatus.PASSED;
++        //         case "Rejected":
++        //             return types_1.ProposalStatus.REJECTED;
++        //         case "Failed":
++        //             return types_1.ProposalStatus.FAILED;
++        //         default:
++        //             return types_1.ProposalStatus.UNSPECIFIED;
++        //     }
++        // }
+         switch (this.raw.status) {
+-            case 1:
++            case "PROPOSAL_STATUS_DEPOSIT_PERIOD":
+                 return types_1.ProposalStatus.DEPOSIT_PERIOD;
+-            case 2:
++            case "PROPOSAL_STATUS_VOTING_PERIOD":
+                 return types_1.ProposalStatus.VOTING_PERIOD;
+-            case 3:
++            case "PROPOSAL_STATUS_PASSED":
+                 return types_1.ProposalStatus.PASSED;
+-            case 4:
++            case "PROPOSAL_STATUS_REJECTED":
+                 return types_1.ProposalStatus.REJECTED;
+-            case 5:
++            case "PROPOSAL_STATUS_FAILED":
+                 return types_1.ProposalStatus.FAILED;
+             default:
+                 return types_1.ProposalStatus.UNSPECIFIED;
+         }
+     }
+     get id() {
+-        return this.raw.id;
++        return this.raw.proposal_id;
+     }
+     get title() {
+         if ("value" in this.raw.content) {
+@@ -133,16 +134,16 @@ class ObservableQueryProposal extends chain_query_1.ObservableChainQuery {
+             };
+         }
+         return {
+-            yes: new unit_1.IntPretty(new unit_1.Int(this.response.data.result.yes))
++            yes: new unit_1.IntPretty(new unit_1.Int(this.response.data.tally.yes))
+                 .moveDecimalPointLeft(stakeCurrency.coinDecimals)
+                 .maxDecimals(stakeCurrency.coinDecimals),
+-            no: new unit_1.IntPretty(new unit_1.Int(this.response.data.result.no))
++            no: new unit_1.IntPretty(new unit_1.Int(this.response.data.tally.no))
+                 .moveDecimalPointLeft(stakeCurrency.coinDecimals)
+                 .maxDecimals(stakeCurrency.coinDecimals),
+-            abstain: new unit_1.IntPretty(new unit_1.Int(this.response.data.result.abstain))
++            abstain: new unit_1.IntPretty(new unit_1.Int(this.response.data.tally.abstain))
+                 .moveDecimalPointLeft(stakeCurrency.coinDecimals)
+                 .maxDecimals(stakeCurrency.coinDecimals),
+-            noWithVeto: new unit_1.IntPretty(new unit_1.Int(this.response.data.result.no_with_veto))
++            noWithVeto: new unit_1.IntPretty(new unit_1.Int(this.response.data.tally.no_with_veto))
+                 .moveDecimalPointLeft(stakeCurrency.coinDecimals)
+                 .maxDecimals(stakeCurrency.coinDecimals),
+         };
+diff --git a/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/proposals.js b/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/proposals.js
+index 241c79d..254c8f4 100644
+--- a/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/proposals.js
++++ b/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/proposals.js
+@@ -15,13 +15,13 @@ const mobx_utils_1 = require("mobx-utils");
+ const proposal_1 = require("./proposal");
+ class ObservableQueryGovernance extends chain_query_1.ObservableChainQuery {
+     constructor(kvStore, chainId, chainGetter, _queryPool) {
+-        super(kvStore, chainId, chainGetter, "/gov/proposals?limit=1000");
++        super(kvStore, chainId, chainGetter, "/cosmos/gov/v1beta1/proposals");
+         this._queryPool = _queryPool;
+         this.paramDeposit = undefined;
+         this.paramVoting = undefined;
+         this.paramTally = undefined;
+         this.getProposal = mobx_utils_1.computedFn((id) => {
+-            return this.proposals.find((proposal) => proposal.id === id);
++            return this.proposals.find((proposal) => proposal.raw.proposal_id === id);
+         });
+         mobx_1.makeObservable(this);
+     }
+@@ -70,7 +70,7 @@ class ObservableQueryGovernance extends chain_query_1.ObservableChainQuery {
+             return [];
+         }
+         const result = [];
+-        for (const raw of this.response.data.result) {
++        for (const raw of this.response.data.proposals) {
+             result.push(new proposal_1.ObservableQueryProposal(this.kvStore, this.chainId, this.chainGetter, raw, this));
+         }
+         return result.reverse();
+diff --git a/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/types.d.ts b/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/types.d.ts
+index e8ba884..0bce4bc 100644
+--- a/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/types.d.ts
++++ b/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/types.d.ts
+@@ -1,10 +1,10 @@
+ export declare enum ProposalStatus {
+-    UNSPECIFIED = 0,
+-    DEPOSIT_PERIOD = 1,
+-    VOTING_PERIOD = 2,
+-    PASSED = 3,
+-    REJECTED = 4,
+-    FAILED = 5
++    UNSPECIFIED = "PROPOSAL_STATUS_UNSPECIFIED",
++    DEPOSIT_PERIOD = "PROPOSAL_STATUS_DEPOSIT_PERIOD",
++    VOTING_PERIOD = "PROPOSAL_STATUS_VOTING_PERIOD",
++    PASSED = "PROPOSAL_STATUS_PASSED",
++    REJECTED = "PROPOSAL_STATUS_REJECTED",
++    FAILED = "PROPOSAL_STATUS_FAILED"
+ }
+ export declare type Tally = {
+     yes: string;
+diff --git a/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/types.js b/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/types.js
+index a0906ec..6971f86 100644
+--- a/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/types.js
++++ b/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/types.js
+@@ -4,11 +4,11 @@ exports.ProposalStatus = void 0;
+ // This is not the type for result of query.
+ var ProposalStatus;
+ (function (ProposalStatus) {
+-    ProposalStatus[ProposalStatus["UNSPECIFIED"] = 0] = "UNSPECIFIED";
+-    ProposalStatus[ProposalStatus["DEPOSIT_PERIOD"] = 1] = "DEPOSIT_PERIOD";
+-    ProposalStatus[ProposalStatus["VOTING_PERIOD"] = 2] = "VOTING_PERIOD";
+-    ProposalStatus[ProposalStatus["PASSED"] = 3] = "PASSED";
+-    ProposalStatus[ProposalStatus["REJECTED"] = 4] = "REJECTED";
+-    ProposalStatus[ProposalStatus["FAILED"] = 5] = "FAILED";
++    ProposalStatus[ProposalStatus["UNSPECIFIED"] = "PROPOSAL_STATUS_UNSPECIFIED"] = "UNSPECIFIED";
++    ProposalStatus[ProposalStatus["DEPOSIT_PERIOD"] = "PROPOSAL_STATUS_DEPOSIT_PERIOD"] = "DEPOSIT_PERIOD";
++    ProposalStatus[ProposalStatus["VOTING_PERIOD"] = "PROPOSAL_STATUS_VOTING_PERIOD"] = "VOTING_PERIOD";
++    ProposalStatus[ProposalStatus["PASSED"] = "PROPOSAL_STATUS_PASSED"] = "PASSED";
++    ProposalStatus[ProposalStatus["REJECTED"] = "PROPOSAL_STATUS_REJECTED"] = "REJECTED";
++    ProposalStatus[ProposalStatus["FAILED"] = "PROPOSAL_STATUS_FAILED"] = "FAILED";
+ })(ProposalStatus = exports.ProposalStatus || (exports.ProposalStatus = {}));
+ //# sourceMappingURL=types.js.map
+\ No newline at end of file
+diff --git a/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/vote.js b/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/vote.js
+index 65e4bf2..9b7c420 100644
+--- a/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/vote.js
++++ b/node_modules/@keplr-wallet/stores/build/query/cosmos/governance/vote.js
+@@ -4,7 +4,7 @@ exports.ObservableQueryProposalVote = exports.ObservableQueryProposalVoteInner =
+ const chain_query_1 = require("../../chain-query");
+ class ObservableQueryProposalVoteInner extends chain_query_1.ObservableChainQuery {
+     constructor(kvStore, chainId, chainGetter, proposalsId, bech32Address) {
+-        super(kvStore, chainId, chainGetter, `/gov/proposals/${proposalsId}/votes/${bech32Address}`);
++        super(kvStore, chainId, chainGetter, `/cosmos/gov/v1beta1/proposals/${proposalsId}/votes/${bech32Address}`);
+         this.proposalId = proposalsId;
+         this.bech32Address = bech32Address;
+     }
+@@ -12,11 +12,11 @@ class ObservableQueryProposalVoteInner extends chain_query_1.ObservableChainQuer
+         if (!this.response) {
+             return "Unspecified";
+         }
+-        if (typeof this.response.data.result.option === "string") {
+-            return this.response.data.result.option;
++        if (typeof this.response.data.vote.option === "string") {
++            return this.response.data.vote.option;
+         }
+         return (() => {
+-            switch (this.response.data.result.option) {
++            switch (this.response.data.vote.option) {
+                 //yes: 1, abstain: 2, no: 3, no with veto: 4)
+                 case 1:
+                     return "Yes";
