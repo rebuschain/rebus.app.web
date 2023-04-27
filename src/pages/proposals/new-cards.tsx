@@ -86,7 +86,7 @@ const NewCards: FunctionComponent<React.PropsWithChildren<CardsProps>> = observe
 											/>
 										</TooltipGraphSection>
 										<TooltipGraphSection
-											tooltipTitle={`No ${currentProposal.tallyRatio.yes.maxDecimals(2).toString()}%`}>
+											tooltipTitle={`No ${currentProposal.tallyRatio.no.maxDecimals(2).toString()}%`}>
 											<div
 												className="h-7 bg-gradient-rejected"
 												style={{
