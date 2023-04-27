@@ -118,21 +118,21 @@ const NewCards: FunctionComponent<CardsProps> = observer(({ proposals }) => {
 									<div className="py-2">
 										<div className="flex items-center pb-1">
 											<span className="h-4 w-4 mr-3 shrink-0 rounded-full bg-gradient-pass" />
-											<p>Yes {voteCalculation(currentProposal.tally, 'yes')}</p>
+											<p>Yes {currentProposal.tallyRatio.yes.maxDecimals(2).toString() + '%'}</p>
 										</div>
 										<div className="flex items-center pb-1">
 											<span className="h-4 w-4 mr-3 shrink-0 rounded-full bg-error" />
-											<p>No With Veto {voteCalculation(currentProposal.tally, 'no_with_veto')}</p>
+											<p>No With Veto {currentProposal.tallyRatio.noWithVeto.maxDecimals(2).toString() + '%'}</p>
 										</div>
 									</div>
 									<div className="py-2">
 										<div className="flex items-center pb-1">
 											<span className="h-4 w-4 mr-3 shrink-0 rounded-full bg-gradient-rejected" />
-											<p>No {voteCalculation(currentProposal.tally, 'no')}</p>
+											<p>No {currentProposal.tallyRatio.no.maxDecimals(2).toString() + '%'}</p>
 										</div>
 										<div className="flex items-center pb-1">
 											<span className="h-4 w-4 mr-3 shrink-0 rounded-full bg-primary-50" />
-											<p>Abstain {voteCalculation(currentProposal.tally, 'abstain')}</p>
+											<p>Abstain {currentProposal.tallyRatio.abstain.maxDecimals(2).toString() + '%'}</p>
 										</div>
 									</div>
 								</div>
