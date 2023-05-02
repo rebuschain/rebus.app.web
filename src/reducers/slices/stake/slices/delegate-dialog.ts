@@ -22,6 +22,7 @@ export const delegateDialogSlice = createSlice({
 		hideDelegateDialog: state => ({
 			...state,
 			open: false,
+			name: '',
 		}),
 		showDelegateDialog: (state, action: PayloadAction<ShowDelegateDialog>) => ({
 			open: true,
