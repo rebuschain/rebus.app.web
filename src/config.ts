@@ -90,14 +90,14 @@ export const ERC20AssetInfos: {
 		contractAddress: '0x80b5a32E4F032B2a058b4F29EC95EEfEEB87aDcd',
 		currency: LudusCoin,
 	},
-	isMainnet && {
-		contractAddress: '0x6e7a5FAFcec6BB1e78bAE2A1F0B612012BF14827',
-		currency: OsmoCoin,
-	},
-	isMainnet && {
-		contractAddress: '0x0eb3a705fc54725037cc9e008bdede697f62f335',
-		currency: AtomCoin,
-	},
+	// isMainnet && {
+	// 	contractAddress: '0x6e7a5FAFcec6BB1e78bAE2A1F0B612012BF14827',
+	// 	currency: OsmoCoin,
+	// },
+	// isMainnet && {
+	// 	contractAddress: '0x0eb3a705fc54725037cc9e008bdede697f62f335',
+	// 	currency: AtomCoin,
+	// },
 ].filter(Boolean) as any;
 
 export const ContractAddresses = {
@@ -227,24 +227,24 @@ export const EmbedChainInfos: ChainInfoWithExplorer[] = [
 		features: ['stargate', 'ibc-transfer', 'no-legacy-stdTx', 'ibc-go'],
 		explorerUrlToTx: 'https://www.mintscan.io/osmosis/txs/{txHash}',
 	},
-	{
-		rpc: 'https://rpc-cosmoshub.keplr.app',
-		rest: 'https://lcd-cosmoshub.keplr.app',
-		chainId: 'cosmoshub-4',
-		chainName: 'Cosmos Hub',
-		bip44: {
-			coinType: 118,
-		},
-		bech32Config: Bech32Address.defaultBech32Config('cosmos'),
-		stakeCurrency: AtomCoin,
-		currencies: [AtomCoin],
-		feeCurrencies: [AtomCoin],
-		gasPriceStep: {
-			low: 0.01,
-			average: 0.025,
-			high: 0.03,
-		},
-		features: ['ibc-transfer', 'ibc-go'],
-		explorerUrlToTx: 'https://www.mintscan.io/cosmos/txs/{txHash}',
-	},
+	// {
+	// 	rpc: 'https://rpc-cosmoshub.keplr.app',
+	// 	rest: 'https://lcd-cosmoshub.keplr.app',
+	// 	chainId: 'cosmoshub-4',
+	// 	chainName: 'Cosmos Hub',
+	// 	bip44: {
+	// 		coinType: 118,
+	// 	},
+	// 	bech32Config: Bech32Address.defaultBech32Config('cosmos'),
+	// 	stakeCurrency: AtomCoin,
+	// 	currencies: [AtomCoin],
+	// 	feeCurrencies: [AtomCoin],
+	// 	gasPriceStep: {
+	// 		low: 0.01,
+	// 		average: 0.025,
+	// 		high: 0.03,
+	// 	},
+	// 	features: ['ibc-transfer', 'ibc-go'],
+	// 	explorerUrlToTx: 'https://www.mintscan.io/cosmos/txs/{txHash}',
+	// },
 ];
