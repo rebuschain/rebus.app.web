@@ -27,10 +27,14 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 	const [params] = useSearchParams();
 	const navigate = useNavigate();
 
-	const { chainStore, queriesStore, accountStore, priceStore, walletStore } = useStore();
+	const { chainStore, queriesStore, accountStore, priceStore, walletStore, featureFlagStore } = useStore();
+	const { assetsPageErc20ToNative } = featureFlagStore.featureFlags;
 
 	const currencyDenom = params.get('currency');
-	const convertCoinInfo = ERC20AssetInfos.find(info => info.currency?.coinDenom === currencyDenom);
+	const convertCoinInfo =
+		walletStore.isLoaded && !assetsPageErc20ToNative
+			? null
+			: ERC20AssetInfos.find(info => info.currency?.coinDenom === currencyDenom);
 
 	const { isMobileView } = useWindowSize();
 
@@ -215,17 +219,23 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 	}, [chainStore, chainStore.current.currencies, walletStore, walletStore.network]);
 
 	const currencies = useMemo(() => {
-		const currentChainCurrencies = chainStore.current.currencies.filter(cur => !cur.coinMinimalDenom.includes('/'));
-		const currentChainCurrencyDenoms = currentChainCurrencies.map(cur => cur.coinDenom);
+		// TODO: Remove filtering out of OSMO when it is integrated with rebus
+		const currentChainCurrencies = chainStore.current.currencies.filter(
+			cur => !cur.coinDenom.includes('OSMO') && !cur.coinMinimalDenom.includes('/')
+		);
+		const currentChainCurrencyDenoms = currentChainCurrencies
+			.filter(cur => !cur.coinDenom.toLowerCase().includes('OSMO'))
+			.map(cur => cur.coinDenom);
 
 		if (config.NETWORK_TYPE !== 'mainnet') {
 			return currentChainCurrencies;
 		}
 
 		return currentChainCurrencies.concat(
-			EmbedChainInfos.filter(x => !currentChainCurrencyDenoms.includes(x.stakeCurrency.coinDenom)).map(
-				x => x.stakeCurrency
-			)
+			EmbedChainInfos.filter(
+				x =>
+					!x.stakeCurrency.coinDenom.includes('OSMO') && !currentChainCurrencyDenoms.includes(x.stakeCurrency.coinDenom)
+			).map(x => x.stakeCurrency)
 		);
 	}, [chainStore]);
 
@@ -290,7 +300,7 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 								totalErc20FiatValue={totalErc20FiatValue}
 								isMobileView={isMobileView}
 								onConvert={
-									erc20Info
+									erc20Info && (!walletStore.isLoaded || assetsPageErc20ToNative)
 										? () => {
 												onConvert(cur, erc20Info?.contractAddress ?? '');
 										  }
