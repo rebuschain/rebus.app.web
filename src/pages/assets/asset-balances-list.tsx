@@ -3,9 +3,9 @@ import { AppCurrency, IBCCurrency } from '@keplr-wallet/types';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useMemo } from 'react';
 import { Img } from 'src/components/common/img';
-import { ButtonFaint, ButtonSecondary } from 'src/components/layouts/buttons';
+import { ButtonFaint } from 'src/components/layouts/buttons';
 import { Text, TitleText } from 'src/components/texts';
-import { EmbedChainInfos, ERC20AssetInfos, IBCAssetInfos } from 'src/config';
+import { IBCAssetInfos } from 'src/config';
 import { TransferDialog } from 'src/dialogs/transfer';
 import { ConvertDialog } from 'src/dialogs/convert';
 import { TableData, TableHeaderRow } from 'src/pages/assets/components/table';
@@ -14,11 +14,10 @@ import { makeIBCMinimalDenom } from 'src/utils/ibc';
 import useWindowSize from 'src/hooks/use-window-size';
 import { PricePretty } from '@keplr-wallet/unit/build/price-pretty';
 import { Dec } from '@keplr-wallet/unit';
-import { useParams, useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import { useActions } from 'src/hooks/use-actions';
 import { snackbarActions } from 'src/reducers/slices';
-import { config } from '../../config-insync';
 
 const tableWidths = ['45%', '20%', '20%', '15%'];
 const tableWidthsOnMobileView = ['35%', '32.5%', '32.5%'];
@@ -29,12 +28,12 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 
 	const { chainStore, queriesStore, accountStore, priceStore, walletStore, featureFlagStore } = useStore();
 	const { assetsPageErc20ToNative } = featureFlagStore.featureFlags;
+	const { tokenPairs } = queriesStore.get(chainStore.current.chainId).rebus.queryTokenPairs.get();
 
 	const currencyDenom = params.get('currency');
+	const convertCoin = chainStore.current.currencies.find(info => info.coinMinimalDenom === currencyDenom);
 	const convertCoinInfo =
-		walletStore.isLoaded && !assetsPageErc20ToNative
-			? null
-			: ERC20AssetInfos.find(info => info.currency?.coinDenom === currencyDenom);
+		walletStore.isLoaded && !assetsPageErc20ToNative ? null : tokenPairs?.find(info => info.denom === currencyDenom);
 
 	const { isMobileView } = useWindowSize();
 
@@ -190,7 +189,7 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 
 	const onConvert = (currency: AppCurrency, tokenAddress: string) => {
 		navigate({
-			search: `?currency=${currency.coinDenom}`,
+			search: `?currency=${currency.coinMinimalDenom}`,
 		});
 	};
 
@@ -201,10 +200,10 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 			}
 
 			chainStore.current.currencies.forEach(cur => {
-				const erc20Info = ERC20AssetInfos.find(info => info.currency?.coinDenom === cur.coinDenom);
+				const erc20Info = tokenPairs?.find(info => info.denom === cur.coinMinimalDenom);
 
 				if (erc20Info) {
-					walletStore.getBalance(erc20Info.contractAddress, erc20Info.currency, true);
+					walletStore.getBalance(erc20Info.erc20_address, cur, true);
 				}
 			});
 		};
@@ -216,27 +215,13 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 		return () => {
 			clearInterval(interval);
 		};
-	}, [chainStore, chainStore.current.currencies, walletStore, walletStore.network]);
+	}, [chainStore, chainStore.current.currencies, walletStore, walletStore.network, tokenPairs]);
 
 	const currencies = useMemo(() => {
 		// TODO: Remove filtering out of OSMO when it is integrated with rebus
-		const currentChainCurrencies = chainStore.current.currencies.filter(
-			cur => !cur.coinDenom.includes('OSMO') && !cur.coinMinimalDenom.includes('/')
-		);
-		const currentChainCurrencyDenoms = currentChainCurrencies
-			.filter(cur => !cur.coinDenom.toLowerCase().includes('OSMO'))
-			.map(cur => cur.coinDenom);
+		const currentChainCurrencies = chainStore.current.currencies.filter(cur => !cur.coinDenom.includes('OSMO'));
 
-		if (config.NETWORK_TYPE !== 'mainnet') {
-			return currentChainCurrencies;
-		}
-
-		return currentChainCurrencies.concat(
-			EmbedChainInfos.filter(
-				x =>
-					!x.stakeCurrency.coinDenom.includes('OSMO') && !currentChainCurrencyDenoms.includes(x.stakeCurrency.coinDenom)
-			).map(x => x.stakeCurrency)
-		);
+		return currentChainCurrencies;
 	}, [chainStore]);
 
 	return (
@@ -255,14 +240,14 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 					ics20ContractAddress={dialogState.ics20ContractAddress}
 				/>
 			) : null}
-			{convertCoinInfo ? (
+			{convertCoinInfo && convertCoin ? (
 				<ConvertDialog
 					dialogStyle={isMobileView ? {} : { minHeight: '533px', minWidth: '656px', maxWidth: '656px' }}
 					isMobileView={isMobileView}
 					isOpen
 					close={closeConvert}
-					currency={convertCoinInfo.currency}
-					tokenAddress={convertCoinInfo.contractAddress}
+					currency={convertCoin}
+					tokenAddress={convertCoinInfo.erc20_address}
 				/>
 			) : null}
 			<div className="px-5 md:px-0">
@@ -276,8 +261,8 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 						const bal = queries.queryBalances.getQueryBech32Address(address).getBalanceFromCurrency(cur);
 						const totalFiatValue = priceStore.calculatePrice(bal, 'usd');
 
-						const erc20Info = ERC20AssetInfos.find(info => info.currency?.coinDenom === cur.coinDenom);
-						const erc20Balance = walletStore.erc20BalanceMap.get(erc20Info?.contractAddress ?? '');
+						const erc20Info = tokenPairs?.find(info => info.denom === cur.coinMinimalDenom);
+						const erc20Balance = walletStore.erc20BalanceMap.get(erc20Info?.erc20_address ?? '');
 						const totalErc20FiatValue = erc20Balance ? priceStore.calculatePrice(erc20Balance, 'usd') : undefined;
 
 						return (
@@ -300,16 +285,16 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 								totalErc20FiatValue={totalErc20FiatValue}
 								isMobileView={isMobileView}
 								onConvert={
-									erc20Info && (!walletStore.isLoaded || assetsPageErc20ToNative)
+									erc20Info?.enabled && (!walletStore.isLoaded || assetsPageErc20ToNative)
 										? () => {
-												onConvert(cur, erc20Info?.contractAddress ?? '');
+												onConvert(cur, erc20Info?.erc20_address ?? '');
 										  }
 										: undefined
 								}
 								suggestToken={
 									erc20Info && walletStore.isEthereumSupported()
 										? async () => {
-												if (await walletStore.suggestToken(erc20Info.contractAddress!, cur)) {
+												if (await walletStore.suggestToken(erc20Info.erc20_address!, cur)) {
 													showMessage(`${cur.coinDenom} added to wallet`);
 												} else {
 													showMessage(`${cur.coinDenom} not added to wallet`);
