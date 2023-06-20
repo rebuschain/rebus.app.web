@@ -140,7 +140,7 @@ export const ConvertDialog = wrapBaseDialog(
 								value: {
 									coin: {
 										amount: amountConfig.actualAmount,
-										denom: amountConfig.currency.coinMinimalDenom.toLowerCase(),
+										denom: amountConfig.currency.coinMinimalDenom,
 									},
 									sender: fromAddress,
 									receiver,
@@ -158,7 +158,7 @@ export const ConvertDialog = wrapBaseDialog(
 						  } as MessageMsgConvertERC20)
 						: ({
 								amount: amountConfig.actualAmount,
-								denom: amountConfig.currency.coinMinimalDenom.toLowerCase(),
+								denom: amountConfig.currency.coinMinimalDenom,
 								sender: fromAddress,
 								receiver: receiver,
 						  } as MessageMsgConvertCoin)
