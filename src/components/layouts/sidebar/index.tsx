@@ -124,7 +124,7 @@ export const Sidebar: FunctionComponent<React.PropsWithChildren<unknown>> = obse
 				/>
 				<img
 					className="h-10 -mr-2.5"
-					src={`/public/assets/icons/${isOpenSidebar ? 'Close' : 'Menu'}.svg`}
+					src={`/public/assets/icons/${isOpenSidebar ? 'close' : 'menu'}.svg`}
 					alt="hamburger menu"
 					onClick={() => setIsOpenSidebar(!isOpenSidebar)}
 				/>
