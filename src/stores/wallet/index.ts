@@ -54,9 +54,7 @@ import {
 import { AminoMsgConvertCoin, createTxMsgConvertCoin, MessageMsgConvertCoin } from './messages/convert-coin';
 import { AminoMsgConvertERC20, createTxMsgConvertERC20, MessageMsgConvertERC20 } from './messages/convert-erc20';
 import erc20ABI from './abis/erc20.json';
-import { ContractAddresses } from 'src/config';
 import { AppCurrency } from '@keplr-wallet/types';
-import { computedFn } from 'mobx-utils';
 
 const chainId = env('CHAIN_ID');
 const restUrl = env('REST_URL');
@@ -777,6 +775,7 @@ export class WalletStore {
 			tokenInst.functions
 				.balanceOf(this.address)
 				.then(res => {
+					console.log(currency.coinDenom, tokenAddress, res);
 					this.erc20BalanceMap.set(tokenAddress, new CoinPretty(currency, res.balance.toBigInt()));
 					this.erc20BalanceFetchingMap[tokenAddress] = false;
 				})

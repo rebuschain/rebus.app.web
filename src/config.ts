@@ -60,6 +60,15 @@ const LudusCoin = {
 	coinImageUrl: window.location.origin + '/public/assets/tokens/ludus.png',
 };
 
+const TechneCoin = {
+	coinDenom: 'TECHNE',
+	coinMinimalDenom: 'techne',
+	coinDecimals: 18,
+	coinGeckoId: 'techne',
+	coinImageUrl: window.location.origin + '/public/assets/tokens/techne.png',
+	contractAddress: '0x16B4975206628BCd6Fa0F1Abc87c4594439C58Cb',
+};
+
 const OsmoCoin = {
 	coinDenom: 'OSMO',
 	coinMinimalDenom: 'uosmo',
@@ -77,10 +86,6 @@ const AtomCoin = {
 };
 
 const isMainnet = env('NETWORK_TYPE') === 'mainnet';
-
-export const ContractAddresses = {
-	ERC20: '0xa5A785D77ECcc28ECcBDCc9Fc1E81B0d57618D12',
-};
 
 export const EmbedChainInfos: ChainInfoWithExplorer[] = [
 	{
@@ -116,6 +121,7 @@ export const EmbedChainInfos: ChainInfoWithExplorer[] = [
 				coinImageUrl,
 			},
 			LudusCoin,
+			TechneCoin,
 			{
 				coinDenom: 'OSMO',
 				coinMinimalDenom: 'ibc/ED07A3391A112B175915CD8FAF43A2DA8E4790EDE12566649D0C2F97716B8518',
