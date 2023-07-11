@@ -22,6 +22,8 @@ import { snackbarActions } from 'src/reducers/slices';
 const tableWidths = ['45%', '20%', '20%', '15%'];
 const tableWidthsOnMobileView = ['35%', '32.5%', '32.5%'];
 
+const EMPTY_ARRAY = [] as any[];
+
 export const AssetBalancesList = observer(function AssetBalancesList() {
 	const [params] = useSearchParams();
 	const navigate = useNavigate();
@@ -220,12 +222,16 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 		};
 	}, [chainStore, chainStore.current.currencies, walletStore, walletStore.network, tokenPairs]);
 
+	const balancesData = queries.queryBalances.getQueryBech32Address(address).balances[0]?.response?.data as any;
+	const balanceDataResult = (balancesData as any)?.result || EMPTY_ARRAY;
+
 	const currencies = useMemo(() => {
 		// TODO: Remove filtering out of OSMO when it is integrated with rebus
 		const currentChainCurrencies = chainStore.current.currencies.filter(cur => !cur.coinDenom.includes('OSMO'));
+		const denomsToShow = 
 
 		return currentChainCurrencies;
-	}, [chainStore]);
+	}, [balanceDataResult, chainStore]);
 
 	return (
 		<React.Fragment>
