@@ -201,9 +201,12 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 
 			chainStore.current.currencies.forEach(cur => {
 				const erc20Info = tokenPairs?.find(info => info.denom === cur.coinMinimalDenom);
+				const { contractAddress } = cur as any;
 
 				if (erc20Info) {
 					walletStore.getBalance(erc20Info.erc20_address, cur, true);
+				} else if (contractAddress) {
+					walletStore.getBalance(contractAddress, cur, true);
 				}
 			});
 		};
@@ -262,7 +265,8 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 						const totalFiatValue = priceStore.calculatePrice(bal, 'usd');
 
 						const erc20Info = tokenPairs?.find(info => info.denom === cur.coinMinimalDenom);
-						const erc20Balance = walletStore.erc20BalanceMap.get(erc20Info?.erc20_address ?? '');
+						const contractAddress = erc20Info?.erc20_address ?? (cur as any).contractAddress;
+						const erc20Balance = walletStore.erc20BalanceMap.get(contractAddress ?? '');
 						const totalErc20FiatValue = erc20Balance ? priceStore.calculatePrice(erc20Balance, 'usd') : undefined;
 
 						return (
@@ -292,9 +296,9 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 										: undefined
 								}
 								suggestToken={
-									erc20Info && walletStore.isEthereumSupported()
+									contractAddress && walletStore.isEthereumSupported()
 										? async () => {
-												if (await walletStore.suggestToken(erc20Info.erc20_address!, cur)) {
+												if (await walletStore.suggestToken(contractAddress!, cur)) {
 													showMessage(`${cur.coinDenom} added to wallet`);
 												} else {
 													showMessage(`${cur.coinDenom} not added to wallet`);
