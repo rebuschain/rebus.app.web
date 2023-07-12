@@ -775,7 +775,6 @@ export class WalletStore {
 			tokenInst.functions
 				.balanceOf(this.address)
 				.then(res => {
-					console.log(currency.coinDenom, tokenAddress, res);
 					this.erc20BalanceMap.set(tokenAddress, new CoinPretty(currency, res.balance.toBigInt()));
 					this.erc20BalanceFetchingMap[tokenAddress] = false;
 				})
