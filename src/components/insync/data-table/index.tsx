@@ -19,6 +19,7 @@ type DataTableProps<T = any> = {
 	noData?: ReactElement;
 	tableRowClassName?: string;
 	mobileRowTriggerWidth?: number;
+	initialSort?: SortState;
 };
 
 const getItemKey = (item: any) => item.id;
@@ -35,8 +36,9 @@ const DataTable: FunctionComponent<React.PropsWithChildren<DataTableProps>> = ({
 	noData,
 	tableRowClassName,
 	mobileRowTriggerWidth,
+	initialSort,
 }) => {
-	const [sortState, setSortState] = useState<SortState>();
+	const [sortState, setSortState] = useState<SortState | undefined>(initialSort);
 	const { isMobileView } = useWindowSize();
 
 	const listRef = useRef<VariableSizeList | null>();

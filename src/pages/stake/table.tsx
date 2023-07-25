@@ -307,6 +307,10 @@ const Table = observer<TableProps>(({ active, className, tableRowClassName }) =>
 			noData={noDataFound}
 			tableRowClassName={tableRowClassName}
 			mobileRowTriggerWidth={830}
+			initialSort={{
+				property: 'votingPower',
+				direction: 'desc',
+			}}
 		/>
 	);
 });

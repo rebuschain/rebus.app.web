@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Button, Dialog, DialogActions, DialogContent } from '@mui/material';
 import { CoinPretty, Dec } from '@keplr-wallet/unit';
@@ -25,6 +25,8 @@ import ValidatorSelectField from './validator-select-field';
 import TokensTextField from './tokens-text-field';
 import ToValidatorSelectField from './to-validator-select-field';
 import { TransactionResponse } from 'src/stores/wallet/types';
+import ConfirmDialog from './confirm-dialog';
+import { sortValidators } from 'src/utils/format';
 
 const COIN_DECI_VALUE = 10 ** config.COIN_DECIMALS;
 
@@ -40,6 +42,7 @@ const selector = (state: RootState) => {
 		amount: state.stake.delegateDialog.tokens,
 		validator: state.stake.delegateDialog.validatorAddress,
 		toValidator: state.stake.delegateDialog.toValidatorAddress,
+		validatorList: state.stake.validators.list,
 	};
 };
 
@@ -62,7 +65,7 @@ const DelegateDialog = observer<DelegateDialogProps>(({ canDelegateToInactive })
 		snackbarActions.showSnackbar,
 	]);
 
-	const { lang, open, name, amount, validator, toValidator } = useAppSelector(selector);
+	const { lang, open, name, amount, validator, toValidator, validatorList } = useAppSelector(selector);
 	const amountDec = new Dec(amount || '0');
 
 	const { accountStore, chainStore, queriesStore, walletStore } = useStore();
@@ -70,6 +73,12 @@ const DelegateDialog = observer<DelegateDialogProps>(({ canDelegateToInactive })
 	const { isEvmos } = account.rebus;
 	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
 	const queries = queriesStore.get(chainStore.current.chainId);
+
+	const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+	const onCloseConfirm = useCallback(() => {
+		setInProgress(false);
+		setIsConfirmOpen(false);
+	}, []);
 
 	const delegations = queries.rebus.queryDelegations.get(address).response?.data?.result;
 
@@ -82,6 +91,23 @@ const DelegateDialog = observer<DelegateDialogProps>(({ canDelegateToInactive })
 	const [inProgress, setInProgress] = useState(false);
 	const handleDelegateType = async () => {
 		setInProgress(true);
+
+		// If validator is in the top 20, open confirm dialog
+		const valAddress = toValidator || validator;
+		const validatorIndex = sortValidators(validatorList?.slice() || [])?.findIndex(
+			x => x.operator_address === valAddress
+		);
+		if (
+			((name as any) === 'Delegate' || (name as any) === 'Redelegate') &&
+			!isConfirmOpen &&
+			validatorIndex >= 0 &&
+			validatorIndex < 20
+		) {
+			setIsConfirmOpen(true);
+			return;
+		}
+
+		setIsConfirmOpen(false);
 
 		let txCode = 0;
 		let txHash: string | undefined = '';
@@ -285,6 +311,13 @@ const DelegateDialog = observer<DelegateDialogProps>(({ canDelegateToInactive })
 					{inProgress ? variables[lang]['approval_pending'] : name}
 				</ButtonStyled>
 			</DialogActions>
+			<ConfirmDialog
+				content={`Are you sure you wish to delegate to one of the top 20 validators? To improve decentralization, please consider delegating to other validators`}
+				isOpen={isConfirmOpen}
+				onClose={onCloseConfirm}
+				onConfirm={handleDelegateType}
+				title="Confirm Delegation"
+			/>
 		</Dialog>
 	);
 });

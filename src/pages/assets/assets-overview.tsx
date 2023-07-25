@@ -20,6 +20,9 @@ export const AssetsOverview: FunctionComponent<React.PropsWithChildren<{ title: 
 	const availableBalanceList = queries.queryBalances.getQueryBech32Address(address).balances.map(bal => bal.balance);
 	const availableBalancePrice = calcTotalFiatValue(availableBalanceList);
 
+	const spendableBalance = queries.rebus.querySpendableBalance.get(address).balance(chainStore.current.stakeCurrency);
+	const spendableBalancePrice = calcTotalFiatValue([spendableBalance]);
+
 	const delegatedBalance = queries.cosmos.queryDelegations.getQueryBech32Address(address).total;
 	const unbondingBanace = queries.cosmos.queryUnbondingDelegations.getQueryBech32Address(address).total;
 	const delegatedBalancePrice = calcTotalFiatValue([delegatedBalance, unbondingBanace]);
@@ -59,6 +62,12 @@ export const AssetsOverview: FunctionComponent<React.PropsWithChildren<{ title: 
 					<OverviewLabelValue label="Staked Rebus">
 						<TitleText size="2xl" pb={0} isMobileView={isMobileView}>
 							{delegatedBalancePrice.toString()}
+						</TitleText>
+					</OverviewLabelValue>
+
+					<OverviewLabelValue label="Spendable Rebus">
+						<TitleText size="2xl" pb={0} isMobileView={isMobileView}>
+							{spendableBalancePrice.toString()}
 						</TitleText>
 					</OverviewLabelValue>
 				</AssetsListRow>

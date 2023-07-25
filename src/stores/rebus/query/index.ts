@@ -21,6 +21,7 @@ import { ObservableQueryTotalCliamable, ObservableQueryClaimRecord, ObservableQu
 import { ObservableQueryGuage } from './incentives';
 import { ObservableQueryIdRecord } from './nftid';
 import { ObservableQueryTokenPairs } from './tokens';
+import { ObservableQuerySpendableBalance } from './spendable-balance';
 
 export interface HasRebusQueries {
 	rebus: RebusQueries;
@@ -63,6 +64,8 @@ export class RebusQueries {
 
 	public readonly queryTokenPairs: DeepReadonly<ObservableQueryTokenPairs>;
 
+	public readonly querySpendableBalance: DeepReadonly<ObservableQuerySpendableBalance>;
+
 	constructor(queries: QueriesSetBase, kvStore: KVStore, chainId: string, chainGetter: ChainGetter) {
 		this.queryLockedCoins = new ObservableQueryAccountLockedCoins(kvStore, chainId, chainGetter);
 		this.queryUnlockingCoins = new ObservableQueryAccountUnlockingCoins(kvStore, chainId, chainGetter);
@@ -87,5 +90,7 @@ export class RebusQueries {
 		this.queryIdRecord = new ObservableQueryIdRecord(kvStore, chainId, chainGetter);
 
 		this.queryTokenPairs = new ObservableQueryTokenPairs(kvStore, chainId, chainGetter);
+
+		this.querySpendableBalance = new ObservableQuerySpendableBalance(kvStore, chainId, chainGetter);
 	}
 }

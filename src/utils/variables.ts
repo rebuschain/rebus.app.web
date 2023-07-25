@@ -12,6 +12,7 @@ const variables = {
 		available_tokens: 'Available Tokens',
 		staked_tokens: 'Staked Tokens',
 		un_staked_tokens: 'Unstaked Tokens',
+		spendable_tokens: 'Spendable Tokens',
 		eligible_groups: 'Eligible Groups',
 		error_too_many_delegations: 'Too many delegations to this validator',
 		error_redelegation_in_progress: 'Redelegation to this validator already in progress, please wait until it finishes',
