@@ -6,6 +6,7 @@ import { delegateDialogActions } from 'src/reducers/slices';
 import { useActions } from 'src/hooks/use-actions';
 import { useAppSelector } from 'src/hooks/use-app-select';
 import { RootState } from 'src/reducers/store';
+import { sortValidators } from 'src/utils/format';
 
 const colors = ['#0023DA', '#C9387E', '#EC2C00', '#80E3F2', '#E86FC5', '#1F3278', '#FFE761', '#7041B9'];
 
@@ -41,13 +42,9 @@ const ToValidatorSelectField: FunctionComponent<React.PropsWithChildren<ToValida
 		const newList = validatorList?.slice() || [];
 
 		// Filter active validators only if not on inactive tab
-		return (
-			(canDelegateToInactive
-				? newList?.sort((a, b) => (bigInt(b.tokens).lesser(bigInt(a.tokens)) ? 1 : -1))
-				: newList
-						?.filter(item => item.status === 3)
-						.sort((a, b) => (bigInt(b.tokens).lesser(bigInt(a.tokens)) ? 1 : -1))) || []
-		);
+		return canDelegateToInactive
+			? sortValidators(newList)
+			: sortValidators(newList?.filter(item => item.status === 3)) || [];
 	}, [canDelegateToInactive, validatorList]);
 
 	return (

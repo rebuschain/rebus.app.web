@@ -6,6 +6,7 @@ import capitalize from 'lodash-es/capitalize';
 import isString from 'lodash-es/isString';
 import lowerCase from 'lodash-es/lowerCase';
 import isNil from 'lodash-es/isNil';
+import bigInt from 'big-integer';
 
 import { TBigInput, fixed, multiply } from './big';
 import { isNumber } from './scripts';
@@ -67,3 +68,8 @@ export const truncateString = (str: string, front: number, back: number) =>
 export const commaizeNumber = memoize((value: string | number) => {
 	return String(value).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
 });
+
+export const sortValidators = (validators: any[]) => {
+	validators?.sort((a, b) => (bigInt(b.tokens).lesser(bigInt(a.tokens)) ? -1 : 1));
+	return validators;
+};

@@ -36,6 +36,14 @@ const TokenDetails = observer<TokenDetailsProps>(props => {
 		.toString();
 	const balanceInProgress = balanceQuery.stakable.isFetching;
 
+	const spendableBalanceQuery = queries.rebus.querySpendableBalance.get(address);
+	const spendable = spendableBalanceQuery
+		.balance(chainStore.current.stakeCurrency)
+		.hideDenom(true)
+		.maxDecimals(2)
+		.toString();
+	const spendableInProgress = spendableBalanceQuery.isFetching;
+
 	const delegationsQuery = queries.cosmos.queryDelegations.getQueryBech32Address(address);
 	const staked = delegationsQuery.total
 		.hideDenom(true)
@@ -67,6 +75,13 @@ const TokenDetails = observer<TokenDetailsProps>(props => {
 					{balanceInProgress ? <DotsLoading /> : <Value>{available}</Value>}
 				</Chip>
 				<StakeTokensButton />
+			</ChipInfo>
+			<ChipInfo>
+				<Label>{langVariables['spendable_tokens']}</Label>
+				<Chip>
+					<Icon alt="spendable tokens" src={totalTokens} />
+					{spendableInProgress ? <DotsLoading /> : <Value>{spendable}</Value>}
+				</Chip>
 			</ChipInfo>
 			<ChipInfo>
 				<Label>{langVariables['staked_tokens']}</Label>
