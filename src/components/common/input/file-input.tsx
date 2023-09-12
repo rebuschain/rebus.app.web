@@ -91,7 +91,7 @@ export const FileInput: React.FC<React.PropsWithChildren<FileInputProps>> = ({
 							</button>
 						)}
 					</div>
-					<Button backgroundStyle="blue" onClick={onStartUpload} smallBorderRadius smallFont textTransform="uppercase">
+					<Button backgroundStyle="secondary" onClick={onStartUpload} textTransform="uppercase">
 						Upload
 					</Button>
 				</div>

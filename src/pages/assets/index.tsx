@@ -10,6 +10,32 @@ import { AssetBalancesList } from './asset-balances-list';
 import { AssetsOverview } from './assets-overview';
 import { IbcTransferHistoryList } from './ibc-transfer-history-list';
 
+/* Import statement and neat way to test buttons
+import { Button } from 'src/components/common/button';
+
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridGap: '10px' }}>
+	<Button backgroundStyle={'primary'} disabled={false}>
+		Placeholder
+	</Button>
+	<Button backgroundStyle={'primary'} disabled={true}>
+		Placeholder
+	</Button>
+	<Button backgroundStyle={'secondary'} disabled={false}>
+		Placeholder
+	</Button>
+	<Button backgroundStyle={'secondary'} disabled={true}>
+		Placeholder
+	</Button>
+	<Button backgroundStyle={'ghost'} disabled={false}>
+		Placeholder
+	</Button>
+	<Button backgroundStyle={'ghost'} disabled={true}>
+		Placeholder
+	</Button>
+</div>
+
+*/
+
 const AssetsPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer(() => {
 	const navigate = useNavigate();
 	const { ibcTransferHistoryStore, chainStore, accountStore, walletStore, featureFlagStore } = useStore();

@@ -220,10 +220,9 @@ export const IdForm: React.FC<React.PropsWithChildren<IdFormProps>> = ({
 						/>
 					)}
 					<Button
-						backgroundStyle="blue"
+						backgroundStyle="secondary"
 						disabled={isLoading || isSubmitDisabled}
-						onClick={shouldConfirm ? openConfirmDialog : onSubmit}
-						smallBorderRadius>
+						onClick={shouldConfirm ? openConfirmDialog : onSubmit}>
 						{buttonText}
 					</Button>
 				</div>

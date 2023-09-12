@@ -282,10 +282,9 @@ export const StatusChangeButton = observer<StatusChangeButtonProps>(({ className
 				Status: <span className={active ? 'text-green' : 'text-red'}>{active ? 'Active' : 'Not Active'}</span>
 			</h6>
 			<Button
-				backgroundStyle="blue"
+				backgroundStyle="secondary"
 				disabled={iSubmitting}
 				onClick={openConfirmDialog}
-				smallBorderRadius
 				style={{ marginTop: '8px' }}>
 				{active ? 'Deactivate' : 'Activate'}
 			</Button>

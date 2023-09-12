@@ -1,102 +1,98 @@
-import React, { FunctionComponent, forwardRef } from 'react';
-import { Button as MaterialButton, ButtonProps } from '@mui/material';
-import styled from '@emotion/styled';
-import { colorWhite, colorBlackLow } from 'src/emotion-styles/colors';
+import React from 'react';
+import styled from 'styled-components';
+import colors from 'src/colors';
 
-type Props = ButtonProps & {
-	backgroundStyle?: 'gradient-pink-blue' | 'gradient-pink' | 'gradient-blue' | 'gradient-green' | 'blue' | null;
-	smallBorderRadius?: boolean;
-	smallFont?: boolean;
+interface ButtonProps {
+	backgroundStyle?: 'primary' | 'secondary' | 'ghost' | null;
 	textTransform?: 'uppercase' | 'capitalize' | 'none';
-};
-
-type StyledProps = {
-	background: string;
-	backgroundColor: string | undefined;
-	smallBorderRadius?: boolean;
-	smallFont?: boolean;
-	textColor: string;
-	textTransform: string;
+	children?: React.ReactNode;
+	disabled?: boolean;
+	onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+	style?: React.CSSProperties;
 	ref?: React.Ref<HTMLButtonElement>;
+}
+
+export const Button: React.FC<ButtonProps> = ({
+	backgroundStyle = 'primary',
+	textTransform,
+	children,
+	onClick,
+	disabled,
+	style,
+}) => {
+	return (
+		<ButtonStyled
+			backgroundStyle={backgroundStyle}
+			textTransform={textTransform}
+			onClick={onClick}
+			disabled={disabled}
+			style={style}>
+			{children}
+		</ButtonStyled>
+	);
 };
 
-export const Button: FunctionComponent<React.PropsWithChildren<Props>> = forwardRef(
-	(
-		{
-			backgroundStyle = 'gradient-pink-blue',
-			children,
-			smallBorderRadius,
-			smallFont,
-			textTransform = 'none',
-			...props
-		},
-		ref
-	) => {
-		let background = '';
-		let backgroundColor = undefined;
-		let textColor = colorWhite;
-
-		if (backgroundStyle === 'gradient-pink') {
-			background = 'linear-gradient(104.04deg, #e95062 0%, #e950d0 100%)';
-		} else if (backgroundStyle === 'gradient-pink-blue') {
-			background = 'linear-gradient(135deg, #e95062, #e950b3 52%, #5084e9)';
-		} else if (backgroundStyle === 'gradient-green') {
-			background = 'linear-gradient(104.04deg, #50e996 0%, #b8e950 100%)';
-			textColor = colorBlackLow;
-		} else if (backgroundStyle === 'gradient-blue') {
-			background = 'linear-gradient(104.04deg, #5084e9 0%, #6f50e9 100%)';
-		} else if (backgroundStyle === 'blue') {
-			background = '';
-			backgroundColor = '#2F80ED';
-		}
-
-		return (
-			<StyledMaterialButton
-				background={background}
-				backgroundColor={backgroundColor}
-				ref={ref}
-				smallBorderRadius={smallBorderRadius}
-				smallFont={smallFont}
-				textTransform={textTransform}
-				textColor={textColor}
-				variant="outlined"
-				{...props}>
-				{children}
-			</StyledMaterialButton>
-		);
-	}
-);
-
-Button.displayName = 'Button';
-
-const MaterialButtonWithRef = React.forwardRef<HTMLButtonElement, Props & StyledProps>(
-	({ background, backgroundColor, smallBorderRadius, smallFont, textColor, textTransform, ...rest }, ref) => (
-		<MaterialButton ref={ref} {...rest} />
-	)
-);
-
-MaterialButtonWithRef.displayName = 'MaterialButtonWithRef';
-
-const StyledMaterialButton = styled(MaterialButtonWithRef)<StyledProps>`
-	background-image: ${props => props.background} !important;
-	${props => (props.backgroundColor ? `background-color: ${props.backgroundColor} !important;` : '')}
-	border: ${props => props.background && 'none !important'};
-	border-radius: ${props => (props.smallBorderRadius ? '10px' : '20px')} !important;
-	color: ${props => props.textColor};
-	font-family: Inter, ui-sans-serif, system-ui;
-	font-size: ${props => (props.smallFont ? '12px' : '14px')} !important;
-	font-weight: 600;
+const ButtonStyled = styled.button<ButtonProps>`
+	display: flex;
 	text-align: center;
-	text-transform: ${props => props.textTransform} !important;
+	justify-content: center;
+	background: ${props => {
+		switch (props.backgroundStyle) {
+			case 'primary':
+				return props.theme.primary;
+			case 'secondary':
+				return props.theme.gray.lightest;
+			case 'ghost':
+				return 'transparent';
+		}
+	}};
+	border: none;
+	border-radius: 38px;
+	color: ${props => {
+		if (props.backgroundStyle === 'primary') {
+			return colors.white;
+		} else {
+			return props.theme.text;
+		}
+	}};
+	height: 48px;
+	font-family: Inter, ui-sans-serif, system-ui;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 24px;
+	letter-spacing: 0em;
+	padding: 12px 24px;
+	text-transform: ${props => props.textTransform};
 
 	&:disabled {
-		opacity: 0.4;
+		background-image: none;
+		background-color: ${props => props.theme.gray.medium};
+		color: ${props => props.theme.gray.dark};
 	}
 
-	& > span,
-	& > p {
-		color: ${props => props.textColor};
+	&:not(:disabled):hover {
+		background: ${props => {
+			switch (props.backgroundStyle) {
+				case 'primary':
+					return props.theme.linearGradient;
+				case 'secondary':
+					return props.theme.gray.lighter;
+				case 'ghost':
+					return props.theme.gray.lightest;
+			}
+		}};
+	}
+
+	&:not(:disabled):active {
+		background: ${props => {
+			switch (props.backgroundStyle) {
+				case 'primary':
+					return props.theme.linearGradient;
+				case 'secondary':
+					return props.theme.gray.lightest;
+				case 'ghost':
+					return props.theme.gray.lighter;
+			}
+		}};
 	}
 `;
-
-StyledMaterialButton.displayName = 'StyledMaterialButton';

@@ -87,7 +87,7 @@ const NftIdPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer(
 				</p>
 				{address ? (
 					<Button
-						backgroundStyle="gradient-blue"
+						backgroundStyle="primary"
 						onClick={e => {
 							e.preventDefault();
 							disconnectAccount();
