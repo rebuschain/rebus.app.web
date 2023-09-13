@@ -6,7 +6,6 @@ export const ROUTES = {
 	NFT_ID_VIEW: '/nft-id/:organization/:type/:address',
 	TOOLS: '/tools',
 	VOTE: '/proposals',
-	AIRDROP: '/airdrop',
 	STAKE: '/staking',
 	WALLET_CONNECT: '/wallet-connect',
 };

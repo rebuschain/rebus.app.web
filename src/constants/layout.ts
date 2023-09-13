@@ -27,14 +27,6 @@ export const LAYOUT = {
 			ROUTE: ROUTES.STAKE,
 			SELECTED_CHECK: ROUTES.STAKE,
 		},
-		AIRDROP: {
-			TYPE: 'airdrop',
-			ICON: '/public/assets/icons/airdrop.svg',
-			ICON_SELECTED: '/public/assets/icons/airdrop-selected.svg',
-			TEXT: 'Airdrop',
-			ROUTE: ROUTES.AIRDROP,
-			SELECTED_CHECK: ROUTES.AIRDROP,
-		},
 		PROPOSALS: {
 			TYPE: 'proposals',
 			ICON: '/public/assets/icons/vote.svg',
@@ -63,7 +55,7 @@ export const LAYOUT = {
 	},
 };
 export type TSIDEBAR_ITEM = {
-	TYPE: 'assets' | 'ibc-transfer' | 'stake' | 'airdrop' | 'proposals' | 'tools' | 'nft-id';
+	TYPE: 'assets' | 'ibc-transfer' | 'stake' | 'proposals' | 'tools' | 'nft-id';
 	ICON: string;
 	ICON_WIDTH_CLASS: string;
 	ICON_SELECTED: string;

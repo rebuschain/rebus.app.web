@@ -69,7 +69,6 @@ const NftId = lazy(() => import('./pages/nft-id'));
 const NftIdView = lazy(() => import('./pages/nft-id-view'));
 const Tools = lazy(() => import('./pages/tools'));
 const Assets = lazy(() => import('./pages/assets'));
-const AirDrop = lazy(() => import('./pages/airdrop'));
 const Stake = lazy(() => import('./pages/home'));
 const Vote = lazy(() => import('./pages/proposals'));
 const ProposalDetails = lazy(() => import('./pages/proposal-details'));
@@ -100,7 +99,6 @@ const Router: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 															<Route path={ROUTES.NFT_ID_VIEW} element={<NftIdView />} />
 															<Route path={ROUTES.TOOLS} element={<Tools />} />
 															<Route path={ROUTES.ASSETS} element={<Assets />} />
-															<Route path={ROUTES.AIRDROP} element={<AirDrop />} />
 															<Route path={ROUTES.STAKE} element={<Stake />} />
 															<Route path={ROUTES.VOTE} element={<Vote />} />
 															<Route path={`${ROUTES.VOTE}/:proposalId`} element={<ProposalDetails />} />
