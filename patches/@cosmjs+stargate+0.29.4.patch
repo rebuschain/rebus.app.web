@@ -1,5 +1,5 @@
 diff --git a/node_modules/@cosmjs/stargate/build/signingstargateclient.d.ts b/node_modules/@cosmjs/stargate/build/signingstargateclient.d.ts
-index b740a94..1ec8df6 100644
+index c4a7fde..04561e0 100644
 --- a/node_modules/@cosmjs/stargate/build/signingstargateclient.d.ts
 +++ b/node_modules/@cosmjs/stargate/build/signingstargateclient.d.ts
 @@ -68,7 +68,7 @@ export declare class SigningStargateClient extends StargateClient {
@@ -12,10 +12,10 @@ index b740a94..1ec8df6 100644
      private signDirect;
  }
 diff --git a/node_modules/@cosmjs/stargate/build/signingstargateclient.js b/node_modules/@cosmjs/stargate/build/signingstargateclient.js
-index 7595431..f6a007f 100644
+index 7884e36..efafcd8 100644
 --- a/node_modules/@cosmjs/stargate/build/signingstargateclient.js
 +++ b/node_modules/@cosmjs/stargate/build/signingstargateclient.js
-@@ -188,7 +188,7 @@ class SigningStargateClient extends stargateclient_1.StargateClient {
+@@ -178,7 +178,7 @@ class SigningStargateClient extends stargateclient_1.StargateClient {
       * from the chain. This is needed when signing for a multisig account, but it also allows for offline signing
       * (See the SigningStargateClient.offline constructor).
       */
@@ -24,7 +24,7 @@ index 7595431..f6a007f 100644
          let signerData;
          if (explicitSignerData) {
              signerData = explicitSignerData;
-@@ -203,16 +203,21 @@ class SigningStargateClient extends stargateclient_1.StargateClient {
+@@ -193,16 +193,21 @@ class SigningStargateClient extends stargateclient_1.StargateClient {
              };
          }
          return (0, proto_signing_1.isOfflineDirectSigner)(this.signer)
@@ -49,3 +49,23 @@ index 7595431..f6a007f 100644
          const signMode = signing_1.SignMode.SIGN_MODE_LEGACY_AMINO_JSON;
          const msgs = messages.map((msg) => this.aminoTypes.toAmino(msg));
          const signDoc = (0, amino_1.makeSignDoc)(msgs, fee, chainId, memo, accountNumber, sequence);
+@@ -225,13 +230,18 @@ class SigningStargateClient extends stargateclient_1.StargateClient {
+             signatures: [(0, encoding_1.fromBase64)(signature.signature)],
+         });
+     }
+-    async signDirect(signerAddress, messages, fee, memo, { accountNumber, sequence, chainId }) {
++    async signDirect(signerAddress, messages, fee, memo, { accountNumber, sequence, chainId }, isEvmos) {
+         (0, utils_1.assert)((0, proto_signing_1.isOfflineDirectSigner)(this.signer));
+         const accountFromSigner = (await this.signer.getAccounts()).find((account) => account.address === signerAddress);
+         if (!accountFromSigner) {
+             throw new Error("Failed to retrieve account from signer");
+         }
+         const pubkey = (0, proto_signing_1.encodePubkey)((0, amino_1.encodeSecp256k1Pubkey)(accountFromSigner.pubkey));
++
++        if (isEvmos) {
++            pubkey.typeUrl = '/ethermint.crypto.v1.ethsecp256k1.PubKey';
++        }
++
+         const txBodyEncodeObject = {
+             typeUrl: "/cosmos.tx.v1beta1.TxBody",
+             value: {
