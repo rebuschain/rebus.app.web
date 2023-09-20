@@ -1,6 +1,6 @@
-import styled from '@emotion/styled';
+import styled, { ThemeProvider } from 'styled-components';
 import { observer } from 'mobx-react-lite';
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CenterSelf } from 'src/components/layouts/containers';
 import { ROUTES } from 'src/constants/routes';
@@ -9,6 +9,22 @@ import SnackbarMessage from 'src/components/insync/snackbar-message';
 import { AssetBalancesList } from './asset-balances-list';
 import { AssetsOverview } from './assets-overview';
 import { IbcTransferHistoryList } from './ibc-transfer-history-list';
+
+/*
+Import statements needed to test TextField component:
+import TextField from 'src/components/insync/text-field/textField';
+
+Place inside return below to test Textfields:
+<TextField label="Label" assistiveText="Assistive Text" disabled={false} error={false} errorMessage="" />
+<TextField label="Label" assistiveText="Assistive Text" disabled={true} error={false} errorMessage="" />
+<TextField
+	label="Label"
+	assistiveText="Assistive Text"
+	disabled={false}
+	error={true}
+	errorMessage="Invalid password"
+/>
+*/
 
 const AssetsPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer(() => {
 	const navigate = useNavigate();
