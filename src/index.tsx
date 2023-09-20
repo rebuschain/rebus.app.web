@@ -8,14 +8,15 @@ if (publicPath) {
 	__webpack_public_path__ = publicPath;
 }
 
-import { ThemeProvider, Theme, StyledEngineProvider, createTheme, makeStyles } from '@mui/material/styles';
+import { StyledEngineProvider } from '@mui/material/styles';
+import { ThemeProvider } from 'styled-components';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
-import React, { FunctionComponent, Suspense, lazy } from 'react';
+import React, { FunctionComponent, Suspense, lazy, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -25,7 +26,6 @@ import { Bounce, ToastContainer } from 'react-toastify';
 import { Loader } from 'src/components/common/loader';
 import { ROUTES } from './constants/routes';
 import 'react-toastify/dist/ReactToastify.css';
-
 import 'tippy.js/dist/tippy.css';
 import { ToastProvider } from './components/common/toasts';
 import { NotFoundPage } from './pages/not-found';
@@ -36,15 +36,13 @@ import { Terms } from './terms';
 import { IBCHistoryNotifier } from './provider';
 import { AccountConnectionProvider } from 'src/hooks/account/context';
 import styled from '@emotion/styled';
-import '@mui/styles';
 
 import { store } from './reducers/store';
 import { RouteWrapper } from './components/layouts/route-wrapper';
 
-declare module '@mui/styles/defaultTheme' {
-	// eslint-disable-next-line @typescript-eslint/no-empty-interface
-	interface DefaultTheme extends Theme {}
-}
+import { lightTheme, darkTheme } from 'src/theme';
+//import Slider from 'src/components/common/slider'; Import to test
+import { useCookies } from 'react-cookie';
 
 const LoaderStyled = styled(Loader)`
 	width: 6rem;
@@ -60,7 +58,6 @@ dayjs.extend(duration);
 dayjs.extend(utc);
 
 const queryClient = new QueryClient();
-const theme = createTheme();
 const container = document.getElementById('app');
 const root = createRoot(container!);
 
@@ -76,9 +73,22 @@ const WalletConnect = lazy(() => import('./pages/wallet-connect'));
 const RedirectToAssets = () => <Navigate to={ROUTES.ASSETS} />;
 
 const Router: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
+	const [cookies, setCookie] = useCookies(['theme']);
+
+	const toggleTheme = () => {
+		const newTheme = cookies.theme === 'dark' ? 'light' : 'dark';
+		setCookie('theme', newTheme, { path: '/' });
+	};
+
+	/* Include Slider to test, under Terms component places it at the top of the screen
+	<div>
+		<Slider toggleTheme={toggleTheme} isDarkTheme={isDark ? true : false} />
+	</div>
+	*/
+
 	return (
 		<StyledEngineProvider injectFirst>
-			<ThemeProvider theme={theme}>
+			<ThemeProvider theme={cookies.theme === 'dark' ? darkTheme : lightTheme}>
 				<LocalizationProvider dateAdapter={AdapterDayjs}>
 					<QueryClientProvider client={queryClient}>
 						<Provider store={store}>
