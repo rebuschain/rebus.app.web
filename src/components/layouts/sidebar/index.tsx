@@ -71,10 +71,6 @@ export const Sidebar: FunctionComponent<React.PropsWithChildren<unknown>> = obse
 								<section>
 									{mapKeyValues(LAYOUT.SIDEBAR, (_: string, sidebarItem: TSIDEBAR_ITEM) => sidebarItem)
 										.filter((sidebarItem: TSIDEBAR_ITEM) => {
-											if (sidebarItem.TYPE === 'airdrop') {
-												return claimEnabled;
-											}
-
 											if (sidebarItem.TYPE === 'assets') {
 												return featureFlagStore.featureFlags.assetsPage;
 											}

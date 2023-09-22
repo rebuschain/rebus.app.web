@@ -549,7 +549,7 @@ const IbcTransferPage: FunctionComponent<React.PropsWithChildren<unknown>> = obs
 						}}
 					/>
 				) : (
-					<Button className="w-full md:w-2/3 p-4 md:p-6 h-14" disabled={isDisabled} onClick={onSubmit}>
+					<Button disabled={isDisabled} onClick={onSubmit}>
 						{isLoading ||
 						(isWithdraw && account.isSendingMsg === 'ibcTransfer') ||
 						(!isWithdraw && counterpartyAccount.isSendingMsg === 'ibcTransfer') ? (

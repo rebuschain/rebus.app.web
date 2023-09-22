@@ -32,20 +32,17 @@ const SliderStyled = styled.div`
 	text-align: center;
 	font-family: [ 'Inter', 'ui-sans-serif', 'system-ui' ];
 	margin-top: 20px;
-
 	.switch {
 		position: relative;
 		display: inline-block;
 		width: 40px;
 		height: 20px;
 	}
-
 	.switch input {
 		opacity: 0;
 		width: 0;
 		height: 0;
 	}
-
 	.slider {
 		position: absolute;
 		cursor: pointer;
@@ -58,7 +55,6 @@ const SliderStyled = styled.div`
 		transition: 0.4s;
 		border-radius: 10px;
 	}
-
 	.slider:before {
 		position: absolute;
 		content: '';
@@ -80,7 +76,6 @@ const SliderStyled = styled.div`
 		background-image: none;
 		background-color: ${props => props.theme.background};
 	}
-
 	p {
 		margin-top: 10px;
 		color: ${props => props.theme.text};

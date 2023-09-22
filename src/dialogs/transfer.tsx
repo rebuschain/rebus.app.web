@@ -317,7 +317,6 @@ export const TransferDialog = wrapBaseDialog(
 							/>
 						) : (
 							<Button
-								className="w-full md:w-2/3 p-4 md:p-6 h-14"
 								disabled={
 									(isWithdraw && !walletStore.isLoaded && !account.isReadyToSendMsgs) ||
 									(!isWithdraw && !counterpartyAccount.isReadyToSendMsgs) ||

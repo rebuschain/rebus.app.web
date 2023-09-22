@@ -198,7 +198,7 @@ const WalletConnect: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 					{!isMobileWeb ? (
 						<div className="ml-4">
 							<Button
-								backgroundStyle="gradient-blue"
+								backgroundStyle="primary"
 								onClick={e => {
 									e.preventDefault();
 									disconnectAccount();

@@ -517,11 +517,7 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 							titleSuffix={
 								<div className="whitespace-nowrap">
 									<Tooltip title="Open public view of NFT ID in another tab" arrow>
-										<Button
-											ref={publicViewTooltipRef}
-											backgroundStyle="blue"
-											onClick={goToPublicPreviewLink}
-											smallBorderRadius>
+										<Button ref={publicViewTooltipRef} backgroundStyle="secondary" onClick={goToPublicPreviewLink}>
 											See Public View
 										</Button>
 									</Tooltip>
@@ -534,10 +530,9 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 										arrow>
 										<Button
 											ref={decryptIdTooltipRef}
-											backgroundStyle="blue"
+											backgroundStyle="secondary"
 											disabled={isDecryptingPrivateImage || isSaving || isFetchingPrivateImage}
 											onClick={isDecrypted ? encryptPrivateImage : decryptPrivateImage}
-											smallBorderRadius
 											style={{ marginLeft: '8px' }}>
 											{isDecrypted ? 'Encrypt ID' : 'Decrypt ID'}
 										</Button>
@@ -549,10 +544,9 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 											arrow>
 											<Button
 												ref={clearEncryptionTooltipRef}
-												backgroundStyle="blue"
+												backgroundStyle="secondary"
 												disabled={isSaving}
 												onClick={openClearEncryptionDialog}
-												smallBorderRadius
 												style={{ marginLeft: '8px' }}>
 												Clear Encryption Key
 											</Button>

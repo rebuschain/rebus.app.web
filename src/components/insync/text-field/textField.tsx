@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import classnames from 'classnames';
 
@@ -11,14 +11,47 @@ interface TextFieldProps {
 }
 
 const TextField: React.FC<TextFieldProps> = ({ label, assistiveText, disabled, error, errorMessage }) => {
+	const [isHovered, setHovered] = useState(false);
+	const [isActive, setActive] = useState(false);
+
+	const handleMouseEnter = () => {
+		setHovered(true);
+	};
+
+	const handleMouseLeave = () => {
+		setHovered(false);
+	};
+
+	const handleMouseDown = () => {
+		setActive(true);
+	};
+
+	const handleMouseUp = () => {
+		setActive(false);
+	};
+
 	return (
 		<TextFieldStyled>
 			<label className="label">{label}</label>
-			<div className={classnames('input-wrapper', { error: error }, { disabled: disabled })}>
-				<span className={'dot'} />
-				<input type="text" />
-				<span className={'dot'} />
-				<button className={'max-button'} disabled={disabled}>
+			<div
+				className={classnames(
+					'input-wrapper',
+					{ hovered: isHovered },
+					{ active: isActive },
+					{ error: error },
+					{ disabled: disabled }
+				)}>
+				<span className={`dot ${disabled ? 'disabled' : ''}`} />
+				<input
+					type="text"
+					onMouseEnter={handleMouseEnter}
+					onMouseLeave={handleMouseLeave}
+					onMouseDown={handleMouseDown}
+					onMouseUp={handleMouseUp}
+					disabled={disabled}
+				/>
+				<span className={`dot ${disabled ? 'disabled' : ''}`} />
+				<button className={`max-button ${disabled ? 'disabled' : ''}`} disabled={disabled}>
 					Max
 				</button>
 			</div>
@@ -65,6 +98,11 @@ const TextFieldStyled = styled.div`
 		border: 2px solid ${props => props.theme.text};
 		border-radius: 50%;
 		display: inline-block;
+
+		&.disabled {
+			border: 2px solid ${props => props.theme.gray.dark};
+			pointer-events: none;
+		}
 	}
 
 	.input-wrapper {
@@ -77,11 +115,11 @@ const TextFieldStyled = styled.div`
 		background-color: ${props => props.theme.background};
 		color: ${props => props.theme.gray.dark};
 
-		&:hover {
+		&.hovered {
 			border-color: ${props => props.theme.gray.dark};
 		}
 
-		&:active {
+		&.active {
 			border: 2px solid;
 			border-image-slice: 1;
 			border-image-source: ${props => props.theme.primary};
@@ -90,11 +128,6 @@ const TextFieldStyled = styled.div`
 		&.disabled {
 			background-color: ${props => props.theme.gray.lightest};
 			pointer-events: none;
-
-			.dot {
-				border: 2px solid ${props => props.theme.gray.dark};
-				pointer-events: none;
-			}
 		}
 
 		&.error {
@@ -118,7 +151,7 @@ const TextFieldStyled = styled.div`
 			border-radius: 8px;
 			cursor: pointer;
 
-			&:disabled {
+			&.disabled {
 				background-color: ${props => props.theme.gray.light};
 				color: ${props => props.theme.gray.dark};
 				pointer-events: none;
