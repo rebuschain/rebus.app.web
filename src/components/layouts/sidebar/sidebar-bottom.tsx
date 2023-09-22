@@ -64,14 +64,13 @@ export const SidebarBottom: FunctionComponent<React.PropsWithChildren<unknown>> 
 					</div>
 					{!isMobileWeb ? (
 						<Button
-							backgroundStyle="gradient-blue"
+							backgroundStyle="primary"
 							onClick={e => {
 								e.preventDefault();
 								disconnectAccount();
 								disconnect();
 								queries.rebus.queryAccount.get(address).cancel();
-							}}
-							className="w-full mb-8">
+							}}>
 							<img alt="sign-out" className="w-5 h-5" src={`${MISC.ASSETS_BASE}/icons/sign-out-secondary.svg`} />
 							<p className="text-sm max-w-24 ml-3 overflow-x-hidden truncate transition-all">Sign Out</p>
 						</Button>

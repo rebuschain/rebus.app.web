@@ -78,20 +78,13 @@ export const AddressInput = ({
 					<div className="flex space-between">
 						<div className="flex mt-2 mb-1 mr-3 items-center relative">
 							{onGetKeplAddress && (
-								<Button
-									onClick={onGetKeplAddress}
-									backgroundStyle="gradient-blue"
-									className="h-8 py-1.5 px-2 flex md:static whitespace-nowrap absolute"
-									style={{ marginRight: '8px' }}>
+								<Button onClick={onGetKeplAddress} backgroundStyle="primary" style={{ marginRight: '8px' }}>
 									<img alt="Keplr" className="w-5 h-5 mr-1.5" src="/public/assets/other-logos/keplr.png" />
 									<p className="text-xs text-white-high leading-none">Keplr Address</p>
 								</Button>
 							)}
 							{onGetMetamaskAddress && (
-								<Button
-									onClick={onGetMetamaskAddress}
-									backgroundStyle="gradient-blue"
-									className="h-8 ml-2 p-1.5 pr-2 py-0.5 flex md:static whitespace-nowrap absolute">
+								<Button onClick={onGetMetamaskAddress} backgroundStyle="primary">
 									<img alt="Metamask" className="w-6 h-6 mr-1" src="/public/assets/other-logos/metamask.png" />
 									<p className="text-xs text-white-high leading-none">Metamask Address</p>
 								</Button>

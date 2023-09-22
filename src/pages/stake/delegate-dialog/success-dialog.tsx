@@ -103,7 +103,7 @@ const SuccessDialog = observer(() => {
 							you access a different browser or clear your browser data.
 						</ResultDialogText>
 						<div className="mt-2">
-							<CommonButton backgroundStyle="blue" onClick={copyEncryptionKey} smallBorderRadius>
+							<CommonButton backgroundStyle="secondary" onClick={copyEncryptionKey}>
 								Copy
 							</CommonButton>
 						</div>

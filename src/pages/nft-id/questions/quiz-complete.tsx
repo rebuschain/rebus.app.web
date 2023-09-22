@@ -40,10 +40,9 @@ const QuizComplete: FunctionComponent<React.PropsWithChildren<QuizCompleteProps>
 						</p>
 
 						<Button
-							backgroundStyle="blue"
+							backgroundStyle="secondary"
 							disabled={creatingIdRecord}
-							onClick={hasPassed ? onClick : onDocumentationClick}
-							smallBorderRadius>
+							onClick={hasPassed ? onClick : onDocumentationClick}>
 							{hasPassed ? 'Create NFT ID' : 'GO TO DOCUMENTATION'}
 						</Button>
 					</>

@@ -74,13 +74,23 @@ const RedirectToAssets = () => <Navigate to={ROUTES.ASSETS} />;
 
 const Router: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 	const [cookies, setCookie] = useCookies(['theme']);
+	const [theme, setTheme] = useState(cookies.theme || 'light');
+	const isDark = theme === 'dark';
 
 	const toggleTheme = () => {
-		const newTheme = cookies.theme === 'dark' ? 'light' : 'dark';
+		const newTheme = isDark ? 'light' : 'dark';
+		setTheme(newTheme);
 		setCookie('theme', newTheme, { path: '/' });
 	};
 
-	/* Include Slider to test, under Terms component places it at the top of the screen
+	useEffect(() => {
+		const savedTheme = cookies.theme;
+		if (savedTheme) {
+			setTheme(savedTheme);
+		}
+	}, [cookies.theme]);
+
+	/* Include Slider to test, under <ToastContainer transition={Bounce} />  places it at the bottom of the screen
 	<div>
 		<Slider toggleTheme={toggleTheme} isDarkTheme={isDark ? true : false} />
 	</div>
@@ -88,7 +98,7 @@ const Router: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 
 	return (
 		<StyledEngineProvider injectFirst>
-			<ThemeProvider theme={cookies.theme === 'dark' ? darkTheme : lightTheme}>
+			<ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
 				<LocalizationProvider dateAdapter={AdapterDayjs}>
 					<QueryClientProvider client={queryClient}>
 						<Provider store={store}>
