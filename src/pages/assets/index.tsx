@@ -47,6 +47,11 @@ Place inside return below to test Textfields:
 	error={true}
 	errorMessage="Invalid password"
 />
+
+Import statements needed to test Tab component:
+import TabBar from 'src/components/common/tab-bar';
+
+<TabBar tabs={['Tab 1', 'Tab 2', 'Tab 3', 'Tab 4', 'Tab 5', 'Tab 6']} />
 */
 
 const AssetsPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer(() => {
