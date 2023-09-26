@@ -52,6 +52,53 @@ Import statements needed to test Tab component:
 import TabBar from 'src/components/common/tab-bar';
 
 <TabBar tabs={['Tab 1', 'Tab 2', 'Tab 3', 'Tab 4', 'Tab 5', 'Tab 6']} />
+Import statement and neat way to test modal
+import Modal from 'src/components/common/modal';
+import { Button } from 'src/components/common/button';
+
+const textFields = [
+		{
+			label: 'Label',
+			assistiveText: 'Assistive Text',
+			disabled: false,
+			error: false,
+			errorMessage: '',
+		},
+	];
+
+const checkboxes = [{ label: 'Placeholder' }, { label: 'Placeholder' }];
+
+const [isVisible, setVisible] = useState(false);
+
+const handleOpenModal = () => {
+	setVisible(true);
+};
+
+const handleCloseModal = () => {
+	setVisible(false);
+};
+
+const handleConfirm = () => {
+	//This is where to handle a saved modal change
+	handleCloseModal();
+};
+
+<div>
+	<Button backgroundStyle={'primary'} onClick={handleOpenModal}>
+		Open Modal
+	</Button>
+	{isVisible && (
+		<Modal
+			title="Title"
+			subtitle="Label"
+			textfields={textFields}
+			checkboxes={checkboxes}
+			onClose={handleCloseModal}
+			onConfirm={handleConfirm}
+		/>
+	)}
+</div>
+
 */
 
 const AssetsPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer(() => {
