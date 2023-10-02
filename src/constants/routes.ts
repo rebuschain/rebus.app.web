@@ -8,4 +8,6 @@ export const ROUTES = {
 	VOTE: '/proposals',
 	STAKE: '/staking',
 	WALLET_CONNECT: '/wallet-connect',
+	EXPLORER: '/routing/explorer',
+	EVM: '/routing/evm',
 };
