@@ -4,6 +4,7 @@ import cn from 'clsx';
 import { TSIDEBAR_ITEM } from 'src/constants';
 import { NavLink } from 'react-router-dom';
 import { cssAbsoluteCenter } from 'src/emotion-styles/layout';
+import { useTheme } from 'styled-components';
 
 const NavLinkFallback: FunctionComponent<React.PropsWithChildren<{
 	sidebarItem: TSIDEBAR_ITEM;
@@ -29,6 +30,7 @@ export const SidebarItem: FunctionComponent<React.PropsWithChildren<TSidebarItem
 	selected,
 	closeSidebar,
 }) => {
+	const theme = useTheme();
 	return (
 		<NavLinkFallback sidebarItem={sidebarItem} closeSidebar={closeSidebar}>
 			<li
@@ -36,28 +38,28 @@ export const SidebarItem: FunctionComponent<React.PropsWithChildren<TSidebarItem
 					'opacity-75 hover:opacity-100 transition-all': !selected,
 				})}>
 				<div className="h-11 w-11 relative">
-					<img
-						className={cn('w-full h-full absolute top-0 left-0 transition-all')}
-						style={{ opacity: '0.99' }}
-						src={
-							selected
-								? '/public/assets/sidebar/icon-border-selected.svg'
-								: '/public/assets/sidebar/icon-border-unselected.svg'
-						}
-					/>
-					<img
-						className={cn('h-5 s-position-abs-center z-10', sidebarItem.ICON_WIDTH_CLASS || 'w-5')}
-						src={selected ? sidebarItem.ICON_SELECTED : sidebarItem.ICON}
-					/>
+					{selected ? (
+						<img
+							className={cn('h-5 s-position-abs-center z-10', sidebarItem.ICON_WIDTH_CLASS || 'w-5')}
+							src={sidebarItem.ICON_SELECTED}
+						/>
+					) : (
+						<img
+							className={cn('h-5 s-position-abs-center z-10', sidebarItem.ICON_WIDTH_CLASS || 'w-5')}
+							src={sidebarItem.ICON}
+							style={{ filter: theme.text === '#FFFFFF' ? 'none' : 'invert(1)' }}
+						/>
+					)}
 				</div>
 				<p
-					className={cn(
-						'ml-2.5 text-base overflow-x-hidden transition-all font-bold transition-all max-w-24 whitespace-nowrap',
-						selected ? 'text-white-high' : 'text-iconDefault text-custom-100 group-hover:text-white-mid'
-					)}>
+					className={cn('ml-2.5 text-base transition-all font-bold transition-all max-w-24 whitespace-nowrap')}
+					style={{
+						backgroundImage: selected ? theme.linearGradient : 'none',
+						WebkitBackgroundClip: selected ? 'text' : 'initial',
+						color: selected ? 'transparent' : theme.text,
+					}}>
 					{sidebarItem.TEXT}
 				</p>
-				{sidebarItem.LINK ? <img className="ml-2" src="/public/assets/sidebar/icon-link-deco.svg" alt="link" /> : null}
 			</li>
 		</NavLinkFallback>
 	);
