@@ -7,6 +7,7 @@ import { SelectInput, SelectInputProps } from './select-input';
 import { TextInput, TextInputProps } from './text-input';
 import { Media } from 'src/types/nft-id';
 import { TextareaInput, TextareaInputProps } from './textarea-input';
+import styled, { useTheme } from 'styled-components';
 
 export enum InputTypes {
 	Date = 'date',
@@ -18,7 +19,7 @@ export enum InputTypes {
 
 export interface InputProps
 	extends Omit<TextInputProps, 'onChange' | 'onRawChange' | 'onClick' | 'value'>,
-		Omit<DateInputProps, 'onChange' | 'value'>,
+		Omit<DateInputProps, 'onRawChange' | 'value'>,
 		Omit<FileInputProps, 'onChange' | 'value'>,
 		Omit<SelectInputProps, 'onChange' | 'value'>,
 		Omit<TextareaInputProps, 'onChange' | 'onRawChange' | 'onClick' | 'value'> {
@@ -27,7 +28,7 @@ export interface InputProps
 	label?: string;
 	onChange?:
 		| TextInputProps['onChange']
-		| DateInputProps['onChange']
+		| DateInputProps['onRawChange']
 		| FileInputProps['onChange']
 		| SelectInputProps['onChange']
 		| TextareaInputProps['onChange'];
@@ -59,11 +60,16 @@ export const Input: React.FC<React.PropsWithChildren<InputProps>> = ({
 	width = 'w-full',
 }) => {
 	let content = null;
+	const theme = useTheme();
 
 	switch (type) {
 		case InputTypes.Date:
 			content = (
-				<DateInput onChange={onChange as DateInputProps['onChange']} name={name} value={value as string | undefined} />
+				<DateInput
+					onRawChange={onChange as DateInputProps['onRawChange']}
+					name={name}
+					value={value as string | undefined}
+				/>
 			);
 			break;
 		case InputTypes.File:
@@ -97,6 +103,7 @@ export const Input: React.FC<React.PropsWithChildren<InputProps>> = ({
 					placeholder={placeholder}
 					rows={rows}
 					value={value as string | undefined}
+					style={{ background: theme.gray.lightest, color: theme.text }}
 				/>
 			);
 			break;
@@ -107,6 +114,7 @@ export const Input: React.FC<React.PropsWithChildren<InputProps>> = ({
 					name={name}
 					placeholder={placeholder}
 					value={value as string | undefined}
+					style={{ background: theme.gray.lightest, color: theme.text }}
 				/>
 			);
 			break;
@@ -116,14 +124,20 @@ export const Input: React.FC<React.PropsWithChildren<InputProps>> = ({
 		<div className={classNames(className, width)} style={style}>
 			{label && (
 				<div className="flex items-center mb-2">
-					<label className="block text-xs font-bold gray-6 opacity-60 uppercase">{label}</label>
+					<LabelStyled className="block text-xs font-bold gray-6 opacity-60 uppercase">{label}</LabelStyled>
 					<button className="ml-2" onClick={() => onVisibilityChange(name, !hide)}>
-						<ReactSVG src={hide ? '/public/assets/icons/hidden.svg' : '/public/assets/icons/visible.svg'} />
+						<ReactSVG
+							src={hide ? '/public/assets/icons/hidden.svg' : '/public/assets/icons/visible.svg'}
+							style={{ filter: theme.text === '#FFFFFF' ? 'none' : 'invert(1)' }}
+						/>
 					</button>
 				</div>
 			)}
-
 			<div>{content}</div>
 		</div>
 	);
 };
+
+const LabelStyled = styled.label`
+	color: ${props => props.theme.text};
+`;

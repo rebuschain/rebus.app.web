@@ -146,7 +146,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 		header: 'Validator',
 		CellRenderer: ValidatorCell,
 		width: 4,
-		headerAlign: 'center',
+		headerAlign: 'flex-start',
 		canSort: true,
 		hideHeaderMobile: true,
 	},
@@ -156,7 +156,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 		CellRenderer: StatusCell,
 		width: 3,
 		align: 'center',
-		headerAlign: 'center',
+		headerAlign: 'flex-end',
 	},
 	{
 		property: 'votingPower',
@@ -164,7 +164,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 		CellRenderer: VotingPowerCell,
 		width: 3,
 		align: 'center',
-		headerAlign: 'center',
+		headerAlign: 'flex-end',
 		canSort: true,
 	},
 	{
@@ -173,7 +173,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 		CellRenderer: VotingPercentageCell,
 		width: 3,
 		align: 'center',
-		headerAlign: 'center',
+		headerAlign: 'flex-end',
 		canSort: true,
 	},
 	{
@@ -182,7 +182,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 		CellRenderer: CommissionCell,
 		width: 3,
 		align: 'center',
-		headerAlign: 'center',
+		headerAlign: 'flex-end',
 		canSort: true,
 	},
 	{
@@ -191,7 +191,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 		CellRenderer: TokensStakedCell,
 		width: 3,
 		align: 'center',
-		headerAlign: 'center',
+		headerAlign: 'flex-end',
 		canSort: true,
 	},
 	{
@@ -200,7 +200,7 @@ const columnDefs: ColumnDef<ParsedValidator>[] = [
 		CellRenderer: ActionCell,
 		width: 4,
 		align: 'center',
-		headerAlign: 'center',
+		headerAlign: 'flex-end',
 		hideHeaderMobile: true,
 	},
 ];

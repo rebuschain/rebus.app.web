@@ -1,10 +1,11 @@
-import styled from '@emotion/styled';
 import classNames from 'classnames';
 import React, { MouseEventHandler, useRef } from 'react';
 import { ReactSVG } from 'react-svg';
 import { Media } from 'src/types/nft-id';
 import { Button } from '../button';
 import { TextInput } from './text-input';
+import styled, { useTheme } from 'styled-components';
+import TextField from 'src/components/insync/text-field/text-field';
 
 export type FileInputProps = {
 	className?: string;
@@ -26,6 +27,7 @@ export const FileInput: React.FC<React.PropsWithChildren<FileInputProps>> = ({
 	value,
 }) => {
 	const fileInputRef = useRef<HTMLInputElement>(null);
+	const theme = useTheme();
 
 	const onStartUpload: MouseEventHandler<HTMLButtonElement> = e => {
 		if (fileInputRef.current) {
@@ -55,10 +57,11 @@ export const FileInput: React.FC<React.PropsWithChildren<FileInputProps>> = ({
 	return (
 		<div className={classNames(className, 'flex')}>
 			<div
-				className="bg-gray-1 rounded-2lg flex-shrink-0"
+				className="rounded-2lg flex-shrink-0"
 				style={{
 					height: '115px',
 					width: '100px',
+					background: theme.gray.lightest,
 				}}>
 				<div
 					style={{
@@ -84,6 +87,7 @@ export const FileInput: React.FC<React.PropsWithChildren<FileInputProps>> = ({
 							placeholder="Upload File"
 							readonly
 							value={value?.name || ''}
+							style={{ background: theme.gray.lightest, color: theme.text }}
 						/>
 						{value && (
 							<button className="absolute right-1 top-2" onClick={() => onChange(name, undefined)}>
@@ -91,7 +95,7 @@ export const FileInput: React.FC<React.PropsWithChildren<FileInputProps>> = ({
 							</button>
 						)}
 					</div>
-					<Button backgroundStyle="blue" onClick={onStartUpload} smallBorderRadius smallFont textTransform="uppercase">
+					<Button backgroundStyle="secondary" onClick={onStartUpload} textTransform="uppercase">
 						Upload
 					</Button>
 				</div>

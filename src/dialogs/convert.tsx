@@ -302,11 +302,8 @@ export const ConvertDialog = wrapBaseDialog(
 										<Button
 											style={{
 												borderRadius: '12px !important',
-												fontSize: '11px',
-												marginBottom: '3px',
-												marginLeft: '6px',
+												margin: '6px',
 												minWidth: '0',
-												padding: '2px 8px',
 											}}
 											onClick={e => {
 												e.preventDefault();
@@ -374,7 +371,6 @@ export const ConvertDialog = wrapBaseDialog(
 							)
 						) : (
 							<Button
-								className="w-full md:w-2/3 p-4 md:p-6 h-14"
 								disabled={isSubmitting || amountConfig.getError() != null || !isValidCustomWithdrawAddr}
 								onClick={onSubmit}>
 								{isSubmitting ? (

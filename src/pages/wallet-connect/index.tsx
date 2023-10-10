@@ -16,6 +16,7 @@ import { snackbarActions } from 'src/reducers/slices';
 import { disconnect } from 'src/reducers/extra-actions';
 import SnackbarMessage from '../../components/insync/snackbar-message';
 import { config } from '../../config-insync';
+import { styled, useTheme } from 'styled-components';
 
 const chainId = config.CHAIN_ID;
 
@@ -60,6 +61,7 @@ const WalletConnect: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 	const isConnected = isAccountConnected || walletStore.isLoaded;
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
+	const theme = useTheme();
 
 	useEffect(() => {
 		if (!serverId || !userId) {
@@ -152,9 +154,10 @@ const WalletConnect: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 	if (success) {
 		content = (
 			<>
-				<h5 className="text-base md:text-lg mb-1 text-white-high mb-5">Successfully linked user to wallet</h5>
+				<h5 className="text-base md:text-lg mb-1 mb-5">Successfully linked user to wallet</h5>
 				{redirectUrl && (
 					<Button
+						backgroundStyle="primary"
 						onClick={e => {
 							e.preventDefault();
 							window.open(redirectUrl);
@@ -176,14 +179,14 @@ const WalletConnect: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 
 		content = (
 			<>
-				<div className="text-left p-3 md:p-5 rounded-2xl bg-background flex items-center">
+				<div className="text-left p-3 md:p-5 rounded-2xl flex items-center">
 					<img src={walletConnected?.logoUrl} className="w-12 mr-3 md:w-16 md:mr-5" />
-					<div>
-						<h5 className="text-base md:text-lg mb-1 text-white-high">{walletConnected?.name}</h5>
+					<ContentStyled>
+						<h5 className="text-base md:text-lg mb-1">{walletConnected?.name}</h5>
 						<p className="text-xs md:text-sm text-iconDefault">{walletConnected?.description}</p>
-					</div>
+					</ContentStyled>
 				</div>
-				<div className="flex mt-5">
+				<div className="flex mt-5" style={{ display: 'flex', justifyContent: 'space-between' }}>
 					<Button
 						disabled={loading}
 						onClick={e => {
@@ -198,7 +201,7 @@ const WalletConnect: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 					{!isMobileWeb ? (
 						<div className="ml-4">
 							<Button
-								backgroundStyle="gradient-blue"
+								backgroundStyle="primary"
 								onClick={e => {
 									e.preventDefault();
 									disconnectAccount();
@@ -216,8 +219,8 @@ const WalletConnect: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 	} else if (!WALLET_LIST.length) {
 		content = (
 			<>
-				<h4 className="text-lg md:text-xl text-white-high">Connect Wallet</h4>
-				<p className="text-xs md:text-sm text-white-high mt-4">
+				<h4 className="text-lg md:text-xl">Connect Wallet</h4>
+				<p className="text-xs md:text-sm mt-4">
 					This browser does not support any wallet extensions, please use either Chrome or Firefox.
 				</p>
 			</>
@@ -225,17 +228,27 @@ const WalletConnect: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 	} else {
 		content = (
 			<>
-				<h4 className="text-lg md:text-xl text-white-high">Connect Wallet</h4>
-				<h5 className="text-base text-white mt-2">Choose your wallet to connect with the Discord bot integration</h5>
+				<h4 className="text-lg md:text-xl">Connect Wallet</h4>
+				<h5 className="text-base mt-2">Choose your wallet to connect with the Discord bot integration</h5>
 				{WALLET_LIST.filter(wallet => {
 					if (isMobile && wallet.type == 'extension') {
 						return false;
 					}
 					return true;
 				}).map(wallet => (
-					<button
+					<Button
 						key={wallet.name}
-						className="w-full text-left p-3 md:p-5 rounded-2xl bg-background flex items-center mt-4 md:mt-5"
+						backgroundStyle="secondary"
+						style={{
+							width: '100%',
+							display: 'flex',
+							flexDirection: 'row',
+							alignItems: 'flex-start',
+							justifyContent: 'flex-start',
+							height: 'auto',
+							marginBottom: '10px',
+							marginTop: '10px',
+						}}
 						onClick={async () => {
 							localStorage.setItem(KeyConnectingWalletType, wallet.type);
 							localStorage.setItem(KeyConnectingWalletName, wallet.walletType || '');
@@ -253,12 +266,25 @@ const WalletConnect: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 								account.init();
 							}
 						}}>
-						<img src={wallet.logoUrl} className="w-12 mr-3 md:w-16 md:mr-5" />
-						<div>
-							<h5 className="text-base md:text-lg mb-1 text-white-high">{wallet.name}</h5>
-							<p className="text-xs md:text-sm text-iconDefault">{wallet.description}</p>
+						<img
+							src={wallet.logoUrl}
+							className="w-12 mr-3 md:w-16 md:mr-5"
+							style={{
+								maxWidth: '100%',
+								maxHeight: '100%',
+							}}
+						/>
+						<div
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								textAlign: 'left',
+								color: theme.text,
+							}}>
+							<h5 className="text-base md:text-lg mb-1">{wallet.name}</h5>
+							<p className="text-xs md:text-sm">{wallet.description}</p>
 						</div>
-					</button>
+					</Button>
 				))}
 			</>
 		);
@@ -267,9 +293,9 @@ const WalletConnect: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 	return (
 		<FullScreenContainer>
 			<div className="flex items-center justify-center h-full pt-20 md:pt-0">
-				<div className="relative w-full mt-4 md:mt-0 mx-10 md:mx-0 md:min-w-modal md:max-w-modal px-4 py-5 md:p-8 bg-surface shadow-elevation-24dp rounded-2xl z-10">
+				<ContentStyled className="relative w-full mt-4 md:mt-0 mx-10 md:mx-0 md:min-w-modal md:max-w-modal px-4 py-5 md:p-8 shadow-elevation-24dp rounded-2xl z-10">
 					{content}
-				</div>
+				</ContentStyled>
 			</div>
 			<SnackbarMessage />
 		</FullScreenContainer>
@@ -277,3 +303,8 @@ const WalletConnect: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 });
 
 export default WalletConnect;
+
+const ContentStyled = styled.div`
+	background: ${props => props.theme.background};
+	color: ${props => props.theme.text};
+`;

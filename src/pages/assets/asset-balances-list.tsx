@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from 'styled-components';
 import { AppCurrency, IBCCurrency } from '@keplr-wallet/types';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useMemo } from 'react';
@@ -373,39 +373,42 @@ interface AssetBalanceHeaderProps {
 function AssetBalanceHeader({ isMobileView }: AssetBalanceHeaderProps) {
 	return (
 		<thead>
-			<TableHeaderRow>
-				<TableData style={{ width: isMobileView ? tableWidthsOnMobileView[0] : tableWidths[0] }}>
-					<Text size="sm">Asset / Chain</Text>
-				</TableData>
-				<TableData
-					className="md:!pl-4 justify-end text-right"
-					style={{
-						width: isMobileView ? tableWidthsOnMobileView[1] : tableWidths[1],
-					}}>
-					<Text size="sm">Balance</Text>
-				</TableData>
-				<TableData
-					className="md:!pl-4 justify-end text-right"
-					style={{
-						width: isMobileView ? tableWidthsOnMobileView[2] : tableWidths[2],
-					}}>
-					<Text size="sm">ERC20 Balance</Text>
-				</TableData>
-				<TableData className="justify-end text-right" style={{ width: tableWidths[3] }}>
-					<Text size="sm">Convert</Text>
-				</TableData>
+			<HeaderRowStyled>
+				<TableHeaderRow>
+					<TableData style={{ width: isMobileView ? tableWidthsOnMobileView[0] : tableWidths[0] }}>
+						<Text size="sm">Asset / Chain</Text>
+					</TableData>
+					<TableData
+						className="md:!pl-4 justify-end text-right"
+						style={{
+							width: isMobileView ? tableWidthsOnMobileView[1] : tableWidths[1],
+						}}>
+						<Text size="sm">Balance</Text>
+					</TableData>
+					<TableData
+						className="md:!pl-4 justify-end text-right"
+						style={{
+							width: isMobileView ? tableWidthsOnMobileView[2] : tableWidths[2],
+						}}>
+						<Text size="sm">ERC20 Balance</Text>
+					</TableData>
+					<TableData className="justify-end text-right" style={{ width: tableWidths[3] }}>
+						<Text size="sm">Convert</Text>
+					</TableData>
 
-				{/* {!isMobileView && (
-					<TableData style={{ width: tableWidths[4] }}>
-						<Text size="sm">IBC Deposit</Text>
-					</TableData>
-				)}
-				{!isMobileView && (
-					<TableData style={{ width: tableWidths[5] }}>
-						<Text size="sm">IBC Withdraw</Text>
-					</TableData>
-				)} */}
-			</TableHeaderRow>
+					{/* {!isMobileView && (
+							<TableData style={{ width: tableWidths[4] }}>
+								<Text size="sm">IBC Deposit</Text>
+							</TableData>
+						)}
+						{!isMobileView && (
+							<TableData style={{ width: tableWidths[5] }}>
+								<Text size="sm">IBC Withdraw</Text>
+							</TableData>
+						)} */}
+				</TableHeaderRow>
+				<LinearGradientUnderline />
+			</HeaderRowStyled>
 		</thead>
 	);
 }
@@ -455,7 +458,7 @@ function AssetBalanceRow({
 							style={{ width: `2.5rem`, height: `2.5rem`, marginRight: isMobileView ? 10 : 20 }}
 							src={currency.coinImageUrl}
 						/>
-						<Text emphasis="medium" isMobileView={isMobileView}>
+						<Text size="md" isMobileView={isMobileView}>
 							{chainName ? `${chainName} - ${coinDenom.toUpperCase()}` : coinDenom.toUpperCase()}
 						</Text>
 						{isCW20 ? <div className="ml-2 px-2 py-1 rounded-full font-title text-xs bg-primary-200">CW20</div> : null}
@@ -471,7 +474,7 @@ function AssetBalanceRow({
 							width: isMobileView ? tableWidthsOnMobileView[1] : tableWidths[1],
 						}}>
 						<div className="flex flex-col items-end">
-							<Text emphasis="medium" isMobileView={isMobileView}>
+							<Text size="sm" isMobileView={isMobileView}>
 								{balance}
 							</Text>
 							{totalFiatValue && totalFiatValue.toDec().gt(new Dec(0)) ? (
@@ -485,7 +488,7 @@ function AssetBalanceRow({
 							width: isMobileView ? tableWidthsOnMobileView[2] : tableWidths[2],
 						}}>
 						<div className="flex flex-col items-end">
-							<Text emphasis="medium" isMobileView={isMobileView}>
+							<Text size="sm" isMobileView={isMobileView}>
 								{erc20Balance || '0'}
 							</Text>
 							{totalErc20FiatValue && totalErc20FiatValue.toDec().gt(new Dec(0)) ? (
@@ -587,7 +590,20 @@ function AssetBalanceRow({
 }
 
 const AssetBalanceRowContainer = styled.div`
-	border-bottom-width: 1px;
+	border-bottom: 1px solid ${props => props.theme.gray.dark};
+`;
+
+const HeaderRowStyled = styled.tr`
+	position: relative;
+`;
+
+const LinearGradientUnderline = styled.div`
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 1px;
+	background-image: ${props => props.theme.primary};
 `;
 
 const AssetBalanceTableRow = styled.tr`

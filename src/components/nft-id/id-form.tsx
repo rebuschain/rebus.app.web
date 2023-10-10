@@ -9,6 +9,7 @@ import { Button } from '../common/button';
 import { Loader } from '../common/loader';
 import ConfirmDialog from 'src/pages/stake/delegate-dialog/confirm-dialog';
 import { config } from 'src/config-insync';
+import styled from 'styled-components';
 import {
 	COSMIC_BODIES_OPTIONS,
 	EXTRA_EARTH_LOCATIONS,
@@ -206,7 +207,7 @@ export const IdForm: React.FC<React.PropsWithChildren<IdFormProps>> = ({
 	];
 
 	return (
-		<div className={className} style={{ maxWidth: '580px' }}>
+		<IdFormStyled className={className} style={{ maxWidth: '580px' }}>
 			<div className="mb-6 w-full flex items-center">
 				<h5 className="whitespace-nowrap">Identification Details</h5>
 				<div className="flex items-center ml-3">
@@ -220,10 +221,9 @@ export const IdForm: React.FC<React.PropsWithChildren<IdFormProps>> = ({
 						/>
 					)}
 					<Button
-						backgroundStyle="blue"
+						backgroundStyle="secondary"
 						disabled={isLoading || isSubmitDisabled}
-						onClick={shouldConfirm ? openConfirmDialog : onSubmit}
-						smallBorderRadius>
+						onClick={shouldConfirm ? openConfirmDialog : onSubmit}>
 						{buttonText}
 					</Button>
 				</div>
@@ -245,6 +245,10 @@ export const IdForm: React.FC<React.PropsWithChildren<IdFormProps>> = ({
 				onConfirm={onConfirm}
 				title="Confirm Minting of NFT ID"
 			/>
-		</div>
+		</IdFormStyled>
 	);
 };
+
+const IdFormStyled = styled.div`
+	color: ${props => props.theme.text};
+`;
