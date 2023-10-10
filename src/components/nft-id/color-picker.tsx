@@ -1,6 +1,8 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React from 'react';
 import { Theme } from 'src/types/nft-id';
+import { styled } from 'styled-components';
+import { Button } from '../common/button';
 
 type ColorOption = {
 	name: string;
@@ -23,29 +25,38 @@ export const ColorPicker: React.FC<React.PropsWithChildren<ColorPickerProps>> = 
 	value,
 }) => {
 	return (
-		<div className={classNames(className, 'relative')}>
+		<ColorPickerStyled className={classNames(className, 'relative')}>
 			<h5 className="whitespace-nowrap mb-6">Color Theme</h5>
 
 			<div className="flex items-center flex-wrap">
 				{options.map(option => (
-					<div
-						className={classNames(
-							'flex items-center bg-black bg-opacity-30 py-2.5 px-3.5 cursor-pointer mr-2.5 mb-2.5 border-2 border-opacity-30',
-							value.name === option.name && 'border-white',
-							value.name !== option.name && 'border-transparent'
-						)}
+					<Button
 						key={option.name}
+						backgroundStyle="secondary"
 						onClick={() => onChange(option)}
-						style={{ borderRadius: '45px' }}>
-						<div
-							className="flex items-center justify-center rounded-full"
-							style={{ background: getLinearGradient(option.colors), height: '32px', width: '32px' }}>
-							{value.name === option.name && <img src="/public/assets/icons/checkmark.svg" />}
-						</div>
-						<div className="white font-bold text-lg ml-2">{option.name}</div>
-					</div>
+						style={{ margin: '2px', minWidth: '150px', display: 'flex', alignItems: 'center', position: 'relative' }}>
+						{
+							<>
+								<div
+									className="flex items-center justify-center rounded-full"
+									style={{
+										background: getLinearGradient(option.colors),
+										height: '32px',
+										width: '32px',
+										position: 'absolute',
+										left: '32px',
+									}}
+								/>
+								<span style={{ position: 'absolute', left: '70px' }}>{option.name}</span>
+							</>
+						}
+					</Button>
 				))}
 			</div>
-		</div>
+		</ColorPickerStyled>
 	);
 };
+
+const ColorPickerStyled = styled.div`
+	color: ${props => props.theme.text};
+`;

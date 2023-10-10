@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from 'styled-components';
 import * as React from 'react';
 import { Button } from 'src/components/common/button';
 import { Text } from 'src/components/texts';
@@ -28,19 +28,8 @@ export function ConnectAccountButton(props: React.HTMLAttributes<HTMLButtonEleme
 	);
 }
 
-const ConnectAccountButtonWrapper = styled.button`
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 100%;
-	padding: 12px 4px;
-
-	@media (min-width: 768px) {
-		padding: 14px 4px;
-	}
-`;
-
 const WalletImg = styled.img`
 	width: 1.25rem;
 	height: 1.25rem;
+	margin-top: 2px;
 `;

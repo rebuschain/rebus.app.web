@@ -3,6 +3,7 @@ import { useMatch } from 'react-router-dom';
 import { ROUTES } from 'src/constants/routes';
 import useWindowSize from 'src/hooks/use-window-size';
 import { Sidebar } from './sidebar';
+import styled from 'styled-components';
 
 export const RouteWrapper: FunctionComponent<React.PropsWithChildren<unknown>> = ({ children }) => {
 	const { isMobileView } = useWindowSize();
@@ -11,11 +12,15 @@ export const RouteWrapper: FunctionComponent<React.PropsWithChildren<unknown>> =
 	return (
 		<div className="h-fit md:h-full w-full flex">
 			{!isNftIdViewRoute && <Sidebar />}
-			<div
+			<BackgroundStyled
 				className="h-fit md:h-full w-full flex justify-center text-white-high"
 				style={{ maxWidth: isMobileView ? undefined : 'calc(100% - 206px)', overflowX: 'auto' }}>
 				{children}
-			</div>
+			</BackgroundStyled>
 		</div>
 	);
 };
+
+const BackgroundStyled = styled.div`
+	background: ${props => props.theme.background};
+`;

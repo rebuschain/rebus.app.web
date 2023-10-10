@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import TextField from '../insync/text-field/textField';
+import TextField from '../insync/text-field/text-field';
 import { Button } from './button';
 import Checkbox from './checkbox';
 
@@ -9,12 +9,15 @@ interface ModalProps {
 	subtitle: string;
 	textfields: Array<{
 		label: string;
-		assistiveText: string;
-		disabled: boolean;
-		error: boolean;
-		errorMessage: string;
+		value: string;
+		onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+		assistiveText?: string;
+		placeholder?: string;
+		disabled?: boolean;
+		errorMessage?: string;
+		buttonText?: string;
 	}>;
-	checkboxes: Array<{ label: string }>;
+	checkboxes: Array<{ label: string; onChange: () => void }>;
 	onClose?: () => void;
 	onConfirm?: () => void;
 }
@@ -49,17 +52,20 @@ const Modal: React.FC<ModalProps> = ({ title, subtitle, textfields, checkboxes, 
 					<TextField
 						key={index}
 						label={textfield.label}
+						value={textfield.value}
+						onChange={textfield.onChange}
 						assistiveText={textfield.assistiveText}
+						placeholder={textfield.placeholder}
 						disabled={textfield.disabled}
-						error={textfield.error}
 						errorMessage={textfield.errorMessage}
+						buttonText={textfield.buttonText}
 					/>
 				))}
 				<ModalSubHeader>
 					<h6>{subtitle}</h6>
 				</ModalSubHeader>
 				{checkboxes.map((checkbox, index) => (
-					<Checkbox key={index} label={checkbox.label} style={{ paddingTop: '10px' }} />
+					<Checkbox key={index} label={checkbox.label} onChange={checkbox.onChange} style={{ paddingTop: '10px' }} />
 				))}
 				<ModalFooter>
 					<Button backgroundStyle={'ghost'} onClick={closeModal}>

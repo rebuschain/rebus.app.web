@@ -144,6 +144,7 @@ const AssetsPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer
 });
 
 const AssetsPageContainer = styled.div`
+	background: ${props => props.theme.background};
 	width: 100%;
 	height: fit-content;
 `;

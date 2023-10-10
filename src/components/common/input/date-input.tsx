@@ -1,55 +1,45 @@
 import classNames from 'classnames';
-import React, { useCallback } from 'react';
-import { TextInput } from './text-input';
-import styled from '@emotion/styled';
-import DatePicker from '@mui/lab/DatePicker';
-import { TextFieldProps } from '@mui/material';
+import React, { useState, ChangeEventHandler } from 'react';
+import { TextInput, TextInputProps } from './text-input';
+import { useTheme } from 'styled-components';
 
 export type DateInputProps = {
 	className?: string;
-	onChange: (name: string, value: string) => void;
+	onRawChange: ChangeEventHandler<HTMLInputElement>;
 	name?: string;
 	value?: string;
 };
 
 const DATE_FORMAT = 'MM/DD/YYYY';
 
-const TextFieldComponent: React.ComponentType<React.PropsWithChildren<TextFieldProps>> = ({
-	onChange,
-	InputProps,
-	value,
-}) => {
-	return (
-		<div className="relative">
-			<TextInput onRawChange={onChange} placeholder={DATE_FORMAT} value={(value as string) || ''} />
-			<EndAdormentContainer className="absolute right-0 top-5">{InputProps?.endAdornment}</EndAdormentContainer>
-		</div>
-	);
-};
-
 export const DateInput: React.FC<React.PropsWithChildren<DateInputProps>> = ({
 	className,
-	onChange,
+	onRawChange,
 	name = '',
 	value,
 }) => {
-	const onDateChange = useCallback((date: any) => onChange(name, date?.format(DATE_FORMAT) || ''), [name, onChange]);
+	const theme = useTheme();
+	const [formattedValue, setFormattedValue] = useState(value || '');
+
+	const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		let inputValue = e.target.value.replace(/\D/g, '');
+		inputValue = inputValue.replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3');
+
+		if (inputValue.length <= 10) {
+			setFormattedValue(inputValue);
+			onRawChange(e);
+		}
+	};
 
 	return (
 		<div className={classNames(className, 'flex flex-1 w-full')}>
-			<DatePicker
-				disableFuture
-				format={DATE_FORMAT}
-				value={value || null}
-				onChange={onDateChange}
-				TextFieldComponent={TextFieldComponent}
+			<TextInput
+				onRawChange={onInputChange}
+				name={name}
+				placeholder={DATE_FORMAT}
+				value={formattedValue}
+				style={{ background: theme.gray.lightest, color: theme.text }}
 			/>
 		</div>
 	);
 };
-
-const EndAdormentContainer = styled.div`
-	svg {
-		color: white;
-	}
-`;
