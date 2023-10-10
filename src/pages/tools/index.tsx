@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from 'styled-components';
 import React, { FunctionComponent } from 'react';
 import { FullScreenContainer } from 'src/components/layouts/containers';
 import SnackbarMessage from '../../components/insync/snackbar-message';
@@ -14,6 +14,9 @@ const ToolsPage: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 };
 
 const FullScreenContainerWithPadding = styled(FullScreenContainer)`
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	padding: 84px 20px 20px;
 
 	@media (min-width: 768px) {

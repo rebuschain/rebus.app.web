@@ -4,13 +4,31 @@ import classnames from 'classnames';
 
 interface TextFieldProps {
 	label: string;
-	assistiveText: string;
-	disabled: boolean;
-	error: boolean;
-	errorMessage: string;
+	value: string;
+	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	type?: string;
+	assistiveText?: string;
+	placeholder?: string;
+	disabled?: boolean;
+	errorMessage?: string;
+	buttonText?: string;
+	onButtonClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+	disabledButton?: boolean;
 }
 
-const TextField: React.FC<TextFieldProps> = ({ label, assistiveText, disabled, error, errorMessage }) => {
+const TextField: React.FC<TextFieldProps> = ({
+	label,
+	value,
+	onChange,
+	type = 'text',
+	assistiveText = '',
+	placeholder = '',
+	disabled = false,
+	errorMessage = '',
+	buttonText = '',
+	onButtonClick = () => null,
+	disabledButton = false,
+}) => {
 	const [isHovered, setHovered] = useState(false);
 	const [isActive, setActive] = useState(false);
 
@@ -34,29 +52,31 @@ const TextField: React.FC<TextFieldProps> = ({ label, assistiveText, disabled, e
 		<TextFieldStyled>
 			<label className="label">{label}</label>
 			<div
-				className={classnames(
-					'input-wrapper',
-					{ hovered: isHovered },
-					{ active: isActive },
-					{ error: error },
-					{ disabled: disabled }
-				)}>
+				className={classnames('input-wrapper', { hovered: isHovered }, { active: isActive }, { disabled: disabled })}>
 				<span className={`dot ${disabled ? 'disabled' : ''}`} />
 				<input
-					type="text"
+					type={type}
+					placeholder={placeholder}
 					onMouseEnter={handleMouseEnter}
 					onMouseLeave={handleMouseLeave}
 					onMouseDown={handleMouseDown}
 					onMouseUp={handleMouseUp}
 					disabled={disabled}
+					value={value}
+					onChange={onChange}
 				/>
 				<span className={`dot ${disabled ? 'disabled' : ''}`} />
-				<button className={`max-button ${disabled ? 'disabled' : ''}`} disabled={disabled}>
-					Max
-				</button>
+				{buttonText && (
+					<button
+						className={`max-button ${disabled || disabledButton ? 'disabled' : ''}`}
+						disabled={disabled || disabledButton}
+						onClick={onButtonClick}>
+						{buttonText}
+					</button>
+				)}
 			</div>
 			<div className="assistive-text">{assistiveText}</div>
-			{error && <div className="error-message"> {errorMessage} </div>}
+			{errorMessage && <div className="error-message"> {errorMessage} </div>}
 		</TextFieldStyled>
 	);
 };
@@ -139,7 +159,7 @@ const TextFieldStyled = styled.div`
 			background-color: transparent;
 			border: none;
 			outline: none;
-			color: ${props => props.theme.gray.dark};
+			color: ${props => props.theme.text};
 			position: relative;
 		}
 
