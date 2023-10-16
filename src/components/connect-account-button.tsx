@@ -14,16 +14,7 @@ export function ConnectAccountButton(props: React.HTMLAttributes<HTMLButtonEleme
 	return (
 		<Button {...(props as any)} style={{ whiteSpace: 'nowrap', ...(props.style || {}) }}>
 			<WalletImg src="/public/assets/icons/assets.svg" />
-			<Text
-				style={{
-					marginLeft: '6px',
-					...props.textStyle,
-				}}
-				isMobileView={isMobileView}
-				emphasis="high"
-				weight="semiBold">
-				Connect Wallet
-			</Text>
+			<p style={{ marginLeft: '6px', ...props.textStyle }}>Connect Wallet</p>
 		</Button>
 	);
 }
@@ -31,5 +22,5 @@ export function ConnectAccountButton(props: React.HTMLAttributes<HTMLButtonEleme
 const WalletImg = styled.img`
 	width: 1.25rem;
 	height: 1.25rem;
-	margin-top: 2px;
+	margin-top: 3px;
 `;

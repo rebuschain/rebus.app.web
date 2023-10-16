@@ -74,7 +74,7 @@ const AddressConverter: FunctionComponent<React.PropsWithChildren<unknown>> = ()
 				</div>
 				<ConfirmDialog
 					content={`Transfer only REBUS using this conversion tool. All other assets will be lost. To transfer other assets, please use the asset page.`}
-					isOpen={false} //isConfirmDialogOpen, FALSE for testing
+					isOpen={isConfirmDialogOpen}
 					onClose={onNotConfirmed}
 					onConfirm={onConfirm}
 					title="REBUS Conversion Tool"

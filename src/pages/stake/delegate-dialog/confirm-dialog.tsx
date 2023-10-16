@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, Dialog, DialogActions, DialogContent } from '@mui/material';
-import { ResultDialogHeader, ResultDialogText } from './components';
+import styled from 'styled-components';
+import Modal from 'src/components/common/modal';
 
 type Props = {
 	content: string;
@@ -18,22 +18,7 @@ const ConfirmDialog: React.FC<React.PropsWithChildren<Props>> = ({
 	title,
 }) => {
 	return (
-		<Dialog className="dialog" open={isOpen} onClose={onClose}>
-			<DialogContent className="content">
-				<div className="flex items-center mb-7.5 justify-center">
-					<ResultDialogHeader>{title}</ResultDialogHeader>
-				</div>
-				<ResultDialogText className="text-center">{content}</ResultDialogText>
-			</DialogContent>
-			<DialogActions className="footer">
-				<Button variant="contained" onClick={onClose}>
-					No
-				</Button>
-				<Button variant="contained" onClick={onConfirm}>
-					Yes
-				</Button>
-			</DialogActions>
-		</Dialog>
+		<Modal title={<h4>{title}</h4>} subtitle={<p>{content}</p>} onClose={onClose} onConfirm={onConfirm} open={isOpen} />
 	);
 };
 

@@ -9,6 +9,7 @@ import SnackbarMessage from 'src/components/insync/snackbar-message';
 import { AssetBalancesList } from './asset-balances-list';
 import { AssetsOverview } from './assets-overview';
 import { IbcTransferHistoryList } from './ibc-transfer-history-list';
+import { hexToRgb } from 'src/colors';
 
 /* Import statement and neat way to test buttons
 import { Button } from 'src/components/common/button';
@@ -126,18 +127,14 @@ const AssetsPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer
 			<SnackbarMessage />
 
 			<AssetsOverviewSection>
-				<CenterSelf>
-					<AssetsOverview title="My Assets" />
-				</CenterSelf>
+				<AssetsOverview title="My Assets" />
 			</AssetsOverviewSection>
 
 			<BalanceAndHistorySection>
-				<CenterSelf>
-					<AssetBalancesList />
-					{ibcTransferHistoryStore.getHistoriesAndUncommitedHistoriesByAccount(address).length > 0 ? (
-						<IbcTransferHistoryList />
-					) : null}
-				</CenterSelf>
+				<AssetBalancesList />
+				{ibcTransferHistoryStore.getHistoriesAndUncommitedHistoriesByAccount(address).length > 0 ? (
+					<IbcTransferHistoryList />
+				) : null}
 			</BalanceAndHistorySection>
 		</AssetsPageContainer>
 	);
@@ -150,15 +147,19 @@ const AssetsPageContainer = styled.div`
 `;
 
 const AssetsOverviewSection = styled.div`
-	padding: 84px 20px 20px;
+	padding-bottom: 24px;
+	margin-right: 20px;
 
 	@media (min-width: 768px) {
-		padding: 40px 60px;
+		padding-top: 40px;
 	}
 `;
 
 const BalanceAndHistorySection = styled.div`
 	padding: 20px 0;
+	border: 1px solid ${props => hexToRgb(props.theme.text, 0.1)};
+	border-radius: 24px;
+	margin-right: 20px;
 
 	@media (min-width: 768px) {
 		padding: 40px 60px;

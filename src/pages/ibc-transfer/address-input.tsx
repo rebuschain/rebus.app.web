@@ -5,6 +5,7 @@ import { Button } from 'src/components/common/button';
 import styled from 'styled-components';
 import TextField from 'src/components/insync/text-field/text-field';
 import Checkbox from 'src/components/common/checkbox';
+import { hexToRgb } from 'src/colors';
 
 type Props = {
 	address: string;
@@ -74,7 +75,7 @@ export const AddressInput = ({
 								backgroundStyle="primary"
 								style={{ marginRight: '8px', display: 'flex', alignItems: 'center' }}>
 								<img alt="Keplr" className="w-5 h-5 mr-1.5" src="/public/assets/other-logos/keplr.png" />
-								<p className="text-xs text-white-high leading-none">Keplr Address</p>
+								<p className="md:text-md leading-none">Keplr Address</p>
 							</Button>
 						)}
 						{onGetMetamaskAddress && (
@@ -83,7 +84,7 @@ export const AddressInput = ({
 								backgroundStyle="primary"
 								style={{ marginRight: '8px', display: 'flex', alignItems: 'center' }}>
 								<img alt="Metamask" className="w-6 h-6 mr-1" src="/public/assets/other-logos/metamask.png" />
-								<p className="text-xs text-white-high leading-none">Metamask Address</p>
+								<p className="md:text-md leading-none">Metamask Address</p>
 							</Button>
 						)}
 						<Checkbox
@@ -122,7 +123,7 @@ export const AddressInput = ({
 };
 
 const AddressInputStyled = styled.div<{ hasError?: boolean }>`
-	border-color: ${props => (props.hasError ? props.theme.error : props.theme.text)};
+	border-color: ${props => (props.hasError ? props.theme.error : hexToRgb(props.theme.text, 0.1))};
 	border-radius: 20px;
 
 	color: ${props => props.theme.text};

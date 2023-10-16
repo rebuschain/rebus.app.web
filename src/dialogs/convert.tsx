@@ -24,6 +24,8 @@ import { aminoSignTx } from '../utils/helper';
 import { TransactionResponse } from '../stores/wallet/types';
 import { getAminoTx, getEthTx } from '../utils/tx';
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
+import TextField from 'src/components/insync/text-field/text-field';
+import Checkbox from 'src/components/common/checkbox';
 
 export const ConvertDialog = wrapBaseDialog(
 	observer(
@@ -211,23 +213,21 @@ export const ConvertDialog = wrapBaseDialog(
 			};
 
 			return (
-				<div className="w-full h-full text-white-high">
+				<div className="w-full h-full">
 					<div className="mb-5 md:mb-10 flex justify-between items-center w-full">
 						<h5 className="text-lg md:text-xl">Convert Asset</h5>
 					</div>
 					<h6 className="mb-3 md:mb-4 text-base md:text-lg">
 						{walletStore.isLoaded ? 'To Cosmos Asset' : 'To ERC-20 Asset'}
 					</h6>
-					<p className="text-white mb-3">
+					<p className="mb-3">
 						To convert this asset to {walletStore.isLoaded ? 'an ERC-20 Token' : 'a Cosmos Asset'}, please disconnect
 						the current wallet and connect to {walletStore.isLoaded ? 'Keplr' : 'Metamask'}
 					</p>
 					<section className={`flex flex-col items-center`}>
 						<div className="w-full flex-1 p-3 md:p-4 border border-white-faint rounded-2xl">
-							<p className="text-white-high">From</p>
-							<p className="text-white-disabled truncate overflow-ellipsis">
-								{Bech32Address.shortenAddress(fromAddress, 100)}
-							</p>
+							<p>From</p>
+							<p className="truncate overflow-ellipsis">{Bech32Address.shortenAddress(fromAddress, 100)}</p>
 						</div>
 						<div className="flex justify-center items-center w-10 my-2 md:my-0">
 							<img src="/public/assets/icons/arrow-down.svg" />
@@ -238,7 +238,7 @@ export const ConvertDialog = wrapBaseDialog(
 							} rounded-2xl`}>
 							<div className="flex place-content-between">
 								<div className="flex gap-2">
-									<p className="text-white-high">To</p>
+									<p>To</p>
 								</div>
 								{!isValidCustomWithdrawAddr && <p className="text-error">Invalid address</p>}
 							</div>
@@ -252,51 +252,28 @@ export const ConvertDialog = wrapBaseDialog(
 											</p>
 										</div>
 									)}
-									<div className="flex gap-2 place-content-between p-1 bg-background rounded-lg">
-										<AmountInput
-											style={{ fontSize: '14px', textAlign: 'left' }}
-											value={customWithdrawAddr}
-											onChange={(e: any) =>
-												setCustomWithdrawAddr(e.target.value, config.PREFIX, true, !walletStore.isLoaded)
-											}
-										/>
-										<button
-											onClick={() => {
-												setDidConfirmWithdrawAddr(true);
-												setIsEditingWithdrawAddr(false);
-											}}
-											className={cn('my-auto p-1.5 flex justify-center items-center rounded-md md:static', {
-												'bg-primary-200 hover:opacity-75 cursor-pointer ':
-													didVerifyWithdrawRisks && isValidCustomWithdrawAddr,
-												'opacity-30': !didVerifyWithdrawRisks || !isValidCustomWithdrawAddr,
-											})}
-											disabled={!didVerifyWithdrawRisks || !isValidCustomWithdrawAddr}>
-											<p className="text-xs text-white-high leading-none">Enter</p>
-										</button>
-									</div>
-									<label
-										htmlFor="checkbox"
-										className="text-xs flex justify-end items-center mr-2 mt-2 mb-1 cursor-pointer"
-										onClick={() => setDidVerifyWithdrawRisks(!didVerifyWithdrawRisks)}>
-										{didVerifyWithdrawRisks ? (
-											<div className="mr-2.5">
-												<svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-													<path
-														fillRule="evenodd"
-														clipRule="evenodd"
-														d="M4 2H20C21.1046 2 22 2.89543 22 4V20C22 21.1046 21.1046 22 20 22H4C2.89543 22 2 21.1046 2 20V4C2 2.89543 2.89543 2 4 2ZM0 4C0 1.79086 1.79086 0 4 0H20C22.2091 0 24 1.79086 24 4V20C24 22.2091 22.2091 24 20 24H4C1.79086 24 0 22.2091 0 20V4ZM20.6717 7.43656C21.1889 6.78946 21.0837 5.84556 20.4366 5.32831C19.7895 4.81106 18.8456 4.91633 18.3283 5.56344L10.2439 15.6773L5.61855 10.5006C5.06659 9.88282 4.11834 9.82948 3.50058 10.3814C2.88282 10.9334 2.82948 11.8817 3.38145 12.4994L9.18914 18.9994C9.48329 19.3286 9.90753 19.5115 10.3488 19.4994C10.7902 19.4873 11.2037 19.2814 11.4794 18.9366L20.6717 7.43656Z"
-														fill="white"
-													/>
-												</svg>
-											</div>
-										) : (
-											<div className="w-6 h-6 border-2 border-iconDefault mr-2.5 rounded" />
-										)}
-										I verify that I am sending to the correct address
-									</label>
+									<TextField
+										label=""
+										value={customWithdrawAddr}
+										onChange={(e: any) =>
+											setCustomWithdrawAddr(e.target.value, config.PREFIX, true, !walletStore.isLoaded)
+										}
+										buttonText="Enter"
+										disabledButton={!didVerifyWithdrawRisks || !isValidCustomWithdrawAddr}
+										onButtonClick={() => {
+											setDidConfirmWithdrawAddr(true);
+											setIsEditingWithdrawAddr(false);
+										}}
+									/>
+									<Checkbox
+										label="I verify that I am sending to the correct address"
+										onChange={() => setDidVerifyWithdrawRisks(!didVerifyWithdrawRisks)}
+										style={{ display: 'flex', justifyContent: 'flex-end' }}
+										labelStyle={{ fontSize: '14px' }}
+									/>
 								</>
 							) : (
-								<p className="text-white-disabled truncate overflow-ellipsis">
+								<p className="truncate overflow-ellipsis">
 									{Bech32Address.shortenAddress(didConfirmWithdrawAddr ? customWithdrawAddr : toAddress, 100)}
 									{!isEditingWithdrawAddr && (
 										<Button
@@ -333,27 +310,17 @@ export const ConvertDialog = wrapBaseDialog(
 									.toString()}
 							</span>
 						</p>
-						<div
-							className="py-2 px-2.5 bg-background rounded-lg flex gap-5 relative"
-							style={{ gridTemplateColumns: 'calc(100% - 60px) 40px' }}>
-							<AmountInput
-								type="number"
-								style={{ color: colorWhiteEmphasis }}
-								onChange={e => {
-									e.preventDefault();
-									amountConfig.setAmount(e.currentTarget.value);
-								}}
-								value={amountConfig.amount}
-							/>
-							<button
-								onClick={() => amountConfig.toggleIsMax()}
-								className={cn(
-									'my-auto p-1.5 bg-white-faint hover:opacity-75 cursor-pointer flex justify-center items-center rounded-md absolute top-2 right-2 md:static',
-									amountConfig.isMax && 'bg-primary-200'
-								)}>
-								<p className="text-xs text-white-high leading-none">MAX</p>
-							</button>
-						</div>
+						<TextField
+							label=""
+							type="number"
+							onChange={e => {
+								e.preventDefault();
+								amountConfig.setAmount(e.currentTarget.value);
+							}}
+							value={amountConfig.amount}
+							buttonText="MAX"
+							onButtonClick={() => amountConfig.toggleIsMax()}
+						/>
 					</div>
 					<div className="w-full mt-6 md:mt-9 flex items-center justify-center">
 						{!isAccountConnected ? (
@@ -377,7 +344,7 @@ export const ConvertDialog = wrapBaseDialog(
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										fill="none"
-										className="animate-spin md:-ml-1 md:mr-3 h-5 w-5 text-white"
+										className="animate-spin md:-ml-1 md:mr-3 h-5 w-5"
 										viewBox="0 0 24 24">
 										<circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
 										<path

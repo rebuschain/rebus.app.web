@@ -1,7 +1,8 @@
-import styled from '@emotion/styled';
+import styled from 'styled-components';
 
 export const ResultDialogHeader = styled.h1`
 	font-family: 'Blinker', sans-serif;
+	color: ${props => props.theme.text};
 	font-weight: 600;
 	font-size: 24px;
 	line-height: 29px;
@@ -14,5 +15,5 @@ export const ResultDialogText = styled.p`
 	font-weight: 600;
 	font-size: 20px;
 	line-height: 24px;
-	color: #d3d3d3;
+	color: ${props => props.theme.text};
 `;

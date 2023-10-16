@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from 'styled-components';
 import { CoinPretty, Dec } from '@keplr-wallet/unit';
 import { PricePretty } from '@keplr-wallet/unit/build/price-pretty';
 import { observer } from 'mobx-react-lite';
@@ -7,6 +7,7 @@ import { OverviewLabelValue } from 'src/components/common/overview-label-value';
 import { TitleText } from 'src/components/texts';
 import { useStore } from 'src/stores';
 import useWindowSize from 'src/hooks/use-window-size';
+import { hexToRgb } from 'src/colors';
 
 export const AssetsOverview: FunctionComponent<React.PropsWithChildren<{ title: string }>> = observer(({ title }) => {
 	const { chainStore, accountStore, queriesStore, priceStore, walletStore } = useStore();
@@ -80,6 +81,11 @@ const AssetsList = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
+
+	border: 1px solid ${props => hexToRgb(props.theme.text, 0.1)};
+	border-radius: 24px;
+	padding: 20px;
+	padding-left: 50px;
 
 	@media (min-width: 768px) {
 		gap: 24px;

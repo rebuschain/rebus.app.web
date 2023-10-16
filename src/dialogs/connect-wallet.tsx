@@ -31,6 +31,8 @@ import { useActions } from 'src/hooks/use-actions';
 import { actions } from 'src/reducers/slices/snackbar';
 import { config } from 'src/config-insync';
 import { useAccountConnection } from 'src/hooks/account/use-account-connection';
+import { Button } from 'src/components/common/button';
+import styled, { useTheme } from 'styled-components';
 
 async function sendTx(chainId: string, tx: StdTx | Uint8Array, mode: BroadcastMode): Promise<Uint8Array> {
 	const restInstance = Axios.create({
@@ -299,6 +301,7 @@ export const ConnectWalletDialog = wrapBaseDialog(
 		const { isAccountConnected } = useAccountConnection();
 		const [showSnackbar] = useActions([actions.showSnackbar]);
 		const account = accountStore.getAccount(chainStore.current.chainId);
+		const theme = useTheme();
 
 		useEffect(() => {
 			// Skip the selection of wallet type if mobile
@@ -317,8 +320,8 @@ export const ConnectWalletDialog = wrapBaseDialog(
 		if (!WALLET_LIST.length) {
 			return (
 				<div ref={initialFocus}>
-					<h4 className="text-lg md:text-xl text-white-high">Connect Wallet</h4>
-					<p className="text-xs md:text-sm text-white-high mt-4">
+					<h4 className="text-lg md:text-xl">Connect Wallet</h4>
+					<p className="text-xs md:text-sm mt-4">
 						This browser does not support any wallet extensions, please use either Chrome or Firefox.
 					</p>
 				</div>
@@ -327,16 +330,26 @@ export const ConnectWalletDialog = wrapBaseDialog(
 
 		return (
 			<div ref={initialFocus}>
-				<h4 className="text-lg md:text-xl text-white-high">Connect Wallet</h4>
+				<h4 className="text-lg md:text-xl">Connect Wallet</h4>
 				{WALLET_LIST.filter(wallet => {
 					if (isMobile && wallet.type == 'extension') {
 						return false;
 					}
 					return true;
 				}).map(wallet => (
-					<button
+					<Button
 						key={wallet.name}
-						className="w-full text-left p-3 md:p-5 rounded-2xl bg-background flex items-center mt-4 md:mt-5"
+						backgroundStyle="secondary"
+						style={{
+							width: '100%',
+							display: 'flex',
+							flexDirection: 'row',
+							alignItems: 'flex-start',
+							justifyContent: 'flex-start',
+							height: 'auto',
+							marginBottom: '10px',
+							marginTop: '10px',
+						}}
 						onClick={async () => {
 							const isConnectingKeplr = wallet.walletType?.includes('keplr');
 
@@ -357,12 +370,25 @@ export const ConnectWalletDialog = wrapBaseDialog(
 							}
 							close();
 						}}>
-						<img src={wallet.logoUrl} className="w-12 mr-3 md:w-16 md:mr-5" />
-						<div>
-							<h5 className="text-base md:text-lg mb-1 text-white-high">{wallet.name}</h5>
-							<p className="text-xs md:text-sm text-iconDefault">{wallet.description}</p>
+						<img
+							src={wallet.logoUrl}
+							className="w-12 mr-3 md:w-16 md:mr-5"
+							style={{
+								maxWidth: '100%',
+								maxHeight: '100%',
+							}}
+						/>
+						<div
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								textAlign: 'left',
+								color: theme.text,
+							}}>
+							<h5 className="text-base md:text-lg mb-1">{wallet.name}</h5>
+							<p className="text-xs md:text-sm">{wallet.description}</p>
 						</div>
-					</button>
+					</Button>
 				))}
 			</div>
 		);
