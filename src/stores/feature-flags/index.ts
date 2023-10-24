@@ -19,11 +19,8 @@ export type FeatureFlagsResponse = {
 };
 
 export type FeatureFlags = {
-	assetsPage?: boolean;
-	assetsPageErc20ToNative?: boolean;
 	nftIdPage?: boolean;
 	ibcTransferPage?: boolean;
-	newProposals?: boolean;
 };
 
 const axiosInstance = axios.create({
