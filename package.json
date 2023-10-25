@@ -171,6 +171,7 @@
 		"@babel/plugin-proposal-nullish-coalescing-operator": "^7.13.13",
 		"@babel/preset-env": "^7.13.12",
 		"@babel/preset-react": "^7.13.13",
+		"@svgr/webpack": "^8.1.0",
 		"@types/big.js": "^6.0.2",
 		"@types/dom-to-image": "^2.6.4",
 		"@types/is-empty": "^1.2.0",
@@ -247,7 +248,8 @@
 		"@emotion/utils": "^1.2.0",
 		"@emotion/react": "^11.10.5",
 		"styled-components": "^6.0.7",
-		"react-cookie": "^6.1.1"
+		"react-cookie": "^6.1.1",
+		"@svgr/webpack": "^8.1.0"
 	},
 	"importSort": {
 		".js, .jsx, .ts, .tsx": {

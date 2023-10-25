@@ -13,7 +13,7 @@ export function ConnectAccountButton(props: React.HTMLAttributes<HTMLButtonEleme
 
 	return (
 		<Button {...(props as any)} style={{ whiteSpace: 'nowrap', ...(props.style || {}) }}>
-			<WalletImg src="/public/assets/icons/wallet.svg" />
+			<WalletImg src="/public/assets/icons/assets.svg" />
 			<Text
 				style={{
 					marginLeft: '6px',
