@@ -8,6 +8,7 @@ import { TextInput, TextInputProps } from './text-input';
 import { Media } from 'src/types/nft-id';
 import { TextareaInput, TextareaInputProps } from './textarea-input';
 import styled, { useTheme } from 'styled-components';
+import { darkTheme } from 'src/theme';
 
 export enum InputTypes {
 	Date = 'date',
@@ -61,6 +62,7 @@ export const Input: React.FC<React.PropsWithChildren<InputProps>> = ({
 }) => {
 	let content = null;
 	const theme = useTheme();
+	const isDark = theme === darkTheme;
 
 	switch (type) {
 		case InputTypes.Date:
@@ -128,7 +130,7 @@ export const Input: React.FC<React.PropsWithChildren<InputProps>> = ({
 					<button className="ml-2" onClick={() => onVisibilityChange(name, !hide)}>
 						<ReactSVG
 							src={hide ? '/public/assets/icons/hidden.svg' : '/public/assets/icons/visible.svg'}
-							style={{ filter: theme.text === '#FFFFFF' ? 'none' : 'invert(1)' }}
+							style={{ filter: isDark ? 'none' : 'invert(1)' }}
 						/>
 					</button>
 				</div>

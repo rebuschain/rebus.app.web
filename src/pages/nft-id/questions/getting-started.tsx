@@ -3,6 +3,7 @@ import React, { FunctionComponent } from 'react';
 import gettingStarted from 'src/assets/nft-id-quiz/quiz-passing.png';
 import { Loader } from 'src/components/common/loader';
 import { useTheme } from 'styled-components';
+import { darkTheme } from 'src/theme';
 import { Button } from 'src/components/common/button';
 
 type GettingStartedProps = {
@@ -20,14 +21,11 @@ const loaderStyles: React.CSSProperties = {
 
 const GettingStarted: FunctionComponent<React.PropsWithChildren<GettingStartedProps>> = ({ disabled, onClick }) => {
 	const theme = useTheme();
+	const isDark = theme === darkTheme;
 	return (
 		<>
 			<div className="image-wrapper">
-				<img
-					alt="getting-started"
-					src={gettingStarted}
-					style={{ filter: theme.text === '#FFFFFF' ? 'none' : 'invert(1)' }}
-				/>
+				<img alt="getting-started" src={gettingStarted} style={{ filter: isDark ? 'none' : 'invert(1)' }} />
 			</div>
 			<TextStyled className="title text-center text-xl-2 py-6 leading-8">
 				Before you create your NFTID, lets make sure you know what it is.
