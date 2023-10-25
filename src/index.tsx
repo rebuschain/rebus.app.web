@@ -41,7 +41,6 @@ import { store } from './reducers/store';
 import { RouteWrapper } from './components/layouts/route-wrapper';
 
 import { lightTheme, darkTheme } from 'src/theme';
-//import Slider from 'src/components/common/slider'; Import to test
 import { useCookies } from 'react-cookie';
 
 const LoaderStyled = styled(Loader)`
@@ -89,12 +88,6 @@ const Router: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 			setTheme(savedTheme);
 		}
 	}, [cookies.theme]);
-
-	/* Include Slider to test, under <ToastContainer transition={Bounce} />  places it at the bottom of the screen
-	<div>
-		<Slider toggleTheme={toggleTheme} isDarkTheme={isDark ? true : false} />
-	</div>
-	*/
 
 	return (
 		<StyledEngineProvider injectFirst>

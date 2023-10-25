@@ -5,6 +5,7 @@ import { TSIDEBAR_ITEM } from 'src/constants';
 import { NavLink } from 'react-router-dom';
 import { cssAbsoluteCenter } from 'src/emotion-styles/layout';
 import { useTheme } from 'styled-components';
+import { darkTheme } from 'src/theme';
 
 const NavLinkFallback: FunctionComponent<React.PropsWithChildren<{
 	sidebarItem: TSIDEBAR_ITEM;
@@ -31,6 +32,7 @@ export const SidebarItem: FunctionComponent<React.PropsWithChildren<TSidebarItem
 	closeSidebar,
 }) => {
 	const theme = useTheme();
+	const isDark = theme === darkTheme;
 	return (
 		<NavLinkFallback sidebarItem={sidebarItem} closeSidebar={closeSidebar}>
 			<li
@@ -47,7 +49,7 @@ export const SidebarItem: FunctionComponent<React.PropsWithChildren<TSidebarItem
 						<img
 							className={cn('h-5 s-position-abs-center z-10', sidebarItem.ICON_WIDTH_CLASS || 'w-5')}
 							src={sidebarItem.ICON}
-							style={{ filter: theme.text === '#FFFFFF' ? 'none' : 'invert(1)' }}
+							style={{ filter: isDark ? 'none' : 'invert(1)' }}
 						/>
 					)}
 				</div>

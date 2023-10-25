@@ -1,5 +1,5 @@
 import { ROUTES } from './routes';
-import { REBUSLINKSMAIN, REBUSLINKSTEST } from './links';
+import { REBUS_LINKS_MAIN, REBUS_LINKS_TEST } from './links';
 import { config } from 'src/config-insync';
 
 const network = config.NETWORK_TYPE;
@@ -82,7 +82,7 @@ export const LAYOUT = {
 					ICON_SELECTED: '/public/assets/icons/blocks-selected.svg',
 					ICON_WIDTH_CLASS: 'w-4',
 					TEXT: 'Blocks',
-					LINK: isTestNet ? REBUSLINKSTEST.EXPLORER.BLOCKS : REBUSLINKSMAIN.EXPLORER.BLOCKS,
+					LINK: isTestNet ? REBUS_LINKS_TEST.EXPLORER.BLOCKS : REBUS_LINKS_MAIN.EXPLORER.BLOCKS,
 				},
 				TRANSACTIONS: {
 					TYPE: 'transactions',
@@ -90,7 +90,7 @@ export const LAYOUT = {
 					ICON_SELECTED: '/public/assets/icons/transactions-selected.svg',
 					ICON_WIDTH_CLASS: 'w-4',
 					TEXT: 'Transactions',
-					LINK: isTestNet ? REBUSLINKSTEST.EXPLORER.TRANSACTIONS : REBUSLINKSMAIN.EXPLORER.TRANSACTIONS,
+					LINK: isTestNet ? REBUS_LINKS_TEST.EXPLORER.TRANSACTIONS : REBUS_LINKS_MAIN.EXPLORER.TRANSACTIONS,
 				},
 				INFO: {
 					TYPE: 'info',
@@ -98,7 +98,7 @@ export const LAYOUT = {
 					ICON_SELECTED: '/public/assets/icons/info-selected.svg',
 					ICON_WIDTH_CLASS: 'w-4',
 					TEXT: 'Info',
-					LINK: isTestNet ? REBUSLINKSTEST.EXPLORER.INFO : REBUSLINKSMAIN.EXPLORER.INFO,
+					LINK: isTestNet ? REBUS_LINKS_TEST.EXPLORER.INFO : REBUS_LINKS_MAIN.EXPLORER.INFO,
 				},
 			},
 		},
@@ -116,7 +116,7 @@ export const LAYOUT = {
 					ICON_SELECTED: '/public/assets/icons/blocks-selected.svg',
 					ICON_WIDTH_CLASS: 'w-4',
 					TEXT: 'Blocks',
-					LINK: isTestNet ? REBUSLINKSTEST.EVM.BLOCKS : REBUSLINKSMAIN.EVM.BLOCKS,
+					LINK: isTestNet ? REBUS_LINKS_TEST.EVM.BLOCKS : REBUS_LINKS_MAIN.EVM.BLOCKS,
 				},
 				TRANSACTIONS: {
 					TYPE: 'transactions',
@@ -124,7 +124,7 @@ export const LAYOUT = {
 					ICON_SELECTED: '/public/assets/icons/transactions-selected.svg',
 					ICON_WIDTH_CLASS: 'w-4',
 					TEXT: 'Transactions',
-					LINK: isTestNet ? REBUSLINKSTEST.EVM.TRANSACTIONS : REBUSLINKSMAIN.EVM.TRANSACTIONS,
+					LINK: isTestNet ? REBUS_LINKS_TEST.EVM.TRANSACTIONS : REBUS_LINKS_MAIN.EVM.TRANSACTIONS,
 				},
 				TOKENS: {
 					TYPE: 'tokens',
@@ -132,7 +132,7 @@ export const LAYOUT = {
 					ICON_SELECTED: '/public/assets/icons/tokens-selected.svg',
 					ICON_WIDTH_CLASS: 'w-4',
 					TEXT: 'Tokens',
-					LINK: isTestNet ? REBUSLINKSTEST.EVM.TOKENS : REBUSLINKSMAIN.EVM.TOKENS,
+					LINK: isTestNet ? REBUS_LINKS_TEST.EVM.TOKENS : REBUS_LINKS_MAIN.EVM.TOKENS,
 				},
 				API: {
 					TYPE: 'api',
@@ -140,7 +140,7 @@ export const LAYOUT = {
 					ICON_SELECTED: '/public/assets/icons/api-selected.svg',
 					ICON_WIDTH_CLASS: 'w-4',
 					TEXT: 'API',
-					LINK: isTestNet ? REBUSLINKSTEST.EVM.API : REBUSLINKSMAIN.EVM.API,
+					LINK: isTestNet ? REBUS_LINKS_TEST.EVM.API : REBUS_LINKS_MAIN.EVM.API,
 				},
 			},
 		},

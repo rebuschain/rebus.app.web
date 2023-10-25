@@ -9,7 +9,7 @@ export const LINKS = {
 	GITHUB: 'https://github.com/rebuschain',
 };
 
-export const REBUSLINKSMAIN = {
+export const REBUS_LINKS_MAIN = {
 	EXPLORER: {
 		MAIN: 'https://cosmos.rebuschain.com/',
 		BLOCKS: 'https://cosmos.rebuschain.com/rebus/blocks',
@@ -25,7 +25,7 @@ export const REBUSLINKSMAIN = {
 	},
 };
 
-export const REBUSLINKSTEST = {
+export const REBUS_LINKS_TEST = {
 	EXPLORER: {
 		MAIN: 'https://testnet.rebus.money:8443/rebustestnet',
 		BLOCKS: 'https://testnet.rebus.money:8443/rebustestnet/blocks',

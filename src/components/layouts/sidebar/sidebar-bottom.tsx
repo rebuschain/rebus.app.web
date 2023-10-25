@@ -11,6 +11,7 @@ import * as extraActions from 'src/reducers/extra-actions';
 import { ConnectAccountButton } from '../../connect-account-button';
 import styled from 'styled-components';
 import { useTheme } from 'styled-components';
+import { darkTheme } from 'src/theme';
 
 export const SidebarBottom: FunctionComponent<React.PropsWithChildren<unknown>> = observer(() => {
 	const [disconnect] = useActions([extraActions.disconnect]);
@@ -22,6 +23,7 @@ export const SidebarBottom: FunctionComponent<React.PropsWithChildren<unknown>> 
 	const name = walletStore.isLoaded ? walletStore.accountName : account.name;
 	const version = walletStore.isLoaded ? walletStore.version : account.rebus.version;
 	const theme = useTheme();
+	const isDark = theme === darkTheme;
 
 	let network = env('CHAIN_NAME');
 
@@ -57,7 +59,7 @@ export const SidebarBottom: FunctionComponent<React.PropsWithChildren<unknown>> 
 						style={{
 							width: '30px',
 							height: '30px',
-							filter: theme.text === '#FFFFFF' ? 'none' : 'invert(1)',
+							filter: isDark ? 'none' : 'invert(1)',
 							marginBottom: '3px',
 						}}
 						className="w-9 h-9"
@@ -69,7 +71,7 @@ export const SidebarBottom: FunctionComponent<React.PropsWithChildren<unknown>> 
 					className="opacity-75 hover:opacity-100 cursor-pointer mb-0.5 mr-1">
 					<img
 						alt="twitter"
-						style={{ width: '24px', height: '24px', filter: theme.text === '#FFFFFF' ? 'none' : 'invert(1)' }}
+						style={{ width: '24px', height: '24px', filter: isDark ? 'none' : 'invert(1)' }}
 						className="w-8 h-8"
 						src={`${MISC.ASSETS_BASE}/icons/twitter.svg`}
 					/>
@@ -81,7 +83,7 @@ export const SidebarBottom: FunctionComponent<React.PropsWithChildren<unknown>> 
 						alt="discord"
 						className="w-9 h-9"
 						src={`${MISC.ASSETS_BASE}/icons/discord.svg`}
-						style={{ filter: theme.text === '#FFFFFF' ? 'none' : 'invert(1)' }}
+						style={{ filter: isDark ? 'none' : 'invert(1)' }}
 					/>
 				</button>
 				<button
@@ -91,7 +93,7 @@ export const SidebarBottom: FunctionComponent<React.PropsWithChildren<unknown>> 
 						alt="github"
 						className="w-9 h-9"
 						src={`${MISC.ASSETS_BASE}/icons/github.svg`}
-						style={{ filter: theme.text === '#FFFFFF' ? 'none' : 'invert(1)' }}
+						style={{ filter: isDark ? 'none' : 'invert(1)' }}
 					/>
 				</button>
 			</div>
@@ -104,7 +106,7 @@ export const SidebarBottom: FunctionComponent<React.PropsWithChildren<unknown>> 
 								alt="wallet"
 								className="w-6 h-6"
 								src={`${MISC.ASSETS_BASE}/icons/wallet.svg`}
-								style={{ filter: theme.text === '#FFFFFF' ? 'none' : 'invert(1)' }}
+								style={{ filter: isDark ? 'none' : 'invert(1)' }}
 							/>
 						</div>
 						<div className="flex flex-col">
