@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import styled from '@emotion/styled';
 import { DefaultTheme, useTheme } from 'styled-components';
 import Select, { ActionMeta, SingleValue, StylesConfig } from 'react-select';
+import { hexToRgb } from 'src/colors';
 
 export type Option = {
 	label: string;
@@ -21,13 +22,6 @@ export type SelectInputProps = {
 	placeholder?: string;
 	value?: string;
 };
-
-function hexToRgb(hex: string, alpha: number): string {
-	const r = parseInt(hex.slice(1, 3), 16);
-	const g = parseInt(hex.slice(3, 5), 16);
-	const b = parseInt(hex.slice(5, 7), 16);
-	return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-}
 
 const styles = (theme: DefaultTheme): StylesConfig<Option, false, GroupedOption> => ({
 	clearIndicator: styles => ({ ...styles, color: theme.text, cursor: 'pointer !important' }),

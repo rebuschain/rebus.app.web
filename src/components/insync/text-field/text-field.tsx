@@ -12,6 +12,7 @@ interface TextFieldProps {
 	disabled?: boolean;
 	errorMessage?: string;
 	buttonText?: string;
+	hasDots?: boolean;
 	onButtonClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 	disabledButton?: boolean;
 }
@@ -26,6 +27,7 @@ const TextField: React.FC<TextFieldProps> = ({
 	disabled = false,
 	errorMessage = '',
 	buttonText = '',
+	hasDots = true,
 	onButtonClick = () => null,
 	disabledButton = false,
 }) => {
@@ -53,7 +55,7 @@ const TextField: React.FC<TextFieldProps> = ({
 			<label className="label">{label}</label>
 			<div
 				className={classnames('input-wrapper', { hovered: isHovered }, { active: isActive }, { disabled: disabled })}>
-				<span className={`dot ${disabled ? 'disabled' : ''}`} />
+				{hasDots && <span className={`dot ${disabled ? 'disabled' : ''}`} />}
 				<input
 					type={type}
 					placeholder={placeholder}
@@ -65,7 +67,7 @@ const TextField: React.FC<TextFieldProps> = ({
 					value={value}
 					onChange={onChange}
 				/>
-				<span className={`dot ${disabled ? 'disabled' : ''}`} />
+				{hasDots && <span className={`dot ${disabled ? 'disabled' : ''}`} />}
 				{buttonText && (
 					<button
 						className={`max-button ${disabled || disabledButton ? 'disabled' : ''}`}

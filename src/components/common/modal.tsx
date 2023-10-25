@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, ReactNode } from 'react';
 import styled from 'styled-components';
 import TextField from '../insync/text-field/text-field';
 import { Button } from './button';
 import Checkbox from './checkbox';
 
 interface ModalProps {
-	title: string;
-	subtitle: string;
-	textfields: Array<{
+	title: ReactNode;
+	subtitle: ReactNode;
+	textfields?: Array<{
 		label: string;
 		value: string;
 		onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -17,13 +17,14 @@ interface ModalProps {
 		errorMessage?: string;
 		buttonText?: string;
 	}>;
-	checkboxes: Array<{ label: string; onChange: () => void }>;
+	checkboxes?: Array<{ label: string; onChange: () => void }>;
 	onClose?: () => void;
 	onConfirm?: () => void;
+	open?: boolean;
 }
 
-const Modal: React.FC<ModalProps> = ({ title, subtitle, textfields, checkboxes, onClose, onConfirm }) => {
-	const [isVisible, setVisible] = useState(true);
+const Modal: React.FC<ModalProps> = ({ title, subtitle, textfields, checkboxes, onClose, onConfirm, open = true }) => {
+	const [isVisible, setVisible] = useState(open);
 
 	const closeModal = () => {
 		setVisible(false);
@@ -33,8 +34,8 @@ const Modal: React.FC<ModalProps> = ({ title, subtitle, textfields, checkboxes, 
 	};
 
 	const handleConfirm = () => {
-		closeModal();
 		if (onConfirm) {
+			setVisible(false);
 			onConfirm();
 		}
 	};
@@ -43,12 +44,12 @@ const Modal: React.FC<ModalProps> = ({ title, subtitle, textfields, checkboxes, 
 		<ModalBackdrop>
 			<ModalContainerStyled>
 				<ModalHeader>
-					<h4>{title}</h4>
+					{title}
 					<Button backgroundStyle={'ghost'} onClick={closeModal}>
 						&#10005;
 					</Button>
 				</ModalHeader>
-				{textfields.map((textfield, index) => (
+				{textfields?.map((textfield, index) => (
 					<TextField
 						key={index}
 						label={textfield.label}
@@ -61,10 +62,8 @@ const Modal: React.FC<ModalProps> = ({ title, subtitle, textfields, checkboxes, 
 						buttonText={textfield.buttonText}
 					/>
 				))}
-				<ModalSubHeader>
-					<h6>{subtitle}</h6>
-				</ModalSubHeader>
-				{checkboxes.map((checkbox, index) => (
+				<ModalSubHeader>{subtitle}</ModalSubHeader>
+				{checkboxes?.map((checkbox, index) => (
 					<Checkbox key={index} label={checkbox.label} onChange={checkbox.onChange} style={{ paddingTop: '10px' }} />
 				))}
 				<ModalFooter>
@@ -99,7 +98,7 @@ const ModalContainerStyled = styled.div`
 	color: ${props => props.theme.text};
 	border-radius: 8px;
 	padding: 24px;
-	width: 25%;
+	width: 35%;
 `;
 
 const ModalHeader = styled.div`

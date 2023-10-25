@@ -6,6 +6,7 @@ import quizPassed from 'src/assets/nft-id-quiz/quiz-passing.png';
 import quizFailed from 'src/assets/nft-id-quiz/quiz-failed.png';
 import { Button } from 'src/components/common/button';
 import { styled, useTheme } from 'styled-components';
+import { darkTheme } from 'src/theme';
 
 type QuizCompleteProps = {
 	creatingIdRecord?: boolean;
@@ -18,6 +19,7 @@ const QuizComplete: FunctionComponent<React.PropsWithChildren<QuizCompleteProps>
 	({ creatingIdRecord, hasPassed, onClick }) => {
 		const { questionsStore } = useStore();
 		const theme = useTheme();
+		const isDark = theme === darkTheme;
 
 		const onDocumentationClick = useCallback(() => {
 			window.open('https://medium.com/@RebusChain/nftid-nifdy-a-new-take-on-identity-with-rebus-76cb074a1dba');
@@ -33,7 +35,7 @@ const QuizComplete: FunctionComponent<React.PropsWithChildren<QuizCompleteProps>
 							<img
 								alt="quiz-complete"
 								src={hasPassed ? quizPassed : quizFailed}
-								style={{ filter: theme.text === '#FFFFFF' ? 'none' : 'invert(1)' }}
+								style={{ filter: isDark ? 'none' : 'invert(1)' }}
 							/>
 						</div>
 						<TextStyled className="title text-center text-xl-2 py-6 leading-8">

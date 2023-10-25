@@ -102,7 +102,7 @@ const Router: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 										<Terms />
 										<div className="h-screen z-0">
 											<BrowserRouter>
-												<RouteWrapper>
+												<RouteWrapper toggleTheme={toggleTheme} isDark={isDark}>
 													<Suspense fallback={<LoaderStyled />}>
 														<Routes>
 															<Route path="/" element={<RedirectToAssets />} />

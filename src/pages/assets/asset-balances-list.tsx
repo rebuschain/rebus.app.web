@@ -504,7 +504,7 @@ function AssetBalanceRow({
 										onClick={onConvert}
 										style={{ display: 'flex', alignItems: 'center' }}
 										disabled={isUnstable === true}>
-										<p className="text-sm text-secondary-200 leading-none">Convert</p>
+										<p className="text-sm leading-none">Convert</p>
 										<img alt="right" src={'/public/assets/icons/right.svg'} />
 									</ButtonFaint>
 								</div>
