@@ -32,6 +32,8 @@ import { getIpfsHttpsUrl, getIpfsId } from 'src/utils/ipfs';
 import InputDialog from 'src/pages/stake/delegate-dialog/input-dialog';
 import { ENCRYPTION_KEY_KEY } from 'src/stores/wallet';
 import { StatusChangeButton } from './status-change-button';
+import styled from 'styled-components';
+import { Margin } from '@mui/icons-material';
 
 const ipfs = new IPFS(env('NFT_STORAGE_TOKEN'));
 
@@ -517,7 +519,11 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 							titleSuffix={
 								<div className="whitespace-nowrap">
 									<Tooltip title="Open public view of NFT ID in another tab" arrow>
-										<Button ref={publicViewTooltipRef} backgroundStyle="secondary" onClick={goToPublicPreviewLink}>
+										<Button
+											ref={publicViewTooltipRef}
+											backgroundStyle="secondary"
+											onClick={goToPublicPreviewLink}
+											style={{ margin: '8px' }}>
 											See Public View
 										</Button>
 									</Tooltip>
@@ -533,7 +539,7 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 											backgroundStyle="secondary"
 											disabled={isDecryptingPrivateImage || isSaving || isFetchingPrivateImage}
 											onClick={isDecrypted ? encryptPrivateImage : decryptPrivateImage}
-											style={{ marginLeft: '8px' }}>
+											style={{ margin: '8px' }}>
 											{isDecrypted ? 'Encrypt ID' : 'Decrypt ID'}
 										</Button>
 									</Tooltip>
@@ -547,7 +553,7 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 												backgroundStyle="secondary"
 												disabled={isSaving}
 												onClick={openClearEncryptionDialog}
-												style={{ marginLeft: '8px' }}>
+												style={{ margin: '8px' }}>
 												Clear Encryption Key
 											</Button>
 										</Tooltip>
@@ -600,3 +606,7 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 });
 
 export { PrivateView };
+
+const NFTIdStyled = styled.div`
+	color: ${props => props.theme.text}'
+`;
