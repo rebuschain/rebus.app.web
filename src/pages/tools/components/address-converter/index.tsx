@@ -4,7 +4,7 @@ import { copyTextToClipboard } from 'src/utils/copy-to-clipboard';
 import { ethToRebus, rebusToEth } from 'src/utils/rebus-converter';
 import classNames from 'classnames';
 import { snackbarActions } from 'src/reducers/slices';
-import ConfirmDialog from 'src/pages/stake/delegate-dialog/confirm-dialog';
+import ConfirmDialog from 'src/dialogs/confirm-dialog';
 import { useActions } from 'src/hooks/use-actions';
 import TextField from 'src/components/insync/text-field/text-field';
 import styled from 'styled-components';

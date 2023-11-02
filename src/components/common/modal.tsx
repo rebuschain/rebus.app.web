@@ -5,25 +5,32 @@ import { Button } from './button';
 import Checkbox from './checkbox';
 
 interface ModalProps {
-	title: ReactNode;
-	subtitle: ReactNode;
-	textfields?: Array<{
-		label: string;
-		value: string;
-		onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-		assistiveText?: string;
-		placeholder?: string;
-		disabled?: boolean;
-		errorMessage?: string;
-		buttonText?: string;
-	}>;
-	checkboxes?: Array<{ label: string; onChange: () => void }>;
+	title?: ReactNode;
+	subtitle?: ReactNode;
 	onClose?: () => void;
 	onConfirm?: () => void;
 	open?: boolean;
+	hasCancelButton?: boolean;
+	hasExitButton?: boolean;
+	hasSubmitButton?: boolean;
+	submitText?: string;
+	submitButtonDisabled?: boolean;
+	children?: ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ title, subtitle, textfields, checkboxes, onClose, onConfirm, open = true }) => {
+const Modal: React.FC<ModalProps> = ({
+	title,
+	subtitle,
+	onClose,
+	onConfirm,
+	open = true,
+	hasCancelButton = true,
+	hasExitButton = true,
+	hasSubmitButton = true,
+	submitText = 'Save',
+	submitButtonDisabled = false,
+	children,
+}) => {
 	const [isVisible, setVisible] = useState(open);
 
 	const closeModal = () => {
@@ -45,34 +52,25 @@ const Modal: React.FC<ModalProps> = ({ title, subtitle, textfields, checkboxes, 
 			<ModalContainerStyled>
 				<ModalHeader>
 					{title}
-					<Button backgroundStyle={'ghost'} onClick={closeModal}>
-						&#10005;
-					</Button>
+					{hasExitButton && (
+						<Button backgroundStyle={'ghost'} onClick={closeModal}>
+							&#10005;
+						</Button>
+					)}
 				</ModalHeader>
-				{textfields?.map((textfield, index) => (
-					<TextField
-						key={index}
-						label={textfield.label}
-						value={textfield.value}
-						onChange={textfield.onChange}
-						assistiveText={textfield.assistiveText}
-						placeholder={textfield.placeholder}
-						disabled={textfield.disabled}
-						errorMessage={textfield.errorMessage}
-						buttonText={textfield.buttonText}
-					/>
-				))}
 				<ModalSubHeader>{subtitle}</ModalSubHeader>
-				{checkboxes?.map((checkbox, index) => (
-					<Checkbox key={index} label={checkbox.label} onChange={checkbox.onChange} style={{ paddingTop: '10px' }} />
-				))}
+				{children}
 				<ModalFooter>
-					<Button backgroundStyle={'ghost'} onClick={closeModal}>
-						Cancel
-					</Button>
-					<Button backgroundStyle={'primary'} onClick={handleConfirm}>
-						Save
-					</Button>
+					{hasCancelButton && (
+						<Button backgroundStyle={'ghost'} onClick={closeModal}>
+							Cancel
+						</Button>
+					)}
+					{hasSubmitButton && (
+						<Button backgroundStyle={'primary'} onClick={handleConfirm} disabled={submitButtonDisabled}>
+							{submitText}
+						</Button>
+					)}
 				</ModalFooter>
 			</ModalContainerStyled>
 		</ModalBackdrop>
@@ -120,3 +118,22 @@ const ModalFooter = styled.div`
 `;
 
 export default Modal;
+
+/*
+{textfields?.map((textfield, index) => (
+					<TextField
+						key={index}
+						label={textfield.label}
+						value={textfield.value}
+						onChange={textfield.onChange}
+						assistiveText={textfield.assistiveText}
+						placeholder={textfield.placeholder}
+						disabled={textfield.disabled}
+						errorMessage={textfield.errorMessage}
+						buttonText={textfield.buttonText}
+					/>
+				))}
+				{checkboxes?.map((checkbox, index) => (
+					<Checkbox key={index} label={checkbox.label} onChange={checkbox.onChange} style={{ paddingTop: '10px' }} />
+				))}
+*/

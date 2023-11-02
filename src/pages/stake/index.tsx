@@ -5,10 +5,9 @@ import { RootState } from 'src/reducers/store';
 import { useAppSelector } from 'src/hooks/use-app-select';
 import variables from 'src/utils/variables';
 import Table from './table';
-import DelegateDialog from './delegate-dialog';
-import SuccessDialog from './delegate-dialog/success-dialog';
-import UnSuccessDialog from './delegate-dialog/un-success-dialog';
-import PendingDialog from './delegate-dialog/pending-dialog';
+import SuccessDialog from '../../dialogs/success-dialog';
+import UnSuccessDialog from '../../dialogs/un-success-dialog';
+import PendingDialog from '../../dialogs/pending-dialog';
 
 const selector = (state: RootState) => {
 	return {
@@ -50,7 +49,6 @@ const Stake = () => {
 					</Heading>
 					<Table active={active} />
 				</div>
-				<DelegateDialog canDelegateToInactive={active === 3} />
 				<SuccessDialog />
 				<UnSuccessDialog />
 				<PendingDialog />

@@ -173,11 +173,3 @@ export const Question: FunctionComponent<React.PropsWithChildren<QuestionProps>>
 const TextStyled = styled.p`
 	color: ${props => props.theme.text};
 `;
-
-const formControlStyles = {
-	border: '2px solid #FFFFFF30',
-	background: '#00000030',
-	borderRadius: '10px',
-	display: 'flex',
-	margin: '2px 0px',
-};

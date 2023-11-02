@@ -7,7 +7,7 @@ import { FileInputProps } from '../common/input/file-input';
 import { TextInputProps } from '../common/input/text-input';
 import { Button } from '../common/button';
 import { Loader } from '../common/loader';
-import ConfirmDialog from 'src/pages/stake/delegate-dialog/confirm-dialog';
+import ConfirmDialog from 'src/dialogs/confirm-dialog';
 import { config } from 'src/config-insync';
 import styled from 'styled-components';
 import {

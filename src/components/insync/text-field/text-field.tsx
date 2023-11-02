@@ -12,7 +12,6 @@ interface TextFieldProps {
 	disabled?: boolean;
 	errorMessage?: string;
 	buttonText?: string;
-	hasDots?: boolean;
 	onButtonClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 	disabledButton?: boolean;
 }
@@ -27,7 +26,6 @@ const TextField: React.FC<TextFieldProps> = ({
 	disabled = false,
 	errorMessage = '',
 	buttonText = '',
-	hasDots = true,
 	onButtonClick = () => null,
 	disabledButton = false,
 }) => {
@@ -55,7 +53,6 @@ const TextField: React.FC<TextFieldProps> = ({
 			<label className="label">{label}</label>
 			<div
 				className={classnames('input-wrapper', { hovered: isHovered }, { active: isActive }, { disabled: disabled })}>
-				{hasDots && <span className={`dot ${disabled ? 'disabled' : ''}`} />}
 				<input
 					type={type}
 					placeholder={placeholder}
@@ -67,7 +64,6 @@ const TextField: React.FC<TextFieldProps> = ({
 					value={value}
 					onChange={onChange}
 				/>
-				{hasDots && <span className={`dot ${disabled ? 'disabled' : ''}`} />}
 				{buttonText && (
 					<button
 						className={`max-button ${disabled || disabledButton ? 'disabled' : ''}`}
@@ -111,20 +107,6 @@ const TextFieldStyled = styled.div`
 		margin-top: 4px;
 		font-weight: 400;
 		color: ${props => props.theme.error};
-	}
-
-	.dot {
-		height: 24px;
-		width: 24px;
-		background-color: transparent;
-		border: 2px solid ${props => props.theme.text};
-		border-radius: 50%;
-		display: inline-block;
-
-		&.disabled {
-			border: 2px solid ${props => props.theme.gray.dark};
-			pointer-events: none;
-		}
 	}
 
 	.input-wrapper {
