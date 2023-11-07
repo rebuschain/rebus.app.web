@@ -20,6 +20,7 @@ import { displayToast, TToastType } from 'src/components/common/toasts';
 import { gas } from 'src/constants/default-gas-values';
 import { config } from 'src/config-insync';
 
+//TODO - Implement redesign here on his dialog (not used in current project)
 export const TransferDialog = wrapBaseDialog(
 	observer(
 		({

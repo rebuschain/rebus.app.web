@@ -2,8 +2,6 @@ import cn from 'clsx';
 import React, { useState, useEffect, useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
 import { AppCurrency } from '@keplr-wallet/types';
-import { AmountInput } from '../components/form/inputs';
-import { colorWhiteEmphasis } from '../emotion-styles/colors';
 import { useStore } from '../stores';
 import { Bech32Address } from '@keplr-wallet/cosmos';
 import { useFakeFeeConfig } from '../hooks/tx';
@@ -26,6 +24,8 @@ import { getAminoTx, getEthTx } from '../utils/tx';
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import TextField from 'src/components/insync/text-field/text-field';
 import Checkbox from 'src/components/common/checkbox';
+import { styled } from 'styled-components';
+import { hexToRgb } from 'src/colors';
 
 export const ConvertDialog = wrapBaseDialog(
 	observer(
@@ -225,17 +225,14 @@ export const ConvertDialog = wrapBaseDialog(
 						the current wallet and connect to {walletStore.isLoaded ? 'Keplr' : 'Metamask'}
 					</p>
 					<section className={`flex flex-col items-center`}>
-						<div className="w-full flex-1 p-3 md:p-4 border border-white-faint rounded-2xl">
+						<DivStyled className="w-full flex-1 p-3 md:p-4">
 							<p>From</p>
 							<p className="truncate overflow-ellipsis">{Bech32Address.shortenAddress(fromAddress, 100)}</p>
-						</div>
+						</DivStyled>
 						<div className="flex justify-center items-center w-10 my-2 md:my-0">
 							<img src="/public/assets/icons/arrow-down.svg" />
 						</div>
-						<div
-							className={`w-full flex-1 p-3 md:p-4 border ${
-								isValidCustomWithdrawAddr ? 'border-white-faint' : 'border-missionError'
-							} rounded-2xl`}>
+						<DivStyled className={`w-full flex-1 p-3 md:p-4`}>
 							<div className="flex place-content-between">
 								<div className="flex gap-2">
 									<p>To</p>
@@ -245,12 +242,12 @@ export const ConvertDialog = wrapBaseDialog(
 							{isEditingWithdrawAddr ? (
 								<>
 									{isEditingWithdrawAddr && (
-										<div className="flex gap-3 w-full border border-secondary-200 rounded-xl p-1 my-2">
+										<DivStyled className="flex gap-3 w-full p-1 my-2">
 											<img className="ml-2 h-3 my-auto" src="/public/assets/icons/warning.svg" />
 											<p className="text-xs">
 												Warning: Transfer to central exchange address could result in loss of funds.
 											</p>
-										</div>
+										</DivStyled>
 									)}
 									<TextField
 										label=""
@@ -296,10 +293,10 @@ export const ConvertDialog = wrapBaseDialog(
 									)}
 								</p>
 							)}
-						</div>
+						</DivStyled>
 					</section>
 					<h6 className="text-base md:text-lg mt-7">Amount To Convert</h6>
-					<div className="mt-3 md:mt-4 w-full p-0 md:p-5 border-0 md:border border-secondary-50 border-opacity-60 rounded-2xl">
+					<DivStyled className="mt-3 md:mt-4 w-full p-0 md:p-5 border-opacity-60 rounded-2xl">
 						<p className="text-sm md:text-base mb-2">
 							Available balance:{' '}
 							<span className="text-primary-50">
@@ -321,7 +318,7 @@ export const ConvertDialog = wrapBaseDialog(
 							buttonText="MAX"
 							onButtonClick={() => amountConfig.toggleIsMax()}
 						/>
-					</div>
+					</DivStyled>
 					<div className="w-full mt-6 md:mt-9 flex items-center justify-center">
 						{!isAccountConnected ? (
 							isAccountConnectedRoot ? (
@@ -368,3 +365,8 @@ export const ConvertDialog = wrapBaseDialog(
 function pickOne<V1, V2>(v1: V1, v2: V2, first: boolean): V1 | V2 {
 	return first ? v1 : v2;
 }
+
+const DivStyled = styled.div`
+	border: 1px solid ${props => hexToRgb(props.theme.text, 0.1)};
+	border-radius: 20px;
+`;

@@ -516,7 +516,6 @@ const IbcTransferPage: FunctionComponent<React.PropsWithChildren<unknown>> = obs
 							setAmount(e.currentTarget.value);
 						}}
 						buttonText="MAX"
-						hasDots={false}
 						onButtonClick={() => {
 							setIsMax(true);
 							setAmount(

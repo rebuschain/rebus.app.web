@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
+import { darkTheme } from 'src/theme';
 import { AppCurrency, IBCCurrency } from '@keplr-wallet/types';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useMemo } from 'react';
@@ -447,6 +448,8 @@ function AssetBalanceRow({
 }: AssetBalanceRowProps) {
 	const isCW20 =
 		'originCurrency' in currency && currency.originCurrency && 'contractAddress' in currency.originCurrency;
+	const theme = useTheme();
+	const isDark = theme === darkTheme;
 
 	return (
 		<React.Fragment>
@@ -505,7 +508,11 @@ function AssetBalanceRow({
 										style={{ display: 'flex', alignItems: 'center' }}
 										disabled={isUnstable === true}>
 										<p className="text-sm leading-none">Convert</p>
-										<img alt="right" src={'/public/assets/icons/right.svg'} />
+										<img
+											alt="right"
+											src={'/public/assets/icons/right.svg'}
+											style={{ filter: isDark ? 'none' : 'invert(1)' }}
+										/>
 									</ButtonFaint>
 								</div>
 							</React.Fragment>
@@ -591,6 +598,7 @@ function AssetBalanceRow({
 
 const AssetBalanceRowContainer = styled.div`
 	border-bottom: 1px solid ${props => props.theme.gray.dark};
+	color: ${props => props.theme.text};
 `;
 
 const HeaderRowStyled = styled.tr`
