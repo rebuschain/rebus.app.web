@@ -12,6 +12,8 @@ export const LINKS = {
 export const REBUSLINKSMAIN = {
 	EXPLORER: {
 		MAIN: 'https://cosmos.rebuschain.com/',
+		STAKE: 'https://cosmos.rebuschain.com/rebus/staking',
+		VOTE: 'https://cosmos.rebuschain.com/rebus/gov',
 		BLOCKS: 'https://cosmos.rebuschain.com/rebus/blocks',
 		TRANSACTIONS: 'https://cosmos.rebuschain.com/rebus/blocks',
 		INFO: 'https://cosmos.rebuschain.com/',
@@ -28,6 +30,8 @@ export const REBUSLINKSMAIN = {
 export const REBUSLINKSTEST = {
 	EXPLORER: {
 		MAIN: 'https://testnet.rebus.money:8443/rebustestnet',
+		STAKE: 'https://testnet.rebus.money:8443/rebustestnet/staking',
+		VOTE: 'https://testnet.rebus.money:8443/rebustestnet/gov',
 		BLOCKS: 'https://testnet.rebus.money:8443/rebustestnet/blocks',
 		TRANSACTIONS: 'https://testnet.rebus.money:8443/rebustestnet/blocks',
 		INFO: 'https://testnet.rebus.money:8443/rebustestnet',

@@ -118,22 +118,3 @@ const ModalFooter = styled.div`
 `;
 
 export default Modal;
-
-/*
-{textfields?.map((textfield, index) => (
-					<TextField
-						key={index}
-						label={textfield.label}
-						value={textfield.value}
-						onChange={textfield.onChange}
-						assistiveText={textfield.assistiveText}
-						placeholder={textfield.placeholder}
-						disabled={textfield.disabled}
-						errorMessage={textfield.errorMessage}
-						buttonText={textfield.buttonText}
-					/>
-				))}
-				{checkboxes?.map((checkbox, index) => (
-					<Checkbox key={index} label={checkbox.label} onChange={checkbox.onChange} style={{ paddingTop: '10px' }} />
-				))}
-*/

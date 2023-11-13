@@ -11,9 +11,9 @@ import Modal from 'src/components/common/modal';
 const selector = (state: RootState) => {
 	return {
 		lang: state.language,
-		open: state.stake.failedDialog.open,
-		message: state.stake.failedDialog.message,
-		hash: state.stake.failedDialog.hash,
+		open: state.failedDialog.open,
+		message: state.failedDialog.message,
+		hash: state.failedDialog.hash,
 	};
 };
 
