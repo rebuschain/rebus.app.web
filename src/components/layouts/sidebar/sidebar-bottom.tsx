@@ -50,9 +50,7 @@ export const SidebarBottom: FunctionComponent<React.PropsWithChildren<unknown>> 
 
 	return (
 		<div>
-			<div
-				className="flex items-center transition-all overflow-x-hidden w-full"
-				style={{ justifyContent: 'space-around' }}>
+			<div className="flex items-center transition-all w-full" style={{ justifyContent: 'space-around' }}>
 				<button onClick={() => window.open(LINKS.MEDIUM)} className="opacity-75 hover:opacity-100 cursor-pointer mr-1">
 					<img
 						alt="medium"

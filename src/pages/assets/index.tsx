@@ -1,9 +1,7 @@
 import styled, { ThemeProvider } from 'styled-components';
 import { observer } from 'mobx-react-lite';
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CenterSelf } from 'src/components/layouts/containers';
-import { ROUTES } from 'src/constants/routes';
 import { useStore } from 'src/stores';
 import SnackbarMessage from 'src/components/insync/snackbar-message';
 import { AssetBalancesList } from './asset-balances-list';
@@ -20,10 +18,6 @@ const AssetsPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer
 	useEffect(() => {
 		(async () => {
 			await featureFlagStore.waitResponse();
-
-			if (!featureFlagStore.featureFlags.assetsPage) {
-				navigate(ROUTES.STAKE);
-			}
 		})();
 	}, [featureFlagStore, navigate]);
 

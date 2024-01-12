@@ -20,16 +20,14 @@ export const LAYOUT = {
 			ICON: '/public/assets/icons/stake.svg',
 			ICON_SELECTED: '/public/assets/icons/stake-selected.svg',
 			TEXT: 'Stake',
-			ROUTE: ROUTES.STAKE,
-			SELECTED_CHECK: ROUTES.STAKE,
+			LINK: isTestNet ? REBUSLINKSTEST.EXPLORER.STAKE : REBUSLINKSMAIN.EXPLORER.STAKE,
 		},
 		PROPOSALS: {
 			TYPE: 'proposals',
 			ICON: '/public/assets/icons/vote.svg',
 			ICON_SELECTED: '/public/assets/icons/vote-selected.svg',
 			TEXT: 'Vote',
-			ROUTE: ROUTES.VOTE,
-			SELECTED_CHECK: [ROUTES.VOTE, /\/proposals\/*/],
+			LINK: isTestNet ? REBUSLINKSTEST.EXPLORER.VOTE : REBUSLINKSMAIN.EXPLORER.VOTE,
 		},
 		NFT_ID: {
 			TYPE: 'nft-id',

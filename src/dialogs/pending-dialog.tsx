@@ -10,7 +10,7 @@ import Modal from 'src/components/common/modal';
 const selector = (state: RootState) => {
 	return {
 		lang: state.language,
-		open: state.stake.processingDialog,
+		open: state.processingDialog,
 	};
 };
 

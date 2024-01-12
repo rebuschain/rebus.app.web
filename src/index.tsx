@@ -65,9 +65,6 @@ const NftId = lazy(() => import('./pages/nft-id'));
 const NftIdView = lazy(() => import('./pages/nft-id-view'));
 const Tools = lazy(() => import('./pages/tools'));
 const Assets = lazy(() => import('./pages/assets'));
-const Stake = lazy(() => import('./pages/home'));
-const Vote = lazy(() => import('./pages/proposals'));
-const ProposalDetails = lazy(() => import('./pages/proposal-details'));
 const WalletConnect = lazy(() => import('./pages/wallet-connect'));
 const RedirectToAssets = () => <Navigate to={ROUTES.ASSETS} />;
 
@@ -112,9 +109,6 @@ const Router: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 															<Route path={ROUTES.NFT_ID_VIEW} element={<NftIdView />} />
 															<Route path={ROUTES.TOOLS} element={<Tools />} />
 															<Route path={ROUTES.ASSETS} element={<Assets />} />
-															<Route path={ROUTES.STAKE} element={<Stake />} />
-															<Route path={ROUTES.VOTE} element={<Vote />} />
-															<Route path={`${ROUTES.VOTE}/:proposalId`} element={<ProposalDetails />} />
 															<Route path={ROUTES.WALLET_CONNECT} element={<WalletConnect />} />
 															<Route path="*" element={<NotFoundPage />} />
 														</Routes>

@@ -5,8 +5,6 @@ export const ROUTES = {
 	NFT_ID_EDIT: '/nft-id/edit/:address',
 	NFT_ID_VIEW: '/nft-id/:organization/:type/:address',
 	TOOLS: '/tools',
-	VOTE: '/proposals',
-	STAKE: '/staking',
 	WALLET_CONNECT: '/wallet-connect',
 	EXPLORER: '/routing/explorer',
 	EVM: '/routing/evm',

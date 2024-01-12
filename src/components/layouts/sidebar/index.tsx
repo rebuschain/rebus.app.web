@@ -7,7 +7,6 @@ import { SidebarItem } from './sidebar-item';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { SidebarBottom } from './sidebar-bottom';
 import isArray from 'lodash-es/isArray';
-import useWindowSize from 'src/hooks/use-window-size';
 import { observer } from 'mobx-react-lite';
 import { useStore } from 'src/stores';
 import styled from 'styled-components';
@@ -28,28 +27,8 @@ export const Sidebar: FunctionComponent<React.PropsWithChildren<SidebarProps>> =
 	const pathname = location?.pathname;
 
 	const [isOpenSidebar, setIsOpenSidebar] = React.useState<boolean>(false);
-
-	const [isOnTop, setIsOnTop] = React.useState<boolean>(true);
-
-	const { isMobileView } = useWindowSize();
-
-	const { chainStore, queriesStore, featureFlagStore } = useStore();
-	const queries = queriesStore.get(chainStore.current.chainId);
-	const { claimEnabled } = queries.rebus.queryClaimParams;
-
+	const { featureFlagStore } = useStore();
 	const closeSidebar = () => setIsOpenSidebar(false);
-
-	React.useEffect(() => {
-		const checkAndSetWindowIsOnTop = () => {
-			const newIsOnTop = window.scrollY === 0;
-			setIsOnTop(newIsOnTop);
-		};
-
-		window.addEventListener('scroll', checkAndSetWindowIsOnTop);
-		checkAndSetWindowIsOnTop();
-
-		return () => window.removeEventListener('scroll', checkAndSetWindowIsOnTop);
-	}, []);
 
 	return (
 		<SideBarStyled>
@@ -64,7 +43,9 @@ export const Sidebar: FunctionComponent<React.PropsWithChildren<SidebarProps>> =
 						<div className="fixed h-full">
 							<Container
 								className={cn('transition-all pointer-events-auto fixed min-w-sidebar-open max-w-sidebar-open')}>
-								<div className="w-full h-full p-5 md:py-6 flex flex-col justify-between">
+								<div
+									className="w-full h-full p-5 md:py-6 flex flex-col justify-between"
+									style={{ overflowY: 'scroll' }}>
 									<div>
 										<section className="mb-15 flex flex-row items-center">
 											<div className="flex justify-center container">
@@ -86,9 +67,9 @@ export const Sidebar: FunctionComponent<React.PropsWithChildren<SidebarProps>> =
 														return featureFlagStore.featureFlags.nftIdPage;
 													}
 
-													if (['evm', 'explorer'].includes(sidebarItem.TYPE)) {
-														return featureFlagStore.featureFlags.sidebarIntegration;
-													}
+													//if (['evm', 'explorer'].includes(sidebarItem.TYPE)) {
+													//	return featureFlagStore.featureFlags.sidebarIntegration;
+													//}
 
 													return true;
 												})
@@ -101,7 +82,13 @@ export const Sidebar: FunctionComponent<React.PropsWithChildren<SidebarProps>> =
 												.map(sidebarItem => (
 													<React.Fragment key={sidebarItem.TEXT}>
 														{sidebarItem.LINK ? (
-															<a href={sidebarItem.LINK} target="blank" rel="noopener noreferrer">
+															<a
+																href="#"
+																onClick={event => {
+																	event.preventDefault();
+																	window.open(sidebarItem.LINK, '_self');
+																	closeSidebar();
+																}}>
 																<SidebarItem sidebarItem={sidebarItem} closeSidebar={closeSidebar} />
 															</a>
 														) : (
@@ -141,7 +128,7 @@ export const Sidebar: FunctionComponent<React.PropsWithChildren<SidebarProps>> =
 					</div>
 					<div
 						className={`fixed z-20 top-0 left-0 p-5 md:py-6 w-full flex justify-between items-center md:hidden ${
-							isOnTop || isOpenSidebar ? 'bg-opacity-0' : 'bg-opacity-75'
+							isOpenSidebar ? 'bg-opacity-0' : 'bg-opacity-75'
 						} ${!isOpenSidebar ? 'transition-colors duration-300' : ''}`}>
 						<div className="flex justify-center container">
 							<Logo onClick={() => navigate('/')} />
