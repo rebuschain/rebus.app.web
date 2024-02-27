@@ -103,23 +103,9 @@ const handleConfirm = () => {
 
 const AssetsPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer(() => {
 	const navigate = useNavigate();
-	const { ibcTransferHistoryStore, chainStore, accountStore, walletStore, featureFlagStore } = useStore();
+	const { ibcTransferHistoryStore, chainStore, accountStore, walletStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
-
-	useEffect(() => {
-		(async () => {
-			await featureFlagStore.waitResponse();
-
-			if (!featureFlagStore.featureFlags.assetsPage) {
-				navigate(ROUTES.STAKE);
-			}
-		})();
-	}, [featureFlagStore, navigate]);
-
-	if (!featureFlagStore.response) {
-		return null;
-	}
 
 	return (
 		<AssetsPageContainer>
