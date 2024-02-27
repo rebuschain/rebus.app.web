@@ -14,11 +14,12 @@ import { displayToast, TToastType } from '../components/common/toasts';
 import { isSlippageError } from '../utils/tx';
 import { prettifyTxError } from 'src/stores/prettify-tx-error';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
-import { ConnectWalletManager } from 'src/dialogs/connect-wallet';
+import { ConnectWalletManager, KeyConnectingWalletName } from 'src/dialogs/connect-wallet';
 import { gas } from 'src/constants/default-gas-values';
-import { KEPLR_EVMOS_VERSION, KEPLR_VERSION } from 'src/constants/wallet';
+import { KEPLR_EVMOS_VERSION, KEPLR_VERSION, WALLET_LIST } from 'src/constants/wallet';
 import { FeatureFlagStore } from './feature-flags';
 import { QuestionsStore } from './questions';
+import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 
 export class RootStore {
 	public readonly featureFlagStore: FeatureFlagStore;
@@ -205,7 +206,63 @@ export class RootStore {
 		this.layoutStore = new LayoutStore();
 	}
 
-	setIsEvmos = (chainId: string, isEvmos: boolean) => {
+	setIsEvmos = async (chainId: string, isEvmos: boolean, showMessage: ActionCreatorWithPayload<string, string>) => {
+		if (this.connectWalletManager.connectingWalletName?.includes('keplr')) {
+			// Set this before trying to fetch the chain info so we can suggest the right chain if it is not suggested yet
+			this._setIsEvmos(chainId, isEvmos);
+
+			try {
+				// Call this to initialize keplr
+				this.connectWalletManager.getKeplr(false);
+				// Access window keplr just to make sure we have access to the function getChainInfosWithoutEndpoints
+				const keplr = window.keplr;
+
+				const chainInfos = await (keplr as any).getChainInfosWithoutEndpoints();
+
+				const chainInfo = chainInfos.find((chainInfo: any) => chainInfo.chainId === chainId);
+
+				if (chainInfo) {
+					const actualIsEvmos = chainInfo.chainName.toLowerCase().includes('evm');
+					this._setIsEvmos(chainId, actualIsEvmos);
+
+					if (actualIsEvmos !== isEvmos) {
+						// Tell the user they tried to connect to an invalid network
+						if (isEvmos) {
+							const keplrWallet = WALLET_LIST.find(x => x.walletType === 'keplr');
+							if (keplrWallet) {
+								localStorage.setItem(KeyConnectingWalletName, keplrWallet.walletType || '');
+							}
+
+							showMessage(
+								'You are connected to the regular Keplr network, please remove the network in the Keplr wallet to connect to EVMOS'
+							);
+						} else {
+							const keplrWallet = WALLET_LIST.find(x => x.walletType === 'keplr-evmos');
+							if (keplrWallet) {
+								localStorage.setItem(KeyConnectingWalletName, keplrWallet.walletType || '');
+							}
+
+							showMessage(
+								'You are connected to the EVMOS Keplr network, please remove the network in the Keplr wallet to connect to the regular network'
+							);
+						}
+					}
+				} else {
+					console.warn('Not able to find the connected keplr network');
+					this._setIsEvmos(chainId, isEvmos);
+				}
+			} catch (err) {
+				console.error(`Error getting networks from keplr: ${err}`);
+				this._setIsEvmos(chainId, isEvmos);
+			}
+
+			return;
+		}
+
+		this._setIsEvmos(chainId, isEvmos);
+	};
+
+	_setIsEvmos = (chainId: string, isEvmos: boolean) => {
 		this.accountStore.getAccount(chainId).rebus.isEvmos = isEvmos;
 		this.updateVersion(chainId);
 	};
