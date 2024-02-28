@@ -9,6 +9,8 @@ import {
 import { useStore } from 'src/stores';
 import { getKeplrFromWindow, WalletStatus } from '@keplr-wallet/stores';
 import { observer } from 'mobx-react-lite';
+import { useActions } from '../use-actions';
+import { actions } from 'src/reducers/slices/snackbar';
 
 export interface AccountConnection {
 	isAccountConnected: boolean | WalletType;
@@ -23,6 +25,7 @@ export const AccountConnectionProvider: FunctionComponent<React.PropsWithChildre
 	({ children }) => {
 		const { chainStore, accountStore, walletStore, connectWalletManager, setIsEvmos } = useStore();
 		const [isOpenDialog, setIsOpenDialog] = useState(false);
+		const [showSnackbar] = useActions([actions.showSnackbar]);
 
 		const account = accountStore.getAccount(chainStore.current.chainId);
 
@@ -82,7 +85,11 @@ export const AccountConnectionProvider: FunctionComponent<React.PropsWithChildre
 						connectWalletManager.disableAutoConnect();
 					}
 				} else if (!!connectWalletManager.autoConnectingWalletType && account.walletStatus === WalletStatus.NotInit) {
-					setIsEvmos(chainStore.current.chainId, connectWalletManager.connectingWalletName === 'keplr-evmos');
+					setIsEvmos(
+						chainStore.current.chainId,
+						connectWalletManager.connectingWalletName === 'keplr-evmos',
+						showSnackbar
+					);
 					account.init();
 				}
 			});
@@ -93,6 +100,7 @@ export const AccountConnectionProvider: FunctionComponent<React.PropsWithChildre
 			connectWalletManager.autoConnectingWalletType,
 			connectWalletManager.connectingWalletName,
 			setIsEvmos,
+			showSnackbar,
 			walletStore,
 		]);
 
