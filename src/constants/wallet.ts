@@ -46,9 +46,9 @@ export const WALLET_LIST: WalletConfig[] = [
 		version: KEPLR_VERSION,
 	},
 	isExtensionEnvironment && {
-		name: 'Keplr Wallet (EVMOS)',
+		name: 'Keplr Wallet (EVM)',
 		description:
-			'Keplr Browser Extension (Only select this option if you were using the EVMOS chain with Keplr, you will able to connect to the Rebus chain with the Rebus address derived from the EVMOS address to redeem the airdrop, and if you already connected to the Keplr wallet normally, you might have to remove the rebus network in the Keplr wallet and try connecting again)',
+			'Keplr Browser Extension (Only select this option if you were using the EVM chain with Keplr, you will able to connect to the Rebus chain with the Rebus address derived from the EVM address to redeem the airdrop, and if you already connected to the Keplr wallet normally, you might have to remove the rebus network in the Keplr wallet and try connecting again)',
 		logoUrl: '/public/assets/other-logos/keplr.png',
 		type: 'extension',
 		walletType: 'keplr-evmos',

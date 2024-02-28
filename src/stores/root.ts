@@ -234,7 +234,7 @@ export class RootStore {
 							}
 
 							showMessage(
-								'You are connected to the regular Keplr network, please remove the network in the Keplr wallet to connect to EVMOS'
+								'You are connected to the regular Keplr network, please remove the network in the Keplr wallet to connect to EVM'
 							);
 						} else {
 							const keplrWallet = WALLET_LIST.find(x => x.walletType === 'keplr-evmos');
@@ -243,7 +243,7 @@ export class RootStore {
 							}
 
 							showMessage(
-								'You are connected to the EVMOS Keplr network, please remove the network in the Keplr wallet to connect to the regular network'
+								'You are connected to the EVM Keplr network, please remove the network in the Keplr wallet to connect to the regular network'
 							);
 						}
 					}
