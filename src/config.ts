@@ -60,6 +60,14 @@ const LudusCoin = {
 	coinImageUrl: window.location.origin + '/public/assets/tokens/ludus.png',
 };
 
+const ComCoin = {
+	coinDenom: 'COM',
+	coinMinimalDenom: 'com',
+	coinDecimals: 6,
+	coinGeckoId: 'com',
+	coinImageUrl: window.location.origin + '/public/assets/tokens/com.svg',
+};
+
 const TechneCoin = {
 	coinDenom: 'TECHNE',
 	coinMinimalDenom: 'techne',
@@ -122,6 +130,7 @@ export const EmbedChainInfos: ChainInfoWithExplorer[] = [
 			},
 			LudusCoin,
 			TechneCoin,
+			ComCoin,
 			{
 				coinDenom: 'OSMO',
 				coinMinimalDenom: 'ibc/ED07A3391A112B175915CD8FAF43A2DA8E4790EDE12566649D0C2F97716B8518',
