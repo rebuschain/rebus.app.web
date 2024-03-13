@@ -62,7 +62,7 @@ const LudusCoin = {
 
 const ComCoin = {
 	coinDenom: 'COM',
-	coinMinimalDenom: 'com',
+	coinMinimalDenom: 'ibc/22E26F9C0D7E36DA0D564C10953DEFD8BD5B7ADBF0910D675D58CD7194EA25BB',
 	coinDecimals: 6,
 	coinGeckoId: 'com',
 	coinImageUrl: window.location.origin + '/public/assets/tokens/com.svg',
