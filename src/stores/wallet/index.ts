@@ -58,7 +58,13 @@ import { AppCurrency } from '@keplr-wallet/types';
 
 const chainId = env('CHAIN_ID');
 const restUrl = env('REST_URL');
-const ethChainId = Number(chainId.split('_')[1].split('-')[0]);
+const ethChainId = Number(
+	chainId
+		// Replace 3333 for 3033 to fix evm chain id for testnet
+		.replace('3333', '3033')
+		.split('_')[1]
+		.split('-')[0]
+);
 const headers = { 'Content-Type': 'application/json' };
 
 export const ENCRYPTION_KEY_KEY = '_r_k';
