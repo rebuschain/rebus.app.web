@@ -3,5 +3,5 @@ import '../styles/index.scss';
 import '../styles/globals.scss';
 
 export const NotFoundPage: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
-	return <>Not Found</>;
+	return <>Pages Not Found</>;
 };
