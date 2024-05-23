@@ -29,18 +29,18 @@ export const REBUS_LINKS_MAIN = {
 
 export const REBUS_LINKS_TEST = {
 	EXPLORER: {
-		MAIN: 'https://testnet.rebus.money:8443/rebustestnet',
-		STAKE: 'https://testnet.rebus.money:8443/rebustestnet/staking',
-		VOTE: 'https://testnet.rebus.money:8443/rebustestnet/gov',
-		BLOCKS: 'https://testnet.rebus.money:8443/rebustestnet/blocks',
-		TRANSACTIONS: 'https://testnet.rebus.money:8443/rebustestnet/blocks',
-		INFO: 'https://testnet.rebus.money:8443/rebustestnet',
+		MAIN: 'https://testnet.rebus.money/rebustestnet',
+		STAKE: 'https://testnet.rebus.money/rebustestnet/staking',
+		VOTE: 'https://testnet.rebus.money/rebustestnet/gov',
+		BLOCKS: 'https://testnet.rebus.money/rebustestnet/blocks',
+		TRANSACTIONS: 'https://testnet.rebus.money/rebustestnet/blocks',
+		INFO: 'https://testnet.rebus.money/rebustestnet',
 	},
 	EVM: {
-		MAIN: 'https://testnet.rebus.money:8040/',
-		BLOCKS: 'https://testnet.rebus.money:8040/blocks',
-		TRANSACTIONS: 'https://testnet.rebus.money:8040/txs',
-		TOKENS: 'https://testnet.rebus.money:8040/tokens',
-		API: 'https://testnet.rebus.money:8040/api-docs',
+		MAIN: 'https://evm.testnet.rebus.money/',
+		BLOCKS: 'https://evm.testnet.rebus.money/blocks',
+		TRANSACTIONS: 'https://evm.testnet.rebus.money/txs',
+		TOKENS: 'https://evm.testnet.rebus.money/tokens',
+		API: 'https://evm.testnet.rebus.money/api-docs',
 	},
 };
