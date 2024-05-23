@@ -28,13 +28,11 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 	const navigate = useNavigate();
 
 	const { chainStore, queriesStore, accountStore, priceStore, walletStore, featureFlagStore } = useStore();
-	const { assetsPageErc20ToNative } = featureFlagStore.featureFlags;
 	const { tokenPairs } = queriesStore.get(chainStore.current.chainId).rebus.queryTokenPairs.get();
 
 	const currencyDenom = params.get('currency');
 	const convertCoin = chainStore.current.currencies.find(info => info.coinMinimalDenom === currencyDenom);
-	const convertCoinInfo =
-		walletStore.isLoaded && !assetsPageErc20ToNative ? null : tokenPairs?.find(info => info.denom === currencyDenom);
+	const convertCoinInfo = tokenPairs?.find(info => info.denom === currencyDenom);
 
 	const { isMobileView } = useWindowSize();
 
@@ -290,7 +288,7 @@ export const AssetBalancesList = observer(function AssetBalancesList() {
 								totalErc20FiatValue={totalErc20FiatValue}
 								isMobileView={isMobileView}
 								onConvert={
-									erc20Info?.enabled && (!walletStore.isLoaded || assetsPageErc20ToNative)
+									erc20Info?.enabled
 										? () => {
 												onConvert(cur, erc20Info?.erc20_address ?? '');
 										  }

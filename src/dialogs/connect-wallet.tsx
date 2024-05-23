@@ -298,7 +298,6 @@ export const ConnectWalletDialog = wrapBaseDialog(
 	observer(({ initialFocus, close }: { initialFocus: React.RefObject<HTMLDivElement>; close: () => void }) => {
 		const { connectWalletManager, chainStore, accountStore, walletStore, setIsEvmos } = useStore();
 		const [isMobile] = useState(() => checkIsMobile());
-		const { isAccountConnected } = useAccountConnection();
 		const [showSnackbar] = useActions([actions.showSnackbar]);
 		const account = accountStore.getAccount(chainStore.current.chainId);
 		const theme = useTheme();
@@ -311,11 +310,11 @@ export const ConnectWalletDialog = wrapBaseDialog(
 				localStorage.setItem(KeyConnectingWalletType, wallet.type);
 				localStorage.removeItem(KeyConnectingWalletName);
 				connectWalletManager.setWalletName('');
-				setIsEvmos(chainStore.current.chainId, false);
+				setIsEvmos(chainStore.current.chainId, false, showSnackbar);
 				account.init();
 				close();
 			}
-		}, [account, accountStore, chainStore, close, connectWalletManager, isMobile, setIsEvmos]);
+		}, [account, accountStore, chainStore, close, connectWalletManager, isMobile, setIsEvmos, showSnackbar]);
 
 		if (!WALLET_LIST.length) {
 			return (
@@ -365,7 +364,7 @@ export const ConnectWalletDialog = wrapBaseDialog(
 									showSnackbar((err as any)?.message || err);
 								}
 							} else {
-								setIsEvmos(chainStore.current.chainId, wallet.walletType === 'keplr-evmos');
+								setIsEvmos(chainStore.current.chainId, wallet.walletType === 'keplr-evmos', showSnackbar);
 								account.init();
 							}
 							close();

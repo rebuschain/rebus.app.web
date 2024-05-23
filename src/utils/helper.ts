@@ -44,12 +44,12 @@ const defaultAminoTypes = {
 const aminoTypes = new AminoTypes({
 	...defaultAminoTypes,
 	'/rebus.erc20.v1.MsgConvertCoin': {
-		aminoType: '/rebus.erc20.v1.MsgConvertCoin',
+		aminoType: 'evmos/MsgConvertCoin',
 		toAmino: msg => msg,
 		fromAmino: msg => msg,
 	},
 	'/rebus.erc20.v1.MsgConvertERC20': {
-		aminoType: '/rebus.erc20.v1.MsgConvertERC20',
+		aminoType: 'evmos/MsgConvertERC20',
 		toAmino: msg => ({
 			...msg,
 			contract_address: msg.contractAddress,

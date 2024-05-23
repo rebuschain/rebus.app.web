@@ -77,10 +77,10 @@ const WalletConnect: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 			localStorage.setItem(KeyConnectingWalletType, wallet.type);
 			localStorage.removeItem(KeyConnectingWalletName);
 			connectWalletManager.setWalletName('');
-			setIsEvmos(chainStore.current.chainId, false);
+			setIsEvmos(chainStore.current.chainId, false, showMessage);
 			account.init();
 		}
-	}, [account, accountStore, chainStore, connectWalletManager, isConnected, isMobile, setIsEvmos]);
+	}, [account, accountStore, chainStore, connectWalletManager, isConnected, isMobile, setIsEvmos, showMessage]);
 
 	const onConfirm = useCallback(async () => {
 		setLoading(true);
@@ -262,7 +262,7 @@ const WalletConnect: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 									showMessage((err as any)?.message || err);
 								}
 							} else {
-								setIsEvmos(chainStore.current.chainId, wallet.walletType === 'keplr-evmos');
+								setIsEvmos(chainStore.current.chainId, wallet.walletType === 'keplr-evmos', showMessage);
 								account.init();
 							}
 						}}>

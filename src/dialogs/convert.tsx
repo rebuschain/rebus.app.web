@@ -174,8 +174,10 @@ export const ConvertDialog = wrapBaseDialog(
 						txHash = tx?.tx_response?.txhash;
 						txLog = tx?.tx_response?.raw_log || '';
 					} else {
-						const signer = (window.getOfflineSigner &&
-							window.getOfflineSigner(chainStore.current.chainId)) as OfflineDirectSigner;
+						const signer = isEvmos
+							? ((window.getOfflineSigner &&
+									window.getOfflineSigner(chainStore.current.chainId)) as OfflineDirectSigner)
+							: null;
 						const tx = await aminoSignTx(aminoTx, account.bech32Address, signer, isEvmos);
 						txCode = tx?.code;
 						txHash = tx?.transactionHash;

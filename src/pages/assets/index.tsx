@@ -1,7 +1,6 @@
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
-import React, { FunctionComponent, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { FunctionComponent } from 'react';
 import { useStore } from 'src/stores';
 import SnackbarMessage from 'src/components/insync/snackbar-message';
 import { AssetBalancesList } from './asset-balances-list';
@@ -10,20 +9,9 @@ import { IbcTransferHistoryList } from './ibc-transfer-history-list';
 import { hexToRgb } from 'src/colors';
 
 const AssetsPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer(() => {
-	const navigate = useNavigate();
-	const { ibcTransferHistoryStore, chainStore, accountStore, walletStore, featureFlagStore } = useStore();
+	const { ibcTransferHistoryStore, chainStore, accountStore, walletStore } = useStore();
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const address = walletStore.isLoaded ? walletStore.rebusAddress : account.bech32Address;
-
-	useEffect(() => {
-		(async () => {
-			await featureFlagStore.waitResponse();
-		})();
-	}, [featureFlagStore, navigate]);
-
-	if (!featureFlagStore.response) {
-		return null;
-	}
 
 	return (
 		<AssetsPageContainer>

@@ -55,10 +55,6 @@ export const Sidebar: FunctionComponent<React.PropsWithChildren<SidebarProps>> =
 										<section>
 											{mapKeyValues(LAYOUT.SIDEBAR, (_: string, sidebarItem: TSIDEBAR_ITEM) => sidebarItem)
 												.filter((sidebarItem: TSIDEBAR_ITEM) => {
-													if (sidebarItem.TYPE === 'assets') {
-														return featureFlagStore.featureFlags.assetsPage;
-													}
-
 													if (sidebarItem.TYPE === 'ibc-transfer') {
 														return featureFlagStore.featureFlags.ibcTransferPage;
 													}

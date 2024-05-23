@@ -20,14 +20,14 @@ export const LAYOUT = {
 			ICON: '/public/assets/icons/stake.svg',
 			ICON_SELECTED: '/public/assets/icons/stake-selected.svg',
 			TEXT: 'Stake',
-			LINK: isTestNet ? REBUSLINKSTEST.EXPLORER.STAKE : REBUSLINKSMAIN.EXPLORER.STAKE,
+			LINK: isTestNet ? REBUS_LINKS_TEST.EXPLORER.STAKE : REBUS_LINKS_MAIN.EXPLORER.STAKE,
 		},
 		PROPOSALS: {
 			TYPE: 'proposals',
 			ICON: '/public/assets/icons/vote.svg',
 			ICON_SELECTED: '/public/assets/icons/vote-selected.svg',
 			TEXT: 'Vote',
-			LINK: isTestNet ? REBUSLINKSTEST.EXPLORER.VOTE : REBUSLINKSMAIN.EXPLORER.VOTE,
+			LINK: isTestNet ? REBUS_LINKS_TEST.EXPLORER.VOTE : REBUS_LINKS_MAIN.EXPLORER.VOTE,
 		},
 		NFT_ID: {
 			TYPE: 'nft-id',
