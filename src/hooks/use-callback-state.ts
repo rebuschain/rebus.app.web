@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from 'react';
 
 function useCallbackState<T>(initialValue: T): [T, (newValue: T, callback?: (state: T) => void) => void] {
