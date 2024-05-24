@@ -50,52 +50,6 @@ export const SidebarBottom: FunctionComponent<React.PropsWithChildren<unknown>> 
 
 	return (
 		<div>
-			<div className="flex items-center transition-all w-full" style={{ justifyContent: 'space-around' }}>
-				<button onClick={() => window.open(LINKS.MEDIUM)} className="opacity-75 hover:opacity-100 cursor-pointer mr-1">
-					<img
-						alt="medium"
-						style={{
-							width: '30px',
-							height: '30px',
-							filter: isDark ? 'none' : 'invert(1)',
-							marginBottom: '3px',
-						}}
-						className="w-9 h-9"
-						src={`${MISC.ASSETS_BASE}/icons/medium.svg`}
-					/>
-				</button>
-				<button
-					onClick={() => window.open(LINKS.TWITTER)}
-					className="opacity-75 hover:opacity-100 cursor-pointer mb-0.5 mr-1">
-					<img
-						alt="twitter"
-						style={{ width: '24px', height: '24px', filter: isDark ? 'none' : 'invert(1)' }}
-						className="w-8 h-8"
-						src={`${MISC.ASSETS_BASE}/icons/twitter.svg`}
-					/>
-				</button>
-				<button
-					onClick={() => window.open(LINKS.DISCORD)}
-					className="opacity-75 hover:opacity-100 cursor-pointer mb-0.5">
-					<img
-						alt="discord"
-						className="w-9 h-9"
-						src={`${MISC.ASSETS_BASE}/icons/discord.svg`}
-						style={{ filter: isDark ? 'none' : 'invert(1)' }}
-					/>
-				</button>
-				<button
-					onClick={() => window.open(LINKS.GITHUB)}
-					className="opacity-75 hover:opacity-100 cursor-pointer mb-0.5">
-					<img
-						alt="github"
-						className="w-9 h-9"
-						src={`${MISC.ASSETS_BASE}/icons/github.svg`}
-						style={{ filter: isDark ? 'none' : 'invert(1)' }}
-					/>
-				</button>
-			</div>
-			<HorizontalLine />
 			{isAccountConnected ? (
 				<React.Fragment>
 					<div className="flex items-center justify-center mb-4">
@@ -149,8 +103,55 @@ export const SidebarBottom: FunctionComponent<React.PropsWithChildren<unknown>> 
 					}}
 				/>
 			)}
-			{/* <div className={'flex items-center transition-all w-full'}> */}
-			{/*<Img className="w-9 h-9" src={`${MISC.ASSETS_BASE}/icons/${openSidebar ? 'menu-in' : 'menu'}.svg`} />*/}
+			<p style={{ color: isDark ? 'rgb(241 245 249)' : 'rgb(71 85 105)' }} className="w-full text-center text-xs mt-4">
+				Price Data by CoinGecko
+			</p>
+			<div className="pl-2 flex items-center transition-all w-full mt-2" style={{ justifyContent: 'space-around' }}>
+				<button
+					onClick={() => window.open(LINKS.TWITTER)}
+					className="opacity-75 hover:opacity-100 cursor-pointer mb-0.5 mr-1">
+					<img
+						alt="twitter"
+						style={{ width: '20px', height: '20px', filter: isDark ? 'none' : 'invert(1)' }}
+						className="w-8 h-8"
+						src={`${MISC.ASSETS_BASE}/icons/twitter.svg`}
+					/>
+				</button>
+				<button
+					onClick={() => window.open(LINKS.MEDIUM)}
+					className="opacity-75 hover:opacity-100 cursor-pointer mr-1 mb-0.5">
+					<img
+						alt="medium"
+						style={{
+							width: '24px',
+							height: '24px',
+							filter: isDark ? 'none' : 'invert(1)',
+						}}
+						className="w-8 h-8"
+						src={`${MISC.ASSETS_BASE}/icons/medium.svg`}
+					/>
+				</button>
+				<button
+					onClick={() => window.open(LINKS.DISCORD)}
+					className="opacity-75 hover:opacity-100 cursor-pointer mb-0.5">
+					<img
+						alt="discord"
+						className="w-8 h-8"
+						src={`${MISC.ASSETS_BASE}/icons/discord.svg`}
+						style={{ filter: isDark ? 'none' : 'invert(1)' }}
+					/>
+				</button>
+				<button
+					onClick={() => window.open(LINKS.GITHUB)}
+					className="opacity-75 hover:opacity-100 cursor-pointer mb-0.5">
+					<img
+						alt="github"
+						className="w-8 h-8"
+						src={`${MISC.ASSETS_BASE}/icons/github.svg`}
+						style={{ filter: isDark ? 'none' : 'invert(1)' }}
+					/>
+				</button>
+			</div>
 		</div>
 	);
 });

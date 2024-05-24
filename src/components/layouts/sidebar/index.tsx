@@ -95,11 +95,11 @@ export const Sidebar: FunctionComponent<React.PropsWithChildren<SidebarProps>> =
 																	sidebarItem={sidebarItem}
 																	closeSidebar={closeSidebar}
 																/>
-																{sidebarItem.SUBLAYOUT && (
+																{/* {sidebarItem.SUBLAYOUT && (
 																	<SubMenuIconStyled selected={pathnameCheck(pathname, sidebarItem.SELECTED_CHECK)}>
 																		<p className="ml-auto">&#62;</p>
 																	</SubMenuIconStyled>
-																)}
+																)} */}
 															</div>
 														)}
 														{sidebarItem.TYPE === 'tools' &&
