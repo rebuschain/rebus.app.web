@@ -5,10 +5,7 @@ const network = config.NETWORK_TYPE;
 const isTestNet = network === 'testnet';
 
 const GetCosmosURL = (path: string) => {
-	if (isTestNet) {
-		return `${config.COSMOS_TEST_URL}/${path}`;
-	}
-	return `${config.COSMOS_URL}/${path}`;
+	return isTestNet ? `${config.COSMOS_TEST_URL}/${path}` : `${config.COSMOS_URL}/${path}`;
 };
 
 export const LAYOUT = {
