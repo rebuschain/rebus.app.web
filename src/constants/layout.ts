@@ -8,6 +8,10 @@ const GetCosmosURL = (path: string) => {
 	return `${config.COSMOS_URL}/${path}`;
 };
 
+const GetEvmURL = (path: string) => {
+	return `${config.EVM_URL}/${path}`;
+};
+
 export const LAYOUT = {
 	SIDEBAR: {
 		ASSETS: {
@@ -114,10 +118,10 @@ export const LAYOUT = {
 				BLOCKS: {
 					TYPE: 'blocks',
 					ICON: '/public/assets/icons/blocks.svg',
-					ICON_SELECTED: '/public/assets/icons/blocks-selected.svg',
+					ICON_SELECTED: '/publssic/assets/icons/blocks-selected.svg',
 					ICON_WIDTH_CLASS: 'w-4',
 					TEXT: 'Blocks',
-					LINK: isTestNet ? GetCosmosURL('rebustestnet/blocks') : GetCosmosURL('rebus/blocks'),
+					LINK: GetEvmURL('blocks'),
 				},
 				TRANSACTIONS: {
 					TYPE: 'transactions',
@@ -125,7 +129,7 @@ export const LAYOUT = {
 					ICON_SELECTED: '/public/assets/icons/transactions-selected.svg',
 					ICON_WIDTH_CLASS: 'w-4',
 					TEXT: 'Transactions',
-					LINK: GetCosmosURL('txs'),
+					LINK: GetEvmURL('txs'),
 				},
 				TOKENS: {
 					TYPE: 'tokens',
@@ -133,7 +137,7 @@ export const LAYOUT = {
 					ICON_SELECTED: '/public/assets/icons/tokens-selected.svg',
 					ICON_WIDTH_CLASS: 'w-4',
 					TEXT: 'Tokens',
-					LINK: GetCosmosURL('tokens'),
+					LINK: GetEvmURL('tokens'),
 				},
 				API: {
 					TYPE: 'api',
@@ -141,7 +145,7 @@ export const LAYOUT = {
 					ICON_SELECTED: '/public/assets/icons/api-selected.svg',
 					ICON_WIDTH_CLASS: 'w-4',
 					TEXT: 'API',
-					LINK: GetCosmosURL('api-docs'),
+					LINK: GetEvmURL('api-docs'),
 				},
 			},
 		},
