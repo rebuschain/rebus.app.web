@@ -1,9 +1,16 @@
 import { ROUTES } from './routes';
-import { REBUS_LINKS_MAIN, REBUS_LINKS_TEST } from './links';
 import { config } from 'src/config-insync';
 
 const network = config.NETWORK_TYPE;
 const isTestNet = network === 'testnet';
+
+const GetCosmosURL = (path: string) => {
+	return `${config.COSMOS_URL}/${path}`;
+};
+
+const GetEvmURL = (path: string) => {
+	return `${config.EVM_URL}/${path}`;
+};
 
 export const LAYOUT = {
 	SIDEBAR: {
@@ -20,14 +27,14 @@ export const LAYOUT = {
 			ICON: '/public/assets/icons/stake.svg',
 			ICON_SELECTED: '/public/assets/icons/stake-selected.svg',
 			TEXT: 'Stake',
-			LINK: isTestNet ? REBUS_LINKS_TEST.EXPLORER.STAKE : REBUS_LINKS_MAIN.EXPLORER.STAKE,
+			LINK: isTestNet ? GetCosmosURL('rebustestnet/staking') : GetCosmosURL('rebus/staking'),
 		},
 		PROPOSALS: {
 			TYPE: 'proposals',
 			ICON: '/public/assets/icons/vote.svg',
 			ICON_SELECTED: '/public/assets/icons/vote-selected.svg',
 			TEXT: 'Vote',
-			LINK: isTestNet ? REBUS_LINKS_TEST.EXPLORER.VOTE : REBUS_LINKS_MAIN.EXPLORER.VOTE,
+			LINK: isTestNet ? GetCosmosURL('rebustestnet/gov') : GetCosmosURL('rebus/gov'),
 		},
 		NFT_ID: {
 			TYPE: 'nft-id',
@@ -80,7 +87,7 @@ export const LAYOUT = {
 					ICON_SELECTED: '/public/assets/icons/blocks-selected.svg',
 					ICON_WIDTH_CLASS: 'w-4',
 					TEXT: 'Blocks',
-					LINK: isTestNet ? REBUS_LINKS_TEST.EXPLORER.BLOCKS : REBUS_LINKS_MAIN.EXPLORER.BLOCKS,
+					LINK: isTestNet ? GetCosmosURL('rebustestnet/blocks') : GetCosmosURL('rebus/blocks'),
 				},
 				TRANSACTIONS: {
 					TYPE: 'transactions',
@@ -88,7 +95,7 @@ export const LAYOUT = {
 					ICON_SELECTED: '/public/assets/icons/transactions-selected.svg',
 					ICON_WIDTH_CLASS: 'w-4',
 					TEXT: 'Transactions',
-					LINK: isTestNet ? REBUS_LINKS_TEST.EXPLORER.TRANSACTIONS : REBUS_LINKS_MAIN.EXPLORER.TRANSACTIONS,
+					LINK: isTestNet ? GetCosmosURL('rebustestnet/blocks') : GetCosmosURL('rebus/blocks'),
 				},
 				INFO: {
 					TYPE: 'info',
@@ -96,7 +103,7 @@ export const LAYOUT = {
 					ICON_SELECTED: '/public/assets/icons/info-selected.svg',
 					ICON_WIDTH_CLASS: 'w-4',
 					TEXT: 'Info',
-					LINK: isTestNet ? REBUS_LINKS_TEST.EXPLORER.INFO : REBUS_LINKS_MAIN.EXPLORER.INFO,
+					LINK: isTestNet ? GetCosmosURL('rebustestnet') : GetCosmosURL(''),
 				},
 			},
 		},
@@ -111,10 +118,10 @@ export const LAYOUT = {
 				BLOCKS: {
 					TYPE: 'blocks',
 					ICON: '/public/assets/icons/blocks.svg',
-					ICON_SELECTED: '/public/assets/icons/blocks-selected.svg',
+					ICON_SELECTED: '/publssic/assets/icons/blocks-selected.svg',
 					ICON_WIDTH_CLASS: 'w-4',
 					TEXT: 'Blocks',
-					LINK: isTestNet ? REBUS_LINKS_TEST.EVM.BLOCKS : REBUS_LINKS_MAIN.EVM.BLOCKS,
+					LINK: GetEvmURL('blocks'),
 				},
 				TRANSACTIONS: {
 					TYPE: 'transactions',
@@ -122,7 +129,7 @@ export const LAYOUT = {
 					ICON_SELECTED: '/public/assets/icons/transactions-selected.svg',
 					ICON_WIDTH_CLASS: 'w-4',
 					TEXT: 'Transactions',
-					LINK: isTestNet ? REBUS_LINKS_TEST.EVM.TRANSACTIONS : REBUS_LINKS_MAIN.EVM.TRANSACTIONS,
+					LINK: GetEvmURL('txs'),
 				},
 				TOKENS: {
 					TYPE: 'tokens',
@@ -130,7 +137,7 @@ export const LAYOUT = {
 					ICON_SELECTED: '/public/assets/icons/tokens-selected.svg',
 					ICON_WIDTH_CLASS: 'w-4',
 					TEXT: 'Tokens',
-					LINK: isTestNet ? REBUS_LINKS_TEST.EVM.TOKENS : REBUS_LINKS_MAIN.EVM.TOKENS,
+					LINK: GetEvmURL('tokens'),
 				},
 				API: {
 					TYPE: 'api',
@@ -138,7 +145,7 @@ export const LAYOUT = {
 					ICON_SELECTED: '/public/assets/icons/api-selected.svg',
 					ICON_WIDTH_CLASS: 'w-4',
 					TEXT: 'API',
-					LINK: isTestNet ? REBUS_LINKS_TEST.EVM.API : REBUS_LINKS_MAIN.EVM.API,
+					LINK: GetEvmURL('api-docs'),
 				},
 			},
 		},
