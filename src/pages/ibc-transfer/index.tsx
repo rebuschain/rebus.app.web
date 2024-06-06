@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { Bech32Address, ChainIdHelper } from '@keplr-wallet/cosmos';
 import { WalletStatus } from '@keplr-wallet/stores';
 import { IBCCurrency } from '@keplr-wallet/types';
@@ -21,7 +21,6 @@ import useWindowSize from 'src/hooks/use-window-size';
 import { useStore } from 'src/stores';
 import { WalletStore } from 'src/stores/wallet';
 import { AddressInput } from './address-input';
-import TextField from 'src/components/insync/text-field/text-field';
 
 // Set counterparty to osmosis
 const counterpartyChainId = EmbedChainInfos[1].chainId;
@@ -469,54 +468,57 @@ const IbcTransferPage: FunctionComponent<React.PropsWithChildren<unknown>> = obs
 	}, [amount, currBal, currency.coinDecimals]);
 
 	return (
-		<div className="w-full h-fit max-w-3xl p-8 m-5 mt-21 md:my-10 mx-15 md:mt-10">
-			<IBCTransferStyled>
-				<h6 className="mb-3 md:mb-4 text-base md:text-lg">IBC Transfer</h6>
-				<section className={`flex flex-col items-center`}>
-					<AddressInput
-						address={senderAddress}
-						chainImage={isWithdraw ? rebusImage : osmosisImage}
-						chainName={isWithdraw ? chain.chainName : counterpartyChainStore.chainName}
-						label="From"
-					/>
-					<SwapButton className="rounded-full gradient-blue" onClick={swapTokens}>
-						<img src="/public/assets/icons/swap.svg" />
-					</SwapButton>
-					<AddressInput
-						address={recipient}
-						canEdit={true}
-						chainImage={isWithdraw ? osmosisImage : rebusImage}
-						chainName={isWithdraw ? counterpartyChainStore.chainName : chain.chainName}
-						hasError={hasError}
-						label="To"
-						onChangeAddress={setRecipient}
-						onChangeConfirm={setDidConfirm}
-						onGetKeplAddress={onGetKeplAddress}
-						onGetMetamaskAddress={!isWithdraw ? onGetMetamaskAddress : undefined}
-					/>
-				</section>
-				<h6 className="text-base md:text-lg mt-7">Amount To {isWithdraw ? 'Withdraw' : 'Deposit'}</h6>
-				<div className="mt-3 md:mt-4 w-full p-0 md:p-5 border-0 md:border border-secondary-50 border-opacity-60 rounded-2xl">
-					<p className="text-sm md:text-base mb-2">
-						Available balance:{' '}
-						<span className="text-bold">
-							{currBal
-								.upperCase(true)
-								.trim(true)
-								.maxDecimals(6)
-								.toString()}
-						</span>
-					</p>
-					<TextField
-						label=""
+		<div className="w-full h-fit max-w-3xl text-white-high bg-surface rounded-2xl p-8 m-5 mt-21 md:my-10 mx-15 md:mt-10">
+			<h6 className="mb-3 md:mb-4 text-base md:text-lg">IBC Transfer</h6>
+			<section className={`flex flex-col items-center`}>
+				<AddressInput
+					address={senderAddress}
+					chainImage={isWithdraw ? rebusImage : osmosisImage}
+					chainName={isWithdraw ? chain.chainName : counterpartyChainStore.chainName}
+					label="From"
+				/>
+				<SwapButton className="rounded-full gradient-blue" onClick={swapTokens}>
+					<img src="/public/assets/icons/swap.svg" />
+				</SwapButton>
+				<AddressInput
+					address={recipient}
+					canEdit={true}
+					chainImage={isWithdraw ? osmosisImage : rebusImage}
+					chainName={isWithdraw ? counterpartyChainStore.chainName : chain.chainName}
+					hasError={hasError}
+					label="To"
+					onChangeAddress={setRecipient}
+					onChangeConfirm={setDidConfirm}
+					onGetKeplAddress={onGetKeplAddress}
+					onGetMetamaskAddress={!isWithdraw ? onGetMetamaskAddress : undefined}
+				/>
+			</section>
+			<h6 className="text-base md:text-lg mt-7">Amount To {isWithdraw ? 'Withdraw' : 'Deposit'}</h6>
+			<div className="mt-3 md:mt-4 w-full p-0 md:p-5 border-0 md:border border-secondary-50 border-opacity-60 rounded-2xl">
+				<p className="text-sm md:text-base mb-2">
+					Available balance:{' '}
+					<span className="text-primary-50">
+						{currBal
+							.upperCase(true)
+							.trim(true)
+							.maxDecimals(6)
+							.toString()}
+					</span>
+				</p>
+				<div
+					className="py-2 px-2.5 bg-background rounded-lg flex gap-5 relative"
+					style={{ gridTemplateColumns: 'calc(100% - 60px) 40px' }}>
+					<AmountInput
 						type="number"
-						value={amount}
+						style={{ color: colorWhiteEmphasis }}
 						onChange={e => {
 							e.preventDefault();
 							setAmount(e.currentTarget.value);
 						}}
-						buttonText="MAX"
-						onButtonClick={() => {
+						value={amount}
+					/>
+					<button
+						onClick={() => {
 							setIsMax(true);
 							setAmount(
 								currBal
@@ -527,52 +529,51 @@ const IbcTransferPage: FunctionComponent<React.PropsWithChildren<unknown>> = obs
 									.replace(/,/g, '')
 							);
 						}}
+						className={classNames(
+							'my-auto p-1.5 hover:opacity-75 cursor-pointer flex justify-center items-center rounded-md absolute top-2 right-2 md:static',
+							!isMax && 'bg-white-faint',
+							isMax && 'bg-primary-200'
+						)}>
+						<p className="text-xs text-white-high leading-none">MAX</p>
+					</button>
+				</div>
+			</div>
+			<div className="w-full mt-6 md:mt-9 flex items-center justify-center">
+				{!isAccountConnected ? (
+					<ConnectAccountButton
+						className="w-full md:w-2/3 p-4 md:p-6 rounded-2xl"
+						style={{ marginTop: isMobileView ? '16px' : '32px' }}
+						onClick={e => {
+							e.preventDefault();
+							connectAccount();
+						}}
 					/>
-				</div>
-				<div className="w-full mt-6 md:mt-9 flex items-center justify-center">
-					{!isAccountConnected ? (
-						<ConnectAccountButton
-							className="w-full md:w-2/3 p-4 md:p-6 rounded-2xl"
-							style={{ marginTop: isMobileView ? '16px' : '32px' }}
-							onClick={e => {
-								e.preventDefault();
-								connectAccount();
-							}}
-						/>
-					) : (
-						<Button disabled={isDisabled} onClick={onSubmit} style={{ display: 'flex', alignItems: 'center' }}>
-							{isLoading ||
-							(isWithdraw && account.isSendingMsg === 'ibcTransfer') ||
-							(!isWithdraw && counterpartyAccount.isSendingMsg === 'ibcTransfer') ? (
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									className="animate-spin h-5 w-5 text-white "
-									viewBox="0 0 24 24">
-									<circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
-									<path
-										fill="currentColor"
-										d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-										className="opacity-75"
-									/>
-								</svg>
-							) : (
-								<h6 className="text-base md:text-lg">{isWithdraw ? 'Withdraw' : 'Deposit'}</h6>
-							)}
-						</Button>
-					)}
-				</div>
-			</IBCTransferStyled>
+				) : (
+					<Button disabled={isDisabled} onClick={onSubmit}>
+						{isLoading ||
+						(isWithdraw && account.isSendingMsg === 'ibcTransfer') ||
+						(!isWithdraw && counterpartyAccount.isSendingMsg === 'ibcTransfer') ? (
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								className="animate-spin md:-ml-1 md:mr-3 h-5 w-5 text-white"
+								viewBox="0 0 24 24">
+								<circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
+								<path
+									fill="currentColor"
+									d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+									className="opacity-75"
+								/>
+							</svg>
+						) : (
+							<h6 className="text-base md:text-lg">{isWithdraw ? 'Withdraw' : 'Deposit'}</h6>
+						)}
+					</Button>
+				)}
+			</div>
 		</div>
 	);
 });
-
-const IBCTransferStyled = styled.div`
-	background-color: ${props => props.theme.gray.lightest};
-	color: ${props => props.theme.text};
-	border-radius: 20px;
-	padding: 10px;
-`;
 
 const SwapButton = styled(IconButton)`
 	margin: 8px !important;

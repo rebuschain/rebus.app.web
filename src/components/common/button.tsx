@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { colors } from 'src/colors';
+import colors from 'src/colors';
 
 interface ButtonProps {
 	backgroundStyle?: 'primary' | 'secondary' | 'ghost' | null;

@@ -7,7 +7,7 @@ import { ColorPicker } from 'src/components/nft-id/color-picker';
 import { Tooltip } from '@mui/material';
 import { IdForm } from 'src/components/nft-id/id-form';
 import { IdPreview } from 'src/components/nft-id/id-preview';
-import ConfirmDialog from 'src/dialogs/confirm-dialog';
+import ConfirmDialog from 'src/pages/stake/delegate-dialog/confirm-dialog';
 import { COLOR_OPTIONS, IPFS_TIMEOUT } from 'src/constants/nft-id';
 import { useActions } from 'src/hooks/use-actions';
 import { useAppSelector } from 'src/hooks/use-app-select';
@@ -29,11 +29,9 @@ import { MsgMintNftId } from '../../proto/rebus/nftid/v1/tx_pb';
 import { NftId } from '../../proto/rebus/nftid/v1/id_pb';
 import { Button } from '../common/button';
 import { getIpfsHttpsUrl, getIpfsId } from 'src/utils/ipfs';
-import InputDialog from 'src/dialogs/input-dialog';
+import InputDialog from 'src/pages/stake/delegate-dialog/input-dialog';
 import { ENCRYPTION_KEY_KEY } from 'src/stores/wallet';
 import { StatusChangeButton } from './status-change-button';
-import styled from 'styled-components';
-import { Margin } from '@mui/icons-material';
 
 const ipfs = new IPFS(env('NFT_STORAGE_TOKEN'));
 
@@ -519,11 +517,7 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 							titleSuffix={
 								<div className="whitespace-nowrap">
 									<Tooltip title="Open public view of NFT ID in another tab" arrow>
-										<Button
-											ref={publicViewTooltipRef}
-											backgroundStyle="secondary"
-											onClick={goToPublicPreviewLink}
-											style={{ margin: '8px' }}>
+										<Button ref={publicViewTooltipRef} backgroundStyle="secondary" onClick={goToPublicPreviewLink}>
 											See Public View
 										</Button>
 									</Tooltip>
@@ -539,7 +533,7 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 											backgroundStyle="secondary"
 											disabled={isDecryptingPrivateImage || isSaving || isFetchingPrivateImage}
 											onClick={isDecrypted ? encryptPrivateImage : decryptPrivateImage}
-											style={{ margin: '8px' }}>
+											style={{ marginLeft: '8px' }}>
 											{isDecrypted ? 'Encrypt ID' : 'Decrypt ID'}
 										</Button>
 									</Tooltip>
@@ -553,7 +547,7 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 												backgroundStyle="secondary"
 												disabled={isSaving}
 												onClick={openClearEncryptionDialog}
-												style={{ margin: '8px' }}>
+												style={{ marginLeft: '8px' }}>
 												Clear Encryption Key
 											</Button>
 										</Tooltip>
@@ -606,7 +600,3 @@ const PrivateView: FunctionComponent<React.PropsWithChildren<unknown>> = observe
 });
 
 export { PrivateView };
-
-const NFTIdStyled = styled.div`
-	color: ${props => props.theme.text}'
-`;

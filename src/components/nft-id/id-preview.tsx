@@ -6,7 +6,6 @@ import { renderToImage } from 'src/utils/nft-id';
 import { BigLoader } from '../common/loader';
 import classNames from 'classnames';
 import { ActiveDot } from './active-dot';
-import { styled } from 'styled-components';
 
 type IdPreviewProps = {
 	className?: string;
@@ -115,7 +114,7 @@ export const IdPreview: React.FC<React.PropsWithChildren<IdPreviewProps>> = ({
 	]);
 
 	return (
-		<IdPreviewStyled className={className}>
+		<div className={className}>
 			{(title || titleSuffix) && (
 				<div className="flex items-center mb-4 flex-wrap">
 					<h5 className={classNames('whitespace-nowrap mb-2', titleClassName)}>{title}</h5>
@@ -161,10 +160,6 @@ export const IdPreview: React.FC<React.PropsWithChildren<IdPreviewProps>> = ({
 					/>
 				)}
 			</div>
-		</IdPreviewStyled>
+		</div>
 	);
 };
-
-const IdPreviewStyled = styled.div`
-	color: ${props => props.theme.text};
-`;

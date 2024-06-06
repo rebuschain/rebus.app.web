@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
+import { colorPrimary, colorWhiteRegular } from 'src/emotion-styles/colors';
 
 export const TableHeaderRow = styled.tr`
 	display: flex;
@@ -7,7 +8,8 @@ export const TableHeaderRow = styled.tr`
 	padding-left: 14px;
 	padding-right: 14px;
 	border-bottom-width: 1px;
-	color: ${props => props.theme.text};
+	background-color: ${colorPrimary};
+	color: ${colorWhiteRegular};
 
 	@media (min-width: 768px) {
 		padding-top: 0;

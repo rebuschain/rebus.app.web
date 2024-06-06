@@ -5,7 +5,6 @@ import { ColumnDef } from './types';
 import { TableColumn } from './table-column';
 import classNames from 'classnames';
 import useWindowSize from 'src/hooks/use-window-size';
-import styled from 'styled-components';
 
 interface Props extends ListChildComponentProps {
 	columnDefs: Array<ColumnDef>;
@@ -22,7 +21,7 @@ const TableRow: FunctionComponent<React.PropsWithChildren<Props>> = ({
 	tableRowClassName,
 }) => {
 	return (
-		<RowStyled
+		<div
 			className={classNames(
 				`table-row-${index}`,
 				'grid items-center border-t px-2',
@@ -34,41 +33,29 @@ const TableRow: FunctionComponent<React.PropsWithChildren<Props>> = ({
 			tabIndex={index}
 			style={{
 				...style,
-				display: 'flex',
+				borderColor: 'rgba(255,255,255,.12)',
+				gridTemplateColumns: `repeat(24, minmax(0, 1fr))`,
 			}}>
 			{columnDefs.map((columnDef, i) => {
-				const { CellRenderer, property, width } = columnDef;
+				const { CellRenderer, align, property, width } = columnDef;
 				const value = data[property];
 
 				return (
-					<CellStyled key={`col-${i}`} isFirstColumn={i === 0}>
-						<TableColumn
-							CellRenderer={CellRenderer}
-							data={data}
-							index={i}
-							key={`col-${i}`}
-							rowIndex={index}
-							value={value}
-							width={width}
-						/>
-					</CellStyled>
+					<TableColumn
+						CellRenderer={CellRenderer}
+						align={align}
+						data={data}
+						index={i}
+						key={`col-${i}`}
+						rowIndex={index}
+						value={value}
+						width={width}
+					/>
 				);
 			})}
-		</RowStyled>
+		</div>
 	);
 };
-
-const RowStyled = styled.tr`
-	border-bottom: 1px solid ${props => props.theme.gray.dark};
-`;
-
-const CellStyled = styled.div<{ isFirstColumn?: boolean }>`
-	font-size: ${props => (props.isFirstColumn ? '16px' : 'inherit')};
-	font-weight: ${props => (props.isFirstColumn ? '600' : 'inherit')};
-	padding: 12px;
-	text-align: ${props => (props.isFirstColumn ? 'left' : 'right')};
-	width: ${props => (props.isFirstColumn ? '40%' : 'auto')};
-`;
 
 const TableRowMemo: FunctionComponent<React.PropsWithChildren<Props>> = memo(TableRow, (prevProps, nextProps) => {
 	return areEqual(prevProps, nextProps);

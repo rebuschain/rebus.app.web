@@ -1,45 +1,55 @@
 import classNames from 'classnames';
-import React, { useState, ChangeEventHandler } from 'react';
-import { TextInput, TextInputProps } from './text-input';
-import { useTheme } from 'styled-components';
+import React, { useCallback } from 'react';
+import { TextInput } from './text-input';
+import styled from '@emotion/styled';
+import DatePicker from '@mui/lab/DatePicker';
+import { TextFieldProps } from '@mui/material';
 
 export type DateInputProps = {
 	className?: string;
-	onRawChange: ChangeEventHandler<HTMLInputElement>;
+	onChange: (name: string, value: string) => void;
 	name?: string;
 	value?: string;
 };
 
 const DATE_FORMAT = 'MM/DD/YYYY';
 
+const TextFieldComponent: React.ComponentType<React.PropsWithChildren<TextFieldProps>> = ({
+	onChange,
+	InputProps,
+	value,
+}) => {
+	return (
+		<div className="relative">
+			<TextInput onRawChange={onChange} placeholder={DATE_FORMAT} value={(value as string) || ''} />
+			<EndAdormentContainer className="absolute right-0 top-5">{InputProps?.endAdornment}</EndAdormentContainer>
+		</div>
+	);
+};
+
 export const DateInput: React.FC<React.PropsWithChildren<DateInputProps>> = ({
 	className,
-	onRawChange,
+	onChange,
 	name = '',
 	value,
 }) => {
-	const theme = useTheme();
-	const [formattedValue, setFormattedValue] = useState(value || '');
-
-	const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		let inputValue = e.target.value.replace(/\D/g, '');
-		inputValue = inputValue.replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3');
-
-		if (inputValue.length <= 10) {
-			setFormattedValue(inputValue);
-			onRawChange(e);
-		}
-	};
+	const onDateChange = useCallback((date: any) => onChange(name, date?.format(DATE_FORMAT) || ''), [name, onChange]);
 
 	return (
 		<div className={classNames(className, 'flex flex-1 w-full')}>
-			<TextInput
-				onRawChange={onInputChange}
-				name={name}
-				placeholder={DATE_FORMAT}
-				value={formattedValue}
-				style={{ background: theme.gray.lightest, color: theme.text }}
+			<DatePicker
+				disableFuture
+				format={DATE_FORMAT}
+				value={value || null}
+				onChange={onDateChange}
+				TextFieldComponent={TextFieldComponent}
 			/>
 		</div>
 	);
 };
+
+const EndAdormentContainer = styled.div`
+	svg {
+		color: white;
+	}
+`;

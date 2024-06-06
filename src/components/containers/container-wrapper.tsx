@@ -72,7 +72,7 @@ const ContainerOverlay: FunctionComponent<React.PropsWithChildren<TContainerOver
 	const stateClass = React.useMemo(() => {
 		switch (state) {
 			case IContainerState.ENABLED:
-				return 'none';
+				return 'bg-transparent';
 			case IContainerState.HOVER:
 				return 'bg-container-hover';
 			case IContainerState.DRAG:

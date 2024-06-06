@@ -3,22 +3,19 @@ import styled from 'styled-components';
 
 interface CheckboxProps {
 	label: string;
-	labelStyle?: React.CSSProperties;
 	style?: React.CSSProperties;
-	onChange: () => void;
 }
 
-const Checkbox: React.FC<CheckboxProps> = ({ label, style, labelStyle, onChange }) => {
+const Checkbox: React.FC<CheckboxProps> = ({ label, style }) => {
 	const [checked, setChecked] = useState(false);
 
 	const handleCheckboxChange = () => {
 		setChecked(!checked);
-		onChange();
 	};
 
 	return (
 		<CheckboxStyled style={style}>
-			<label className={`checkbox-label ${checked ? 'checked' : ''}`} style={labelStyle}>
+			<label className={`checkbox-label ${checked ? 'checked' : ''}`}>
 				<input type="checkbox" checked={checked} onChange={handleCheckboxChange} />
 				<span className="checkmark">&#10003;</span>
 				{label}
@@ -46,7 +43,6 @@ const CheckboxStyled = styled.div`
 			width: 24px;
 			height: 24px;
 			border: 3px solid ${props => props.theme.gray.light};
-			font-size: 24px;
 			background-color: transparent;
 			margin-right: 10px;
 			display: flex;

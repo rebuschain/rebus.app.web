@@ -6,5 +6,4 @@ export const LINKS = {
 	INSTAGRAM: 'https://www.instagram.com/rebuschain/',
 	FACEBOOK: 'https://www.facebook.com/rebuschain',
 	LINKEDIN: 'https://linkedin.com/company/rebuschain/',
-	GITHUB: 'https://github.com/rebuschain',
 };

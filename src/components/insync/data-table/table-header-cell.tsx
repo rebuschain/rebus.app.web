@@ -1,7 +1,8 @@
+import { Button } from '@mui/material';
 import React, { FunctionComponent } from 'react';
+import { ArrowDownwardRounded, ArrowUpwardRounded } from '@mui/icons-material';
 import { ColumnDef, SortState } from './types';
 import useWindowSize from 'src/hooks/use-window-size';
-import styled from 'styled-components';
 
 type Props = {
 	align?: ColumnDef['align'];
@@ -41,6 +42,7 @@ const TableHeaderCell: FunctionComponent<React.PropsWithChildren<Props>> = ({
 		textTransform: 'initial',
 		...(headerStyle || {}),
 	};
+
 	if (!canSort) {
 		return (
 			<div className={`flex items-center table-header-cell-${index}`} style={style}>
@@ -71,18 +73,17 @@ const TableHeaderCell: FunctionComponent<React.PropsWithChildren<Props>> = ({
 	};
 
 	return (
-		<HeaderStyled key={index} isFirstHeader={index === 0} onClick={onClick} align={align}>
+		<Button className={`flex table-header-cell-${index}`} onClick={onClick} style={style}>
 			{header}
-		</HeaderStyled>
+			<div className={isSorted ? 'block' : 'hidden'}>
+				{isAscending ? (
+					<ArrowUpwardRounded style={{ width: '18px' }} />
+				) : (
+					<ArrowDownwardRounded style={{ width: '18px' }} />
+				)}
+			</div>
+		</Button>
 	);
 };
-
-const HeaderStyled = styled.div<{ isFirstHeader?: boolean; align?: string }>`
-	cursor: pointer;
-	font-weight: normal;
-	justify-content: ${props => props.align};
-	padding: 12px;
-	padding-bottom: 4px;
-`;
 
 export { TableHeaderCell };
