@@ -129,7 +129,7 @@ export class WalletStore {
 	}
 
 	get chainName() {
-		let name = env('CHAIN_NAME');
+		let name = env('METAMASK_CHAIN_NAME');
 
 		if (this.version) {
 			name += ` v${this.version}`;
