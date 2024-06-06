@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import { DefaultCellRenderer } from './default-cell-renderer';
 import { ColumnDef } from './types';
-import styled from 'styled-components';
 
 type Props = {
 	CellRenderer: ColumnDef['CellRenderer'];
+	align?: ColumnDef['align'];
 	data: Record<string, any>;
 	index: number;
 	rowIndex: number;
@@ -14,6 +14,7 @@ type Props = {
 
 const TableColumn: FunctionComponent<React.PropsWithChildren<Props>> = ({
 	CellRenderer,
+	align,
 	data,
 	index,
 	rowIndex,
@@ -23,7 +24,7 @@ const TableColumn: FunctionComponent<React.PropsWithChildren<Props>> = ({
 	const Renderer = CellRenderer || DefaultCellRenderer;
 
 	return (
-		<div className={`flex table-column-${index} px-1`} style={{ gridColumn: `span ${width}` }}>
+		<div className={`flex table-column-${index} px-1`} style={{ justifyContent: align, gridColumn: `span ${width}` }}>
 			<Renderer data={data} index={rowIndex} rowIndex={rowIndex} value={value} />
 		</div>
 	);

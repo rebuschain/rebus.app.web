@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 const FontSizeBySize = {
 	'2xl': 36,
@@ -58,7 +58,6 @@ interface TextProps {
 
 export const Text = styled.p<TextProps>`
 	${mapTextPropsToCssProps};
-	color: ${props => props.theme.text};
 `;
 
 function mapTextPropsToCssProps({

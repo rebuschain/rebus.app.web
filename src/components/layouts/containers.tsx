@@ -1,9 +1,8 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { colorPrimary } from 'src/emotion-styles/colors';
 import { onLgWidth, on2XlWidth } from 'src/emotion-styles/media-queries';
 
 export const FullScreenContainer = styled.div`
-	background-color: ${props => props.theme.background};
 	width: 100%;
 	height: 100%;
 `;

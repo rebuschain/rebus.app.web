@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import { Dialog } from '@headlessui/react';
-import styled from 'styled-components';
 
 export interface BaseDialogProps {
 	dialogStyle?: Record<string, string>;
@@ -29,11 +28,11 @@ export const BaseDialog: FunctionComponent<React.PropsWithChildren<BaseDialogPro
 					open={isOpen}
 					onClose={close}
 					initialFocus={initialFocus}>
-					<ContentStyled className="p-5 flex items-center justify-center min-h-screen">
-						<Dialog.Overlay className="fixed inset-0 z-0" />
+					<div className="p-5 flex items-center justify-center min-h-screen">
+						<Dialog.Overlay className="fixed inset-0 bg-black opacity-20 z-0" />
 						<div
 							style={dialogStyle}
-							className="relative w-full md:min-w-modal md:max-w-modal px-4 py-5 md:p-8 shadow-elevation-24dp rounded-2xl z-10">
+							className="relative w-full md:min-w-modal md:max-w-modal px-4 py-5 md:p-8 bg-surface shadow-elevation-24dp rounded-2xl z-10">
 							{children}
 							{!isHideCloseButton && (
 								<img
@@ -43,7 +42,7 @@ export const BaseDialog: FunctionComponent<React.PropsWithChildren<BaseDialogPro
 								/>
 							)}
 						</div>
-					</ContentStyled>
+					</div>
 				</Dialog>
 			) : null}
 		</React.Fragment>
@@ -67,8 +66,3 @@ export function wrapBaseDialog<C extends React.ElementType>(
 		);
 	};
 }
-
-const ContentStyled = styled.div`
-	background: ${props => props.theme.background};
-	color: ${props => props.theme.text};
-`;

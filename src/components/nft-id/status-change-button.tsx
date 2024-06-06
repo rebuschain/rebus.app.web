@@ -15,7 +15,7 @@ import { RootState } from 'src/reducers/store';
 import { config } from 'src/config-insync';
 import { gas } from 'src/constants/default-gas-values';
 import { aminoSignTx } from 'src/utils/helper';
-import ConfirmDialog from 'src/dialogs/confirm-dialog';
+import ConfirmDialog from 'src/pages/stake/delegate-dialog/confirm-dialog';
 import { Button } from '../common/button';
 import { NftId } from '../../proto/rebus/nftid/v1/id_pb';
 import { MsgActivateNftId, MsgDeactivateNftId } from '../../proto/rebus/nftid/v1/tx_pb';

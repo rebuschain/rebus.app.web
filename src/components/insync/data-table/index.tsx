@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import classNames from 'classnames';
 import React, { FunctionComponent, ReactElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -185,10 +185,6 @@ const DataTable: FunctionComponent<React.PropsWithChildren<DataTableProps>> = ({
 };
 
 const TableContainer = styled.div`
-	color: ${props => props.theme.text};
-	font-size: 14px;
-	width: 100%;
-
 	.list {
 		padding-left: 60px;
 		padding-right: 60px;
