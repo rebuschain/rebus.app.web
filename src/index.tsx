@@ -41,7 +41,6 @@ import { store } from './reducers/store';
 import { RouteWrapper } from './components/layouts/route-wrapper';
 
 import { lightTheme, darkTheme } from 'src/theme';
-//import Slider from 'src/components/common/slider'; Import to test
 import { useCookies } from 'react-cookie';
 
 const LoaderStyled = styled(Loader)`
@@ -66,9 +65,6 @@ const NftId = lazy(() => import('./pages/nft-id'));
 const NftIdView = lazy(() => import('./pages/nft-id-view'));
 const Tools = lazy(() => import('./pages/tools'));
 const Assets = lazy(() => import('./pages/assets'));
-const Stake = lazy(() => import('./pages/home'));
-const Vote = lazy(() => import('./pages/proposals'));
-const ProposalDetails = lazy(() => import('./pages/proposal-details'));
 const WalletConnect = lazy(() => import('./pages/wallet-connect'));
 const RedirectToAssets = () => <Navigate to={ROUTES.ASSETS} />;
 
@@ -90,12 +86,6 @@ const Router: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 		}
 	}, [cookies.theme]);
 
-	/* Include Slider to test, under <ToastContainer transition={Bounce} />  places it at the bottom of the screen
-	<div>
-		<Slider toggleTheme={toggleTheme} isDarkTheme={isDark ? true : false} />
-	</div>
-	*/
-
 	return (
 		<StyledEngineProvider injectFirst>
 			<ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
@@ -109,7 +99,7 @@ const Router: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 										<Terms />
 										<div className="h-screen z-0">
 											<BrowserRouter>
-												<RouteWrapper>
+												<RouteWrapper toggleTheme={toggleTheme} isDark={isDark}>
 													<Suspense fallback={<LoaderStyled />}>
 														<Routes>
 															<Route path="/" element={<RedirectToAssets />} />
@@ -119,9 +109,6 @@ const Router: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 															<Route path={ROUTES.NFT_ID_VIEW} element={<NftIdView />} />
 															<Route path={ROUTES.TOOLS} element={<Tools />} />
 															<Route path={ROUTES.ASSETS} element={<Assets />} />
-															<Route path={ROUTES.STAKE} element={<Stake />} />
-															<Route path={ROUTES.VOTE} element={<Vote />} />
-															<Route path={`${ROUTES.VOTE}/:proposalId`} element={<ProposalDetails />} />
 															<Route path={ROUTES.WALLET_CONNECT} element={<WalletConnect />} />
 															<Route path="*" element={<NotFoundPage />} />
 														</Routes>

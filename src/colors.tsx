@@ -1,6 +1,6 @@
 //Colors for Redesign
 
-const colors = {
+export const colors = {
 	primary: 'linear-gradient(74.53deg, #679AFD 0%, #6A4BE7 44.8%, #E950CB 100%)',
 	linearGradient: 'linear-gradient(74.53deg, #679AFD 0%, #6A4BE7 65.1%)',
 	trueBlack: '#000000',
@@ -18,4 +18,9 @@ const colors = {
 	gray9: '#F8F9FA',
 };
 
-export default colors;
+export function hexToRgb(hex: string, alpha: number): string {
+	const r = parseInt(hex.slice(1, 3), 16);
+	const g = parseInt(hex.slice(3, 5), 16);
+	const b = parseInt(hex.slice(5, 7), 16);
+	return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}

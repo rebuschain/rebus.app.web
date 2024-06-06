@@ -3,6 +3,9 @@ import pickBy from 'lodash-es/pickBy';
 import identity from 'lodash-es/identity';
 import { Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Radio, RadioGroup } from '@mui/material';
 import { Question as QuestionData, UserAnswer } from 'src/stores/questions/types';
+import styled, { useTheme } from 'styled-components';
+import { Text } from '../texts';
+import { Button } from '../common/button';
 
 type QuestionProps = {
 	question: QuestionData;
@@ -13,14 +16,6 @@ type QuestionProps = {
 
 type CheckboxStateProps = {
 	[key: number]: boolean;
-};
-
-const formControlStyles = {
-	border: '2px solid #FFFFFF30',
-	background: '#00000030',
-	borderRadius: '10px',
-	display: 'flex',
-	margin: '2px 0px',
 };
 
 export const Question: FunctionComponent<React.PropsWithChildren<QuestionProps>> = ({
@@ -36,6 +31,8 @@ export const Question: FunctionComponent<React.PropsWithChildren<QuestionProps>>
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setAnswer(parseInt(event.target.value));
 	};
+
+	const theme = useTheme();
 
 	const handleMultiSelectChange = useCallback(
 		(id: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,16 +79,16 @@ export const Question: FunctionComponent<React.PropsWithChildren<QuestionProps>>
 					style={{
 						fontSize: '32px',
 						lineHeight: '32px',
-						color: '#FFFFFF',
+						color: theme.text,
 						margin: '24px 32px',
 						textAlign: 'center',
 					}}
 					id={`question-${question.id}-label`}>
 					{question.prompt}
 				</FormLabel>
-				<p className="sub-text text-white-mid text-base text-center mb-6">
+				<TextStyled className="sub-text text-base text-center mb-6">
 					{question.isMultipleChoice ? 'Select at least one' : 'Select only one.'}
-				</p>
+				</TextStyled>
 
 				<div className="flex flex-col">
 					{!question.isMultipleChoice && (
@@ -99,11 +96,18 @@ export const Question: FunctionComponent<React.PropsWithChildren<QuestionProps>>
 							{question.answers.map(answerOption => (
 								<FormControlLabel
 									key={answerOption.id}
-									style={formControlStyles}
+									style={{
+										border: `2px solid ${theme.text}`,
+										color: theme.text,
+										background: theme.background,
+										borderRadius: '10px',
+										display: 'flex',
+										margin: '2px 0px',
+									}}
 									control={
 										<Radio
 											style={{
-												color: '#FFFFFF',
+												color: theme.text,
 											}}
 										/>
 									}
@@ -118,7 +122,14 @@ export const Question: FunctionComponent<React.PropsWithChildren<QuestionProps>>
 							{question.answers.map(answerOption => (
 								<FormControlLabel
 									key={answerOption.id}
-									style={formControlStyles}
+									style={{
+										border: `2px solid ${theme.text}`,
+										color: theme.text,
+										background: theme.background,
+										borderRadius: '10px',
+										display: 'flex',
+										margin: '2px 0px',
+									}}
 									control={
 										<Checkbox
 											checked={multiSelectAnswer[answerOption.id] || false}
@@ -127,7 +138,7 @@ export const Question: FunctionComponent<React.PropsWithChildren<QuestionProps>>
 											style={{
 												borderRadius: '2px',
 												borderWidth: '1px',
-												color: '#FFFFFF',
+												color: theme.text,
 											}}
 										/>
 									}
@@ -139,20 +150,26 @@ export const Question: FunctionComponent<React.PropsWithChildren<QuestionProps>>
 				</div>
 			</FormControl>
 			<div className="buttons-wrapper flex justify-between items-center mt-6">
-				<button
-					className="bg-blue1 py-2 px-3.75 w-24 rounded-lg focus:outline-none disabled:bg-white-disabled disabled:opacity-50"
+				<Button
+					backgroundStyle={'secondary'}
 					onClick={previousClickHandler}
-					disabled={currentStep === 1}>
+					disabled={currentStep === 1}
+					style={{ minWidth: '125px' }}>
 					Previous
-				</button>
-				<p>{`${currentStep} of 5`}</p>
-				<button
-					disabled={isDisabled}
+				</Button>
+				<TextStyled>{`${currentStep} of 5`}</TextStyled>
+				<Button
+					backgroundStyle={'secondary'}
 					onClick={handleNextQuestionClick}
-					className="bg-blue1 py-2 px-3.75 w-24 rounded-lg disabled:bg-white-disabled disabled:opacity-50">
+					disabled={isDisabled}
+					style={{ minWidth: '125px' }}>
 					Next
-				</button>
+				</Button>
 			</div>
 		</div>
 	);
 };
+
+const TextStyled = styled.p`
+	color: ${props => props.theme.text};
+`;

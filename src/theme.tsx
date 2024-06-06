@@ -1,12 +1,12 @@
-import colors from 'src/colors';
+import { colors } from 'src/colors';
 
 export const darkTheme = {
 	background: colors.deepBlack,
 	text: colors.white,
 	gray: {
-		lightest: colors.gray2,
-		lighter: colors.gray3,
-		light: colors.gray4,
+		lightest: colors.black,
+		lighter: colors.gray2,
+		light: colors.gray3,
 		medium: colors.gray5,
 		dark: colors.gray6,
 		darker: colors.gray7,
@@ -25,9 +25,9 @@ export const lightTheme = {
 		lighter: colors.gray7,
 		light: colors.gray6,
 		medium: colors.gray5,
-		dark: colors.gray4,
-		darker: colors.gray3,
-		darkest: colors.gray2,
+		dark: colors.gray3,
+		darker: colors.gray2,
+		darkest: colors.black,
 	},
 	primary: colors.primary,
 	linearGradient: colors.linearGradient,

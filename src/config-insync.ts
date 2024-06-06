@@ -14,4 +14,6 @@ export const config = {
 	PREFIX: env('PREFIX'),
 	GAS_PRICE_STEP_AVERAGE: parseFloat(env('GAS_PRICE_STEP_AVERAGE')),
 	NFT_ID_ORG_NAME: env('NFT_ID_ORG_NAME'),
+	COSMOS_URL: env('COSMOS_URL'),
+	EVM_URL: env('EVM_URL'),
 };

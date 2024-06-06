@@ -14,12 +14,13 @@ import { useActions } from 'src/hooks/use-actions';
 import * as extraActions from 'src/reducers/extra-actions';
 import { MISC } from 'src/constants';
 import { ConnectAccountButton } from '../../components/connect-account-button';
-import UnSuccessDialog from '../stake/delegate-dialog/un-success-dialog';
-import PendingDialog from '../stake/delegate-dialog/pending-dialog';
-import SuccessDialog from '../stake/delegate-dialog/success-dialog';
+import UnSuccessDialog from '../../dialogs/un-success-dialog';
+import PendingDialog from '../../dialogs/pending-dialog';
+import SuccessDialog from '../../dialogs/success-dialog';
 import QuizPage from './questions/quiz';
 import 'src/styles/insync.scss';
 import { ROUTES } from 'src/constants/routes';
+import styled from 'styled-components';
 
 const cookies = new Cookies();
 
@@ -79,7 +80,7 @@ const NftIdPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer(
 
 	if (!address || (walletStore.isLoaded && !isValidWalletType)) {
 		return (
-			<div className="w-full h-full flex flex-col items-center justify-center font-karla py-5 px-5 pt-21 md:py-10 md:px-15">
+			<NFTPageStyled className="w-full h-full flex flex-col items-center justify-center font-karla py-5 px-5 pt-21 md:py-10 md:px-15">
 				<p className="title text-center text-xl pb-6">
 					{address
 						? 'This wallet is not supported for the NFT ID feature'
@@ -109,7 +110,7 @@ const NftIdPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer(
 						}}
 					/>
 				)}
-			</div>
+			</NFTPageStyled>
 		);
 	}
 
@@ -129,5 +130,9 @@ const NftIdPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer(
 		</>
 	);
 });
+
+const NFTPageStyled = styled.div`
+	color: ${props => props.theme.text};
+`;
 
 export default NftIdPage;

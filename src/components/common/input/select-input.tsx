@@ -1,6 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
 import styled from '@emotion/styled';
+import { DefaultTheme, useTheme } from 'styled-components';
 import Select, { ActionMeta, SingleValue, StylesConfig } from 'react-select';
+import { hexToRgb } from 'src/colors';
 
 export type Option = {
 	label: string;
@@ -21,30 +23,30 @@ export type SelectInputProps = {
 	value?: string;
 };
 
-const styles: StylesConfig<Option, false, GroupedOption> = {
-	clearIndicator: styles => ({ ...styles, color: 'white !important', cursor: 'pointer !important' }),
+const styles = (theme: DefaultTheme): StylesConfig<Option, false, GroupedOption> => ({
+	clearIndicator: styles => ({ ...styles, color: theme.text, cursor: 'pointer !important' }),
 	control: styles => ({
 		...styles,
-		backgroundColor: 'rgba(255, 255, 255, 0.1)',
+		backgroundColor: theme.gray.lightest,
 		border: 'none',
 		borderRadius: 10,
 		boxShadow: 'none',
 		cursor: 'text',
 	}),
-	dropdownIndicator: styles => ({ ...styles, color: 'white !important', cursor: 'pointer !important' }),
+	dropdownIndicator: styles => ({ ...styles, color: theme.text, cursor: 'pointer !important' }),
 	option: (styles, { isFocused, isSelected }) => {
 		return {
 			...styles,
-			backgroundColor: isFocused || isSelected ? 'rgba(255, 255, 255, 0.1) !important' : 'transparent !important',
+			backgroundColor: isFocused || isSelected ? theme.gray.lightest : 'transparent !important',
 			cursor: 'pointer !important',
 		};
 	},
-	input: styles => ({ ...styles, color: 'white !important' }),
-	menu: styles => ({ ...styles, backgroundColor: '#2D3D77' }),
-	placeholder: styles => ({ ...styles, color: 'rgba(255, 255, 255, 0.5)' }),
-	singleValue: (styles, { data }) => ({ ...styles, color: 'white !important' }),
+	input: styles => ({ ...styles, color: theme.text }),
+	menu: styles => ({ ...styles, backgroundColor: theme.gray.lighter }),
+	placeholder: styles => ({ ...styles, color: `${hexToRgb(theme.text, 0.5)}` }),
+	singleValue: (styles, { data }) => ({ ...styles, color: theme.text }),
 	valueContainer: styles => ({ ...styles, padding: '4px 12px' }),
-};
+});
 
 const formatGroupLabel = (data: GroupedOption) => (
 	<div className="flex items-center">
@@ -93,6 +95,9 @@ export const SelectInput: React.FC<React.PropsWithChildren<SelectInputProps>> = 
 		[name, onChange]
 	);
 
+	const theme = useTheme();
+	const themedStyles = styles(theme);
+
 	return (
 		<Select<Option, false, GroupedOption>
 			className={className}
@@ -103,7 +108,7 @@ export const SelectInput: React.FC<React.PropsWithChildren<SelectInputProps>> = 
 			onChange={innerOnChange}
 			options={options}
 			placeholder={placeholder}
-			styles={styles}
+			styles={themedStyles}
 			value={selectedOption}
 		/>
 	);

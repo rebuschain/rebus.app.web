@@ -1,13 +1,15 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useRef } from 'react';
 import { TermsDialog } from './dialogs/terms-dialog';
 
 export const Terms: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 	const [isOpen, setIsOpen] = useState(localStorage.getItem('terms_agreement') == null);
+	const ref = useRef(null);
 
 	return (
 		<TermsDialog
 			title="Before you enter the app..."
+			initialFocus={ref}
 			isOpen={isOpen}
 			onAgree={() => {
 				setIsOpen(false);
