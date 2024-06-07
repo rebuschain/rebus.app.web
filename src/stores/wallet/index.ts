@@ -60,7 +60,8 @@ const chainId = env('CHAIN_ID');
 const restUrl = env('REST_URL');
 const ethChainId = Number(
 	chainId
-		// Replace 3333 for 3033 to fix evm chain id for testnet
+		// Replace EVM ChainID
+		.replace('1111', '1011')
 		.replace('3333', '3033')
 		.split('_')[1]
 		.split('-')[0]
