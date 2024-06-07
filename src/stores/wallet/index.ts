@@ -62,6 +62,7 @@ const ethChainId = Number(
 	chainId
 		// Replace 3333 for 3033 to fix evm chain id for testnet
 		.replace('3333', '3033')
+		.replace('1111', '1011')
 		.split('_')[1]
 		.split('-')[0]
 );
