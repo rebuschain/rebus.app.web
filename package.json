@@ -40,7 +40,7 @@
 		"url": "https://github.com/rebuschain/rebus.app.web/issues"
 	},
 	"engine": {
-		"node": "^14.16.0"
+		"node": "^18.0.0"
 	},
 	"dependencies": {
 		"@beam-australia/react-env": "^3.1.1",
@@ -194,7 +194,7 @@
 		"clean-webpack-plugin": "^4.0.0",
 		"copy-webpack-plugin": "^11.0.0",
 		"cross-env": "^5.2.0",
-		"css-loader": "^5.2.0",
+		"css-loader": "6.11.0",
 		"eslint": "^6.2.2",
 		"eslint-config-prettier": "^7.1.0",
 		"eslint-plugin-import": "^2.22.1",
@@ -211,17 +211,17 @@
 		"mini-css-extract-plugin": "^2.7.2",
 		"node-polyfill-webpack-plugin": "^2.0.0",
 		"patch-package": "^6.4.7",
-		"postcss": "^8.4.19",
+		"postcss": "^8.4.41",
 		"postcss-cli": "^8.3.1",
 		"postcss-flexbugs-fixes": "^5.0.2",
 		"postcss-import": "^14.0.1",
-		"postcss-loader": "^4.2.0",
+		"postcss-loader": "^6.1.1",
 		"postcss-preset-env": "^6.7.0",
 		"pre-commit": "^1.2.2",
 		"prettier": "^1.19.1",
 		"react-refresh": "^0.10.0",
 		"sass": "^1.44.0",
-		"sass-loader": "^10.2.0",
+		"sass-loader": "12.6.0",
 		"style-loader": "^2.0.0",
 		"ts-jest": "^26.5.5",
 		"ts-loader": "^6.0.4",
