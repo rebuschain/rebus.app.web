@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/v1/api/(.*)",
-      "destination": "/api/[file].js"
+      "source": "/v1/api/feature-flags",
+      "destination": "/api/feature-flags.js"
     },
     {
       "source": "/(.*)",
