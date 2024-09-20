@@ -1,4 +1,4 @@
-import { loadJSONFile } from 'utils/load-json-file';
+import { loadJSONFile } from '../utils/load-json-file';
 
 export default async function handler(req, res) {
   try {
