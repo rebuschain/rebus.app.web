@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/api/feature-flags",
+      "destination": "/api/feature-flags.js"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

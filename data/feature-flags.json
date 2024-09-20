@@ -1,0 +1,64 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "attributes": {
+        "enabled": true,
+        "description": "Enables the assets page on the rebus website",
+        "slug": "assets-page",
+        "createdAt": "2023-10-24T02:16:45.620Z",
+        "updatedAt": "2023-10-24T02:16:45.620Z"
+      }
+    },
+    {
+      "id": 2,
+      "attributes": {
+        "enabled": false,
+        "description": "Enables the IBC transfer page on the rebus website",
+        "slug": "ibc-transfer-page",
+        "createdAt": "2023-10-24T02:16:57.867Z",
+        "updatedAt": "2023-10-24T02:16:57.867Z"
+      }
+    },
+    {
+      "id": 3,
+      "attributes": {
+        "enabled": true,
+        "description": "Enables the new proposals page on the rebus website",
+        "slug": "new-proposals",
+        "createdAt": "2023-10-24T02:17:09.306Z",
+        "updatedAt": "2023-10-24T02:17:18.748Z"
+      }
+    },
+    {
+      "id": 4,
+      "attributes": {
+        "enabled": true,
+        "description": "Enables the conversion of ERC20 tokens to Native tokens on mainnet",
+        "slug": "assets-page-erc20-to-native",
+        "createdAt": "2023-10-24T02:17:37.748Z",
+        "updatedAt": "2023-10-24T02:17:37.748Z"
+      }
+    },
+    {
+      "id": 5,
+      "attributes": {
+        "enabled": false,
+        "description": "VertoTrade lottery page",
+        "slug": "lottery-page",
+        "createdAt": "2023-10-24T02:17:51.067Z",
+        "updatedAt": "2023-10-24T02:17:51.067Z"
+      }
+    },
+    {
+      "id": 6,
+      "attributes": {
+        "enabled": false,
+        "description": "Enables the NFT ID page on the rebus website",
+        "slug": "nft-id-page",
+        "createdAt": "2023-10-24T02:23:18.103Z",
+        "updatedAt": "2023-10-24T02:23:18.103Z"
+      }
+    }
+  ]
+}
