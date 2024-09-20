@@ -5,6 +5,10 @@ export default async function handler(req, res) {
   // Extract the requested file name from the URL
   const { file } = req.query;
 
+  if (!file) {
+    return res.status(400).json({ error: JSON.stringify(req.query)});
+  }
+
   // Define the path to the JSON file
   const filePath = path.join(process.cwd(), 'data', `${file}.json`);
 
