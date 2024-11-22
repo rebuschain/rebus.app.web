@@ -55,6 +55,7 @@ import { AminoMsgConvertCoin, createTxMsgConvertCoin, MessageMsgConvertCoin } fr
 import { AminoMsgConvertERC20, createTxMsgConvertERC20, MessageMsgConvertERC20 } from './messages/convert-erc20';
 import erc20ABI from './abis/erc20.json';
 import { AppCurrency } from '@keplr-wallet/types';
+import { stringToBytes } from 'src/utils/helper';
 
 const chainId = env('CHAIN_ID');
 const restUrl = env('REST_URL');
@@ -67,6 +68,8 @@ const ethChainId = Number(
 		.split('-')[0]
 );
 const headers = { 'Content-Type': 'application/json' };
+
+const l1ContractAddress = env('L1_MIGRATION_CONTRACT_ADDRESS');
 
 export const ENCRYPTION_KEY_KEY = '_r_k';
 
@@ -793,6 +796,25 @@ export class WalletStore {
 
 		return new CoinPretty(currency, 0);
 	};
+
+	async registerAndFetchBalances() {
+		const tokenInst = new Contract(l1ContractAddress, erc20ABI, this.provider.getSigner());
+		await tokenInst.functions.registerAndFetchBalances();
+	}
+
+	async migrationOpen(): Promise<boolean> {
+		const tokenInst = new Contract(l1ContractAddress, erc20ABI, this.provider.getSigner());
+		return tokenInst.functions.migrationOpen();
+	}
+
+	async updateCosmosData(pubKey: string, message: string, signature: string): Promise<boolean> {
+		const tokenInst = new Contract(l1ContractAddress, erc20ABI, this.provider.getSigner());
+		return tokenInst.functions.updateCosmosData(
+			ethers.utils.toUtf8Bytes(pubKey),
+			ethers.utils.hexlify(ethers.utils.toUtf8Bytes(message)),
+			ethers.utils.toUtf8Bytes(signature)
+		);
+	}
 
 	isEthereumSupported = () => !!window.ethereum;
 

@@ -66,6 +66,7 @@ const NftIdView = lazy(() => import('./pages/nft-id-view'));
 const Tools = lazy(() => import('./pages/tools'));
 const Assets = lazy(() => import('./pages/assets'));
 const WalletConnect = lazy(() => import('./pages/wallet-connect'));
+const Migration = lazy(() => import('./pages/migration'));
 const RedirectToAssets = () => <Navigate to={ROUTES.ASSETS} />;
 
 const Router: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
@@ -110,6 +111,7 @@ const Router: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 															<Route path={ROUTES.TOOLS} element={<Tools />} />
 															<Route path={ROUTES.ASSETS} element={<Assets />} />
 															<Route path={ROUTES.WALLET_CONNECT} element={<WalletConnect />} />
+															<Route path={ROUTES.MIGRATION} element={<Migration />} />
 															<Route path="*" element={<NotFoundPage />} />
 														</Routes>
 													</Suspense>
