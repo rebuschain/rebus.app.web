@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from 'react';
+import { observer } from 'mobx-react-lite';
 import { Button } from 'src/components/common/button';
 import styled from 'styled-components';
 import { useConnectWallet } from 'src/dialogs';
@@ -6,7 +7,7 @@ import { WALLET_LIST } from 'src/constants/wallet';
 
 export const KEPLR_WALLET_CONFIG = WALLET_LIST.find(wallet => wallet.walletType === 'keplr')!;
 
-const KeplrStep: FunctionComponent<React.PropsWithChildren<{ onSkip: () => void }>> = ({ onSkip }) => {
+const KeplrStep: FunctionComponent<React.PropsWithChildren<{ onSkip: () => void }>> = observer(({ onSkip }) => {
 	const connectWallet = useConnectWallet();
 
 	return (
@@ -47,7 +48,7 @@ const KeplrStep: FunctionComponent<React.PropsWithChildren<{ onSkip: () => void 
 			</div>
 		</BackgroundStyled>
 	);
-};
+});
 
 const BackgroundStyled = styled.div`
 	background-color: ${props => props.theme.gray.lightest};

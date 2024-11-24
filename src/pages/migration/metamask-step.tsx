@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from 'react';
+import { observer } from 'mobx-react-lite';
 import { Button } from 'src/components/common/button';
 import styled from 'styled-components';
 import { useConnectWallet } from 'src/dialogs';
@@ -6,7 +7,7 @@ import { WALLET_LIST } from 'src/constants/wallet';
 
 export const METAMASK_WALLET_CONFIG = WALLET_LIST.find(wallet => wallet.walletType === 'metamask')!;
 
-const MetamaskStep: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
+const MetamaskStep: FunctionComponent<React.PropsWithChildren<unknown>> = observer(() => {
 	const connectWallet = useConnectWallet();
 
 	return (
@@ -35,7 +36,7 @@ const MetamaskStep: FunctionComponent<React.PropsWithChildren<unknown>> = () => 
 			</div>
 		</BackgroundStyled>
 	);
-};
+});
 
 const BackgroundStyled = styled.div`
 	background-color: ${props => props.theme.gray.lightest};
