@@ -31,7 +31,6 @@ const MigrationStep: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 
 		try {
 			const migrationOpen = await walletStore.migrationOpen();
-			console.log('#####', migrationOpen);
 
 			if (migrationOpen) {
 				await walletStore.registerAndFetchBalances();
@@ -48,9 +47,6 @@ const MigrationStep: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 				const sigRes = await signKeplrArbitrary(account.bech32Address, walletStore.address);
 				const pubKey = sigRes?.pub_key?.value as string;
 				const signature = sigRes?.signature as string;
-				console.log('###### pubkey: ', pubKey);
-				console.log('###### signature: ', signature);
-				console.log('###### metamask address: ', walletStore.address);
 
 				await walletStore.updateCosmosData(pubKey, walletStore.address, signature);
 			} catch (err) {

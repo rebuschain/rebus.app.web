@@ -7,7 +7,7 @@ import { WALLET_LIST } from 'src/constants/wallet';
 
 export const KEPLR_WALLET_CONFIG = WALLET_LIST.find(wallet => wallet.walletType === 'keplr')!;
 
-const KeplrStep: FunctionComponent<React.PropsWithChildren<{ onSkip: () => void }>> = observer(({ onSkip }) => {
+const KeplrStep: FunctionComponent<React.PropsWithChildren> = observer(() => {
 	const connectWallet = useConnectWallet();
 
 	return (
@@ -22,18 +22,6 @@ const KeplrStep: FunctionComponent<React.PropsWithChildren<{ onSkip: () => void 
 					button below to get started.
 				</p>
 
-				<Button
-					backgroundStyle="secondary"
-					onClick={e => {
-						e.preventDefault();
-						onSkip();
-					}}
-					style={{
-						marginBottom: '8px',
-						width: '140px',
-					}}>
-					Skip
-				</Button>
 				<Button
 					backgroundStyle="primary"
 					onClick={e => {

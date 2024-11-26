@@ -93,7 +93,6 @@ const ConnectedWalletEntry = ({
 const MigrationPage: FunctionComponent<React.PropsWithChildren<unknown>> = observer(() => {
 	const navigate = useNavigate();
 	const { chainStore, accountStore, queriesStore, walletStore } = useStore();
-	const [skippedKeplr, setSkippedKeplr] = useState(false);
 
 	const account = accountStore.getAccount(chainStore.current.chainId);
 	const queries = queriesStore.get(chainStore.current.chainId);
@@ -110,17 +109,22 @@ const MigrationPage: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 
 	// If keplr is connected and metamask is not, disconnect keplr
 	useEffect(() => {
-		if (!walletStore.isLoaded && (skippedKeplr || isKeplrConnected)) {
+		if (!walletStore.isLoaded && isKeplrConnected) {
 			account.disconnect();
-			setSkippedKeplr(false);
 		}
-	}, [account, walletStore.isLoaded, isKeplrConnected, skippedKeplr]);
+	}, [account, walletStore.isLoaded, isKeplrConnected]);
 
 	return (
 		<FullScreenContainerWithPadding>
-			<h1 className="text-lg font-semibold" style={{ marginBottom: '32px' }}>
+			<h1 className="text-lg font-semibold" style={{ marginBottom: '24px' }}>
 				Layer1 to Layer2 Migration
 			</h1>
+
+			<p className="text-md" style={{ marginBottom: '48px' }}>
+				If you&apos;re using Keplr with Rebus, please ensure you connect both Keplr and MetaMask. This will allow us to
+				seamlessly migrate your tokens between the two layers. If you&apos;re not using Keplr, simply connect your
+				MetaMask wallet so we can utilize your address for the Layer 2 transition.
+			</p>
 
 			{walletStore.isLoaded && (
 				<ConnectedWalletEntry
@@ -130,7 +134,7 @@ const MigrationPage: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 					wallet={METAMASK_WALLET_CONFIG}
 				/>
 			)}
-			{(isKeplrConnected || skippedKeplr) && walletStore.isLoaded && (
+			{isKeplrConnected && walletStore.isLoaded && (
 				<ConnectedWalletEntry
 					accountName={account.name}
 					address={account.bech32Address}
@@ -140,7 +144,7 @@ const MigrationPage: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 			)}
 
 			{!walletStore.isLoaded && <MetamaskStep />}
-			{walletStore.isLoaded && !account.bech32Address && <KeplrStep onSkip={() => setSkippedKeplr(true)} />}
+			{walletStore.isLoaded && !account.bech32Address && <KeplrStep />}
 			{walletStore.isLoaded && <MigrationStep />}
 			<SnackbarMessage />
 		</FullScreenContainerWithPadding>

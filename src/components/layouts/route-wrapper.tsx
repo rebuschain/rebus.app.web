@@ -20,10 +20,10 @@ export const RouteWrapper: FunctionComponent<React.PropsWithChildren<RouteWrappe
 
 	return (
 		<div className="h-fit md:h-full w-full flex">
-			{!isNftIdViewRoute && <Sidebar toggleTheme={toggleTheme} isDark={isDark} />}
+			{/* {!isNftIdViewRoute && <Sidebar toggleTheme={toggleTheme} isDark={isDark} />} */}
 			<BackgroundStyled
 				className="h-fit md:h-full w-full flex justify-center text-white-high"
-				style={{ maxWidth: isMobileView ? undefined : 'calc(100% - 206px)', overflowX: 'auto' }}>
+				style={{ overflowX: 'auto' }}>
 				{children}
 			</BackgroundStyled>
 		</div>
