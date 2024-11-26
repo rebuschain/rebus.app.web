@@ -148,6 +148,7 @@ const MigrationPage: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 });
 
 const FullScreenContainerWithPadding = styled(FullScreenContainer)`
+	color: ${props => props.theme.text};
 	display: flex;
 	justify-content: center;
 	align-items: center;

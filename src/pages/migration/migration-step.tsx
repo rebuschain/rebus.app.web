@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import styled from 'styled-components';
+import { observer } from 'mobx-react-lite';
 import { useStore } from 'src/stores';
 import { Button } from 'src/components/common/button';
 import { Loader } from 'src/components/common/loader';
@@ -8,7 +9,7 @@ import { signKeplrArbitrary } from 'src/utils/helper';
 import { gas } from 'src/constants/default-gas-values';
 import { config } from 'src/config-insync';
 
-const MigrationStep: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
+const MigrationStep: FunctionComponent<React.PropsWithChildren<unknown>> = observer(() => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSubmitted, setIsSubmitted] = useState(false);
 	const [isSuccess, setIsSuccess] = useState(false);
@@ -49,7 +50,8 @@ const MigrationStep: FunctionComponent<React.PropsWithChildren<unknown>> = () =>
 				const signature = sigRes?.signature as string;
 				console.log('###### pubkey: ', pubKey);
 				console.log('###### signature: ', signature);
-				console.log('###### rebusAddress: ', walletStore.address);
+				console.log('###### metamask address: ', walletStore.address);
+
 				await walletStore.updateCosmosData(pubKey, walletStore.address, signature);
 			} catch (err) {
 				console.error('An error occurred when migrating the keplr wallet', err);
@@ -104,7 +106,7 @@ const MigrationStep: FunctionComponent<React.PropsWithChildren<unknown>> = () =>
 			</div>
 		</ConverterStyled>
 	);
-};
+});
 
 const ConverterStyled = styled.div<{ hasBackground: boolean }>`
 	background-color: ${props => props.hasBackground && props.theme.gray.lightest};
