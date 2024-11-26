@@ -85,7 +85,7 @@ jobs:
 
           sed -i -r "s/url\(\/assets/url\(\.\/assets/g" ./prod/styles.css
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: build
           path: prod
