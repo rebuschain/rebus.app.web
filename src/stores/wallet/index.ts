@@ -811,7 +811,7 @@ export class WalletStore {
 		const tokenInst = new Contract(l1ContractAddress, erc20ABI, this.provider.getSigner());
 		return tokenInst.functions.updateCosmosData(
 			ethers.utils.toUtf8Bytes(pubKey),
-			ethers.utils.hexlify(ethers.utils.toUtf8Bytes(message)),
+			message,
 			ethers.utils.toUtf8Bytes(signature)
 		);
 	}
