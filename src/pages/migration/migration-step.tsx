@@ -49,9 +49,8 @@ const MigrationStep: FunctionComponent<React.PropsWithChildren<unknown>> = () =>
 				const signature = sigRes?.signature as string;
 				console.log('###### pubkey: ', pubKey);
 				console.log('###### signature: ', signature);
-				console.log('###### rebusAddress: ', walletStore.rebusAddress);
-
-				await walletStore.updateCosmosData(pubKey, walletStore.rebusAddress, signature);
+				console.log('###### rebusAddress: ', walletStore.address);
+				await walletStore.updateCosmosData(pubKey, walletStore.address, signature);
 			} catch (err) {
 				console.error('An error occurred when migrating the keplr wallet', err);
 				setKeplrError(true);
