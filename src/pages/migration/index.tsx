@@ -117,7 +117,7 @@ const MigrationPage: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 	return (
 		<FullScreenContainerWithPadding>
 			<h1 className="text-lg font-semibold" style={{ marginBottom: '24px' }}>
-				Layer1 to Layer2 Migration
+				Rebus Layer 2 Migration
 			</h1>
 
 			<p className="text-md" style={{ marginBottom: '48px' }}>
