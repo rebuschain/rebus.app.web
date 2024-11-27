@@ -165,3 +165,14 @@ export const aminoSignTx = async (
 
 	return client.broadcastTx(txBytes);
 };
+
+export const signKeplrArbitrary = async (address: string, payload: string) => {
+	(await window.keplr) && window.keplr?.enable(chainId);
+
+	return window.keplr?.signArbitrary(chainId, address, payload);
+};
+
+export const stringToBytes = (str: string) => {
+	const encoder = new TextEncoder();
+	return encoder.encode(str);
+};

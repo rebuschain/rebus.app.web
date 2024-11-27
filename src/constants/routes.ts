@@ -8,4 +8,5 @@ export const ROUTES = {
 	WALLET_CONNECT: '/wallet-connect',
 	EXPLORER: '/routing/explorer',
 	EVM: '/routing/evm',
+	MIGRATION: '/migration',
 };

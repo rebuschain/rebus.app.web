@@ -66,6 +66,7 @@ const NftIdView = lazy(() => import('./pages/nft-id-view'));
 const Tools = lazy(() => import('./pages/tools'));
 const Assets = lazy(() => import('./pages/assets'));
 const WalletConnect = lazy(() => import('./pages/wallet-connect'));
+const Migration = lazy(() => import('./pages/migration'));
 const RedirectToAssets = () => <Navigate to={ROUTES.ASSETS} />;
 
 const Router: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
@@ -102,15 +103,16 @@ const Router: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 												<RouteWrapper toggleTheme={toggleTheme} isDark={isDark}>
 													<Suspense fallback={<LoaderStyled />}>
 														<Routes>
-															<Route path="/" element={<RedirectToAssets />} />
-															<Route path={ROUTES.IBC_TRANSFER} element={<IbcTransfer />} />
+															<Route path={ROUTES.MIGRATION} element={<Migration />} />
+															<Route path="*" element={<Navigate to={ROUTES.MIGRATION} replace />} />
+															{/* <Route path={ROUTES.IBC_TRANSFER} element={<IbcTransfer />} />
 															<Route path={ROUTES.NFT_ID} element={<NftId />} />
 															<Route path={ROUTES.NFT_ID_EDIT} element={<NftId />} />
 															<Route path={ROUTES.NFT_ID_VIEW} element={<NftIdView />} />
 															<Route path={ROUTES.TOOLS} element={<Tools />} />
 															<Route path={ROUTES.ASSETS} element={<Assets />} />
-															<Route path={ROUTES.WALLET_CONNECT} element={<WalletConnect />} />
-															<Route path="*" element={<NotFoundPage />} />
+															<Route path={ROUTES.WALLET_CONNECT} element={<WalletConnect />} /> */}
+															{/* <Route path="*" element={<NotFoundPage />} /> */}
 														</Routes>
 													</Suspense>
 												</RouteWrapper>

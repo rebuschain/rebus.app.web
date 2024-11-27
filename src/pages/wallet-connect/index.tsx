@@ -17,28 +17,13 @@ import { disconnect } from 'src/reducers/extra-actions';
 import SnackbarMessage from '../../components/insync/snackbar-message';
 import { config } from '../../config-insync';
 import { styled, useTheme } from 'styled-components';
-
-const chainId = config.CHAIN_ID;
+import { signKeplrArbitrary } from 'src/utils/helper';
 
 const headers = {
 	'Content-Type': 'application/json',
 };
 const baseUrls = {
 	dropmint: env('DISCORD_BOT_URL'),
-};
-
-const signKeplr = async (address: string, nonce: number, userId: string) => {
-	(await window.keplr) && window.keplr?.enable(chainId);
-
-	return window.keplr?.signArbitrary(
-		chainId,
-		address,
-		JSON.stringify({
-			address,
-			nonce,
-			userId,
-		})
-	);
 };
 
 const WalletConnect: FunctionComponent<React.PropsWithChildren<unknown>> = observer(() => {
@@ -117,7 +102,14 @@ const WalletConnect: FunctionComponent<React.PropsWithChildren<unknown>> = obser
 					return showMessage('Error generating signature');
 				}
 			} else {
-				const sigRes = await signKeplr(addressToUse, nonce, userId);
+				const sigRes = await signKeplrArbitrary(
+					addressToUse,
+					JSON.stringify({
+						address,
+						nonce,
+						userId,
+					})
+				);
 				pubKey = sigRes?.pub_key?.value as string;
 				signature = sigRes?.signature as string;
 			}
