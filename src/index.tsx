@@ -103,8 +103,7 @@ const Router: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 												<RouteWrapper toggleTheme={toggleTheme} isDark={isDark}>
 													<Suspense fallback={<LoaderStyled />}>
 														<Routes>
-															<Route path={ROUTES.MIGRATION} element={<Migration />} />
-															<Route path="*" element={<Navigate to={ROUTES.MIGRATION} replace />} />
+															<Route path="/" element={<Migration />} />
 															{/* <Route path={ROUTES.IBC_TRANSFER} element={<IbcTransfer />} />
 															<Route path={ROUTES.NFT_ID} element={<NftId />} />
 															<Route path={ROUTES.NFT_ID_EDIT} element={<NftId />} />

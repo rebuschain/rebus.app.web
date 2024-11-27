@@ -52,68 +52,6 @@ export const Sidebar: FunctionComponent<React.PropsWithChildren<SidebarProps>> =
 												<Logo onClick={() => navigate('/')} />
 											</div>
 										</section>
-										<section>
-											{mapKeyValues(LAYOUT.SIDEBAR, (_: string, sidebarItem: TSIDEBAR_ITEM) => sidebarItem)
-												.filter((sidebarItem: TSIDEBAR_ITEM) => {
-													if (sidebarItem.TYPE === 'ibc-transfer') {
-														return featureFlagStore.featureFlags.ibcTransferPage;
-													}
-
-													if (sidebarItem.TYPE === 'nft-id') {
-														return featureFlagStore.featureFlags.nftIdPage;
-													}
-
-													//if (['evm', 'explorer'].includes(sidebarItem.TYPE)) {
-													//	return featureFlagStore.featureFlags.sidebarIntegration;
-													//}
-
-													return true;
-												})
-												/*.filter(sidebarItem => {
-											if (isMobileView && (sidebarItem.TEXT === 'Stake' || sidebarItem.TEXT === 'Vote')) {
-												return false;
-											}
-											return true;
-										})*/
-												.map(sidebarItem => (
-													<React.Fragment key={sidebarItem.TEXT}>
-														{sidebarItem.LINK ? (
-															<a
-																href="#"
-																onClick={event => {
-																	event.preventDefault();
-																	window.open(sidebarItem.LINK, '_self');
-																	closeSidebar();
-																}}>
-																<SidebarItem sidebarItem={sidebarItem} closeSidebar={closeSidebar} />
-															</a>
-														) : (
-															<div className="flex justify-between">
-																<SidebarItem
-																	key={sidebarItem.TEXT}
-																	selected={pathnameCheck(pathname, sidebarItem.SELECTED_CHECK)}
-																	sidebarItem={sidebarItem}
-																	closeSidebar={closeSidebar}
-																/>
-																{sidebarItem.SUBLAYOUT && (
-																	<SubMenuIconStyled selected={pathnameCheck(pathname, sidebarItem.SELECTED_CHECK)}>
-																		<p className="ml-auto">&#62;</p>
-																	</SubMenuIconStyled>
-																)}
-															</div>
-														)}
-														{sidebarItem.TYPE === 'tools' &&
-															pathnameCheck(pathname, sidebarItem.SELECTED_CHECK) &&
-															generateSublayout(LAYOUT.SIDEBAR.TOOLS.SUBLAYOUT, pathname, closeSidebar)}
-														{sidebarItem.TYPE === 'explorer' &&
-															pathnameCheck(pathname, sidebarItem.SELECTED_CHECK) &&
-															generateSublayout(LAYOUT.SIDEBAR.EXPLORER.SUBLAYOUT, pathname, closeSidebar)}
-														{sidebarItem.TYPE === 'evm' &&
-															pathnameCheck(pathname, sidebarItem.SELECTED_CHECK) &&
-															generateSublayout(LAYOUT.SIDEBAR.EVM.SUBLAYOUT, pathname, closeSidebar)}
-													</React.Fragment>
-												))}
-										</section>
 									</div>
 									<div>
 										<SidebarBottom />
